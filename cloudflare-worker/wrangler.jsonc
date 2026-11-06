@@ -1,0 +1,11 @@
+{
+  "name": "matematik-akademim-ai",
+  "main": "worker.js",
+  "compatibility_date": "2026-11-01",
+  "vars": {
+    "OPENAI_MODEL": "gpt-5.5",
+    "ALLOWED_ORIGINS": "https://SENIN-SITEN.pages.dev"
+  }
+  // Yayına almadan önce Cloudflare Rate Limiting binding ve Turnstile gibi
+  // ilave kötüye kullanım önlemleri ekleyin. Tek erişim kodu kişisel kullanım içindir.
+}
