@@ -1,0 +1,13 @@
+Matematik Akademim kod deposunda AGENTS.md dosyasındaki hedeflere uyarak kapsamlı bir iyileştirme yap.
+
+Amaç: Kullanıcı gece uyurken güvenli şekilde kod üzerinde çalış; uygulamayı değiştirdiğin özellikleri ve testleri sabah inceleyebileyim.
+
+Öncelik sırası:
+1) v14 uygulamasındaki kritik hataları, gerçek tarayıcıdaki sorunları ve mobil kullanılabilirliği tespit edip düzelt.
+2) TYT ve AYT gerçek çıkmış matematik denemesi: sınav yılını seçme, kaynağı doğrulanmış resmî PDF'yi içeride gösterme, 40 soruluk cevap kâğıdı, soru navigasyonu, otomatik doğru-yanlış-net, kronometre, ara kayıt ve sonuç geçmişi. Uydurma soruları deneme diye sunma. Kaynakların ve cevap anahtarlarının doğruluğunu denetle.
+3) Supabase Auth ve RLS ile herkesin yalnızca kendi kayıtlarına eriştiğini test et. Gerçek hesaplara erişimin yoksa güvenli sahte servis ile otomatik testler oluştur; gerçek bağlantı testini yapılmış gibi gösterme.
+4) AI öğretmen Worker bağlantısını incele, hata ve güvenlik açıklarını gider; hiçbir gizli anahtar tarayıcıya veya GitHub'a gitmesin.
+5) Arayüz sade gece mavisi kalsın; eski özellikler bozulmasın.
+6) Otomatik testleri güçlendir, npm test çalıştır; mümkünse gerçek tarayıcı ile E2E test yap.
+
+İstediğim teslim: Değişiklikleri ayrı bir dalda uygula, mümkünse pull request oluştur, test sonuçlarını ve kalmış sorunları Türkçe maddeler hâlinde yaz. Ana dala birleştirme, siteyi yayımlama veya API anahtarı yaratma. Gereken yetki eksikse netçe belirt. Bir işi bitirdiğinde diğer önceliğe geç, ancak sonuçları doğrulamadan 'tamamlandı' deme.
