@@ -22,3 +22,7 @@ Resmî puanlamayı açmadan önce her yıl ve oturum için:
 5. Ancak bu kanıtları içeren incelemeden sonra `ANSWER_KEYS` kaydını açın.
 
 Kullanıcı anahtarıyla hesaplanan sonuç açıkça manuel değerlendirmedir. Anahtarsız sonuç `net: null` olarak saklanabilir; doğru/yanlış sayıları bilinmiyorsa arayüz bunları puan olarak sunmaz.
+
+## İkinci aşama genişlemesi
+
+7 Kasım 2026 tarihli yeni erişim denemesi de proxy CONNECT HTTP 403 ile engellendi. 2018, 2019, 2020, 2021 ve 2022 TYT/AYT seçenekleri yalnızca kullanıcının yerel PDF yüklemesi için eklendi; bu yıllara dosya adresi veya cevap anahtarı uydurulmadı. 2018–2026 toplam 18 kitapçığın hiçbiri bu çalışmada resmî kaynaktan doğrulanmış sayılmaz. Kayıt `js/exams.js` içine taşındı. Tam oturum süreleri geçmiş yıl ön ayarlarıdır; resmî duyuruların bu ortamda doğrulandığı anlamına gelmez.

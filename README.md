@@ -38,3 +38,13 @@ Resmî PDF ve cevap anahtarları doğrulanamadığı için otomatik resmî puanl
 - [Supabase test kapsamı ve canlı kabul adımları](docs/SUPABASE_TESTING.md)
 
 Worker bir kişisel erişim kodu kullanır; tarayıcıya OpenAI anahtarı verilmez. Bu kod çok kullanıcılı kimlik doğrulamasının yerine geçmez. Üretime çıkmadan önce gerçek model erişimi, `ALLOWED_ORIGINS`, rate-limit binding ve kullanıcı bazlı erişim modeli ayrıca doğrulanmalıdır. Bu çalışma Worker’ı veya siteyi yayımlamaz.
+
+## İkinci aşama: öğrenme platformu
+
+- `shared/curriculum.js`: 27 başlangıç ünitesi, 81 özgün alıştırma, seviye taraması ve plan.
+- `shared/teachers.js`: altı öğretmen; Worker öğretmen kimliğini ve isteğe bağlı yetişkin argo seçimini doğrular.
+- `js/app.js`, `js/exams.js`, `js/legacy.js`: öğrenme, gerçek kitapçıkla çalışma ve korunan hızlı alıştırma arayüzleri.
+- `shared/learning-state.js`: hesap başına güvenli ilerleme ve tercih birleştirme.
+- `supabase/learning-profiles.sql`: yeni/staging profil tablosu için RLS önerisi. Canlıya uygulanmadı; mevcut şema incelenmeden çalıştırılmamalı.
+
+[İkinci aşama raporu](docs/IKINCI_ASAMA_RAPORU.md) kapsamı ve canlı servis sınırlarını açıklar. Kaynak kapısı `js/exams.js` içindedir; 2018–2026 cevap anahtarları doğrulanana kadar resmî otomatik puanlama kapalı kalır.
