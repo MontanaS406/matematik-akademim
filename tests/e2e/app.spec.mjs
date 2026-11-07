@@ -62,7 +62,7 @@ test('mock Supabase signup, login, owner filter, upload and logout isolation',as
   expect(await page.evaluate(()=>sessionStorage.getItem('ma_auth'))).toBeNull();
 });
 test('AI response is text and recovers from error',async({page})=>{
-  await page.goto('/');await page.getByRole('button',{name:'✧ AI Hoca'}).click();await page.locator('summary').click();
+  await page.goto('/');await page.getByRole('button',{name:'✧ AI Hoca'}).click();await page.locator('#teacher summary').filter({hasText:'AI bağlantı ayarları'}).click();
   await page.locator('#endpoint').fill('https://tutor.example');await page.locator('#access').fill('fake-access');await page.locator('#saveAI').click();
   let fail=true;await page.route('https://tutor.example/api/tutor',route=>route.fulfill({status:fail?502:200,json:fail?{error:'Tekrar dene'}:{answer:'<img src=x onerror=alert(1)> 4'}}));
   await page.locator('#message').fill('2+2');await page.locator('#send').click();await expect(page.locator('#chat')).toContainText('Tekrar dene');
