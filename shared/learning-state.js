@@ -1,7 +1,7 @@
 // Only learning preferences and original-exercise outcomes cross the account boundary.
 // Access tokens, chat messages and adult/profanity consent deliberately have no schema here.
 const TEACHER_IDS = new Set(['cagatay', 'beyza', 'zeynep', 'kemal', 'mert', 'elif']);
-const DIFFICULTIES = new Set(['easy', 'medium', 'hard']);
+const DIFFICULTIES = new Set(['easy', 'medium', 'hard', 'unclassified']);
 const EPOCH = '1970-01-01T00:00:00.000Z';
 const MAX_BYTES = 85000; // JSONB text adds separator spaces; stay below its 100 kB limit too.
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);

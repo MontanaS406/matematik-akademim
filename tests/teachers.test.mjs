@@ -16,10 +16,12 @@ test('teacher instructions implement architecture, romance, proofs, coaching and
   assert.equal(new Set(instructions).size, 6);
   assert.match(instructions[1], /ölçekli plan/);
   assert.match(instructions[2], /paralel doğruların imkânsız aşkı/);
-  assert.match(instructions[3], /karşı örnek/);
+  assert.match(instructions[3], /gerekçelendir/);
   assert.match(instructions[4], /ısınma/);
   assert.match(instructions[5], /tek yeni fikir/);
   assert.ok(instructions.every(i => i.includes('küfür kullanma')));
+  assert.ok(instructions.every(i => i.includes('Yeni soru, benzer soru, örnek alıştırma veya rastgele sayısal problem oluşturma')));
+  assert.ok(instructions.every(i => !i.includes('kontrol sorusu kullan')));
 });
 test('profanity requires a known level and two explicit adult opt-ins for Çağatay', () => {
   assert.deepEqual(resolveTeacherOptions(), {teacherId: 'elif', profanityLevel: 'off', adultConfirmed: false, profanityConsent: false});
