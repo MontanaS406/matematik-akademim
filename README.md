@@ -10,7 +10,7 @@ Uygulama soru üretmez. Geliştirici alıştırmaları, eski rastgele üretici v
 
 - [Geçiş ve sonuç raporu](docs/SORU_BANKASI_GECIS_RAPORU.md)
 - [Kaynak/izin araştırması ve belge listesi](docs/SORU_KAYNAK_ARASTIRMASI.md)
-- [Türkiye sınavları: 66 belgeli devam araştırması](docs/TURKIYE_SINAV_KAYNAKLARI.md)
+- [Türkiye sınavları: 68 belgeli devam araştırması](docs/TURKIYE_SINAV_KAYNAKLARI.md)
 - [Özel kitapçık geliştirmesi ve sınırlar](docs/OZEL_SINAV_KITAPCIKLARI_RAPORU.md)
 - [Yazarın kaynak dizini](https://www.wallace.ccfaculty.org/book/book.html)
 - [Lisans](https://creativecommons.org/licenses/by/3.0/)
@@ -24,7 +24,7 @@ Uygulama soru üretmez. Geliştirici alıştırmaları, eski rastgele üretici v
 - `js/exams.js`: doğrulanmış sınav kapısı, cevap alanı, süre ve geçmiş.
 - `js/private-exams.js`: cihazdaki özel PDF, optik form, kronometre, konu etiketleri ve sonuç inceleme.
 - `shared/private-library.js`: hesap kimliğiyle ayrılan yerel IndexedDB deposu; PDF/anahtar için sunucu isteği yapmaz.
-- `data/turkish-exams.js` / `shared/private-exam.js`: 15 kaynak kitapçık kimliği, anahtar kanıtları, iptal denetimi ve dosya eşleştirmesi. Soru metni içermez.
+- `data/turkish-exams.js` / `shared/private-exam.js`: 17 kaynak kitapçık kimliği, anahtar kanıtları, iptal denetimi ve dosya eşleştirmesi. Soru metni içermez.
 - `cloudflare-worker/worker.js`: yalnız seçili kaynak sorusuna bağlı AI açıklaması.
 - `supabase/question-bank.sql` / `question-bank-seed.sql`: yeni içerik tabloları ve incelenebilir 12 soruluk staging aktarımı. Üretime uygulanmadı.
 
@@ -48,7 +48,7 @@ Herkese açık bankada 2018–2026 TYT/AYT seçimi bulunur; izinli ve nihai anah
 
 Yeni **Türkiye sınav kitapçığımı cihazımda çöz** alanı, kullanıcının kendi edindiği gerçek PDF'yi yalnız kendi tarayıcısında açar. Soru, şekil ve seçenekler özgün PDF'de; cevap alanları aynı ekranda görünür. Dosya, kullanıcı anahtarı, konu etiketleri ve sonuçlar hesap kimliğine göre ayrılan yerel IndexedDB'de tutulur; Supabase'e, AI'ya veya herkese açık bankaya gönderilmez. Bu ayrım cihazda şifreleme değildir; tarayıcı verileri silinirse yerel kopyalar kaybolabilir. Cevap yedeği dışa aktarılabilir; PDF ayrıca saklanmalıdır.
 
-15 TYT/AYT kitapçık kimliği ve anahtar durumu incelendi. İptalsiz 13 tam anahtar, kullanıcı sınav/yıl/temel kitapçık ve soru sırasını açıkça teyit ettikten sonra **çalışma neti** hesaplar. Bu teyit PDF'nin bağımsız dosya doğrulaması değildir; gerçek kaynak dosyalarının SHA-256 özeti henüz yoktur. 2019 TYT 7 ve 2026 AYT 23 iptalleri nedeniyle bu iki sınavın neti kapalıdır. Bilinmeyen anahtar puan üretmez; kullanıcı anahtarıyla hesaplama yalnız açık manuel işlemle ve doğrulanmamış etiketiyle yapılır. Bu sonuç ÖSYM sınav/yerleştirme puanı değildir.
+17 TYT/AYT kitapçık kimliği ve anahtar durumu incelendi. İptalsiz 15 tam anahtar, kullanıcı sınav/yıl/temel kitapçık ve soru sırasını açıkça teyit ettikten sonra **çalışma neti** hesaplar. Bu teyit PDF'nin bağımsız dosya doğrulaması değildir; gerçek kaynak dosyalarının SHA-256 özeti henüz yoktur. 2019 TYT 7 ve 2026 AYT 23 iptalleri nedeniyle bu iki sınavın neti kapalıdır. Bilinmeyen anahtar puan üretmez; kullanıcı anahtarıyla hesaplama yalnız açık manuel işlemle ve doğrulanmamış etiketiyle yapılır. Bu sonuç ÖSYM sınav/yerleştirme puanı değildir.
 
 KPSS, ALES, DGS, MEB ve diğer gerçek kaynaklar özel PDF olarak açılabilir; bunlar için tam resmî anahtar doğrulaması tamamlanmadı. Özgün soru numaraları ve kullanıcıya ait sayfa eşleştirmeleri korunur; konu sınıflandırması kullanıcı etiketidir. Yeniden yayım izni bulunan yeni Türkçe soru metni bulunamadı: bu aşamada kamuya açık bankaya eklenen Türkçe soru **0**.
 

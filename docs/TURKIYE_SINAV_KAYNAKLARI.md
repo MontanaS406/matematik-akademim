@@ -4,9 +4,9 @@ Denetim tarihi: **7 Kasım 2026**. Bu belge, [önceki 42 belgeli araştırmayı]
 
 ## Somut sonuç ve sayım
 
-- Bu turda **66 tekil birincil belge fiilen okundu: 44 HTML, 22 PDF**. Bunların **53'ü önceki rapora göre yeni**, 13'ü doğrudan kitapçık bağlantısını veya sonraki düzeltmeyi denetlemek için tekrar açılmıştır. Arama parçacıkları, aynı URL'ye yapılan find/tekrar open işlemleri ve açılamayan dosyalar sayılmadı.
-- **14 kitapçığın 40 harflik matematik anahtarı okundu:** 2018 TYT/AYT, 2020 TYT/AYT, 2021 TYT/AYT, 2022 TYT, 2023 TYT, 2024 TYT/AYT, 2025 TYT/AYT, 2026 TYT/AYT. Bunların **13'ü iptalsiz tam anahtardır**; doğru temel kitapçık kullanıcı tarafından ayrıca teyit edilirse çalışma neti için kullanılabilir. **2026 AYT, matematik 23 iptali nedeniyle otomatik nete kapalıdır.**
-- Ek olarak **2019 TYT’nin 39 cevap harfi ve 7. sorunun İPTAL durumu** birlikte doğrulandı. İptal konumuna harf uydurulmadı (`null`); bu kitapçık da otomatik nete kapalı tutulur. Böylece 15 kitapçığın matematik anahtar/soru konumları okunmuş, bunlardan ikisi iptal nedeniyle puanlamaya kapatılmıştır.
+- Bu turda **68 tekil birincil belge fiilen okundu: 44 HTML, 24 PDF**. Bunların **55'i önceki rapora göre yeni**, 13'ü doğrudan kitapçık bağlantısını veya sonraki düzeltmeyi denetlemek için tekrar açılmıştır. İlk 66 belgeli araştırmaya ek olarak 2022 ve 2023 AYT PDF'leri son kontrolde açıldı. Arama parçacıkları, aynı URL'ye yapılan find/tekrar open işlemleri ve açılamayan dosyalar sayılmadı.
+- **16 kitapçığın 40 harflik matematik anahtarı okundu:** 2018 TYT/AYT, 2020 TYT/AYT, 2021 TYT/AYT, 2022 TYT/AYT, 2023 TYT/AYT, 2024 TYT/AYT, 2025 TYT/AYT, 2026 TYT/AYT. Bunların **15'i iptalsiz tam anahtardır**; doğru temel kitapçık kullanıcı tarafından ayrıca teyit edilirse çalışma neti için kullanılabilir. **2026 AYT, matematik 23 iptali nedeniyle otomatik nete kapalıdır.**
+- Ek olarak **2019 TYT’nin 39 cevap harfi ve 7. sorunun İPTAL durumu** birlikte doğrulandı. İptal konumuna harf uydurulmadı (`null`); bu kitapçık da otomatik nete kapalı tutulur. Böylece 17 kitapçığın matematik anahtar/soru konumları okunmuş, bunlardan ikisi iptal nedeniyle puanlamaya kapatılmıştır.
 - **Kamuya açık soru bankasına eklenmesine izin bulunan yeni Türkçe soru: 0.** ÖSYM, MEB ve incelenen yayınevlerinden soru metni/şekli yeniden dağıtım lisansı bulunamadı. Anahtar doğrulaması, soru çoğaltma hakkı değildir.
 - Kitapçık kimliği, soru numaraları, matematik sayfaları ve anahtarın tamamı denetlendi. **PDF dosyalarının ham baytları elde edilmedi; SHA-256 özeti doğrulanmış değildir.** Bir yerel dosyanın adının kaynak adına benzemesi, dosyanın resmî PDF olduğunu kanıtlamaz.
 - Bu rapordaki araştırma kabulü, uygulamadaki entegrasyon/test sonucu veya eklenen soru sayısı yerine geçmez. Gerçek eklenen kayıtlar ve test durumu ana geliştirme raporunda belirtilmelidir.
@@ -24,7 +24,9 @@ Sayfalar bağlantı verilen **tam PDF'nin 1 tabanlı fiziksel sayfalarıdır**; 
 | 2021 TYT | [ÖSYM PDF](https://dokuman.osym.gov.tr/pdfdokuman/2021/YKS/TSK/tyt_yks_2021.pdf) | 45 | 26–37 | 45 | 1–40 | 40 puanlanır |
 | 2021 AYT | [ÖSYM PDF](https://dokuman.osym.gov.tr/pdfdokuman/2021/YKS/TSK/ayt_yks_2021.pdf) | 49 | 26–36 | 49 | 1–40 | 40 puanlanır |
 | 2022 TYT | [ÖSYM PDF](https://dokuman.osym.gov.tr/pdfdokuman/2022/YKS/TSK/yks_2022_tyt.pdf) | 45 | 25–37 | 45 | 1–40 | 40 puanlanır |
+| 2022 AYT | [ÖSYM PDF](https://dokuman.osym.gov.tr/pdfdokuman/2022/YKS/TSK/yks_2022_ayt.pdf) | 50 | 26–37 | 50 | 1–40 | 40 puanlanır |
 | 2023 TYT | [ÖSYM PDF](https://dokuman.osym.gov.tr/pdfdokuman/2023/YKS/TSK/yks_tyt_2023_kitapcik_T23ky.pdf) | 42 | 23–34 | 42 | 1–40 | 40 puanlanır |
+| 2023 AYT | [ÖSYM PDF](https://dokuman.osym.gov.tr/pdfdokuman/2023/YKS/TSK/yks_ayt_2023_kitapcik_g5A2H.pdf) | 50 | 25–36 | 50 | 1–40 | 40 puanlanır |
 | 2024 TYT | [ÖSYM PDF](https://dokuman.osym.gov.tr/pdfdokuman/2024/YKS/TSK/yks_tyt_2024_kitapcik_T24kt.pdf) | 43 | 24–36 | 43 | 1–40 | 40 puanlanır |
 | 2024 AYT | [ÖSYM PDF](https://dokuman.osym.gov.tr/pdfdokuman/2024/YKS/TSK/yks_ayt_2024_kitapcik_ts85k.pdf) | 49 | 26–36 | 49 | 1–40 | 40 puanlanır |
 | 2025 TYT | [ÖSYM PDF](https://dokuman.osym.gov.tr/pdfdokuman/2025/YKS/TSK/yks_tyt_2025_kitapcik_d250.pdf) | 43 | 24–35 | 43 | 1–40 | 40 puanlanır |
@@ -32,7 +34,7 @@ Sayfalar bağlantı verilen **tam PDF'nin 1 tabanlı fiziksel sayfalarıdır**; 
 | 2026 TYT | [ÖSYM PDF](https://dokuman.osym.gov.tr/pdfdokuman/2026/YKS/TSK/yks_tyt_2026_kitapcik_d350.pdf) | 45 | 25–36 | 45 | 1–40 | 40 puanlanır |
 | 2026 AYT | [ÖSYM PDF](https://dokuman.osym.gov.tr/pdfdokuman/2026/YKS/TSK/yks_ayt_2026_kitapcik_kt12.pdf) | 50 | 28–38 | 50 | 1–40 | 23 iptal; net kapalı |
 
-Anahtarlar, her PDF'nin matematik başlığından sonra gelen 1–40 satırının tamamı okunarak aktarıldı; genel internetten bulunan harf dizileri veya eski uygulama anahtarları kanıt olarak kullanılmadı. Araştırma çıktısı `work/turkey-audit-candidates.json` içindedir (`booklets`: 14 harf dizisi; `cancelledBooklets`: 2019 TYT; `partialBooklets`: üç %10 kaynak; `blockedBooklets`: 2019 AYT); ürün verisine aktarılırken kaynak ve iptal bilgisi korunmalıdır. Soru kökleri ve seçenekler bu çıktıya kopyalanmadı.
+Anahtarlar, her PDF'nin matematik başlığından sonra gelen 1–40 satırının tamamı okunarak aktarıldı; genel internetten bulunan harf dizileri veya eski uygulama anahtarları kanıt olarak kullanılmadı. İlk araştırma çıktısı `work/turkey-audit-candidates.json`, ek iki AYT okuması `work/missing-ayt-followup.json` içindedir. 2022/2023 AYT'nin 40 sıralı cevabı ikinci bağımsız okumayla birebir karşılaştırıldı. Üründeki kalıcı kaynak/anahtar kayıtları `data/turkish-exams.js` içindedir; soru kökleri ve seçenekler kopyalanmadı.
 
 ### Düzeltme ve iptal denetimi
 
@@ -40,8 +42,8 @@ Anahtarlar, her PDF'nin matematik başlığından sonra gelen 1–40 satırını
 - **2018:** [31 Temmuz 2018 sonuç duyurusu](https://www.osym.gov.tr/2018-yuksekogretim-kurumlari-sinavi-2018yks-sonuclari-aciklandi), YDT İngilizce 41 cevabını C→D yapar; bu matematik anahtarlarına uygulanmaz. Mevcut TYT/AYT matematik anahtarlarının tamamı okundu ve hedefli resmî aramalarda matematik değişikliği bulunmadı.
 - **2020:** [27 Temmuz 2020 sonuç duyurusu](https://www.osym.gov.tr/2020yuksekogretim-kurumlari-sinavi-2020yks-sonuclari-aciklandi), [resmî YKS arşivi](https://www.osym.gov.tr/SinavGrubu/Menu/314) ve hedefli matematik iptal/cevap değişikliği aramaları kontrol edildi. Mevcut TYT/AYT matematik anahtarlarıyla çelişen bir değişiklik bulunmadı.
 - **2021:** [28 Temmuz 2021 sonuç duyurusu](https://www.osym.gov.tr/2021yuksekogretim-kurumlari-sinavi-2021yks-sonuclari-aciklandi) ve hedefli resmî arama kontrol edildi; incelenen tam TYT/AYT matematik anahtarlarında değişiklik bulunmadı.
-- **2022:** [18 Temmuz 2022 sonuç duyurusu](https://www.osym.gov.tr/2022yuksekogretim-kurumlari-sinavi-2022yks-sonuclari-aciklandi) okundu; ÖSYM alanında yıl/sınav/matematik/iptal/cevap değişikliği araştırması yapıldı. İncelenen mevcut TYT anahtarında matematiğe ilişkin sonraki değişiklik bulunmadı.
-- **2023:** [20 Temmuz 2023 sonuç duyurusu](https://www.osym.gov.tr/2023-yuksekogretim-kurumlari-sinavi-2023yks-sonuclari-aciklandi) ve hedefli resmî düzeltme araması kontrol edildi; incelenen TYT için matematik değişikliği bulunmadı.
+- **2022:** [18 Temmuz 2022 sonuç duyurusu](https://www.osym.gov.tr/2022yuksekogretim-kurumlari-sinavi-2022yks-sonuclari-aciklandi) okundu; ÖSYM alanında yıl/sınav/matematik/iptal/cevap değişikliği araştırması yapıldı. Son kontrolde AYT için duyuru tekrar okunup hedefli arama yenilendi. İncelenen mevcut TYT/AYT anahtarlarında matematiğe ilişkin sonraki değişiklik bulunmadı.
+- **2023:** [20 Temmuz 2023 sonuç duyurusu](https://www.osym.gov.tr/2023-yuksekogretim-kurumlari-sinavi-2023yks-sonuclari-aciklandi) ve hedefli resmî düzeltme araması kontrol edildi; AYT ek kontrolünde duyuru tekrar okundu. İncelenen TYT/AYT için matematik değişikliği bulunmadı.
 - **2024:** [16 Temmuz 2024 sonuç duyurusu](https://www.osym.gov.tr/2024-yuksekogretim-kurumlari-sinavi-2024yks-sonuclari-aciklandi) ve hedefli resmî düzeltme araması kontrol edildi; incelenen TYT/AYT matematik için değişiklik bulunmadı.
 - **2025:** [19 Temmuz 2025 sonuç duyurusu](https://www.osym.gov.tr/2025yks-sinav-sonuclari-aciklandi), [aday cevaplarına erişim duyurusu](https://www.osym.gov.tr/2025yks-cevap-kgitlari-ve-aday-cevaplari-erisime-acildi) ve hedefli düzeltme araması kontrol edildi; incelenen TYT/AYT matematik için değişiklik bulunmadı.
 - **2026 AYT 23:** [1 Temmuz duyurusu](https://www.osym.gov.tr/2026-yuksekogretim-kurumlari-sinavi-2026yks-degerlendirme-islemleri) C cevabını A yapmıştı. Daha sonraki [21 Temmuz resmî değerlendirme açıklaması](https://dokuman.osym.gov.tr/pdfdokuman/2026/YKS/aciklama_ydd21072026.pdf), sorunun **yargı kararıyla iptal edildiğini** bildirir. İncelenen kitapçık PDF'si hâlâ basılı C'yi gösterdiğinden, yalnız PDF'yi okumak güncel puanlama için yeterli değildir. 23 numara hiçbir harfle doğru/yanlış/boş sayılmamalıdır. 39 geçerli sorunun çalışma neti ve 1 iptal ayrı gösterilmelidir; uygulama bu dışlama kuralını desteklemiyorsa otomatik net kapalı tutulmalıdır. [2026 sonuç duyurusu](https://www.osym.gov.tr/2026yks-sinav-sonuclari-aciklandi) de kontrol edildi.
@@ -58,16 +60,16 @@ Kullanıcının kendi edindiği dosyayı yerel açma tercihi, uygulamaya üçün
 
 ## TYT/AYT 2018–2026 kapsamı ve eksikler
 
-Önceki rapor 2018–2026'nın dokuz yayın duyurusunu zaten incelemiştir; bu tur onları tamamlanan anahtar/PDF işi için gerektiğinde tekrar açtı. **18 kitapçıktan 15'inin matematik konumları/anahtar durumu okundu:** 14 kitapçıkta 40 harflik anahtar; 2019 TYT'de 39 harf + 7. sorunun iptali. 2019 TYT ve 2026 AYT otomatik nete kapalıdır. İptalsiz tam anahtar sayısı **13**'tür.
+Önceki rapor 2018–2026'nın dokuz yayın duyurusunu zaten incelemiştir; bu tur onları tamamlanan anahtar/PDF işi için gerektiğinde tekrar açtı. **18 kitapçıktan 17'sinin matematik konumları/anahtar durumu okundu:** 16 kitapçıkta 40 harflik anahtar; 2019 TYT'de 39 harf + 7. sorunun iptali. 2019 TYT ve 2026 AYT otomatik nete kapalıdır. İptalsiz tam anahtar sayısı **15**'tir.
 
 | Kitapçık durumu | Sınavlar | Karar |
 |---|---|---|
-| 13 iptalsiz tam matematik anahtarı | 2018, 2020, 2021 TYT/AYT; 2022 TYT; 2023 TYT; 2024, 2025 TYT/AYT; 2026 TYT | Anahtar kaynağı doğrulandı; yerel dosya kimliği ayrıca kullanıcı teyidi gerektirir |
+| 15 iptalsiz tam matematik anahtarı | 2018, 2020, 2021, 2022, 2023, 2024, 2025 TYT/AYT; 2026 TYT | Anahtar kaynağı doğrulandı; yerel dosya kimliği ayrıca kullanıcı teyidi gerektirir |
 | 40 basılı harf + sonraki iptal | 2026 AYT | Matematik23 iptal; net kapalı |
 | 39 harf + basılı İPTAL | 2019 TYT | 43 PDF sayfası; matematik24–34; anahtar43; 7. konum `null`; net kapalı |
-| Resmî PDF erişimi başarısız | 2019 AYT, 2022 AYT, 2023 AYT | Tam anahtar/sayfa bilgisi doğrulanmadı; tahminle tamamlanmadı |
+| Resmî PDF erişimi başarısız | 2019 AYT | Tam anahtar/sayfa bilgisi doğrulanmadı; tahminle tamamlanmadı |
 
-2019 AYT'de resmî dizinin bağlantısı ilk açılışta zaman aşımına uğradı; tekrar denenmedi. 2022/2023 AYT'nin önceki erişim engellerine bu turda yeni kaynak olmadan tekrar başvurulmadı. Tamamlanan 2018/2020/2021 çalışmalarında önceki yayımlama duyurusu incelemesi tekrarlanarak soru sayısı artırılmadı; yeni iş doğrudan gerçek PDF'lerin matematik anahtarlarını ve sayfa eşleştirmesini okumaktır.
+2019 AYT resmî PDF'si ilk okumada ve son bir sınırlı ek denemede zaman aşımı verdi. 2022/2023 AYT önceki erişim hatalarından sonra son kontrolde açılabildi; tam matematik anahtarları ve fiziksel sayfaları okunarak eklendi. Tamamlanan 2018/2020/2021 çalışmalarında önceki yayımlama duyurusu incelemesi tekrarlanarak soru sayısı artırılmadı; yeni iş doğrudan gerçek PDF'lerin matematik anahtarlarını ve sayfa eşleştirmesini okumaktır.
 
 ## MEB ve Türkiye yayınevlerinde kullanım hakkı
 
@@ -169,20 +171,21 @@ Bu üç PDF için **kimlik doğrulandı; tam içerik ve tam cevap anahtarı doğ
 | 64 | [ÖSYM 2019 kitapçık dizini](https://www.osym.gov.tr/2019yks-tyt-ayt-ydt-temel-soru-kitapciklari-ve-cevap-anahtarlari) | HTML | yeni | Gerçek TYT/AYT PDF bağlantıları ve sınav tarihleri doğrulandı. |
 | 65 | [ÖSYM 2019 TYT kitapçığı](https://dokuman.osym.gov.tr/pdfdokuman/2019/YKS/TSK/tyt_yks_2019_web.pdf) | PDF | yeni | 43 fiziksel sayfa; matematik 24–34; anahtar 43 üzerinde 39 harf + 7. soru İPTAL. |
 | 66 | [ÖSYM 2019 sonuç duyurusu](https://www.osym.gov.tr/2019yks-yuksekogretim-kurumlari-sinavi-2019yks-sonuclari-aciklandi) | HTML | yeni | 17 Temmuz 2019; AYT Sosyal Bilimler-1 soru 33 iptali matematiğe uygulanmadı; başka matematik değişikliği bulunmadı. |
+| 67 | [ÖSYM 2022 AYT kitapçığı](https://dokuman.osym.gov.tr/pdfdokuman/2022/YKS/TSK/yks_2022_ayt.pdf) | PDF | yeni | 50 fiziksel sayfa; matematik26–37; tam40 anahtar sayfa50. Son kontrolde erişilebildi; iki okuma aynı harfleri verdi. |
+| 68 | [ÖSYM 2023 AYT kitapçığı](https://dokuman.osym.gov.tr/pdfdokuman/2023/YKS/TSK/yks_ayt_2023_kitapcik_g5A2H.pdf) | PDF | yeni | 50 fiziksel sayfa; matematik25–36; tam40 anahtar sayfa50. Son kontrolde erişilebildi; iki okuma aynı harfleri verdi. |
 
 ## Sayıma alınmayan erişimler
 
-- [2019 AYT PDF](https://dokuman.osym.gov.tr/pdfdokuman/2019/YKS/TSK/ayt_yks_2019_web.pdf): gerçek resmî dizin bağlantısı ilk açılışta zaman aşımı döndürdü; tam belge/anahtar okunmuş sayılmadı ve yeniden denenmedi.
+- [2019 AYT PDF](https://dokuman.osym.gov.tr/pdfdokuman/2019/YKS/TSK/ayt_yks_2019_web.pdf): gerçek resmî dizin bağlantısı ilk açılışta ve son bir sınırlı ek denemede zaman aşımı döndürdü; tam belge/anahtar okunmuş sayılmadı.
 - 2018 yayın duyurusunun eski `dokuman.osym.gov.tr/web/eskidosyalar/15134.pdf` bağlantısı 404 döndürdü; okunmuş belge sayılmadı. Gerçek 2018 kitapçık dizinindeki güncel TYT/AYT bağlantıları ayrıca açılarak doğrulandı.
-- [2023 AYT PDF](https://dokuman.osym.gov.tr/pdfdokuman/2023/YKS/TSK/yks_ayt_2023_kitapcik_g5A2H.pdf): resmî dizin bağlantısı bulundu; iki deneme zaman aşımı. Tam belge/anahtar okunmuş sayılmadı.
-- [2022 AYT PDF](https://dokuman.osym.gov.tr/pdfdokuman/2022/YKS/TSK/yks_2022_ayt.pdf): resmî dizin bağlantısı bulundu; zaman aşımı. Tam belge/anahtar okunmuş sayılmadı.
+- 2022/2023 AYT'nin ilk başarısız denemeleri sayılmadı; sonradan başarıyla okunan iki PDF yukarıda67/68 numaralarında birer kez sayılır. Sonuç duyurularının ek AYT kontrolünde yeniden açılması belge sayısını artırmaz.
 - 2025 sonuç duyurusunun ilk aranan uzun URL'si açılamadı; sonuçta doğrulanan gerçek `2025yks-sinav-sonuclari-aciklandi` belgesi yalnız bir kez sayıldı.
 - OGM Materyal ana sayfası ve 3D anahtarının Flipbook bağlantısı sıfır okunabilir satır döndürdü; bunlar kaynak okumasına dahil edilmedi.
 - Arama motorunda görülen başka sayfalar, soru metninin/anahtarın tamamı okundu şeklinde sayılmadı.
 
 ## Kalan doğrulama işleri
 
-1. 2019, 2022 ve 2023 AYT tam anahtarları, iptalleri ve fiziksel sayfa eşleştirmeleri. 2019 TYT/2026 AYT için iptalli puanlama kuralı uygulanıp ayrıca doğrulanana kadar net kapalı kalmalı.
+1. 2019 AYT tam anahtarı, iptalleri ve fiziksel sayfa eşleştirmeleri. 2019 TYT/2026 AYT için iptalli puanlama kuralı uygulanıp ayrıca doğrulanana kadar net kapalı kalmalı.
 2. KPSS, ALES ve DGS için tam kitapçık/anahtar erişimi ve hak kapsamı; kısmi anahtarla tam net çıkarılmaması.
 3. Yeniden kullanım izni açık Türkçe soru kaynağı veya hak sahibinin yazılı izni. Bulunana kadar soru metni/görseli kamuya açık bankaya eklenmemeli.
 4. Soruların konu etiketlerinin tek tek gerçek içerikten insan denetimiyle sınıflandırılması. Bu turdaki metadata, soru bazında konu/zorluk doğrulaması içermez; otomatik uydurma sınıflandırma yapılmadı.

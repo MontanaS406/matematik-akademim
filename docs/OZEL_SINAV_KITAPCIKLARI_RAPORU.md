@@ -6,21 +6,21 @@ Tarih: **7 Kasım 2026**. PR #5'in `60dbf14` başlığı temel alındı. Önceki
 
 | Ölçü | Bu aşamadaki sonuç |
 |---|---|
-| Fiilen okunan tekil birincil belge | **66**: 44 HTML, 22 PDF |
-| Önceki 42 belgeli rapora göre yeni belge | **53**; diğer 13 belge kitapçık/düzeltme kontrolü için tekrar açıldı |
+| Fiilen okunan tekil birincil belge | **68**: 44 HTML, 24 PDF |
+| Önceki 42 belgeli rapora göre yeni belge | **55**; diğer 13 belge kitapçık/düzeltme kontrolü için tekrar açıldı |
 | Yeni kamuya açık Türkçe soru metni/şekli/seçenekleri | **0**; yeniden yayım izni doğrulanamadı |
-| Yeni gerçek kitapçık kimliği ve anahtar durumu kaydı | **15** TYT/AYT kitapçığı; soru metni değildir |
-| İptalsiz tam matematik anahtarı | **13 × 40 cevap konumu**; dosya kimliği kullanıcı teyidi gerektirir |
+| Yeni gerçek kitapçık kimliği ve anahtar durumu kaydı | **17** TYT/AYT kitapçığı; soru metni değildir |
+| İptalsiz tam matematik anahtarı | **15 × 40 cevap konumu**; dosya kimliği kullanıcı teyidi gerektirir |
 | İptal nedeniyle neti kapalı kitapçık | **2**: 2019 TYT ve 2026 AYT |
 | Önceki açık lisanslı katalog | 6 PDF kaynak kaydı, **12 İngilizce soru**, 5 konu; değişmedi |
 
-Kaynak başına URL, belge bulguları, fiziksel PDF sayfaları ve doğrulama sınırları [Türkiye sınav araştırmasında](TURKIYE_SINAV_KAYNAKLARI.md) bulunur. 15 kayıt, uygulamaya 600 soru yayımlandığı anlamına gelmez. Soru kökleri, şekiller veya seçenekler kopyalanmadı. Telifli PDF dosyaları depoya eklenmedi. Soru sayısını artırmak için üretilmiş, yeniden yazılmış veya sayıları değiştirilmiş içerik kullanılmadı.
+Kaynak başına URL, belge bulguları, fiziksel PDF sayfaları ve doğrulama sınırları [Türkiye sınav araştırmasında](TURKIYE_SINAV_KAYNAKLARI.md) bulunur. 17 kayıt, uygulamaya 680 soru yayımlandığı anlamına gelmez. Soru kökleri, şekiller veya seçenekler kopyalanmadı. Telifli PDF dosyaları depoya eklenmedi. Soru sayısını artırmak için üretilmiş, yeniden yazılmış veya sayıları değiştirilmiş içerik kullanılmadı.
 
-**Tam ve iptalsiz anahtarlar:** 2018 TYT/AYT, 2020 TYT/AYT, 2021 TYT/AYT, 2022 TYT, 2023 TYT, 2024 TYT/AYT, 2025 TYT/AYT, 2026 TYT. Kaynak kayıtlarında sınav, yıl, temel kitapçık kimliği, özgün matematik soru numaraları, cevaplar, kaynak/anahtar URL'leri ve düzeltme denetimi tutulur.
+**Tam ve iptalsiz anahtarlar:** 2018 TYT/AYT, 2020 TYT/AYT, 2021 TYT/AYT, 2022 TYT/AYT, 2023 TYT/AYT, 2024 TYT/AYT, 2025 TYT/AYT, 2026 TYT. Kaynak kayıtlarında sınav, yıl, temel kitapçık kimliği, özgün matematik soru numaraları, cevaplar, kaynak/anahtar URL'leri ve düzeltme denetimi tutulur.
 
 **İptaller:** 2019 TYT matematik 7'nin iptal konumu `null` olarak korunur; kalan 39 harf sıra kaydırılmadan kaydedilir. 2026 AYT matematik 23 için basılı C ve önceki A düzeltmesi son karar değildir; sonraki resmî iptal kanıtı saklanır. Desteklenen, doğrulanmış iptal puanlama politikası olmadan bu iki kitapçıkta otomatik veya manuel net üretilmez.
 
-**Eksik TYT/AYT:** 2019 AYT, 2022 AYT ve 2023 AYT tam anahtarı/sayfa bilgileri resmî PDF erişimi başarısız olduğundan doğrulanmadı; başka sitenin dizisiyle veya tahminle tamamlanmadı.
+**Ek kontrolde tamamlananlar:** 2022 ve 2023 AYT resmî PDF’leri yeniden erişilebilir oldu. Tüm 40 matematik cevabı iki ayrı okumada karşılaştırıldı; fiziksel matematik/anahtar sayfaları ve resmî düzeltme denetimleri kayda alındı. **Eksik TYT/AYT:** yalnız 2019 AYT tam anahtarı/sayfa bilgileri, bir sınırlı ek denemede de zaman aşımı verdiğinden doğrulanmadı; başka sitenin dizisiyle veya tahminle tamamlanmadı.
 
 **KPSS, ALES, DGS:** 2026 KPSS Ön Lisans, ALES/2 ve DGS'nin gerçek %10 PDF'leri incelendi. Kısmi kapsam, belirsiz numara/cevap eşleşmeleri ve tamamlanmamış düzeltme kontrolü nedeniyle tam sınav anahtarı açılmadı. KPSS Ön Lisans/Ortaöğretim, ALES, DGS, MEB ve diğer gerçek kaynak türleri özel PDF olarak kullanılabilir; bu destek, tam resmî anahtar doğrulaması iddiası değildir. KPSS Lisans ayrı bir tür olarak henüz eklenmedi.
 
@@ -63,4 +63,4 @@ Yerel doğrulama: **`npm test` 70/70**, masaüstü/mobil Chromium **98/98** geç
 - Safari/iOS/Android üzerinde gerçek cihaz PDF görüntüleyicisi denenmedi. Yerleşik PDF desteği olmayan tarayıcıda PDF'yi cihazına indirme seçeneği vardır; uygulama içinde bağımsız PDF.js görüntüleyicisi henüz eklenmedi.
 - Özel kitapçık başına tek devam/sonuç kaydı vardır. Yeniden deneme arşivi, çoklu girişim karşılaştırması ve özel sonuçları Supabase'e eşitleme henüz yoktur; eski standart deneme geçmişi değişmedi.
 - Native PDF görüntüleyicisi içinde elle değiştirilen sayfa uygulama tarafından okunamaz; yalnız uygulamanın sayfa alanıyla yapılan eşleştirme kaydedilir.
-- İzinli Türkçe soru metni bulma, eksik üç AYT anahtarını okuma, KPSS/ALES/DGS için tam ve nihai anahtar edinme, tüm soruları kaynaktan konuya göre sınıflandırma ve iptal sonrası puanlama politikası açık işlerdir. Eksikler uydurma içerikle kapatılmadı.
+- İzinli Türkçe soru metni bulma, eksik 2019 AYT anahtarını okuma, KPSS/ALES/DGS için tam ve nihai anahtar edinme, tüm soruları kaynaktan konuya göre sınıflandırma ve iptal sonrası puanlama politikası açık işlerdir. Eksikler uydurma içerikle kapatılmadı.
