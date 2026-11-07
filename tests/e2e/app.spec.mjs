@@ -1,7 +1,8 @@
 import {test, expect} from './fixtures.mjs';
+import {selectFirstSource} from './source-helpers.mjs';
 const KEY='matematik_akademim_exam_history_v11';
 const go=async page=>{await page.goto('/');await page.getByRole('button',{name:'📝 Denemeler'}).click()};
-const start=async page=>{await go(page);await page.getByRole('button',{name:'TYT Matematik · 40 soru',exact:true}).click()};
+const start=async page=>{await go(page);await page.locator('#startTYT').click()};
 const finish=async page=>{page.once('dialog',d=>d.accept());await page.locator('#finishExam').click()};
 test('40 answers, reload, keyboard navigation and manual result persisted once',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -34,12 +35,12 @@ test('corrupt drafts cannot inject HTML or invalid choices',async({page})=>{
   await page.goto('/');await page.evaluate(k=>localStorage.setItem(k+'_guest_unfinished_exam',JSON.stringify({year:2026,type:'<img src=x onerror=alert(1)>',answers:Array(40).fill('Z'),index:0,started:Date.now(),limit:0})),KEY);
   await page.getByRole('button',{name:'📝 Denemeler'}).click();await expect(page.locator('#continueExam')).toHaveCount(0);
 });
-test('mobile layout fits viewport and PDF fallback accepts local file',async({page})=>{
+test('mobile workspace fits viewport and unknown PDF remains blocked',async({page})=>{
   await start(page);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
   await page.locator('#pdfFile').setInputFiles({name:'practice.pdf',mimeType:'application/pdf',buffer:Buffer.from('%PDF-1.4\n%%EOF')});
-  await expect(page.locator('#pdfStatus')).toContainText('kaydedildi');
-  await expect(page.locator('#realPdf')).toHaveAttribute('src',/^blob:/);
+  await expect(page.locator('#pdfStatus')).toContainText('doğrulanmadığı');
+  await expect(page.locator('#selectPdf')).toBeDisabled();await expect(page.locator('#realPdf')).not.toHaveAttribute('src',/^blob:/);
 });
 test('mock Supabase signup, login, owner filter, upload and logout isolation',async({page})=>{
   const writes=[];const reads=[];
@@ -62,11 +63,11 @@ test('mock Supabase signup, login, owner filter, upload and logout isolation',as
   expect(await page.evaluate(()=>sessionStorage.getItem('ma_auth'))).toBeNull();
 });
 test('AI response is text and recovers from error',async({page})=>{
-  await page.goto('/');await page.getByRole('button',{name:'✧ AI Hoca'}).click();await page.locator('#teacher summary').filter({hasText:'AI bağlantı ayarları'}).click();
+  await page.goto('/');const source=await selectFirstSource(page);await page.getByRole('button',{name:'✧ AI Hoca'}).click();await page.locator('#teacher summary').filter({hasText:'AI bağlantı ayarları'}).click();
   await page.locator('#endpoint').fill('https://tutor.example');await page.locator('#access').fill('fake-access');await page.locator('#saveAI').click();
-  let fail=true;await page.route('https://tutor.example/api/tutor',route=>route.fulfill({status:fail?502:200,json:fail?{error:'Tekrar dene'}:{answer:'<img src=x onerror=alert(1)> 4'}}));
-  await page.locator('#message').fill('2+2');await page.locator('#send').click();await expect(page.locator('#chat')).toContainText('Tekrar dene');
-  fail=false;await page.locator('#message').fill('2+2');await page.locator('#send').click();await expect(page.locator('#chat')).toContainText('<img');await expect(page.locator('#chat img')).toHaveCount(0);
+  let fail=true;await page.route('https://tutor.example/api/tutor',route=>route.fulfill({status:fail?502:200,json:fail?{error:'Tekrar dene'}:{questionId:source.id,isOfficialSolution:false,answer:'<img src=x onerror=alert(1)> açıklama'}}));
+  await page.locator('#message').fill('Seçili kaynak sorusundaki adımı açıkla.');await page.locator('#send').click();await expect(page.locator('#chat')).toContainText('Tekrar dene');
+  fail=false;await page.locator('#message').fill('Seçili kaynak sorusundaki adımı açıkla.');await page.locator('#send').click();await expect(page.locator('#chat')).toContainText('<img');await expect(page.locator('#chat img')).toHaveCount(0);
   await expect(page.locator('#send')).toBeEnabled();
 });
 test('unscored result retains answers and exports CSV without claiming official score',async({page})=>{
