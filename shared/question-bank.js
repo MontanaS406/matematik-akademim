@@ -86,7 +86,7 @@ export function createQuestionRegistry(dataset){
     if(!['TYT','AYT'].includes(type)||!Number.isInteger(examYear))return null;
     const questions=getQuestions({examType:type,year:examYear});
     if(questions.length!==40||new Set(questions.map(q=>q.sourceId)).size!==1)return null;
-    const source=questions[0].source;if(source.coverage?.complete!==true||source.coverage?.mathQuestionCount!==40||!date(source.verification.correctionsCheckedAt)||!officialUrl(source.verification.correctionsEvidenceUrl)||source.cancelledNumbers?.length)return null;if(source.publisher!=='ÖSYM'||!officialUrl(source.originalUrl)||!officialUrl(source.verification.evidenceUrl)||questions.some(q=>!officialUrl(q.answer.evidenceUrl)||q.originalUrl&&!officialUrl(q.originalUrl)))return null;
+    const source=questions[0].source;if(source.coverage?.complete!==true||source.coverage?.mathQuestionCount!==40||!date(source.verification.correctionsCheckedAt)||!officialUrl(source.verification.correctionsEvidenceUrl)||!Array.isArray(source.cancelledNumbers)||source.cancelledNumbers.length!==0)return null;if(source.publisher!=='ÖSYM'||!officialUrl(source.originalUrl)||!officialUrl(source.verification.evidenceUrl)||questions.some(q=>!officialUrl(q.answer.evidenceUrl)||q.originalUrl&&!officialUrl(q.originalUrl)))return null;
     const ordered=questions.slice().sort((a,b)=>Number(a.number)-Number(b.number));
     if(ordered.some((q,i)=>q.number!==String(i+1)||q.options.length!==5||!/^([ABCDE])$/.test(q.answer.value)))return null;
     return deepFreeze({type,year:examYear,source:ordered[0].source,questions:ordered,answerKey:ordered.map(q=>q.answer.value).join(''),count:40});
