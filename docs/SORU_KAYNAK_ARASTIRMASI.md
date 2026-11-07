@@ -150,4 +150,3 @@ Ayrıca bir CC lisans açıklaması okundu; soru kaynağı sayılmadı. Web arac
 - Açık uçlu cevaplarda kök sırası, eşdeğer kesirler ve eşdeğer cebirsel çarpanlar gibi gösterimler desteklenmelidir. Güvenilir eşdeğerlik denetimi yoksa kendi değerlendirmesi için yazarın cevabını göstermek mümkündür; eşdeğer bir cevaba kesin yanlış denmemelidir.
 - Bu ilk 12 soru şekilsiz ve sınırlı altı konu kapsamındadır. Müfredatın kalan konularında izinli soru yoksa kullanıcı talimatındaki boş durum gösterilmeli; üreticiyle doldurulmamalıdır.
 - Kaynak denetimi, canlı Supabase veya tarayıcı entegrasyon testi yerine geçmez. Bunlar ana geliştirme görevinin test raporunda ayrıca belirtilmelidir.
-

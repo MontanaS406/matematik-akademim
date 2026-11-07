@@ -3,6 +3,7 @@ import {TEACHERS, DEFAULT_TEACHER_ID, PROFANITY_LEVELS} from '../shared/teachers
 import {normalizeState, mergeLearningStates, progressFromAttempts} from '../shared/learning-state.js';
 import {QUESTION_BANK} from '../data/question-bank.js';
 import {getEligibleQuestions,getPublishedQuestionById} from '../shared/question-bank.js';
+import {captureLearningSnapshot} from '../shared/learning-migration.js';
 const $=id=>document.getElementById(id);
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let owner=null, scope='guest', state, revision=0, remoteChain=Promise.resolve(), saveTimer;
@@ -13,7 +14,7 @@ const course=()=>getCourse(state.courseId)||COURSES[0];
 const key=()=>`ma_learning_v1_${scope}`;
 function loadLocal(){try{return normalizeState(JSON.parse(localStorage.getItem(key())||'null'))}catch{return normalizeState(null)}}
 function status(message){const node=$('profileStatus');if(node)node.textContent=message}
-function saveLocal(){try{localStorage.setItem(key(),JSON.stringify(state));return true}catch{status('İlerleme bu tarayıcıya kaydedilemedi. Depolama izinlerini kontrol et.');return false}}
+function saveLocal(){try{if(!captureLearningSnapshot(localStorage,scope,localStorage.getItem(key())))throw Error('Önceki kayıt yedeklenemedi');localStorage.setItem(key(),JSON.stringify(state));return true}catch{status('İlerleme bu tarayıcıya kaydedilemedi. Depolama izinlerini kontrol et.');return false}}
 function changed(preferences=false){revision++;if(preferences)state.preferencesAt=new Date().toISOString();saveLocal();clearTimeout(saveTimer);if(owner)saveTimer=setTimeout(()=>syncProfile(),700)}
 async function syncProfile(write=true){
   const account=window.MAAccount;const current=scope;const generation=revision;
@@ -22,7 +23,7 @@ async function syncProfile(write=true){
   remoteChain=remoteChain.catch(()=>{}).then(async()=>{
     if(current!==scope)return;
     try{
-      const remote=await account.loadLearning();if(current!==scope)return;if(remote){const before=[state.courseId,state.difficulty].join(':'),beforeTeacher=state.teacherId;state=mergeLearningStates(state,remote);if(before!==[state.courseId,state.difficulty].join(':')){selectedQuestionId=null;answeredQuestionId=null}if(generation!==revision)status('Yeni yerel değişiklikler korunarak birleştirildi.');saveLocal();renderLearning();if(beforeTeacher!==state.teacherId){profanity={profanityLevel:'off',adultConfirmed:false,profanityConsent:false};renderTeachers()}}if(!write){status('Hesabına özel öğrenme kaydı yüklendi.');return}
+      const remote=await account.loadLearning();if(current!==scope)return;if(remote){if(!captureLearningSnapshot(localStorage,scope,remote,'remote'))throw Error('Önceki bulut kaydı yedeklenemedi');const before=[state.courseId,state.difficulty].join(':'),beforeTeacher=state.teacherId;state=mergeLearningStates(state,remote);if(before!==[state.courseId,state.difficulty].join(':')){selectedQuestionId=null;answeredQuestionId=null}if(generation!==revision)status('Yeni yerel değişiklikler korunarak birleştirildi.');saveLocal();renderLearning();if(beforeTeacher!==state.teacherId){profanity={profanityLevel:'off',adultConfirmed:false,profanityConsent:false};renderTeachers()}}if(!write){status('Hesabına özel öğrenme kaydı yüklendi.');return}
       const snapshot=normalizeState(state);await account.saveLearning(snapshot);
       if(current===scope)status('Öğretmen tercihin ve ilerlemen hesabına kaydedildi.');
     }catch{if(current===scope)status('Bulut öğrenme kaydı eşitlenemedi. Yerel kayıt korunuyor; yeniden eşitleyebilirsin.')}
@@ -45,7 +46,7 @@ function renderLearning(){
  $('bankDifficulty').value=bankDifficulty;$('bankDifficulty').onchange=e=>{bankDifficulty=e.target.value;selectedQuestionId=null;answeredQuestionId=null;renderLearning();renderTeachers()};
  $('browseCourses').onclick=openCatalog;$('topicButton').onclick=openCatalog;$('syncLearning').onclick=()=>syncProfile();renderPlan();renderSourceQuestion();
 }
-function selectCourse(id){if(!getCourse(id))return;state.courseId=id;selectedQuestionId=null;answeredQuestionId=null;changed(true);renderLearning();renderTeachers()}
+function selectCourse(id){if(!getCourse(id))return;activeRequest?.abort();$('message').value='';state.courseId=id;selectedQuestionId=null;answeredQuestionId=null;changed(true);renderLearning();renderTeachers()}
 function renderPlan(){const plan=buildStudyPlan(verifiedProgress());$('planList').innerHTML=plan.map(p=>`<li><button class="smallbtn" data-course-id="${esc(p.courseId)}">${esc(p.title)}</button> · ${p.minutes} dk</li>`).join('');$('planList').querySelectorAll('button').forEach(b=>b.onclick=()=>selectCourse(b.dataset.courseId))}
 function renderSourceQuestion(){
  const node=$('sourceQuestion'),q=activeQuestion(),questions=eligibleQuestions();
@@ -54,7 +55,7 @@ function renderSourceQuestion(){
  node.innerHTML=`<article id="questionCard" data-question-id="${esc(q.id)}"><div class="row"><b>${esc(source.publisher)} · ${esc(source.name)}</b><span>${index+1} / ${questions.length}</span></div><p class="progress-note">${q.year} · ${esc(q.section||'')} · ${q.page?'Sayfa '+q.page+' · ':''}Soru ${esc(q.number)} · ${esc(q.topic)} · ${q.difficulty?esc(q.difficulty):'Zorluk analiz edilmedi'}</p><p class="progress-note">Kaynağın özgün dili ve soru ifadesi korunmuştur. Soru ID: ${esc(q.id)}</p><div id="originalPrompt" class="exercise-prompt"></div><div id="sourceAnswerArea"></div><p id="sourceFeedback" role="status"></p><details><summary>Kaynak ve kullanım izni</summary><p id="sourceAttribution"></p><p><a id="originalSourceLink" target="_blank" rel="noopener noreferrer">Orijinal kaynak</a> · <a id="licenseLink" target="_blank" rel="noopener noreferrer">Lisans</a> · <a id="answerEvidenceLink" target="_blank" rel="noopener noreferrer">Cevap doğrulaması</a></p><p class="progress-note">Kaynak denetimi: ${esc(source.verification.checkedAt)}. Yanıt kaynağın cevap anahtarından doğrulandı.</p></details><div class="learning-controls"><button class="smallbtn" id="previousSource" ${index<=0?'disabled':''}>Önceki</button><button class="smallbtn" id="nextSource" ${index>=questions.length-1?'disabled':''}>Sonraki</button><button class="btn secondary" id="askTeacher">Bu soruyu öğretmenle incele</button></div></article>`;
  if(q.displayMode==='inline')$('originalPrompt').textContent=q.prompt;else{const frame=document.createElement('iframe');frame.title='İzinli orijinal kaynak';frame.src=(q.originalUrl||source.originalUrl)+(q.page?'#page='+q.page:'');frame.style.cssText='width:100%;height:60vh;border:0';$('originalPrompt').append(frame)}$('sourceAttribution').textContent=source.license.attribution;$('originalSourceLink').href=q.originalUrl||source.originalUrl;$('licenseLink').href=source.license.url;$('answerEvidenceLink').href=q.answer.evidenceUrl;
  const area=$('sourceAnswerArea');if(q.options.length){area.className='exercise-choices';q.options.forEach(option=>{const b=document.createElement('button');b.textContent=option.id+') '+option.text;b.onclick=()=>answerSource(option.id);area.append(b)})}else{area.innerHTML='<p class="progress-note">Kaynak açık uçludur; uygulama A–E seçeneği üretmez.</p><label for="sourceResponse">Yanıtın (kaynak cevap anahtarıyla aynı biçimde)</label><input id="sourceResponse" class="field" autocomplete="off" maxlength="200"><button id="checkSourceAnswer" class="btn secondary">Kaynak cevabıyla karşılaştır</button>';$('checkSourceAnswer').onclick=()=>answerSource($('sourceResponse').value)}
- const navigate=delta=>{activeRequest?.abort();selectedQuestionId=questions[index+delta]?.id||q.id;answeredQuestionId=null;teacherEpoch++;renderSourceQuestion();renderChat()};$('previousSource').onclick=()=>navigate(-1);$('nextSource').onclick=()=>navigate(1);$('askTeacher').onclick=()=>{showPage('teacher');teacherEpoch++;renderChat()};
+ const navigate=delta=>{activeRequest?.abort();$('message').value='';selectedQuestionId=questions[index+delta]?.id||q.id;answeredQuestionId=null;teacherEpoch++;renderSourceQuestion();renderChat()};$('previousSource').onclick=()=>navigate(-1);$('nextSource').onclick=()=>navigate(1);$('askTeacher').onclick=()=>{showPage('teacher');teacherEpoch++;renderChat()};
  if(answeredQuestionId===q.id)disableSourceAnswer();
 }
 const comparable=value=>String(value).trim().replace(/\s+/g,'').replace(/−/g,'-');

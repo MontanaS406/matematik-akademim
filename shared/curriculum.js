@@ -370,7 +370,7 @@ function progressSummary(value) {
   if (!value || typeof value !== 'object') return {attempts: 0, mastery: 0};
   const total = Number.isInteger(value.total) && value.total >= 0 ? value.total : 0;
   const correct = Number.isInteger(value.correct) && value.correct >= 0 && value.correct <= total ? value.correct : 0;
-  // Explicit mastery remains useful for importing a diagnostic recommendation.
+  // Explicit mastery can be imported from a separately reviewed assessment.
   const mastery = total ? correct / total : Number.isFinite(value.mastery) && value.mastery >= 0 && value.mastery <= 1 ? value.mastery : 0;
   return {attempts: total, mastery};
 }
