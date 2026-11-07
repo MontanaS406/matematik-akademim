@@ -28,3 +28,13 @@ Gerçek şifre, Supabase secret key, service_role key, OpenAI API key veya Cloud
 - Supabase auth ve senkronizasyon canlı hesaplarla burada uçtan uca test edilmedi.
 - ÖSYM sorularını HTML'e izinsiz gömmek yerine resmî PDF gösterimi kullanılıyor.
 - Daha ayrıntılı tarayıcı testleri ve kaynak doğrulaması Codex görevinde yapılmalıdır.
+## Geliştirilmiş testler ve kaynak durumu
+
+Önce `npm ci`, ardından `npm test` çalıştırın. Node testleri Worker hata yollarını ve PGlite PostgreSQL motorunda iki kullanıcılı RLS izolasyonunu da çalıştırır. Tarayıcı için `npx playwright install --with-deps chromium` ve `npm run test:e2e` kullanın. Kurulu Chromium kullanmak için `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e` çalıştırılabilir. CI aynı kontrolleri çalıştırır.
+
+Resmî PDF ve cevap anahtarları doğrulanamadığı için otomatik resmî puanlama kapalıdır. PDF yükleme, 40 cevap, ara kayıt, durdurulmuş sonuç, manuel değerlendirme, puanlamadan kayıt ve CSV dışa aktarma kullanılabilir. Önceden kayıtlı netler doğrulanmış sayılmaz.
+
+- [Kaynak denetimi](docs/SOURCE_AUDIT.md)
+- [Supabase test kapsamı ve canlı kabul adımları](docs/SUPABASE_TESTING.md)
+
+Worker bir kişisel erişim kodu kullanır; tarayıcıya OpenAI anahtarı verilmez. Bu kod çok kullanıcılı kimlik doğrulamasının yerine geçmez. Üretime çıkmadan önce gerçek model erişimi, `ALLOWED_ORIGINS`, rate-limit binding ve kullanıcı bazlı erişim modeli ayrıca doğrulanmalıdır. Bu çalışma Worker’ı veya siteyi yayımlamaz.
