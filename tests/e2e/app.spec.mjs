@@ -1,8 +1,9 @@
 import {test, expect} from './fixtures.mjs';
+async function openLegacy(page){const panel=page.locator('#legacyExamWorkspace');await expect(panel).toBeAttached();if(await panel.getAttribute('open')===null)await page.locator('#legacyExamWorkspace > summary').click()}
 import {selectFirstSource} from './source-helpers.mjs';
 const KEY='matematik_akademim_exam_history_v11';
 const go=async page=>{await page.goto('/');await page.getByRole('button',{name:'📝 Denemeler'}).click()};
-const start=async page=>{await go(page);await page.locator('#startTYT').click()};
+const start=async page=>{await go(page);await openLegacy(page);await page.locator('#startTYT').click()};
 const finish=async page=>{page.once('dialog',d=>d.accept());await page.locator('#finishExam').click()};
 test('40 answers, reload, keyboard navigation and manual result persisted once',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -20,7 +21,7 @@ test('40 answers, reload, keyboard navigation and manual result persisted once',
   await expect(page.locator('#manualMessage')).toContainText('Tam 40');
   await page.locator('#manualKey').fill('A'.repeat(40));await page.locator('#verifyManual').click();
   await expect(page.locator('#examBody h1')).toHaveText('0.75 net');
-  await page.locator('#backExams').click();await expect(page.locator('#recordCount')).toHaveText('1 kayıt');
+  await page.locator('#backExams').click();await openLegacy(page);await expect(page.locator('#recordCount')).toHaveText('1 kayıt');
   expect(await page.evaluate(k=>localStorage.getItem(k+'_guest_unfinished_exam'),KEY)).toBeNull();
   expect(errors).toEqual([]);
 });
@@ -55,11 +56,11 @@ test('mock Supabase signup, login, owner filter, upload and logout isolation',as
   });
   await go(page);await page.locator('#userEmail').fill('alice@example.test');await page.locator('#userPassword').fill('fake-password');await page.locator('#signUp').click();
   await expect(page.locator('#syncStatus')).toContainText('doğrulama');await page.locator('#signIn').click();
-  await expect(page.locator('#syncStatus')).toContainText('eşitlendi');await expect(page.locator('#recordCount')).toHaveText('0 kayıt');
+  await expect(page.locator('#syncStatus')).toContainText('eşitlendi');await openLegacy(page);await expect(page.locator('#recordCount')).toHaveText('0 kayıt');
   await page.locator('#startTYT').click();await finish(page);await page.locator('#manualKey').fill('A'.repeat(40));await page.locator('#verifyManual').click();
   await expect(page.locator('#syncStatus')).toHaveText('Bulut kaydı tamamlandı.');
   expect(reads.every(x=>x==='eq.alice')).toBe(true);expect(writes).toHaveLength(1);expect(writes[0].user_id).toBe('alice');expect(writes[0].answers.markedAnswers).toHaveLength(40);
-  await page.locator('#backExams').click();await page.locator('#logoutBtn').click();await expect(page.locator('#recordCount')).toHaveText('0 kayıt');
+  await page.locator('#backExams').click();await page.locator('#logoutBtn').click();await openLegacy(page);await expect(page.locator('#recordCount')).toHaveText('0 kayıt');
   expect(await page.evaluate(()=>sessionStorage.getItem('ma_auth'))).toBeNull();
 });
 test('AI response is text and recovers from error',async({page})=>{
@@ -71,14 +72,14 @@ test('AI response is text and recovers from error',async({page})=>{
   await expect(page.locator('#send')).toBeEnabled();
 });
 test('unscored result retains answers and exports CSV without claiming official score',async({page})=>{
-  await start(page);await page.keyboard.press('C');await finish(page);await page.locator('#saveUnscored').click();
+  await start(page);await page.keyboard.press('C');await finish(page);await page.locator('#saveUnscored').click();await openLegacy(page);
   await expect(page.locator('#history')).toContainText('Puanlanmadı');
   const stored=await page.evaluate(k=>JSON.parse(localStorage.getItem(k+'_guest'))[0],KEY);
   expect(stored.net).toBeNull();expect(stored.markedAnswers[0]).toBe('C');expect(stored.verified).toBe(false);
   const downloadPromise=page.waitForEvent('download');await page.locator('#exportHistory').click();const download=await downloadPromise;
   expect(download.suggestedFilename()).toBe('deneme-gecmisim.csv');
-  await page.reload();await page.getByRole('button',{name:'📝 Denemeler'}).click();await expect(page.locator('#history')).toContainText('Puanlanmadı');
-  await page.getByRole('button',{name:'Manuel anahtarla değerlendir'}).click();await page.locator('#manualKey').fill('C'.repeat(40));await page.locator('#verifyManual').click();await expect(page.locator('#examBody h1')).toHaveText('1.00 net');await page.locator('#backExams').click();await expect(page.locator('#recordCount')).toHaveText('1 kayıt');
+  await page.reload();await page.getByRole('button',{name:'📝 Denemeler'}).click();await openLegacy(page);await expect(page.locator('#history')).toContainText('Puanlanmadı');
+  await page.getByRole('button',{name:'Manuel anahtarla değerlendir'}).click();await page.locator('#manualKey').fill('C'.repeat(40));await page.locator('#verifyManual').click();await expect(page.locator('#examBody h1')).toHaveText('1.00 net');await page.locator('#backExams').click();await openLegacy(page);await expect(page.locator('#recordCount')).toHaveText('1 kayıt');
 });
 test('finished but unevaluated attempt keeps stopped duration after reload',async({page})=>{
   await page.clock.install();await start(page);await page.clock.fastForward(10000);await finish(page);
@@ -89,7 +90,7 @@ test('late cloud response after logout cannot populate guest history',async({pag
   await page.goto('/');await page.evaluate(()=>sessionStorage.setItem('ma_auth',JSON.stringify({access_token:'fake-alice',refresh_token:'fake-refresh',expires_at_ms:Date.now()+3600000,user:{id:'alice'}})));
   await page.reload();let release;const held=new Promise(resolve=>release=resolve);let arrived;const seen=new Promise(resolve=>arrived=resolve);
   await page.route('https://*.supabase.co/**',async route=>{arrived();await held;await route.fulfill({json:[{id:'alice-record',user_id:'alice',exam_type:'TYT',correct:40,wrong:0,blank:0,net:40,duration_seconds:60,answers:{},created_at:new Date().toISOString()}]})});
-  await page.getByRole('button',{name:'📝 Denemeler'}).click();await seen;await page.locator('#logoutBtn').click();release();
+  await page.getByRole('button',{name:'📝 Denemeler'}).click();await seen;await page.locator('#logoutBtn').click();release();await openLegacy(page);
   await expect(page.locator('#recordCount')).toHaveText('0 kayıt');
   await page.waitForTimeout(100);expect(await page.evaluate(k=>JSON.parse(localStorage.getItem(k+'_guest')||'[]').length,KEY)).toBe(0);
 });
@@ -110,6 +111,6 @@ test('expired token refresh preserves local results and draft',async({page})=>{
     const request=route.request();if(new URL(request.url()).pathname==='/auth/v1/token'){refreshes++;return route.fulfill({json:{access_token:'fresh-alice',refresh_token:'new-refresh',expires_in:3600,user:{id:'alice'}}})}
     expect(request.headers().authorization).toBe('Bearer fresh-alice');return route.fulfill({json:[]});
   });
-  await page.reload();await page.getByRole('button',{name:'📝 Denemeler'}).click();await expect(page.locator('#syncStatus')).toContainText('eşitlendi');expect(refreshes).toBe(1);
+  await page.reload();await page.getByRole('button',{name:'📝 Denemeler'}).click();await expect(page.locator('#syncStatus')).toContainText('eşitlendi');expect(refreshes).toBe(1);await openLegacy(page);
   await expect(page.locator('#recordCount')).toHaveText('1 kayıt');await page.locator('#continueExam').click();await expect(page.locator('#currentQ')).toHaveText('4');await expect(page.locator('#markedCount')).toHaveText('40 / 40 işaretli');
 });

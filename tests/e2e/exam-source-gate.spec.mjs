@@ -1,6 +1,7 @@
 import {test,expect} from './fixtures.mjs';
+async function openLegacy(page){const panel=page.locator('#legacyExamWorkspace');await expect(panel).toBeAttached();if(await panel.getAttribute('open')===null)await page.locator('#legacyExamWorkspace > summary').click()}
 const KEY='matematik_akademim_exam_history_v11';
-async function home(page){await page.goto('/');await page.getByRole('button',{name:'📝 Denemeler'}).click()}
+async function home(page){await page.goto('/');await page.getByRole('button',{name:'📝 Denemeler'}).click();await openLegacy(page)}
 async function start(page){await home(page);await page.locator('#startTYT').click()}
 
 test('unverified TYT/AYT years are labelled local answer workspaces, never complete exams',async({page})=>{
@@ -30,7 +31,7 @@ test('even valid local PDF cannot bypass source and permission verification',asy
  page.once('dialog',dialog=>dialog.accept());await page.locator('#finishExam').click();
  await expect(page.locator('#manualKey')).toBeVisible();
  await expect(page.locator('#examBody')).toContainText('resmî olarak doğrulanmış sayılmaz');
- await page.locator('#saveUnscored').click();
+ await page.locator('#saveUnscored').click();await openLegacy(page);
  await expect(page.locator('#history')).toContainText('Puanlanmadı');
  const result=await page.evaluate(k=>JSON.parse(localStorage.getItem(k+'_guest'))[0],KEY);
  expect(result.net).toBeNull();expect(result.verified).toBe(false);expect(result.source).toBeNull();
@@ -39,7 +40,7 @@ test('even valid local PDF cannot bypass source and permission verification',asy
 test('past personal results survive the source-only transition without rewriting stored history',async({page})=>{
  const record={id:'past-result',type:'AYT',year:2024,date:'2025-05-20T12:00:00Z',duration:1800,correct:22,wrong:8,blank:10,net:20,source:'https://old.example/retired.pdf',markedAnswers:Array(40).fill(null),details:[{legacy:'personal record'}]};
  await page.goto('/');const original=JSON.stringify([record]);await page.evaluate(({key,value})=>localStorage.setItem(key+'_guest',value),{key:KEY,value:original});await page.reload();
- await page.getByRole('button',{name:'📝 Denemeler'}).click();
+ await page.getByRole('button',{name:'📝 Denemeler'}).click();await openLegacy(page);
  await expect(page.locator('#recordCount')).toHaveText('1 kayıt');await expect(page.locator('#history')).toContainText('20.00 net');
  expect(await page.evaluate(k=>localStorage.getItem(k+'_guest'),KEY)).toBe(original);
 });
@@ -57,7 +58,7 @@ test('previous cached PDFs remain stored but cannot be rendered without verified
   const db=await new Promise((resolve,reject)=>{const req=indexedDB.open('MatematikAkademimPdf',1);req.onupgradeneeded=()=>req.result.createObjectStore('pdfs');req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});
   await new Promise((resolve,reject)=>{const tx=db.transaction('pdfs','readwrite');tx.objectStore('pdfs').put(new Blob(['%PDF-1.4\n%%EOF'],{type:'application/pdf'}),'2026_TYT');tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)});db.close();
  });
- await page.getByRole('button',{name:'📝 Denemeler'}).click();await page.locator('#startTYT').click();
+ await page.getByRole('button',{name:'📝 Denemeler'}).click();await openLegacy(page);await page.locator('#startTYT').click();
  await expect(page.locator('#pdfStatus')).toContainText('PDF yükleme kapalı');await expect(page.locator('#realPdf')).not.toHaveAttribute('src',/^blob:/);
  expect(await page.evaluate(async()=>{const db=await new Promise(resolve=>{const r=indexedDB.open('MatematikAkademimPdf',1);r.onsuccess=()=>resolve(r.result)});const count=await new Promise(resolve=>{const r=db.transaction('pdfs','readonly').objectStore('pdfs').count('2026_TYT');r.onsuccess=()=>resolve(r.result)});db.close();return count})).toBe(1);
 });

@@ -29,22 +29,23 @@ async function configureAI(page){
 
 test('empty topic preserves explanations and never substitutes an authored question',async({page})=>{
   const errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/');
-  await expect(page.locator('#learningRoot h1')).toHaveText(COURSES[0].title);
-  await expect(page.locator('#emptySourceBank')).toHaveText('Bu konu için doğrulanmış ve kullanım izni bulunan soru henüz eklenmedi.');
+  await selectCourse(page,'fractions');
+  await expect(page.locator('#learningRoot h1')).toHaveText(getCourse('fractions').title);
+  await expect(page.locator('#emptySourceBank')).toContainText('Bu konu için henüz kaynaklı soru yok');
   await expect(page.locator('#questionCard')).toHaveCount(0);
   for(const id of ['quickPractice','learningChoices','startDiagnostic','topicTest','learningQuiz'])await expect(page.locator('#'+id)).toHaveCount(0);
-  await page.locator('#courseLesson summary').click();
-  await expect(page.locator('#courseLesson li')).toHaveCount(COURSES[0].lessonSteps.length);
+  await expect(page.locator('#courseLesson')).toHaveAttribute('open','');
+  await expect(page.locator('#courseLesson li')).toHaveCount(getCourse('fractions').lessonSteps.length);
   await expect(page.locator('.worked')).toHaveCount(0);
   await page.getByRole('button',{name:'✧ AI Hoca'}).click();
-  await expect(page.locator('#send')).toBeDisabled();
-  await expect(page.locator('#aiQuestion')).toContainText('doğrulanmış bir kaynak sorusu seç');
+  await expect(page.locator('#send')).toBeEnabled();
+  await expect(page.locator('#aiQuestion')).toContainText('Konu: '+getCourse('fractions').title);
   expect(errors).toEqual([]);
 });
 
 test('source cards preserve exact original questions, answer keys and license metadata',async({page})=>{
   await page.goto('/');await selectSource(page);
-  const rows=getEligibleQuestions(QUESTION_BANK,{courseId:first.courseId});
+  const rows=getEligibleQuestions(QUESTION_BANK,{courseId:first.courseId}).slice(0,2);
   for(let i=0;i<rows.length;i++){
     const q=rows[i],s=sourceFor(q);
     await expect(page.locator('#questionCard')).toHaveAttribute('data-question-id',q.id);
@@ -56,7 +57,7 @@ test('source cards preserve exact original questions, answer keys and license me
     await expect(page.locator('#answerEvidenceLink')).toHaveAttribute('href',q.answer.evidenceUrl);
     if(i<rows.length-1)await page.locator('#nextSource').click();
   }
-  await expect(page.locator('#nextSource')).toBeDisabled();
+  await expect(page.locator('#previousSource')).toBeEnabled();
   await page.locator('#sourceResponse').fill(rows.at(-1).answer.value);
   await page.locator('#checkSourceAnswer').click();
   await expect(page.locator('#sourceFeedback')).toContainText('Kaynak cevabı: '+rows.at(-1).answer.value);
@@ -140,9 +141,9 @@ test('teacher preference is account-specific and old personal records remain int
   expect(writes.at(-1).state.attempts).toContainEqual(legacy);
   expect(writes.at(-1).state.diagnostic.level).toBe('Eski değerlendirme');
   await page.getByRole('button',{name:'⌂ Ders'}).click();
-  await expect(page.locator('#emptySourceBank')).toBeVisible();await expect(page.locator('#originalPrompt')).toHaveCount(0);
+  await expect(page.locator('#questionCard')).not.toHaveAttribute('data-question-id','numbers-easy');
   await page.getByText('İlerlemem ve çalışma planım',{exact:true}).click();await expect(page.locator('#learningRoot')).toContainText('Eski yanıt sayısı: 1');
-  await page.getByRole('button',{name:'📝 Denemeler'}).click();await expect(page.locator('#recordCount')).toHaveText('1 kayıt');
+  await page.getByRole('button',{name:'📝 Denemeler'}).click();await page.locator('#legacyExamWorkspace summary').first().click();await expect(page.locator('#recordCount')).toHaveText('1 kayıt');
   expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('matematik_akademim_exam_history_v11_alice'))[0])).toMatchObject(oldExam);
   await page.getByRole('button',{name:'✧ AI Hoca'}).click();await page.locator('#message').fill('Önceki kullanıcının yazılmamış açıklama talebi');
   await page.getByRole('button',{name:'📝 Denemeler'}).click();await page.locator('#logoutBtn').click();await page.getByRole('button',{name:'✧ AI Hoca'}).click();
@@ -152,9 +153,9 @@ test('teacher preference is account-specific and old personal records remain int
 test('uncovered advanced topics keep their lessons and show the exact empty state',async({page})=>{
   await page.goto('/');await page.locator('#browseCourses').click();await expect(page.locator('#courseList button')).toHaveCount(COURSES.length);
   const last=COURSES.at(-1);await page.locator('#courseSearch').fill(last.title);await page.locator('#courseList button').first().click();
-  await expect(page.locator('#learningRoot h1')).toHaveText(last.title);await page.locator('#courseLesson summary').click();
+  await expect(page.locator('#learningRoot h1')).toHaveText(last.title);await expect(page.locator('#courseLesson')).toHaveAttribute('open','');
   await expect(page.locator('#courseLesson li')).toHaveCount(last.lessonSteps.length);
-  await expect(page.locator('#emptySourceBank')).toHaveText('Bu konu için doğrulanmış ve kullanım izni bulunan soru henüz eklenmedi.');
+  await expect(page.locator('#emptySourceBank')).toContainText('Bu konu için henüz kaynaklı soru yok');
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 

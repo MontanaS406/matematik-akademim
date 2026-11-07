@@ -1,4 +1,5 @@
 import {test,expect} from './fixtures.mjs';
+async function openLegacy(page){const panel=page.locator('#legacyExamWorkspace');await expect(panel).toBeAttached();if(await panel.getAttribute('open')===null)await page.locator('#legacyExamWorkspace > summary').click()}
 const row=(id,user)=>({id,user_id:user,exam_type:'TYT',correct:40,wrong:0,blank:0,net:40,duration_seconds:60,answers:{year:2025},created_at:new Date().toISOString()});
 for(const nextUser of ['alice','bob'])test(`old exam response ignored after logout and ${nextUser} login`,async({page})=>{
   await page.addInitScript(()=>sessionStorage.setItem('ma_auth',JSON.stringify({access_token:'fake-initial',refresh_token:'fake-refresh',expires_at_ms:Date.now()+3600000,user:{id:'alice'}})));
@@ -15,7 +16,7 @@ for(const nextUser of ['alice','bob'])test(`old exam response ignored after logo
     await page.goto('/');await page.getByRole('button',{name:'📝 Denemeler'}).click();await firstSeen;await page.locator('#logoutBtn').click();
     await page.locator('#userEmail').fill(nextUser+'@example.test');await page.locator('#userPassword').fill('fake-password');await page.locator('#signIn').click();
     await expect(page.locator('#syncStatus')).toContainText('eşitlendi');expect(gets).toBe(2);
-    const oldResponse=page.waitForResponse(response=>response.url().includes('/rest/v1/exam_results')&&response.request().method()==='GET');release();await oldResponse;
+    const oldResponse=page.waitForResponse(response=>response.url().includes('/rest/v1/exam_results')&&response.request().method()==='GET');release();await oldResponse;await openLegacy(page);
     await expect(page.locator('#recordCount')).toHaveText('1 kayıt');
     const ids=await page.evaluate(user=>JSON.parse(localStorage.getItem('matematik_akademim_exam_history_v11_'+user)).map(r=>r.id),nextUser);expect(ids).toEqual(['new-session-row']);
   }finally{release()}

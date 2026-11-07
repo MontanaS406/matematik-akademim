@@ -1,6 +1,7 @@
 import {test,expect} from './fixtures.mjs';
+async function openLegacy(page){const panel=page.locator('#legacyExamWorkspace');await expect(panel).toBeAttached();if(await panel.getAttribute('open')===null)await page.locator('#legacyExamWorkspace > summary').click()}
 const KEY='matematik_akademim_exam_history_v11';
-async function go(page){await page.goto('/');await page.getByRole('button',{name:'📝 Denemeler'}).click()}
+async function go(page){await page.goto('/');await page.getByRole('button',{name:'📝 Denemeler'}).click();await openLegacy(page)}
 async function begin(page){await go(page);await page.locator('#startTYT').click()}
 async function finish(page){page.once('dialog',d=>d.accept());await page.locator('#finishExam').click()}
 test('paused clock and flags survive reload and resume without counting pause',async({page})=>{
@@ -17,13 +18,13 @@ test('local PDF only 2018 selection and full-session countdown are separate from
   const s=await page.evaluate(k=>JSON.parse(localStorage.getItem(k+'_guest_unfinished_exam')),KEY);expect(s.source).toBeNull();expect(s.mode).toBe('full');expect(s.answers).toHaveLength(40);
 });
 test('manual saved key enables wrong question review and user-labelled topic analysis',async({page})=>{
-  await begin(page);await page.locator('#examOptions').getByRole('button',{name:'B',exact:true}).click();await page.getByText('Konu etiketi ekle',{exact:true}).click();await page.locator('#questionTopic').selectOption('Sayılar');await finish(page);await page.locator('#manualKey').fill('A'.repeat(40));await page.locator('#verifyManual').click();await page.locator('#backExams').click();
+  await begin(page);await page.locator('#examOptions').getByRole('button',{name:'B',exact:true}).click();await page.getByText('Konu etiketi ekle',{exact:true}).click();await page.locator('#questionTopic').selectOption('Sayılar');await finish(page);await page.locator('#manualKey').fill('A'.repeat(40));await page.locator('#verifyManual').click();await page.locator('#backExams').click();await openLegacy(page);
   await page.getByText('Yanlışlar ve konu analizi',{exact:true}).click();await expect(page.locator('#history')).toContainText('Sayılar: 0 D / 1 Y / 0 B');await expect(page.locator('#history')).toContainText('1. soru B → A');
-  await page.reload();await page.getByRole('button',{name:'📝 Denemeler'}).click();await expect(page.getByText('Yanlışlar ve konu analizi',{exact:true})).toHaveCount(1);
+  await page.reload();await page.getByRole('button',{name:'📝 Denemeler'}).click();await openLegacy(page);await expect(page.getByText('Yanlışlar ve konu analizi',{exact:true})).toHaveCount(1);
 });
 test('history compares only like-for-like exam type and mode',async({page})=>{
   await page.goto('/');await page.evaluate(k=>localStorage.setItem(k+'_guest',JSON.stringify([{id:'a',type:'TYT',year:2024,date:'2026-01-01T00:00:00Z',duration:60,correct:10,wrong:0,blank:30,net:10},{id:'b',type:'TYT',year:2025,date:'2026-01-02T00:00:00Z',duration:50,correct:12,wrong:0,blank:28,net:12},{id:'c',type:'AYT',year:2025,date:'2026-01-03T00:00:00Z',duration:70,correct:10,wrong:0,blank:30,net:10}])),KEY);await page.reload();
-  await page.getByRole('button',{name:'📝 Denemeler'}).click();await page.getByText('İki denemeyi karşılaştır',{exact:true}).click();await page.locator('#compareFirst').selectOption('a');await page.locator('#compareSecond').selectOption('b');await expect(page.locator('#compareResult')).toContainText('+2.00');await expect(page.locator('#compareResult')).toContainText('−00:00:10');await page.locator('#compareSecond').selectOption('c');await expect(page.locator('#compareResult')).toContainText('Aynı sınav türünü');
+  await page.getByRole('button',{name:'📝 Denemeler'}).click();await openLegacy(page);await page.getByText('İki denemeyi karşılaştır',{exact:true}).click();await page.locator('#compareFirst').selectOption('a');await page.locator('#compareSecond').selectOption('b');await expect(page.locator('#compareResult')).toContainText('+2.00');await expect(page.locator('#compareResult')).toContainText('−00:00:10');await page.locator('#compareSecond').selectOption('c');await expect(page.locator('#compareResult')).toContainText('Aynı sınav türünü');
 });
 test('account learning facade bounds state and exposes only user identity',async({page})=>{
   await page.addInitScript(()=>sessionStorage.setItem('ma_auth',JSON.stringify({access_token:'fake-alice',refresh_token:'fake-refresh',expires_at_ms:Date.now()+3600000,user:{id:'alice'}})));

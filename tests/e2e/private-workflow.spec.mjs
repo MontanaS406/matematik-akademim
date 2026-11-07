@@ -1,11 +1,12 @@
 import {test,expect} from './fixtures.mjs';
+async function openLegacy(page){const panel=page.locator('#legacyExamWorkspace');await expect(panel).toBeAttached();if(await panel.getAttribute('open')===null)await page.locator('#legacyExamWorkspace > summary').click()}
 import {TURKISH_EXAMS} from '../../data/turkish-exams.js';
 const first=TURKISH_EXAMS.find(row=>row.id==='osym-2023-tyt-math');
 async function enter(page){await page.goto('/');await page.locator('#openPrivateExams').click();await expect(page.locator('#privateLibraryPanel')).toHaveAttribute('open','')}
 async function pdf(browser){const generator=await browser.newPage();await generator.setContent('<h1>PRIVATE TEST DOCUMENT</h1><p>Synthetic fixture only; no actual exam copied.</p>');const result=await generator.pdf();await generator.close();return result}
 async function importBook(page,browser,{known=first.id,count=40,type='TYT',key=''}={}){
  await enter(page);if(known)await page.locator('#privateKnownExam').selectOption(known);else{await page.locator('#privateType').selectOption(type);await page.locator('#privateTitle').fill('Kullanıcıya ait gerçek kaynağın test temsili');await page.locator('#privateSourceUrl').fill('https://www.osym.gov.tr/test-source');await page.locator('#privateCount').fill(String(count))}
- if(key)await page.locator('#privateImportKey').fill(key);
+ if(key){if(await page.locator('#privateSourceDetails').getAttribute('open')===null)await page.locator('#privateSourceDetails > summary').click();await page.locator('#privateImportKey').fill(key)}
  await page.locator('#privateFile').setInputFiles({name:'private-marker-secret-file.pdf',mimeType:'application/pdf',buffer:await pdf(browser)});await page.locator('#importPrivatePdf').click();await expect(page.locator('#privateBookTitle')).toBeVisible();
 }
 test('private import renders the PDF, never uploads bytes, resumes answers and preserves pause timing',async({page,browser})=>{
@@ -52,13 +53,13 @@ test('private wrong-answer review follows saved source numbers and user topic la
 });
 test('standard and private exams pause each other on every resume',async({page,browser})=>{
  await importBook(page,browser);await page.clock.install();await page.locator('#privateStart').click();await page.clock.fastForward(4000);
- await page.locator('#startTYT').click();await expect(page.locator('#privatePause')).toHaveText('Devam et');await page.clock.fastForward(5000);await expect(page.locator('#privateClock')).toHaveText('00:00:04');
+ await openLegacy(page);await page.locator('#startTYT').click();await expect(page.locator('#privatePause')).toHaveText('Devam et');await page.clock.fastForward(5000);await expect(page.locator('#privateClock')).toHaveText('00:00:04');
  await page.locator('#privatePause').click();await expect(page.locator('#pauseExam')).toHaveText('Devam et');await page.clock.fastForward(3000);await expect(page.locator('#examClock')).toHaveText('00:00:05');
  await page.locator('#pauseExam').click();await expect(page.locator('#privatePause')).toHaveText('Devam et');await page.clock.fastForward(2000);await expect(page.locator('#privateClock')).toHaveText('00:00:07');await expect(page.locator('#examClock')).toHaveText('00:00:07');
 });
 test('switching private PDFs pauses the previous work and invalid start pages cannot lose autosaves',async({page,browser})=>{
  await importBook(page,browser);await page.clock.install();await page.locator('#privatePage').fill('');await page.locator('#privateStart').click();await expect(page.locator('#privateStatus')).toContainText('geçerli bir PDF sayfası');await expect(page.locator('#privateStart')).toBeVisible();
  await page.locator('#privatePage').fill('23');await page.locator('#privateStart').click();await page.clock.fastForward(4000);
- await page.locator('#privateImportPanel summary').click();await page.locator('#privateKnownExam').selectOption('osym-2024-tyt-math');await page.locator('#privateFile').setInputFiles({name:'second-private.pdf',mimeType:'application/pdf',buffer:Buffer.concat([await pdf(browser),Buffer.from('\n% second private test document')])});await page.locator('#importPrivatePdf').click();await expect(page.locator('#privateBookTitle')).toContainText('2024');await page.locator('#privateStart').click();await page.clock.fastForward(12000);
+ await page.locator('#privateImportPanel > summary').click();await page.locator('#privateKnownExam').selectOption('osym-2024-tyt-math');await page.locator('#privateFile').setInputFiles({name:'second-private.pdf',mimeType:'application/pdf',buffer:Buffer.concat([await pdf(browser),Buffer.from('\n% second private test document')])});await page.locator('#importPrivatePdf').click();await expect(page.locator('#privateBookTitle')).toContainText('2024');await page.locator('#privateStart').click();await page.clock.fastForward(12000);
  await page.locator('#privateBookList button').filter({hasText:'2023'}).click();await expect(page.locator('#privatePause')).toHaveText('Devam et');await expect(page.locator('#privateClock')).toHaveText('00:00:04');
 });
