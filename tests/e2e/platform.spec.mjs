@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './fixtures.mjs';
 import {TEACHERS} from '../../shared/teachers.js';
 import {COURSES,diagnosticQuestions} from '../../shared/curriculum.js';
 test('curriculum lesson, three levels, test and diagnostic produce a personal plan',async({page})=>{

@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/test';
+import {test, expect} from './fixtures.mjs';
 async function start(page){await page.goto('/');await page.getByRole('button',{name:'📝 Denemeler'}).click();await page.locator('#startTYT').click()}
 test('HTML disguised as PDF cannot execute or read parent session data',async({page})=>{
   await start(page);await page.evaluate(()=>sessionStorage.setItem('pdf_probe','synthetic-only'));

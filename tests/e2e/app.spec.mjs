@@ -1,4 +1,4 @@
-import {test, expect} from '@playwright/test';
+import {test, expect} from './fixtures.mjs';
 const KEY='matematik_akademim_exam_history_v11';
 const go=async page=>{await page.goto('/');await page.getByRole('button',{name:'📝 Denemeler'}).click()};
 const start=async page=>{await go(page);await page.getByRole('button',{name:'TYT Matematik · 40 soru',exact:true}).click()};
@@ -104,11 +104,11 @@ test('expired token refresh preserves local results and draft',async({page})=>{
     sessionStorage.setItem('ma_auth',JSON.stringify({access_token:'expired',refresh_token:'fake-refresh',expires_at_ms:0,user:{id:'alice'}}));
     localStorage.setItem(k+'_alice',JSON.stringify([{id:'local-result',type:'TYT',year:2025,date:new Date().toISOString(),duration:60,correct:1,wrong:1,blank:38,net:0.75,verified:false,markedAnswers:Array(40).fill(null)}]));
     localStorage.setItem(k+'_alice_unfinished_exam',JSON.stringify({year:2025,type:'TYT',answers:Array(40).fill('A'),index:3,limit:0,started:Date.now()}));
-  },KEY);await page.reload();let refreshes=0;
+  },KEY);let refreshes=0;
   await page.route('https://*.supabase.co/**',async route=>{
     const request=route.request();if(new URL(request.url()).pathname==='/auth/v1/token'){refreshes++;return route.fulfill({json:{access_token:'fresh-alice',refresh_token:'new-refresh',expires_in:3600,user:{id:'alice'}}})}
     expect(request.headers().authorization).toBe('Bearer fresh-alice');return route.fulfill({json:[]});
   });
-  await page.getByRole('button',{name:'📝 Denemeler'}).click();await expect(page.locator('#syncStatus')).toContainText('eşitlendi');expect(refreshes).toBe(1);
+  await page.reload();await page.getByRole('button',{name:'📝 Denemeler'}).click();await expect(page.locator('#syncStatus')).toContainText('eşitlendi');expect(refreshes).toBe(1);
   await expect(page.locator('#recordCount')).toHaveText('1 kayıt');await page.locator('#continueExam').click();await expect(page.locator('#currentQ')).toHaveText('4');await expect(page.locator('#markedCount')).toHaveText('40 / 40 işaretli');
 });

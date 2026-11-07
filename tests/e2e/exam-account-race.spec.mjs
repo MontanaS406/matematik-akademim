@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './fixtures.mjs';
 const row=(id,user)=>({id,user_id:user,exam_type:'TYT',correct:40,wrong:0,blank:0,net:40,duration_seconds:60,answers:{year:2025},created_at:new Date().toISOString()});
 for(const nextUser of ['alice','bob'])test(`old exam response ignored after logout and ${nextUser} login`,async({page})=>{
   await page.addInitScript(()=>sessionStorage.setItem('ma_auth',JSON.stringify({access_token:'fake-initial',refresh_token:'fake-refresh',expires_at_ms:Date.now()+3600000,user:{id:'alice'}})));

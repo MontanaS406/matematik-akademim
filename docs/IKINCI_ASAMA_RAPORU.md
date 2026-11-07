@@ -52,3 +52,5 @@ Ayrı bir gece boyunca çalışacak otomasyon oluşturulmadı. Bu rapor bu oturu
 - `git diff --check`: geçti.
 
 CI sonucu PR üzerinde ayrıca izlenir. Yeni PR, PR #2 dalını taban alır; önceki PR’ın değişikliklerini yinelenen fark olarak sunmaz ve onu değiştirmez.
+
+Tarayıcı testleri ortak bir ağ sınırı kullanır: yerel uygulama dışındaki istekler, test açıkça sahte servis tanımlamadıkça engellenir. Oturum yenileme senaryosunda sahte servis sayfa yüklenmeden önce kurulur; testler canlı Supabase veya AI servisine dayanmaz.

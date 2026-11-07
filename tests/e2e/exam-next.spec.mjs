@@ -1,4 +1,4 @@
-import {test,expect} from '@playwright/test';
+import {test,expect} from './fixtures.mjs';
 const KEY='matematik_akademim_exam_history_v11';
 async function go(page){await page.goto('/');await page.getByRole('button',{name:'📝 Denemeler'}).click()}
 async function begin(page){await go(page);await page.locator('#startTYT').click()}
