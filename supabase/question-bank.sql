@@ -12,7 +12,8 @@ create table public.question_sources (
   publisher text not null check (length(btrim(publisher)) between 1 and 500),
   name text not null check (length(btrim(name)) between 1 and 500),
   title text not null check (length(btrim(title)) between 1 and 500),
-  year smallint not null check (year between 1900 and 2100),
+  year smallint check (year between 1900 and 2100),
+  check (year is not null or exam_type is null),
   exam_type text check (exam_type in ('TYT','AYT','KPSS_ONLISANS','KPSS_ORTAOGRETIM','ALES','DGS','MEB')),
   original_url text not null check (original_url ~ '^https://[^/@[:space:]]+([/?#][^[:space:]]*)?$'),
   license_name text not null,
@@ -40,7 +41,8 @@ create table public.source_questions (
   id text primary key check (id ~ '^[a-zA-Z0-9][a-zA-Z0-9_-]{0,119}$'),
   source_id text not null references public.question_sources(id),
   exam_type text check (exam_type in ('TYT','AYT','KPSS_ONLISANS','KPSS_ORTAOGRETIM','ALES','DGS','MEB')),
-  year smallint not null check (year between 1900 and 2100),
+  year smallint check (year between 1900 and 2100),
+  check (year is not null or exam_type is null),
   section text check (length(btrim(section)) between 1 and 120),
   page integer check (page between 1 and 10000),
   question_number text not null check (length(btrim(question_number)) between 1 and 40),
@@ -70,7 +72,7 @@ declare s public.question_sources; option_count integer; unique_count integer;
 begin
   select * into s from public.question_sources where id = new.source_id;
   if not found then raise exception 'Kaynak bulunamadı'; end if;
-  if new.year <> s.year or new.exam_type is distinct from s.exam_type then raise exception 'Kaynak yıl veya sınav türü uyuşmuyor'; end if;
+  if new.year is distinct from s.year or new.exam_type is distinct from s.exam_type then raise exception 'Kaynak yıl veya sınav türü uyuşmuyor'; end if;
   if new.status = 'published' then
     if s.verification_status <> 'verified' or s.license_status <> 'verified' then raise exception 'Kaynak ve kullanım izni doğrulanmadan yayımlanamaz'; end if;
     if new.verification_status <> 'verified' or new.answer_status <> 'verified' or new.answer_evidence_url is null or length(btrim(coalesce(new.answer_value,''))) = 0 then raise exception 'Soru ve cevap doğrulanmadan yayımlanamaz'; end if;

@@ -1,6 +1,6 @@
 import {test,expect} from './fixtures.mjs';
-test('private PDFs and keys are owner-scoped, deduplicated and never uploaded',async({page})=>{
- const external=[];page.on('request',request=>{if(!request.url().startsWith('http://127.0.0.1:8080'))external.push(request.url())});await page.goto('/');
+test('private PDFs and keys are owner-scoped, deduplicated and never uploaded',async({page,baseURL})=>{
+ const appOrigin=new URL(baseURL).origin,external=[];page.on('request',request=>{if(new URL(request.url()).origin!==appOrigin)external.push(request.url())});await page.goto('/');
  const result=await page.evaluate(async()=>{
   const {openPrivateLibrary}=await import('/shared/private-library.js'),alice=openPrivateLibrary('alice'),bob=openPrivateLibrary('bob');
   const metadata={examType:'TYT',year:2024,sourceTitle:'Private local document',mathStartPage:1,questionCount:2};

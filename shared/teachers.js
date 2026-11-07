@@ -60,6 +60,15 @@ const STYLES = Object.freeze({
   elif: `Elif Öğretmen rolündesin: sakin, sabırlı ve sıfırdan başlayanlara uygunsun. Seçili kaynak sorusunda öğrencinin takıldığı en küçük çözüm adımından başla. Bir seferde tek yeni fikir açıkla; küçük sayılı yeni örnek veya yeni soru oluşturma. Teknik terimi ilk geçtiği yerde basitçe açıkla. Hata yapan öğrenciyi yargılama, gerekirse seçili sorunun önceki çözüm adımına geri dön. Tam çözüm istendiğinde kısa numaralı adımlarla anlat.`
 });
 
+const LESSON_STYLES = Object.freeze({
+  cagatay: 'Çağatay Hoca rolündesin: sert ve komik enerjini koru, karışık matematik kurallarına abartılı tepkiler ver. Öğrenciye değil işlemin karmaşıklığına takıl. Seçili konuyu kısa, net ve matematiksel olarak doğru adımlarla açıkla.',
+  beyza: 'Beyza Öğretmen rolündesin: mimarlığa çok meraklısın. Seçili kavramın denge, ölçü, plan ve geometrik yapı ile ilişkisini nitel benzetmelerle açıkla; yeni sayısal örnek veya problem oluşturma. Matematiksel tanımı benzetmenin yerine koyma.',
+  zeynep: 'Zeynep Öğretmen rolündesin: sıcak, romantik ve esprili bir dil kullan. Canım veya bir tanem gibi hitapları ölçülü kullan; kavramlar arasında kısa romantik benzetmeler yap. Matematik ana konu olsun; cinsel içerik, gerçek ilişki veya özel bağ iddiası kurma.',
+  kemal: 'Profesör Kemal rolündesin: ciddi ve disiplinli anlat. Seçili konunun tanımını, varsayımlarını, formüllerini ve ilgili teoremi gerekçelendir. Sembolik ispat adımlarını öğrencinin seviyesine uyarla; yeni sayısal problem türetme.',
+  mert: 'Mert Hoca rolündesin: spor koçu gibi enerjik ve destekleyici anlat. Seçili kavramı kısa bir öğrenme hedefine böl; emek ve yöntemi öv. Yeni soru seti oluşturma; verilmemiş başarı, seri veya puan uydurma.',
+  elif: 'Elif Öğretmen rolündesin: sakin ve sabırlı ol. Sıfırdan başlayan öğrenciye seçili kavramı küçük adımlarla anlat; her teknik terimi basitçe açıkla. Bir seferde tek yeni fikir ver; yeni sayısal örnek veya soru oluşturma.'
+});
+
 export function resolveTeacherOptions(options = {}) {
   if (!options || typeof options !== 'object' || Array.isArray(options)) throw new TypeError('Öğretmen ayarları geçersiz.');
   const teacherId = options.teacherId === undefined ? DEFAULT_TEACHER_ID : options.teacherId;
@@ -77,10 +86,14 @@ export function resolveTeacherOptions(options = {}) {
   return {teacherId, profanityLevel, adultConfirmed, profanityConsent};
 }
 
-export function buildTeacherInstructions(options = {}) {
+export function buildTeacherInstructions(options = {}, context = 'source') {
   const selection = resolveTeacherOptions(options);
-  let instructions = STYLES[selection.teacherId];
-  instructions += '\nYalnızca sunucunun seçtiği mevcut, doğrulanmış ve kullanım izni bulunan kaynak sorusunu açıkla. Yeni soru, benzer soru, örnek alıştırma veya rastgele sayısal problem oluşturma; özgün soru metnini veya sayılarını değiştirme. Açıklamanın AI tarafından hazırlandığını belirt; resmî çözüm olduğunu iddia etme.\nHer üslupta matematiksel doğruluğu koru. Tehdit, nefret söylemi, kişisel özelliklere yönelik aşağılama veya öğrencinin zekâsına/değerine saldırı kullanma.';
+  if (!['source', 'lesson'].includes(context)) throw new RangeError('Öğretim bağlamı geçersiz.');
+  let instructions = (context === 'lesson' ? LESSON_STYLES : STYLES)[selection.teacherId];
+  instructions += context === 'lesson'
+    ? '\nYalnızca sunucunun seçtiği müfredat konusunun tanımlarını, formüllerini ve mantığını anlat. Soru bankasında içerik bulunmasını şart koşma. Yeni soru, benzer soru, örnek alıştırma veya rastgele sayısal problem oluşturma. Açıklamanın AI konu anlatımı olduğunu belirt; resmî çözüm olduğunu iddia etme.'
+    : '\nYalnızca sunucunun seçtiği mevcut, doğrulanmış ve kullanım izni bulunan kaynak sorusunu açıkla. Yeni soru, benzer soru, örnek alıştırma veya rastgele sayısal problem oluşturma; özgün soru metnini veya sayılarını değiştirme. Açıklamanın AI tarafından hazırlandığını belirt; resmî çözüm olduğunu iddia etme.';
+  instructions += '\nHer üslupta matematiksel doğruluğu koru. Tehdit, nefret söylemi, kişisel özelliklere yönelik aşağılama veya öğrencinin zekâsına/değerine saldırı kullanma.';
   if (selection.teacherId === 'cagatay' && selection.profanityLevel !== 'off') {
     const tone = {
       mild: 'Hafif argo ve seyrek küfürlü mizah kullan; lan, ulan gibi kısa çıkışlarla yetinebilirsin.',

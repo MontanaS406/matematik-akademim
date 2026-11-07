@@ -3,8 +3,8 @@ import {PGlite} from '@electric-sql/pglite';import {QUESTION_BANK} from '../data
 const answer=id=>QUESTION_BANK.questions.find(q=>q.id.endsWith(id)).answer.value;
 const number=s=>Number(s.replace(/−/g,'-'));
 test('published catalog contains only actual licensed sources with intact review hashes',()=>{
- const result=auditBank();assert.equal(result.sources,6);assert.equal(result.questions,12);
- for(const source of QUESTION_BANK.sources){assert.equal(source.publisher,'Tyler Wallace');assert.equal(source.license.name,'CC BY 3.0 Unported')}
+ const result=auditBank();assert.equal(result.sources,7);assert.equal(result.questions,142);
+ for(const source of QUESTION_BANK.sources){assert.ok(['Tyler Wallace','TÜBA Açık Ders Malzemeleri'].includes(source.publisher));assert.ok(['CC BY 3.0 Unported','CC BY-NC-SA 4.0'].includes(source.license.name))}
  const changed=structuredClone(QUESTION_BANK);changed.questions[0].prompt+=' modified';assert.throws(()=>auditBank(changed),/inceleme özeti/);
 });
 test('author answer keys independently satisfy linear, absolute, rational, factor and exponential conditions',()=>{
@@ -18,7 +18,13 @@ test('author answer keys independently satisfy linear, absolute, rational, facto
  for(const x of [-3,0,5])assert.equal((x-8)*(x+9),x*x+x-72);
  const k=-3/4,m=-3/2;assert.equal(answer('10-4-q5'),'−3/4');assert.equal(answer('10-4-q7'),'−3/2');assert.equal((1/25)**(-k),125**(-2*k-2));assert.equal(6**(2*m+1),1/36);
 });
-test('reviewed SQL seed is repeatable and inserts 12 approved rows without touching user tables',async()=>{
+test('reviewed SQL seed is repeatable and inserts 142 approved rows without touching user tables',async()=>{
  const sql=seedSql();assert.equal(sql,await readFile(new URL('../supabase/question-bank-seed.sql',import.meta.url),'utf8'));assert.doesNotMatch(sql,/delete |drop |auth\.users|exam_results|learning_profiles/i);
- const db=new PGlite();try{await db.exec('create role anon;create role authenticated;grant usage on schema public to anon,authenticated');await db.exec(await readFile(new URL('../supabase/question-bank.sql',import.meta.url),'utf8'));await db.exec(sql);await db.exec(sql);await db.exec('set role anon');assert.equal((await db.query('select count(*)::int as count from source_questions')).rows[0].count,12)}finally{await db.close()}
+ const db=new PGlite();try{await db.exec('create role anon;create role authenticated;grant usage on schema public to anon,authenticated');await db.exec(await readFile(new URL('../supabase/question-bank.sql',import.meta.url),'utf8'));await db.exec(sql);await db.exec(sql);await db.exec('set role anon');assert.equal((await db.query('select count(*)::int as count from source_questions')).rows[0].count,142)}finally{await db.close()}
+});
+test('the expanded bank preserves original mathematical expressions and never invents source questions',()=>{
+ const numbered=QUESTION_BANK.questions.filter(q=>q.originalLanguage==='en');assert.equal(numbered.length,132);
+ for(const q of numbered){assert.equal(q.examType,null);assert.equal(q.language,'tr');assert.equal(q.prompt.split('\n').slice(1).join('\n'),q.originalPrompt.split('\n').slice(1).join('\n'));assert.equal(q.options.length,0);assert.match(q.answer.evidenceUrl,/wallace\.ccfaculty\.org/)}
+ const worked=QUESTION_BANK.questions.filter(q=>q.sourceKind==='worked-example');assert.equal(worked.length,10);for(const q of worked){assert.equal(q.year,null);assert.equal(q.examType,null);assert.equal(q.originalQuestionNumber,null)}
+ const value=id=>Number(QUESTION_BANK.questions.find(q=>q.id===id).answer.value);assert.equal(value('tuba-sm14-p7-brackets'),7*(8+12*(5+9)));assert.equal(5*(2*value('tuba-sm14-p7-equation')+1),7*(value('tuba-sm14-p7-equation')+3)+11);assert.equal(value('tuba-sm14-p10-power-product-1'),(2**3)**4*4**3*5**3);assert.equal(value('tuba-sm14-p10-power-product-2'),4**2*2**5*3**4);
 });

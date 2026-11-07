@@ -6,8 +6,9 @@ Türkçe ders anlatımları, altı AI öğretmen, kaynaklı matematik soru banka
 
 Uygulama soru üretmez. Geliştirici alıştırmaları, eski rastgele üretici ve hazır örnek sorular kaldırıldı. Soru bankası yalnızca **kaynağı, yeniden kullanım izni ve cevap anahtarı doğrulanmış** içerikleri kabul eder. Uygun içerik olmayan konuda boş durum mesajı gösterilir.
 
-İlk katalog: Tyler Wallace’ın *Beginning and Intermediate Algebra* (2010) kitabının altı bölüm PDF’sinden **12 açık uçlu gerçek soru**, **CC BY 3.0 Unported**. Özgün dil, sayılar ve soru numaraları korunur; A–E seçenekleri uydurulmaz. Bunlar TYT/AYT çıkmış soruları değildir.
+Güncel katalog: **132 gerçek numaralı soru + 10 yayımlanmış çözümlü örnek**, toplam **142 kayıt**. Altı Tyler Wallace PDF’sindeki CC BY 3.0 sorularının yalnız yönergeleri Türkçeleştirildi; matematik ifadeleri/sayıları ve özgün numaraları korundu. TÜBA Açık Ders’ten 10 Türkçe çözümlü örnek CC BY-NC-SA 4.0 şartlarıyla alındı. Bunlar TYT/AYT çıkmış sorusu olarak sunulmaz.
 
+- [Soru bankası ve kullanım onarımı](docs/SORU_BANKASI_ONARIMI.md)
 - [Geçiş ve sonuç raporu](docs/SORU_BANKASI_GECIS_RAPORU.md)
 - [Kaynak/izin araştırması ve belge listesi](docs/SORU_KAYNAK_ARASTIRMASI.md)
 - [Türkiye sınavları: 68 belgeli devam araştırması](docs/TURKIYE_SINAV_KAYNAKLARI.md)
@@ -26,7 +27,7 @@ Uygulama soru üretmez. Geliştirici alıştırmaları, eski rastgele üretici v
 - `shared/private-library.js`: hesap kimliğiyle ayrılan yerel IndexedDB deposu; PDF/anahtar için sunucu isteği yapmaz.
 - `data/turkish-exams.js` / `shared/private-exam.js`: 17 kaynak kitapçık kimliği, anahtar kanıtları, iptal denetimi ve dosya eşleştirmesi. Soru metni içermez.
 - `cloudflare-worker/worker.js`: yalnız seçili kaynak sorusuna bağlı AI açıklaması.
-- `supabase/question-bank.sql` / `question-bank-seed.sql`: yeni içerik tabloları ve incelenebilir 12 soruluk staging aktarımı. Üretime uygulanmadı.
+- `supabase/question-bank.sql` / `question-bank-seed.sql`: yeni içerik tabloları ve incelenebilir 142 kayıtlık staging aktarımı. Üretime uygulanmadı.
 
 ## Yerel doğrulama
 
@@ -50,8 +51,8 @@ Yeni **Türkiye sınav kitapçığımı cihazımda çöz** alanı, kullanıcın�
 
 17 TYT/AYT kitapçık kimliği ve anahtar durumu incelendi. İptalsiz 15 tam anahtar, kullanıcı sınav/yıl/temel kitapçık ve soru sırasını açıkça teyit ettikten sonra **çalışma neti** hesaplar. Bu teyit PDF'nin bağımsız dosya doğrulaması değildir; gerçek kaynak dosyalarının SHA-256 özeti henüz yoktur. 2019 TYT 7 ve 2026 AYT 23 iptalleri nedeniyle bu iki sınavın neti kapalıdır. Bilinmeyen anahtar puan üretmez; kullanıcı anahtarıyla hesaplama yalnız açık manuel işlemle ve doğrulanmamış etiketiyle yapılır. Bu sonuç ÖSYM sınav/yerleştirme puanı değildir.
 
-KPSS, ALES, DGS, MEB ve diğer gerçek kaynaklar özel PDF olarak açılabilir; bunlar için tam resmî anahtar doğrulaması tamamlanmadı. Özgün soru numaraları ve kullanıcıya ait sayfa eşleştirmeleri korunur; konu sınıflandırması kullanıcı etiketidir. Yeniden yayım izni bulunan yeni Türkçe soru metni bulunamadı: bu aşamada kamuya açık bankaya eklenen Türkçe soru **0**.
+KPSS, ALES, DGS, MEB ve diğer gerçek kaynaklar özel PDF olarak açılabilir; bunlar için tam resmî anahtar doğrulaması tamamlanmadı. Özgün soru numaraları ve kullanıcıya ait sayfa eşleştirmeleri korunur; konu sınıflandırması kullanıcı etiketidir. Türkiye sınav soruları için yeniden yayım izni bulunmadı. Açık lisanslı kaynaklardan eklenen gerçek matematik soruları ve çözümlü örnekler yukarıdaki katalogda yer alır.
 
-Canlı Supabase ve gerçek AI/model bağlantısı doğrulanmadı. Worker erişim kodu kişisel kullanım içindir; çok kullanıcılı sunucu kimliğinin yerine geçmez. Sırlar istemciye veya GitHub’a konmaz. Bu görev siteyi yayımlamaz ve ana dala birleştirme yapmaz.
+Canlı Supabase ve gerçek AI/model bağlantısı doğrulanmadı. Worker erişim kodu kişisel kullanım içindir; çok kullanıcılı sunucu kimliğinin yerine geçmez. Sırlar istemciye veya GitHub’a konmaz. Yayın, kullanıcının açık talimatıyla mevcut GitHub Pages adresinde yapılır.
 
 Önceki aşamaların raporları `docs/` altında tarihsel kayıt olarak korunur; eski soru üretimi hakkındaki açıklamaları güncel davranış değildir.

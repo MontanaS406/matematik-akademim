@@ -25,7 +25,7 @@ export function validateQuestionBank(dataset){
     if(!object(s)){bad(p,'Geçersiz kaynak.');return}
     if(!id(s.id)||sources.has(s.id))bad(p+'.id','Kaynak kimliği geçersiz veya yineleniyor.');else sources.set(s.id,s);
     for(const field of ['publisher','name','title'])if(!text(s[field]))bad(p+'.'+field,'Kaynak bilgisi eksik.');
-    if(!year(s.year))bad(p+'.year','Yayın yılı gerekli.');
+    if(!(year(s.year)||s.year===null&&(s.examType??null)===null))bad(p+'.year','Yayın yılı gerekli; sınav dışı tarih belirtilmemiş kaynakta null kullanılabilir.');
     if(!exam(s.examType??null))bad(p+'.examType','Geçersiz sınav türü.');
     if(!https(s.originalUrl))bad(p+'.originalUrl','HTTPS özgün kaynak adresi gerekli.');
     if(!object(s.verification)||s.verification.status!=='verified'||!date(s.verification.checkedAt)||!https(s.verification.evidenceUrl))bad(p+'.verification','Kaynak doğrulama kanıtı eksik.');
@@ -43,7 +43,7 @@ export function validateQuestionBank(dataset){
     if(!object(q)){bad(p,'Geçersiz soru.');return}
     if(!id(q.id)||questions.has(q.id))bad(p+'.id','Soru kimliği geçersiz veya yineleniyor.');else questions.add(q.id);
     const s=sources.get(q.sourceId);if(!s)bad(p+'.sourceId','Kayıtlı kaynak bulunamadı.');
-    if(!year(q.year)||s&&q.year!==s.year)bad(p+'.year','Soru ve kaynak yılı eşleşmeli.');
+    if(!(year(q.year)||q.year===null&&(q.examType??null)===null)||s&&q.year!==s.year)bad(p+'.year','Soru ve kaynak yılı eşleşmeli.');
     if(!exam(q.examType??null)||s&&(q.examType??null)!==(s.examType??null))bad(p+'.examType','Soru ve kaynak sınav türü eşleşmeli.');
     if(!id(q.courseId)||!text(q.topic))bad(p+'.topic','Konu kimliği ve etiketi gerekli.');
     if(q.difficulty!==null&&!DIFFICULTIES.has(q.difficulty))bad(p+'.difficulty','Zorluk bilinmiyorsa null olmalı.');
