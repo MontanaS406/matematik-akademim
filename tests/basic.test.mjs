@@ -31,3 +31,15 @@ test('no server API keys in checked files', () => {
     assert.doesNotMatch(body, /sb_secret_|sk-proj-[A-Za-z0-9]/);
   }
 });
+test('unverified keys cannot be used for official automatic scores',()=>{
+  const match=html.match(/const ANSWER_KEYS=(\{[^;]*\});/);
+  assert.ok(match);assert.equal(Object.keys(vm.runInNewContext('('+match[1]+')')).length,0);
+  assert.doesNotMatch(html,/2026 AYT 23.*(?:cevabı A|cevabı A'dır)/);
+});
+test('scoring extremes and blanks obey four-wrong deduction',()=>{
+  const fn=html.match(/function calcStats\(ans,key\)\{[^\n]+/)[0];
+  const score=vm.runInNewContext('('+fn+')');
+  assert.equal(score(Array(40).fill('A'),'A'.repeat(40)).net,40);
+  assert.equal(score(Array(40).fill('B'),'A'.repeat(40)).net,-10);
+  const blank=score(Array(40).fill(null),'A'.repeat(40));assert.equal(blank.net,0);assert.equal(blank.blank,40);
+});
