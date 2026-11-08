@@ -93,9 +93,9 @@ async function expectNativeDocument(page) {
   },{timeout:25000,message:'The actual publisher booklet must load in Chromium’s native PDF viewer.'}).toBe('success');
 }
 
-async function checkBooklet(download) {
+async function checkBooklet(download,device) {
   const {row,buffer,sha256} = download;
-  const context = await browser.newContext({viewport:{width:1280,height:900}});
+  const context = await browser.newContext(device==='mobile'?{viewport:{width:390,height:844},isMobile:true,hasTouch:true}:{viewport:{width:1280,height:900}});
   const page = await context.newPage();
   let externalBodyAttempts = 0;
   page.on('request',request=>{
@@ -155,7 +155,7 @@ async function checkBooklet(download) {
     },row.id);
     assert.deepEqual(saved,{sha256,answers:1,duration:12,net:1});
     assert.equal(externalBodyAttempts,0,'The private booklet or answers must never be posted to an external service.');
-    process.stdout.write(JSON.stringify({status:'passed',exam:row.examType,id:row.id,year:row.year,bytes:buffer.byteLength,sha256,viewLoaded:true,answerFields:40,persistedMarks:saved.answers,pausedSecondsExcluded:true,resumedAfterReload:true,duration:saved.duration,practiceNet:saved.net,fileIdentity:'user-confirmed-source-fetched-in-this-ci-test',externalBodyAttempts}) + '\n');
+    process.stdout.write(JSON.stringify({status:'passed',device,exam:row.examType,id:row.id,year:row.year,bytes:buffer.byteLength,sha256,viewLoaded:true,answerFields:40,persistedMarks:saved.answers,pausedSecondsExcluded:true,resumedAfterReload:true,duration:saved.duration,practiceNet:saved.net,fileIdentity:'user-confirmed-source-fetched-in-this-ci-test',externalBodyAttempts}) + '\n');
   } finally { await context.close(); }
 }
 
@@ -168,7 +168,7 @@ try {
     server = spawn('python3',['-m','http.server','8188','--bind','127.0.0.1'],{cwd:repository,stdio:'ignore'});
     await waitForServer();
     browser = await chromium.launch({headless:true,channel:'chromium',...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH ? {executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH} : {})});
-    for (const download of downloads) await checkBooklet(download);
+    for (const download of downloads) for (const device of ['desktop','mobile']) await checkBooklet(download,device);
   })(),timedOut]);
 } catch (error) {
   process.exitCode=1;

@@ -19,7 +19,7 @@ export function createExamMode({onEnter,onClose}={}){
   const entries=modeBooklets(selection),select=el('examBooklet'),previous=selection.bookletId;select.replaceChildren();
   for(const row of entries){const option=document.createElement('option');option.value=row.id;option.textContent=row.title;select.append(option)}
   const own=document.createElement('option');own.value='custom';own.textContent='Kendi özgün kitapçığım';select.append(own);
-  selection.bookletId=entries.some(row=>row.id===previous)?previous:entries[0]?.id||'custom';select.value=selection.bookletId;
+  selection.bookletId=previous==='custom'||entries.some(row=>row.id===previous)?previous:entries[0]?.id||'custom';select.value=selection.bookletId;
   el('examKpssLabel').classList.toggle('hide',selection.family!=='KPSS');renderNotice();
  }
  function renderNotice(){

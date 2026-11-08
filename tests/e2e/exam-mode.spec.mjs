@@ -29,7 +29,20 @@ async function importReviewed(page,browser,{row=source,key=''}={}){
 async function openKeySettings(page){
  const details=page.locator('#privateStudy details').filter({has:page.locator('#privateManualKey')});if(!await page.locator('#privateManualKey').isVisible())await details.locator('summary').first().click();
 }
-async function finish(page){page.once('dialog',dialog=>dialog.accept());await page.locator('#privateFinish').click()}
+async function finish(page){
+ // A native PDF viewer initializes in its own browser frame. Wait until that
+ // document is ready before opening the app's modal confirmation.
+ await expect.poll(async()=>{
+  for(const frame of page.frames().filter(frame=>frame.url().startsWith('chrome-extension://'))){
+   try{return await frame.locator('pdf-viewer').evaluate(viewer=>viewer.loadState_)}catch{}
+  }
+  return null;
+ },{message:'The private booklet must finish loading before confirming the result.'}).toBe('success');
+ const confirmation=page.waitForEvent('dialog').then(async dialog=>{
+  expect(dialog.type()).toBe('confirm');expect(dialog.message()).toBe('Özel çalışmayı bitirip süreyi durdurmak istiyor musun?');await dialog.accept();
+ });
+ await Promise.all([confirmation,page.locator('#privateFinish').click()]);
+}
 async function expectCleanNormalMode(page){
  await expect(page.locator('#examModePage')).toBeHidden();await expect(page.locator('#study')).toBeVisible();await expect(page.locator('input[type=file],iframe')).toHaveCount(0);
  expect(await page.locator('body').innerText()).not.toMatch(/pdf|dosya\s*(?:seç|yükle)|kitapçık\s*aktar/iu);
@@ -40,6 +53,13 @@ test('exam mode is explicit and returning restores the unchanged four-tab questi
  await page.goto('/');await expectCleanNormalMode(page);const before=await page.locator('#questionCard').getAttribute('data-question-id');
  await enterMode(page,{navigate:false});await openReviewed(page);await expect(page.locator('#privateFile')).toBeVisible();await expect(page.locator('#study')).toBeHidden();
  await page.locator('#closeExamMode').click();await expectCleanNormalMode(page);await expect(page.locator('#questionCard')).toHaveAttribute('data-question-id',before);
+});
+test('a custom booklet selection survives leaving and reopening a year with a reviewed source',async({page})=>{
+ await enterMode(page);await page.locator('#examYear').selectOption('2024');
+ await expect(page.locator('#examBooklet')).toHaveValue('osym-2024-tyt-math');
+ await page.locator('#examBooklet').selectOption('custom');await page.locator('#closeExamMode').click();
+ await enterMode(page,{navigate:false});await expect(page.locator('#examYear')).toHaveValue('2024');await expect(page.locator('#examBooklet')).toHaveValue('custom');
+ await page.locator('#openExamBooklet').click();await expect(page.locator('#privateKnownExam')).toHaveValue('');await expect(page.locator('#privateTitle')).toHaveValue('2024 TYT · kendi kitapçığım');
 });
 test('private exam renders in the native viewer and resumes 40 answers and paused time without uploads',async({page,browser})=>{
  const bodies=captureHttp(page);await importReviewed(page,browser);
