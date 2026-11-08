@@ -46,13 +46,13 @@ npx playwright install --with-deps chromium
 npm run test:e2e
 ```
 
-Kurulu Chromium için `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e` kullanılabilir. Tarayıcı testleri gerçek dış servisleri çağırmaz; açıkça tanımlı sahte servisler kullanır. Soru metni özeti veya SQL seed kaynağıyla uyuşmazsa test başarısız olur.
+Kurulu Chromium için `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e` kullanılabilir. Ana tarayıcı paketi gerçek dış servisleri çağırmaz; açıkça tanımlı sahte servisler kullanır. Ayrı `Official booklet integration` CI kontrolü, resmî 2024 TYT/AYT dosyalarını test koşucusunun belleğinde açar; belge veya görüntü eki yayımlamaz. Soru metni özeti veya SQL seed kaynağıyla uyuşmazsa test başarısız olur.
 
 ## Kayıtlar ve sınırlar
 
 Kişisel geçmiş, eski ilerleme kimlikleri ve hesaplar silinmez. İlk profil yazmasından önce hesap başına yerel yedek alınır. Kaldırılmış soru metinleri eski kayıtlardan tekrar üretilmez.
 
-Herkese açık bankada 2018–2026 TYT/AYT seçimi bulunur; izinli ve nihai anahtarı doğrulanmış tam 40 soru olmadan kamuya açık tam deneme açılmaz. Eski PDF önbelleği korunur; bu eski genel akışta kaynak/izin/tamlık ve dosya SHA-256 doğrulaması gerekir.
+2018–2026 TYT/AYT yıl ve kitapçık seçimi Sınav Modu’ndadır. Herkese açık 142 kayıt çıkmış TYT/AYT sorusu olarak sunulmaz; yeniden dağıtım izni olmayan kitapçıklar kamuya açık bankaya kopyalanmaz. Eski PDF önbelleği ve önceki akışın kaynak/izin/tamlık denetimleri korunur.
 
 Belge seçimi, uygulama içi PDF görüntüleme ve optik alan yalnız **Sınav Modu** içinde bulunur. TYT/AYT için 15 tam anahtar dosya kimliği ayrıca teyit edilerek kullanılabilir. KPSS tam anahtarları doğrulanmadığında sonuç otomatik puanlanmaz. Özel dosyalar ve ilerleme hesap kimliğiyle ayrılan güvenli yerel depoda kalır; eski kayıtlar silinmez. Kısmi KPSS kaynağı tam deneme sayılmaz. Bu görev otomatik birleştirme veya yayın yapmaz.
 

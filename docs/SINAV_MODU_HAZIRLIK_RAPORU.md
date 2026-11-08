@@ -1,6 +1,6 @@
 # Sade tasarım içinde gerçek sınav modu
 
-PR #7'nin `9890394` sürümü temel alındı. Mevcut `main` başlangıçta `6876396` idi. Yeni çalışma `codex/sade-sinav-modu` dalında yürütülür. Kullanıcının bu görevdeki açık talimatı nedeniyle **otomatik birleştirme ve yayın yapılmaz**.
+PR #7'nin `9890394` sürümü temel alındı. Mevcut `main` başlangıçta `6876396` idi. Yeni çalışma `codex/sade-sinav-modu` dalında yürütüldü ve GitHub’a kaydedildi. PR #7’nin `codex/sade-arayuz` dalı, önceki iki commit korunarak ve zorlamasız ileri taşınarak güncellendi. Kullanıcının bu görevdeki açık talimatı nedeniyle **otomatik birleştirme ve yayın yapılmaz**.
 
 ## Arayüz ve çalışma akışı
 
@@ -10,7 +10,7 @@ Mod içinde TYT, AYT veya KPSS; yıl; kitapçık seçilir. KPSS Lisans, Ön Lisa
 
 2024 KPSS Ön Lisans'ın kamuya açık %10 kitapçığı ayrıca kısmi kaynak olarak sunulur. Bu kayıtta yalnız yayımlanmış 3 matematik sorusunun 33,39,57 özgün numaraları kullanılır; tam deneme veya tam anahtar iddiası yoktur.
 
-Kullanıcının seçtiği özgün PDF, şekil ve seçenekleriyle yerleşik tarayıcı görüntüleyicisinde açılır. Masaüstünde optik form yanındadır; dar ekranda aynı sayfada alt alta yerleşir. Sayfaya gitme, tam ekran, soru navigasyonu, işaretleme, konu etiketi, kronometre, süre sınırı, duraklat/devam ve bitirme korunur. Moddan veya sekmeden çıkış süreyi duraklatıp kayıt kuyruğunu korur. Tekrar girişte yarım çalışma **Devam et** ile açılır.
+Kullanıcının seçtiği özgün PDF, şekil ve seçenekleriyle yerleşik tarayıcı görüntüleyicisinde açılır. Masaüstünde optik form yanındadır; dar ekranda aynı sayfada alt alta yerleşir. Sayfaya gitme, tam ekran, soru navigasyonu, işaretleme, konu etiketi, kronometre, süre sınırı, duraklat/devam ve bitirme korunur. Sınav modundan çıkış veya uygulamanın ana menüsünde bölüm değişimi süreyi duraklatıp kayıt kuyruğunu korur. Tarayıcı sekmesini doğrudan kapatmak veya çalışırken yenilemek süreyi kendiliğinden duraklatmaz; kaydedilmiş başlangıç zamanı ve cevaplar korunur. Süreyi durdurmak için önce Duraklat kullanılmalıdır. Tekrar girişte yarım çalışma **Devam et** ile açılır. Duraklat/devam işlemi depoya yazılırken “Kaydediliyor…” görünür ve cevaplar kilitlenir; yazma başarısızsa önceki süre durumuna dönülerek uyarı verilir. “Kendi özgün kitapçığım” seçimi yeniden açıldığında korunur.
 
 ## Cevap anahtarı ve gizlilik
 
@@ -21,7 +21,7 @@ Kullanıcının seçtiği özgün PDF, şekil ve seçenekleriyle yerleşik taray
 - Belge, kullanıcı anahtarı, cevap, süre, sayfa/konu eşleştirmesi ve sonuç yalnız hesap kimliğine ayrılan IndexedDB'de saklanır. Supabase'e, AI'ya veya herkese açık bankaya gönderilmez.
 - Aynı cihazdaki yerel hesap ayrımı şifreleme değildir. Tarayıcı verileri silinirse dosyalar kaybolabilir; mevcut dışa aktarma ve yerel indirme seçenekleri korunur.
 
-142 kaynaklı kayıt, kaynak/lisans bilgileri, altı öğretmen, öğrenme profilleri, Supabase üyeliği, eski deneme geçmişi, yarım çalışmalar ve eski cihaz depoları silinmedi. Üretim veritabanına şema veya seed uygulanmadı. Soru, şekil, seçenek veya yeni problem üretilmedi; telifli kitapçık baytları depoya alınmadı.
+Bu turda **0 yeni soru** eklendi. Yedi izinli kaynaktan gelen **142 kaynaklı kayıt**, kaynak/lisans bilgileri, altı öğretmen, öğrenme profilleri, Supabase üyeliği, eski deneme geçmişi, yarım çalışmalar ve eski cihaz depoları silinmedi. Üretim veritabanına şema veya seed uygulanmadı. Soru, şekil, seçenek veya yeni problem üretilmedi; telifli kitapçık baytları depoya alınmadı.
 
 ## Değişen parçalar
 
@@ -35,11 +35,22 @@ Kullanıcının seçtiği özgün PDF, şekil ve seçenekleriyle yerleşik taray
 
 ## Doğrulama
 
-Yerel `npm test`: **83/83** geçti. Tam masaüstü/mobil Chromium paketi **62/62**, yeni kısmi KPSS kontrolleri ayrıca **2/2** geçti; CI'da toplam **64** senaryo çalışır. Native PDF görüntüleyicinin `success` durumu, 40 optik alan, cevap/9 saniyelik süre kaydı, 60 saniyelik duraklamanın dışlanması, yeniden yüklemede devam ve 12 saniyeye ilerleme denetlendi. Kaynakla açık eşleştirmede1,00 net; bilinmeyen KPSS'de puanlanmama; iki iptal; hesap ayrımı; HTTP ile dosya/anahtar gönderilmemesi; HTML/MIME sınırı ve sade ekrana temiz dönüş test edildi.
+Yerel `npm test` ve [Validate app CI](https://github.com/MontanaS406/matematik-akademim/actions/runs/42489910249): **83/83** birim/model/veritabanı testi ve **70/70** masaüstü/mobil Chromium senaryosu geçti. Kod sürümü `8f9d788` üzerinde CI sonuçları doğrulandı. `npm run audit:questions`: 7 kaynak / 142 kayıt / 6 konu. `npm audit`: geliştirme bağımlılıkları dâhil 0 açık. `git diff --check` temiz.
 
-Bu otomasyon belgeleri **boş sentetik test dosyalarıdır**; soru bankasında yer almaz ve gerçek ÖSYM dosyasıyla yapılmış kontrol yerine gösterilmez.
+Yerleşik PDF görüntüleyicinin `success` durumu, 40 optik alan, cevap/9 saniyelik süre kaydı, 60 saniyelik duraklamanın dışlanması, yeniden yüklemede devam ve 12 saniyeye ilerleme denetlendi. Kaynakla açık eşleştirmede 1,00 net; bilinmeyen KPSS’de puanlanmama; iki iptal; hesap ayrımı; HTTP ile dosya/anahtar gönderilmemesi; HTML/MIME sınırı ve sade ekrana temiz dönüş test edildi. Yeni testler, depoya yazma sürerken ters duraklat/devam işleminin engellenmesini, başarısız yazmada önceki süre/cevapların korunmasını ve kitapçık tercihinin yeniden açılınca korunmasını kapsar.
 
-Yerel ortamdan `dokuman.osym.gov.tr` bağlantısı ağ politikası nedeniyle403 ile engellidir. Bu yüzden gerçek dosya kontrolü ayrıca **Official booklet integration** CI iş akışında yapılır: resmî 2024 TYT/AYT adreslerinden iki belge doğrudan test koşucusunun belleğine alınır; yerleşik görüntüleyici, optik, süre, yeniden açma ve anahtar eşleştirmesi kontrol edilir. Dosya, soru metni, ekran görüntüsü, video, iz veya belge içeren test eki yazılmaz/yayımlanmaz. CI sonucu başarı göstermedikçe gerçek kitapçıkla test tamamlandı sayılmaz. Son durum PR #7'de raporlanır.
+Bir önceki test turunda tarayıcının yerleşik belge çerçevesiyle onay penceresi otomasyonunda aralıklı hata görüldü. Bitirme testi artık gerçek görüntüleyici hazır durumunu ve beklenen onayın kabulünü açıkça bekler; hata yutulmaz. Anahtar/KPSS senaryoları ayrıca 40 tekrarda geçti; ardından tam 70 senaryo yerelde ve CI’da başarılı oldu.
+
+Ana otomasyon belgeleri **boş sentetik test dosyalarıdır**; soru bankasında yer almaz. Gerçek ÖSYM belgelerinin kontrolü bunlardan ayrıdır.
+
+Yerel ortamdan `dokuman.osym.gov.tr` bağlantısı ağ politikası nedeniyle 403 ile engellidir. Gerçek dosya kontrolü ayrıca [Official booklet integration CI](https://github.com/MontanaS406/matematik-akademim/actions/runs/42489910252) işinde **4/4 geçti**: iki resmî 2024 TYT/AYT belgesi doğrudan test koşucusuna alındı; her biri masaüstü ve 390 piksel mobil Chromium görünümünde açıldı. Her kontrolde 40 cevap alanı, bir doğru cevap, 60 saniye duraklamanın dışlanması, yeniden açmada cevap ve 12 saniyenin korunması, açık dosya kimliği teyidi sonrası 1,00 çalışma neti doğrulandı. Dış servise veri gövdeli gönderim sayısı 0 oldu. Bu test mevcut anahtarın 40 harfinin yeniden insan eliyle incelenmesi değildir; önceki kaynak doğrulamasını ve uygulamanın hesaplama/kayıt akışını kullanır.
+
+| Gerçek kitapçık | Yayıncıdan gelen boyut | Masaüstü / mobil |
+| --- | ---: | --- |
+| 2024 TYT | 5.439.411 bayt | Geçti / geçti |
+| 2024 AYT | 4.390.291 bayt | Geçti / geçti |
+
+Korunan kitapçık baytları Git deposuna veya CI eklerine alınmaz. Soru metni, ekran görüntüsü, video veya iz yayımlanmaz; geçici tarayıcı bağlamları test sonunda kapatılır. Kaynak dosyalarına ait kontrol özetleri CI günlüğünde bulunur; kataloğun dosya kimliği politikası hâlâ açık kullanıcı teyididir.
 
 ## Sınırlar
 
