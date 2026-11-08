@@ -57,7 +57,10 @@ async function downloadBooklet(row) {
   const buffer = Buffer.concat(chunks);
   assert.equal(buffer.subarray(0,5).toString('ascii'),'%PDF-','Publisher returned something other than PDF bytes.');
   assert.ok(buffer.byteLength >= 100000,'Publisher response is too small to be the reviewed complete booklet.');
-  return {row,buffer,sha256:createHash('sha256').update(buffer).digest('hex')};
+  const sha256=createHash('sha256').update(buffer).digest('hex');
+  assert.equal(sha256,row.pdfSha256,'Publisher file changed; do not trust a different file or silently update its digest.');
+  assert.equal(buffer.byteLength,row.pdfHashVerification?.byteLength,'Publisher byte length no longer matches its reviewed hash evidence.');
+  return {row,buffer,sha256};
 }
 
 async function waitForServer() {
@@ -112,7 +115,8 @@ async function checkBooklet(download,device) {
     await expect(page.locator('#privateBookTitle')).toHaveText(row.title);
     await expectNativeDocument(page);
     await expect(page.locator('#privateGrid button')).toHaveCount(40);
-    await page.clock.install();
+    await page.clock.install({time:new Date('2026-11-08T12:00:00Z')});
+    await page.clock.pauseAt(new Date('2026-11-08T12:00:01Z'));
     await page.locator('#privateStart').click();
     await expect(page.locator('#privatePause')).toHaveText('Duraklat');
     await page.locator('#privateChoices button').filter({hasText:new RegExp('^' + row.answerKey[0] + '$')}).click();
@@ -138,13 +142,46 @@ async function checkBooklet(download,device) {
     await expect(page.locator('#privateClock')).toHaveText('00:00:12');
     await expect(page.locator('#privateChoices button').filter({hasText:new RegExp('^' + row.answerKey[0] + '$')})).toHaveAttribute('aria-pressed','true');
     await page.locator('#privateStudy details > summary').filter({hasText:'Cevap anahtarı'}).click();
-    await page.locator('#privateConfirmIdentity').check();
-    await page.locator('#privateBindKey').click();
-    await expect(page.locator('#privateStatus')).toContainText('kullanıcı teyidine');
-    page.once('dialog',dialog=>dialog.accept());
-    await page.locator('#privateFinish').click();
+    await expect(page.locator('#privateOfficialKey')).toContainText('SHA-256');
+    await expect(page.locator('#privateConfirmIdentity')).toHaveCount(0);
+    const confirmation=page.waitForEvent('dialog').then(async dialog=>{
+      assert.equal(dialog.type(),'confirm');
+      assert.equal(dialog.message(),'Özel çalışmayı bitirip süreyi durdurmak istiyor musun?');
+      await dialog.accept();
+    });
+    await Promise.all([confirmation,page.locator('#privateFinish').click()]);
     await expect(page.locator('#privateResult h3')).toHaveText('1.00 çalışma neti');
     await expect(page.locator('#privateResult')).toContainText('1 doğru / 0 yanlış / 39 boş');
+    await expect(page.locator('#privateResult')).toContainText('SHA-256 ile doğrulandı');
+    await expect(page.locator('#privateManualScore')).toHaveCount(0);
+    // A pre-hash record may contain a manual result. Recognizing the source
+    // later must not relabel that old number as a verified source result.
+    await page.evaluate(async examId=>{
+      const {openPrivateLibrary} = await import('/shared/private-library.js');
+      const library = openPrivateLibrary('guest');
+      try {
+        const record=(await library.list()).find(record=>record.metadata.bookletId===examId);
+        await library.update(record.id,{answerKey:'A'.repeat(40)});
+        await library.saveProgress(record.id,{...record.progress,binding:null,score:{correct:0,wrong:1,blank:39,net:-0.25}});
+      } finally { await library.close(); }
+    },row.id);
+    await page.reload({waitUntil:'domcontentloaded'});
+    await enterBooklet(page,row,{navigate:false});
+    await page.locator('#privateBookList button').filter({hasText:row.title}).first().click();
+    await expectNativeDocument(page);
+    await expect(page.locator('#privateResult h3')).toHaveText('Puanlanmadı');
+    await expect(page.locator('#privateManualScore')).toHaveCount(0);
+    await expect(page.locator('#privateRecalculate')).toBeVisible();
+    const retainedNet=await page.evaluate(async examId=>{
+      const {openPrivateLibrary}=await import('/shared/private-library.js');
+      const library=openPrivateLibrary('guest');
+      try{return (await library.list()).find(record=>record.metadata.bookletId===examId).progress.score.net}
+      finally{await library.close()}
+    },row.id);
+    assert.equal(retainedNet,-0.25,'Opening an old result must not overwrite its stored data.');
+    await page.locator('#privateRecalculate').click();
+    await expect(page.locator('#privateResult h3')).toHaveText('1.00 çalışma neti');
+    await expect(page.locator('#privateResult')).toContainText('SHA-256 ile doğrulandı');
     const saved = await page.evaluate(async examId=>{
       const {openPrivateLibrary} = await import('/shared/private-library.js');
       const library = openPrivateLibrary('guest');
@@ -155,7 +192,7 @@ async function checkBooklet(download,device) {
     },row.id);
     assert.deepEqual(saved,{sha256,answers:1,duration:12,net:1});
     assert.equal(externalBodyAttempts,0,'The private booklet or answers must never be posted to an external service.');
-    process.stdout.write(JSON.stringify({status:'passed',device,exam:row.examType,id:row.id,year:row.year,bytes:buffer.byteLength,sha256,viewLoaded:true,answerFields:40,persistedMarks:saved.answers,pausedSecondsExcluded:true,resumedAfterReload:true,duration:saved.duration,practiceNet:saved.net,fileIdentity:'user-confirmed-source-fetched-in-this-ci-test',externalBodyAttempts}) + '\n');
+    process.stdout.write(JSON.stringify({status:'passed',device,exam:row.examType,id:row.id,year:row.year,bytes:buffer.byteLength,sha256,viewLoaded:true,answerFields:40,persistedMarks:saved.answers,pausedSecondsExcluded:true,resumedAfterReload:true,duration:saved.duration,practiceNet:saved.net,fileIdentity:'sha256',legacyManualScoreRechecked:true,externalBodyAttempts}) + '\n');
   } finally { await context.close(); }
 }
 

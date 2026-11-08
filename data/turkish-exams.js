@@ -1702,7 +1702,14 @@ export const TURKISH_EXAMS = [
     "correctionsEvidenceUrl": "https://www.osym.gov.tr/2024-yuksekogretim-kurumlari-sinavi-2024yks-sonuclari-aciklandi",
     "cancelledNumbers": [],
     "questionTextRedistribution": "not-permitted-without-written-permission",
-    "pdfSha256": null,
+    "pdfSha256": "5b517eba3f596ed1e9d2073e84023696c40a1f6a2347d7db0aa8c20ece63b64e",
+    "pdfHashVerification": {
+      "method": "official-https-download-sha256",
+      "sourceUrl": "https://dokuman.osym.gov.tr/pdfdokuman/2024/YKS/TSK/yks_tyt_2024_kitapcik_T24kt.pdf",
+      "byteLength": 5439411,
+      "checkedAt": "2026-11-08T14:30:59.409Z",
+      "evidenceUrl": "https://github.com/MontanaS406/matematik-akademim/actions/runs/42490087023"
+    },
     "answerKey": "AEADCBDACBEAEBDACCBDECBACBEBEBDECADDAEBC",
     "examType": "TYT",
     "answerKeyEvidenceUrl": "https://dokuman.osym.gov.tr/pdfdokuman/2024/YKS/TSK/yks_tyt_2024_kitapcik_T24kt.pdf#page=43",
@@ -1715,7 +1722,7 @@ export const TURKISH_EXAMS = [
       "correctionsCheckedAt": "2026-11-07T00:00:00.000Z",
       "correctionsEvidenceUrl": "https://www.osym.gov.tr/2024-yuksekogretim-kurumlari-sinavi-2024yks-sonuclari-aciklandi"
     },
-    "note": "Current official PDF key was read completely; targeted official result/correction search found no math change. File identity must be separately confirmed by user; no cryptographic PDF hash was obtained. This is a practice net, not an official score."
+    "note": "Current official PDF key was read completely; targeted official result/correction search found no math change. SHA-256 and byte length were obtained from the exact official HTTPS download in CI on 8 November 2026, independently checked in desktop and mobile views. Only an exact digest match verifies the local file; user confirmation cannot override a mismatch. This is a practice net, not an official score."
   },
   {
     "id": "osym-2024-ayt-math",
@@ -1822,7 +1829,14 @@ export const TURKISH_EXAMS = [
     "correctionsEvidenceUrl": "https://www.osym.gov.tr/2024-yuksekogretim-kurumlari-sinavi-2024yks-sonuclari-aciklandi",
     "cancelledNumbers": [],
     "questionTextRedistribution": "not-permitted-without-written-permission",
-    "pdfSha256": null,
+    "pdfSha256": "6c6d14a245c13fd28f9461845e0d9d375709ed6dcbc9dfb10a2db3219742393b",
+    "pdfHashVerification": {
+      "method": "official-https-download-sha256",
+      "sourceUrl": "https://dokuman.osym.gov.tr/pdfdokuman/2024/YKS/TSK/yks_ayt_2024_kitapcik_ts85k.pdf",
+      "byteLength": 4390291,
+      "checkedAt": "2026-11-08T14:30:59.409Z",
+      "evidenceUrl": "https://github.com/MontanaS406/matematik-akademim/actions/runs/42490087023"
+    },
     "answerKey": "DCEDCBDABEDADCBEDCECDBAABEBACDBBDCEECABA",
     "examType": "AYT",
     "answerKeyEvidenceUrl": "https://dokuman.osym.gov.tr/pdfdokuman/2024/YKS/TSK/yks_ayt_2024_kitapcik_ts85k.pdf#page=49",
@@ -1835,7 +1849,7 @@ export const TURKISH_EXAMS = [
       "correctionsCheckedAt": "2026-11-07T00:00:00.000Z",
       "correctionsEvidenceUrl": "https://www.osym.gov.tr/2024-yuksekogretim-kurumlari-sinavi-2024yks-sonuclari-aciklandi"
     },
-    "note": "Current official PDF key was read completely; targeted official result/correction search found no math change. File identity must be separately confirmed by user; no cryptographic PDF hash was obtained. This is a practice net, not an official score."
+    "note": "Current official PDF key was read completely; targeted official result/correction search found no math change. SHA-256 and byte length were obtained from the exact official HTTPS download in CI on 8 November 2026, independently checked in desktop and mobile views. Only an exact digest match verifies the local file; user confirmation cannot override a mismatch. This is a practice net, not an official score."
   },
   {
     "id": "osym-2025-tyt-math",

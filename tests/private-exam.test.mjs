@@ -61,3 +61,18 @@ test('production Turkish metadata never contains the synthetic test exam or ques
 test('KPSS Lisans uses a suggested thirty fields without granting unknown keys official status',()=>{
  assert.equal(SUGGESTED_COUNTS.KPSS_LISANS,30);assert.ok(PRIVATE_EXAM_TYPES.includes('KPSS_LISANS'));const m=normalizeBookletMetadata(metadata({examType:'KPSS_LISANS',questionCount:30,bookletId:null,sourceUrl:null}));assert.equal(m.questionCount,30);assert.deepEqual(m.questionNumbers,Array.from({length:30},(_,i)=>i+1));assert.equal(m.sourceUrl,null);assert.equal(trustedKeyForBooklet(TURKISH_EXAMS,{sha256:hash,metadata:m}),null);const key=parseAnswerKey('A'.repeat(30),30);assert.equal(scorePrivateExam(Array(30).fill('A'),key).status,'unscored');const result=scorePrivateExam(Array(30).fill('A'),key,{manual:true});assert.equal(result.net,30);assert.equal(result.verified,false);
 });
+
+
+test('real 2024 publisher snapshots bind by digest and reject a different private file even with confirmation',()=>{
+ const known=TURKISH_EXAMS.filter(row=>row.pdfSha256);assert.deepEqual(known.map(row=>row.id),['osym-2024-tyt-math','osym-2024-ayt-math']);
+ for(const row of known){
+  assert.equal(row.pdfHashVerification.method,'official-https-download-sha256');assert.equal(row.pdfHashVerification.sourceUrl,row.originalUrl);assert.ok(row.pdfHashVerification.byteLength>100000);assert.match(row.pdfHashVerification.evidenceUrl,/^https:\/\/github\.com\/MontanaS406\/matematik-akademim\/actions\/runs\/42490087023$/);
+  const metadata=normalizeBookletMetadata({...row,sourceTitle:row.title,sourceUrl:row.originalUrl,bookletId:row.id});const actual={sha256:row.pdfSha256,metadata};const key=trustedKeyForBooklet(TURKISH_EXAMS,actual);assert.ok(key);const scored=scorePrivateExam([row.answerKey[0],...Array(39).fill(null)],key);assert.equal(scored.net,1);assert.equal(scored.fileVerified,true);assert.equal(scored.fileIdentity,'sha256');
+  const different={...actual,sha256:'0'.repeat(64)};assert.equal(trustedKeyForBooklet(TURKISH_EXAMS,different),null);assert.equal(confirmedOfficialKeyForBooklet(TURKISH_EXAMS,different,{examId:row.id,confirmed:true}),null);assert.equal(trustedKeyForBooklet(TURKISH_EXAMS,{...actual,metadata:{...metadata,examType:row.examType==='TYT'?'AYT':'TYT'}}),null);
+ }
+});
+test('publisher digest verification does not promote other source identities or cancelled booklets',()=>{
+ const row=TURKISH_EXAMS.find(row=>row.id==='osym-2023-tyt-math'),metadata=normalizeBookletMetadata({...row,sourceTitle:row.title,bookletId:row.id});const booklet={metadata,sha256:'0'.repeat(64)};
+ assert.equal(row.pdfSha256,null);assert.equal(trustedKeyForBooklet(TURKISH_EXAMS,booklet),null);const key=confirmedOfficialKeyForBooklet(TURKISH_EXAMS,booklet,{examId:row.id,confirmed:true});assert.ok(key);assert.equal(key.fileVerified,false);
+ for(const row of TURKISH_EXAMS.filter(row=>row.cancelledNumbers.length))assert.equal(verifiedOfficialKey(row),null);
+});
