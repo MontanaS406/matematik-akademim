@@ -50,11 +50,11 @@ Kurulu Chromium için `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm
 
 ## Kayıtlar ve sınırlar
 
-Kişisel geçmiş, eski ilerleme kimlikleri ve hesaplar silinmez. İlk profil yazmasından önce hesap başına yerel yedek alınır. Kaldırılmış soru metinleri eski kayıtlardan tekrar üretilmez.
+Kişisel geçmiş, eski ilerleme kimlikleri ve hesaplar silinmez. Başlatma, bitirme ve sonuç eşleştirmesi depoya yazılmadan tamamlanmış gösterilmez; yazma hatasında önceki durum korunur. Güncel dosya/anahtar denetimiyle uyuşmayan eski netler silinmeden gizlenir; uygun kaynakta açık yeniden hesaplama yapılabilir. İlk profil yazmasından önce hesap başına yerel yedek alınır. Kaldırılmış soru metinleri eski kayıtlardan tekrar üretilmez.
 
 2018–2026 TYT/AYT yıl ve kitapçık seçimi Sınav Modu’ndadır. Herkese açık 142 kayıt çıkmış TYT/AYT sorusu olarak sunulmaz; yeniden dağıtım izni olmayan kitapçıklar kamuya açık bankaya kopyalanmaz. Eski PDF önbelleği ve önceki akışın kaynak/izin/tamlık denetimleri korunur.
 
-Belge seçimi, uygulama içi PDF görüntüleme ve optik alan yalnız **Sınav Modu** içinde bulunur. TYT/AYT için 15 tam anahtar dosya kimliği ayrıca teyit edilerek kullanılabilir. KPSS tam anahtarları doğrulanmadığında sonuç otomatik puanlanmaz. Özel dosyalar ve ilerleme hesap kimliğiyle ayrılan güvenli yerel depoda kalır; eski kayıtlar silinmez. Kısmi KPSS kaynağı tam deneme sayılmaz. Bu görev otomatik birleştirme veya yayın yapmaz.
+Belge seçimi, uygulama içi PDF görüntüleme ve optik alan yalnız **Sınav Modu** içinde bulunur. TYT/AYT için 15 tam anahtar korunur. Özgün 2024 TYT/AYT dosyaları kayıtlı SHA-256 özetiyle otomatik tanınır; bilinen özete uymayan dosyada kaynak anahtarı açılamaz. Dosya özeti henüz bulunmayan diğer 13 anahtar açık kitapçık kimliği teyidi gerektirir. KPSS tam anahtarları doğrulanmadığında sonuç otomatik puanlanmaz. Özel dosyalar ve ilerleme hesap kimliğiyle ayrılan güvenli yerel depoda kalır; eski kayıtlar silinmez. Kısmi KPSS kaynağı tam deneme sayılmaz. Bu görev otomatik birleştirme veya yayın yapmaz.
 
 Canlı Supabase ve gerçek AI/model bağlantısı doğrulanmadı. Worker erişim kodu kişisel kullanım içindir; çok kullanıcılı sunucu kimliğinin yerine geçmez. Sırlar istemciye veya GitHub’a konmaz. Bu geliştirme PR üzerinde hazırlanır; bu görevde otomatik birleştirme veya yayın yapılmaz.
 

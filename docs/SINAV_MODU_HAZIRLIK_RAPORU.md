@@ -1,6 +1,6 @@
 # Sade tasarım içinde gerçek sınav modu
 
-PR #7'nin `9890394` sürümü temel alındı. Mevcut `main` başlangıçta `6876396` idi. Yeni çalışma `codex/sade-sinav-modu` dalında yürütüldü ve GitHub’a kaydedildi. PR #7’nin `codex/sade-arayuz` dalı, önceki iki commit korunarak ve zorlamasız ileri taşınarak güncellendi. Kullanıcının bu görevdeki açık talimatı nedeniyle **otomatik birleştirme ve yayın yapılmaz**.
+PR #7'nin `9890394` sürümü temel alındı. Mevcut `main` başlangıçta `6876396` idi. Yeni çalışma `codex/sade-sinav-modu` dalında yürütüldü ve GitHub’a kaydedildi. PR #7’nin `codex/sade-arayuz` dalı, önceki iki commit korunarak ve zorlamasız ileri taşınarak güncellendi. Devam turu `8a48a99` sürümünden ilerletildi; uygulama değişiklikleri `8700bd0` commit’inde kaydedildi. Kullanıcının bu görevdeki açık talimatı nedeniyle **otomatik birleştirme ve yayın yapılmaz**.
 
 ## Arayüz ve çalışma akışı
 
@@ -10,18 +10,19 @@ Mod içinde TYT, AYT veya KPSS; yıl; kitapçık seçilir. KPSS Lisans, Ön Lisa
 
 2024 KPSS Ön Lisans'ın kamuya açık %10 kitapçığı ayrıca kısmi kaynak olarak sunulur. Bu kayıtta yalnız yayımlanmış 3 matematik sorusunun 33,39,57 özgün numaraları kullanılır; tam deneme veya tam anahtar iddiası yoktur.
 
-Kullanıcının seçtiği özgün PDF, şekil ve seçenekleriyle yerleşik tarayıcı görüntüleyicisinde açılır. Masaüstünde optik form yanındadır; dar ekranda aynı sayfada alt alta yerleşir. Sayfaya gitme, tam ekran, soru navigasyonu, işaretleme, konu etiketi, kronometre, süre sınırı, duraklat/devam ve bitirme korunur. Sınav modundan çıkış veya uygulamanın ana menüsünde bölüm değişimi süreyi duraklatıp kayıt kuyruğunu korur. Tarayıcı sekmesini doğrudan kapatmak veya çalışırken yenilemek süreyi kendiliğinden duraklatmaz; kaydedilmiş başlangıç zamanı ve cevaplar korunur. Süreyi durdurmak için önce Duraklat kullanılmalıdır. Tekrar girişte yarım çalışma **Devam et** ile açılır. Duraklat/devam işlemi depoya yazılırken “Kaydediliyor…” görünür ve cevaplar kilitlenir; yazma başarısızsa önceki süre durumuna dönülerek uyarı verilir. “Kendi özgün kitapçığım” seçimi yeniden açıldığında korunur.
+Kullanıcının seçtiği özgün PDF, şekil ve seçenekleriyle yerleşik tarayıcı görüntüleyicisinde açılır. Masaüstünde optik form yanındadır; dar ekranda aynı sayfada alt alta yerleşir. Sayfaya gitme, tam ekran, soru navigasyonu, işaretleme, konu etiketi, kronometre, süre sınırı, duraklat/devam ve bitirme korunur. Sınav modundan çıkış veya uygulamanın ana menüsünde bölüm değişimi süreyi duraklatıp kayıt kuyruğunu korur. Tarayıcı sekmesini doğrudan kapatmak veya çalışırken yenilemek süreyi kendiliğinden duraklatmaz; kaydedilmiş başlangıç zamanı ve cevaplar korunur. Süreyi durdurmak için önce Duraklat kullanılmalıdır. Tekrar girişte yarım çalışma **Devam et** ile açılır. Duraklat/devam işlemi depoya yazılırken “Kaydediliyor…” görünür ve cevaplar kilitlenir; yazma başarısızsa önceki süre durumuna dönülerek uyarı verilir. “Kendi özgün kitapçığım” seçimi yeniden açıldığında korunur. Başlatma, bitirme, kaynak anahtarı eşleştirme ve manuel sonuç yazımı da depoya kaydedilmeden başarılı gösterilmez. Yazma hatasında önceki çalışma ve seçilmiş süre sınırı korunur; yinelenen geçişler engellenir.
 
 ## Cevap anahtarı ve gizlilik
 
-- 15 iptalsiz tam TYT/AYT anahtarı kaynak kaydına bağlıdır. Dosya kimliği kullanıcı tarafından açıkça teyit edilmeden bu anahtar uygulanmaz. Gerçek yayıncı dosyalarının kayıtlı kriptografik özeti henüz katalogda yoktur; kaynak anahtarı doğrulaması ile kullanıcı dosyası kimliği ayrı gösterilir.
+- 15 iptalsiz tam TYT/AYT anahtarı kaynak kaydına bağlıdır. Özgün 2024 TYT/AYT dosyalarının SHA-256 özetleri ve doğrulama kanıtı katalogda kayıtlıdır. Yalnız tam dosya eşleşmesinde anahtar otomatik uygulanır; bilinen özetle çelişen dosya kullanıcı teyidiyle açılamaz. Diğer 13 anahtar için dosya kimliğinin açık kullanıcı teyidi gerekir; bu durumda dosya bağımsız doğrulanmış gibi gösterilmez.
 - 2019 TYT7 ve 2026 AYT23 iptalleri nedeniyle bu iki kitapçıkta net kapalıdır. Eski basılı harflerle sonuç üretilmez.
 - Bilinmeyen KPSS/tam doğrulanmamış anahtar otomatik puan üretmez. Kullanıcı TXT/JSON anahtarı ancak açık manuel işlemle, doğrulanmamış etiketiyle hesaplanır; `verified:true` iddiası kabul edilmez.
+- Eski kaydın kaynak eşleştirmesi artık geçersizse, dosya özeti çelişiyorsa veya sınavda iptal varsa eski kaynak neti gizlenir; cevaplar ve saklanan sonuç değiştirilmez. Mevcut güvenilir anahtarla uyuşmayan eski manuel sonuç için açık yeniden hesaplama düğmesi vardır. Güvenilir kaynak anahtarı varken manuel anahtarla sonucu geçersiz kılma kapalıdır.
 - Hesaplanan değer doğru−yanlış/4 çalışma netidir; ÖSYM yerleştirme veya ölçekli sınav puanı değildir.
 - Belge, kullanıcı anahtarı, cevap, süre, sayfa/konu eşleştirmesi ve sonuç yalnız hesap kimliğine ayrılan IndexedDB'de saklanır. Supabase'e, AI'ya veya herkese açık bankaya gönderilmez.
 - Aynı cihazdaki yerel hesap ayrımı şifreleme değildir. Tarayıcı verileri silinirse dosyalar kaybolabilir; mevcut dışa aktarma ve yerel indirme seçenekleri korunur.
 
-Bu turda **0 yeni soru** eklendi. Yedi izinli kaynaktan gelen **142 kaynaklı kayıt**, kaynak/lisans bilgileri, altı öğretmen, öğrenme profilleri, Supabase üyeliği, eski deneme geçmişi, yarım çalışmalar ve eski cihaz depoları silinmedi. Üretim veritabanına şema veya seed uygulanmadı. Soru, şekil, seçenek veya yeni problem üretilmedi; telifli kitapçık baytları depoya alınmadı.
+Bu turda **0 yeni soru**, **2 doğrulanmış resmî dosya özeti** eklendi. Özetler önceki başarılı [resmî dosya CI kaydından](https://github.com/MontanaS406/matematik-akademim/actions/runs/42490087023) alındı; güncel entegrasyon işi aynı yayıncı dosyalarının değişmediğini ayrıca denetler. Yedi izinli kaynaktan gelen **142 kaynaklı kayıt**, kaynak/lisans bilgileri, altı öğretmen, öğrenme profilleri, Supabase üyeliği, eski deneme geçmişi, yarım çalışmalar ve eski cihaz depoları silinmedi. Üretim veritabanına şema veya seed uygulanmadı. Soru, şekil, seçenek veya yeni problem üretilmedi; telifli kitapçık baytları depoya alınmadı.
 
 ## Değişen parçalar
 
@@ -31,27 +32,31 @@ Bu turda **0 yeni soru** eklendi. Yedi izinli kaynaktan gelen **142 kaynaklı ka
 - `js/private-exams.js`: filtreli mod seçenekleri, kişisel kitapçık kurulumu, duraklatıp güvenli kapatma, devam listesi.
 - `shared/private-exam.js` / `shared/private-library.js`: KPSS Lisans desteği ve tek ortak tür listesi.
 - `styles/platform.css`: yalnız sınav modu içinde uygulanan, tasarımla uyumlu yerleşim.
-- İlgili model ve tarayıcı testleri; gerçek kitapçık için ayrı CI kontrolü ve betiği.
+- `data/turkish-exams.js`: iki gerçek yayıncı dosyasının SHA-256, boyut ve kanıt bilgisi.
+- `scripts/official-booklet-smoke.mjs` / `.github/workflows/official-booklets.yml`: gerçek kitapçık kontrolü; özet eşleştirmesi ve eski manuel sonucun güvenli yeniden hesaplanması.
+- `tests/private-exam.test.mjs`, `tests/turkish-exams.test.mjs`: dosya/anahtar güven sınırları.
+- `tests/e2e/exam-save-failures.spec.mjs`, `tests/e2e/exam-source-migration.spec.mjs`: başarısız kayıt ve eski sonuç regresyonları. Önceki tasarım, mod, duraklatma ve hesap testleri korunur.
+- `README.md` / bu rapor: güncel akış, doğrulama ve sınırlar.
 
 ## Doğrulama
 
-Yerel `npm test` ve [Validate app CI](https://github.com/MontanaS406/matematik-akademim/actions/runs/42489910249): **83/83** birim/model/veritabanı testi ve **70/70** masaüstü/mobil Chromium senaryosu geçti. Kod sürümü `8f9d788` üzerinde CI sonuçları doğrulandı. `npm run audit:questions`: 7 kaynak / 142 kayıt / 6 konu. `npm audit`: geliştirme bağımlılıkları dâhil 0 açık. `git diff --check` temiz.
+Yerel `npm test`: **85/85** birim/model/veritabanı testi; tam masaüstü/mobil Chromium paketi **82/82** geçti. [Validate app CI](https://github.com/MontanaS406/matematik-akademim/actions/runs/42519603663) üzerinde de `8700bd0` sürümü için **85/85 ve 82/82** geçti. `npm audit`: geliştirme bağımlılıkları dâhil 0 açık; diff kontrolü temiz. `npm run audit:questions`: 7 kaynak / 142 kayıt / 6 konu. Yeni soru üretilmedi; eski veri tabanları ve 142 kayıt değiştirilmedi.
 
-Yerleşik PDF görüntüleyicinin `success` durumu, 40 optik alan, cevap/9 saniyelik süre kaydı, 60 saniyelik duraklamanın dışlanması, yeniden yüklemede devam ve 12 saniyeye ilerleme denetlendi. Kaynakla açık eşleştirmede 1,00 net; bilinmeyen KPSS’de puanlanmama; iki iptal; hesap ayrımı; HTTP ile dosya/anahtar gönderilmemesi; HTML/MIME sınırı ve sade ekrana temiz dönüş test edildi. Yeni testler, depoya yazma sürerken ters duraklat/devam işleminin engellenmesini, başarısız yazmada önceki süre/cevapların korunmasını ve kitapçık tercihinin yeniden açılınca korunmasını kapsar.
+Yeni testler başlangıç, bitirme ve kaynak eşleştirme yazma hatalarını; tekrar denemede düzelmeyi; süre sınırı tercihinin korunmasını; yanlış dosyaya bağlı eski netlerin ve iptalli sınav netlerinin gizlenmesini denetler. Eski cevap, anahtar eşleştirmesi ve sonuç verisi testlerde birebir korunur. Önceki PDF görüntüleme, optik, duraklatma, devam, hesap ayrımı ve sade tasarım kontrolleri de geçti.
 
-Bir önceki test turunda tarayıcının yerleşik belge çerçevesiyle onay penceresi otomasyonunda aralıklı hata görüldü. Bitirme testi artık gerçek görüntüleyici hazır durumunu ve beklenen onayın kabulünü açıkça bekler; hata yutulmaz. Anahtar/KPSS senaryoları ayrıca 40 tekrarda geçti; ardından tam 70 senaryo yerelde ve CI’da başarılı oldu.
+Ana otomasyon belgeleri **boş sentetik test dosyalarıdır**; soru bankasında yer almaz. Gerçek ÖSYM belgelerinin kontrolü bunlardan ayrıdır. Yerel ortamdan `dokuman.osym.gov.tr` bağlantısı ağ politikası nedeniyle engellidir; bu sınır yerelde aşılmaya çalışılmadı.
 
-Ana otomasyon belgeleri **boş sentetik test dosyalarıdır**; soru bankasında yer almaz. Gerçek ÖSYM belgelerinin kontrolü bunlardan ayrıdır.
+[Official booklet integration CI](https://github.com/MontanaS406/matematik-akademim/actions/runs/42519603728) **4/4 geçti**: resmî 2024 TYT ve AYT belgeleri masaüstü ve 390 piksel mobil Chromium görünümünde açıldı. Yayıncıdan gelen dosya hem kayıtlı SHA-256 hem boyutla eşleştirildi. Kullanıcı teyidi gerektirmeden kaynak anahtarı uygulandı; dosya eşleşmesi bağımsız doğrulanmış olarak gösterildi.
 
-Yerel ortamdan `dokuman.osym.gov.tr` bağlantısı ağ politikası nedeniyle 403 ile engellidir. Gerçek dosya kontrolü ayrıca [Official booklet integration CI](https://github.com/MontanaS406/matematik-akademim/actions/runs/42489910252) işinde **4/4 geçti**: iki resmî 2024 TYT/AYT belgesi doğrudan test koşucusuna alındı; her biri masaüstü ve 390 piksel mobil Chromium görünümünde açıldı. Her kontrolde 40 cevap alanı, bir doğru cevap, 60 saniye duraklamanın dışlanması, yeniden açmada cevap ve 12 saniyenin korunması, açık dosya kimliği teyidi sonrası 1,00 çalışma neti doğrulandı. Dış servise veri gövdeli gönderim sayısı 0 oldu. Bu test mevcut anahtarın 40 harfinin yeniden insan eliyle incelenmesi değildir; önceki kaynak doğrulamasını ve uygulamanın hesaplama/kayıt akışını kullanır.
+Her gerçek dosya kontrolünde 40 cevap alanı, bir doğru cevap, 60 saniye duraklamanın dışlanması, yeniden açmada cevap ve 12 saniyenin korunması, 1,00 çalışma neti doğrulandı. Ayrıca eski bir manuel sonuç saklanarak yeniden açıldı: yanlış eski net kaynak doğrulanmış gibi gösterilmedi, kayıt kendiliğinden değiştirilmedi ve yalnız açık yeniden hesaplama ile doğru kaynak neti kaydedildi. Dış servise veri gövdeli gönderim sayısı 0 oldu. Bu test anahtarın 40 harfinin yeniden insan eliyle incelenmesi değildir; önceki kaynak doğrulamasını kullanır.
 
-| Gerçek kitapçık | Yayıncıdan gelen boyut | Masaüstü / mobil |
-| --- | ---: | --- |
-| 2024 TYT | 5.439.411 bayt | Geçti / geçti |
-| 2024 AYT | 4.390.291 bayt | Geçti / geçti |
+| Gerçek kitapçık | Yayıncı boyutu | SHA-256 | Masaüstü / mobil |
+| --- | ---: | --- | --- |
+| 2024 TYT | 5.439.411 bayt | `5b517eba3f596ed1e9d2073e84023696c40a1f6a2347d7db0aa8c20ece63b64e` | Geçti / geçti |
+| 2024 AYT | 4.390.291 bayt | `6c6d14a245c13fd28f9461845e0d9d375709ed6dcbc9dfb10a2db3219742393b` | Geçti / geçti |
 
-Korunan kitapçık baytları Git deposuna veya CI eklerine alınmaz. Soru metni, ekran görüntüsü, video veya iz yayımlanmaz; geçici tarayıcı bağlamları test sonunda kapatılır. Kaynak dosyalarına ait kontrol özetleri CI günlüğünde bulunur; kataloğun dosya kimliği politikası hâlâ açık kullanıcı teyididir.
+Korunan kitapçık baytları Git deposuna veya CI eklerine alınmaz. Soru metni, ekran görüntüsü, video veya iz yayımlanmaz; geçici tarayıcı bağlamları test sonunda kapatılır. Yayıncı dosyası sonradan değişirse CI sessizce yeni özet kabul etmez; yeniden inceleme gerekir.
 
 ## Sınırlar
 
-2019 AYT tam anahtarı ve KPSS'nin tam nihai anahtarları hâlâ eksiktir. KPSS kısmi kaynak tam deneme gibi gösterilmez. İptal sonrası puanlama politikası desteklenmediği için iptalli iki sınav kapalıdır. Gerçek iOS/Safari/Android donanım testi yapılmadı; mobil Chrome görünümü emülasyonla denetlendi. Canlı Supabase hesabı ve gerçek AI model çağrısı test edilmedi. Özel kitapçık başına tek devam/sonuç kaydı vardır; çoklu girişim arşivi henüz yoktur.
+2019 AYT tam anahtarı ve KPSS'nin tam nihai anahtarları hâlâ eksiktir. 2024 TYT/AYT dışındaki dosyaların yayıncı SHA-256 özetleri henüz katalogda yoktur. KPSS kısmi kaynak tam deneme gibi gösterilmez. İptal sonrası puanlama politikası desteklenmediği için iptalli iki sınav kapalıdır. Gerçek iOS/Safari/Android donanım testi yapılmadı; mobil Chrome görünümü emülasyonla denetlendi. Canlı Supabase hesabı ve gerçek AI model çağrısı test edilmedi. Özel kitapçık başına tek devam/sonuç kaydı vardır; çoklu girişim arşivi henüz yoktur.
