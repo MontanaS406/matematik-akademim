@@ -151,7 +151,7 @@ function renderAccount() {
 async function api(path,method='GET',body=null,token=null) {
   const response = await fetch(config.url + path, {
     method,signal:AbortSignal.timeout(20000),
-    headers:{apikey:config.key,'Content-Type':'application/json',...(token ? {Authorization:'Bearer ' + token} : {}),...(method === 'POST' ? {Prefer:'resolution=merge-duplicates,return=representation'} : {})},
+    headers:{apikey:config.key,'Content-Type':'application/json',...(token ? {Authorization:'Bearer ' + token} : {}),...(method === 'POST' && path.startsWith('/rest/v1/') ? {Prefer:'resolution=merge-duplicates,return=representation'} : {})},
     ...(body !== null ? {body:JSON.stringify(body)} : {})
   });
   if (!response.ok) {
@@ -192,14 +192,24 @@ function setAuth(response) {
   accountEpoch++;
   notifyAccount();
 }
-function signOut() {
+async function signOut() {
+  const previous = auth;
   auth = null;
   try { sessionStorage.removeItem('ma_auth'); } catch {}
   loadRecords(HISTORY_KEY + '_guest');
   accountEpoch++;
+  const logoutEpoch = accountEpoch;
   notifyAccount();
   renderAccount();
   renderHistory();
+  if (!previous?.access_token) return;
+  try {
+    // Revoke only the captured session. Local isolation happens immediately and
+    // never depends on a remote response or signs out a later login.
+    await api('/auth/v1/logout?scope=local','POST',null,previous.access_token);
+  } catch {
+    if (!auth && accountEpoch === logoutEpoch) setStatus('Bu cihazdaki oturum kapatıldı. Sunucu çıkışı doğrulanamadı; bağlantını kontrol et.');
+  }
 }
 async function login(signup) {
   if (loginBusy) return;
