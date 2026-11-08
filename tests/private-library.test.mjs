@@ -30,3 +30,7 @@ test('progress whitelist preserves answers/timing and never stores tokens or for
 test('private progress retains explicit user page mappings without inventing unmapped positions',async()=>{
  const {normalizePrivateProgress}=await import('../shared/private-library.js');const value={answers:['A',null],index:0,startedAt:1000,pausedAt:null,pausedMs:0,pdfPage:24,questionPages:[24,null]};const saved=normalizePrivateProgress(value,2,10000);assert.equal(saved.pdfPage,24);assert.deepEqual(saved.questionPages,[24,null]);assert.throws(()=>normalizePrivateProgress({...value,questionPages:[0,null]},2,10000));
 });
+
+test('KPSS Lisans private storage shares the model type and keeps a thirty-answer key unverified',async()=>{
+ const {PRIVATE_EXAM_TYPES}=await import('../shared/private-library.js');const model=await import('../shared/private-exam.js');assert.equal(PRIVATE_EXAM_TYPES,model.PRIVATE_EXAM_TYPES);assert.ok(PRIVATE_EXAM_TYPES.includes('KPSS_LISANS'));const value=validatePrivateMetadata({...metadata(),examType:'KPSS_LISANS',year:2026,questionCount:30,sourceUrl:null,bookletId:null,verified:true});assert.equal(value.examType,'KPSS_LISANS');assert.equal(value.sourceUrl,null);assert.equal(value.verified,undefined);assert.deepEqual(value.questionNumbers,Array.from({length:30},(_,i)=>i+1));const key=normalizePrivateAnswerKey({value:'A'.repeat(30),verified:true},value.questionCount);assert.equal(key.verified,false);assert.equal(key.provenance,'user-entered');
+});

@@ -20,7 +20,7 @@ test('all browser and worker modules parse',()=>{
  for(const dir of ['js','shared','cloudflare-worker','data'])for(const file of fs.readdirSync(new URL('../'+dir+'/',import.meta.url)).filter(file=>file.endsWith('.js'))){const result=spawnSync(process.execPath,['--check',new URL('../'+dir+'/'+file,import.meta.url).pathname],{encoding:'utf8'});assert.equal(result.status,0,result.stderr)}
  scripts.forEach((source,index)=>assert.doesNotThrow(()=>new vm.Script(source,{filename:`inline-${index}.js`})));
 });
-test('the student bootstrap does not mount the retired file-workspace UI',()=>{
+test('the normal student and account views do not directly mount the separate exam workspace',()=>{
  assert.doesNotMatch(html,/type\s*=\s*["']file["']/i);
  assert.doesNotMatch(account,/mountPrivateExams|from\s+['"]\.\/private-exams\.js/);
 });

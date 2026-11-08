@@ -4,8 +4,8 @@ import {QUESTION_BANK} from '../../data/question-bank.js';
 import {currentQuestion,selectQuestionCourse,openAccount} from './source-helpers.mjs';
 const forbidden=/pdf|dosya\s*(?:seç|yükle)|kitapçık\s*aktar/iu;
 async function expectSimpleSurface(page){
- expect(await page.locator('body').innerText()).not.toMatch(forbidden);await expect(page.locator('input[type=file]')).toHaveCount(0);await expect(page.locator('iframe')).toHaveCount(0);
- const labels=await page.locator('[aria-label],[title]').evaluateAll(elements=>elements.map(element=>(element.getAttribute('aria-label')||'')+' '+(element.getAttribute('title')||'')).join('\n'));expect(labels).not.toMatch(forbidden);
+ expect(await page.locator('body').innerText()).not.toMatch(forbidden);expect(await page.locator('input[type=file],iframe').evaluateAll(elements=>elements.filter(element=>!element.closest('#examModePage')).length)).toBe(0);await expect(page.locator('#examModePage')).toBeHidden();
+ const labels=await page.locator('[aria-label],[title]').evaluateAll(elements=>elements.filter(element=>!element.closest('#examModePage')).map(element=>(element.getAttribute('aria-label')||'')+' '+(element.getAttribute('title')||'')).join('\n'));expect(labels).not.toMatch(forbidden);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 }
 
@@ -23,7 +23,7 @@ test('answering and moving next uses actual registry entries and preserves perso
  await page.locator('#nextSource').click();const next=await currentQuestion(page);expect(next.id).not.toBe(question.id);await expect(page.locator('#originalPrompt')).toHaveText(next.prompt);
  await page.reload();expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('ma_learning_v1_guest')).attempts)).toContainEqual(before.attempts.at(-1));await page.locator('.nav').getByRole('button',{name:'İlerleme',exact:true}).click();await expect(page.locator('#progressSummary .stat-card strong').first()).toHaveText('1');await expect(page.locator('#progressSummary .stat-card strong').nth(1)).toHaveText('1');
 });
-test('every reachable main tab and source/account dialog has no upload interface',async({page})=>{
+test('the four normal tabs and dialogs stay free of the separate exam upload interface',async({page})=>{
  await page.goto('/');await expectSimpleSurface(page);await page.locator('#openSourceInfo').click();await expect(page.locator('#sourceInfo')).toHaveAttribute('open','');await expectSimpleSurface(page);await page.keyboard.press('Escape');
  await page.locator('#browseCourses').click();await expectSimpleSurface(page);await page.keyboard.press('Escape');
  for(const name of ['Konular','Öğretmen','İlerleme','Soru çöz']){await page.locator('.nav').getByRole('button',{name,exact:true}).click();await expectSimpleSurface(page)}

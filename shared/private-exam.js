@@ -1,8 +1,8 @@
 // Private-device grading never turns a user-entered key into an official key.
 // The trusted catalog is reviewed code; imported JSON and local metadata are not.
-export const PRIVATE_EXAM_TYPES=Object.freeze(['TYT','AYT','KPSS_ONLISANS','KPSS_ORTAOGRETIM','ALES','DGS','MEB','OTHER']);
+export const PRIVATE_EXAM_TYPES=Object.freeze(['TYT','AYT','KPSS_LISANS','KPSS_ONLISANS','KPSS_ORTAOGRETIM','ALES','DGS','MEB','OTHER']);
 // Suggestions only. A user's actual booklet count must be confirmed explicitly.
-export const SUGGESTED_COUNTS=Object.freeze({TYT:40,AYT:40,KPSS_ONLISANS:30,KPSS_ORTAOGRETIM:30,ALES:50,DGS:50});
+export const SUGGESTED_COUNTS=Object.freeze({TYT:40,AYT:40,KPSS_LISANS:30,KPSS_ONLISANS:30,KPSS_ORTAOGRETIM:30,ALES:50,DGS:50});
 const own=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
 const count=value=>Number.isInteger(value)&&value>=1&&value<=100;
 const identifier=value=>typeof value==='string'&&/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,119}$/.test(value);

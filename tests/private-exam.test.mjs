@@ -8,7 +8,7 @@ const metadata=(extra={})=>({examType:'TYT',year:2024,sourceTitle:'My private so
 const book=(extra={})=>({id:'private-test-book',sha256:hash,metadata:metadata(),...extra});
 
 test('private booklet metadata preserves variable counts without asserting official completeness',()=>{
- assert.equal(PRIVATE_EXAM_TYPES.length,8);assert.equal(SUGGESTED_COUNTS.ALES,50);
+ assert.equal(PRIVATE_EXAM_TYPES.length,9);assert.equal(SUGGESTED_COUNTS.ALES,50);
  const m=normalizeBookletMetadata(metadata({examType:'DGS',questionCount:'50',year:'2026',mathStartPage:'12',verified:true,answerKey:'fake'}));
  assert.equal(m.questionCount,50);assert.equal(m.mathStartPage,12);assert.equal(m.year,2026);assert.equal(m.verified,undefined);assert.equal(m.answerKey,undefined);
  assert.equal(normalizeBookletMetadata(metadata({examType:'OTHER',year:null,questionCount:7})).year,null);
@@ -24,7 +24,7 @@ test('source-key verification requires complete official evidence, correction au
  const f=fixture();assert.ok(verifiedOfficialKey(f));assert.ok(getTrustedExam([f],f.id));assert.equal(getTrustedExam([f,f],f.id),null);
  for(const mutate of [x=>x.verification.status='pending',x=>x.verification.answerKeyVerified=false,x=>x.verification.coverageVerified=false,x=>delete x.verification.correctionsCheckedAt,x=>x.verification.correctionsEvidenceUrl='https://not-osym.example/key',x=>x.originalUrl='https://osym.gov.tr.evil.example/doc',x=>x.answerKeyEvidenceUrl='http://www.osym.gov.tr/key',x=>x.questionNumbers.pop(),x=>x.questionNumbers[3]=2,x=>x.answerKey='A'.repeat(39),x=>x.cancelledNumbers=[7],x=>delete x.cancelledNumbers,x=>x.scoringPolicy='unknown',x=>x.pdfSha256='not-a-hash']){const bad=structuredClone(f);mutate(bad);assert.equal(verifiedOfficialKey(bad),null)}
  assert.equal(verifiedOfficialKey(fixture({count:30})),null);
- assert.ok(verifiedOfficialKey(fixture({type:'KPSS_ONLISANS',count:30})));
+ assert.ok(verifiedOfficialKey(fixture({type:'KPSS_LISANS',count:30})));assert.ok(verifiedOfficialKey(fixture({type:'KPSS_ONLISANS',count:30})));
  assert.ok(verifiedOfficialKey(fixture({type:'ALES',count:50})));
  assert.ok(verifiedOfficialKey(fixture({type:'DGS',count:50})));
  assert.ok(verifiedOfficialKey(fixture({sha256:null})),'a key may be reviewed even when file identity lacks a known digest');
@@ -56,4 +56,8 @@ test('manual assessment stays explicit and distinguishes unmatched or cancelled 
 test('production Turkish metadata never contains the synthetic test exam or question content',()=>{
  assert.equal(TURKISH_EXAMS.some(row=>row.id==='test-only-exam'),false);
  for(const row of TURKISH_EXAMS){assert.equal('prompt' in row,false);assert.equal('questions' in row,false)}
+});
+
+test('KPSS Lisans uses a suggested thirty fields without granting unknown keys official status',()=>{
+ assert.equal(SUGGESTED_COUNTS.KPSS_LISANS,30);assert.ok(PRIVATE_EXAM_TYPES.includes('KPSS_LISANS'));const m=normalizeBookletMetadata(metadata({examType:'KPSS_LISANS',questionCount:30,bookletId:null,sourceUrl:null}));assert.equal(m.questionCount,30);assert.deepEqual(m.questionNumbers,Array.from({length:30},(_,i)=>i+1));assert.equal(m.sourceUrl,null);assert.equal(trustedKeyForBooklet(TURKISH_EXAMS,{sha256:hash,metadata:m}),null);const key=parseAnswerKey('A'.repeat(30),30);assert.equal(scorePrivateExam(Array(30).fill('A'),key).status,'unscored');const result=scorePrivateExam(Array(30).fill('A'),key,{manual:true});assert.equal(result.net,30);assert.equal(result.verified,false);
 });

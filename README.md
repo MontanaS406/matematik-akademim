@@ -4,9 +4,10 @@ Türkçe ders anlatımları, altı AI öğretmen, kaynaklı matematik soru banka
 
 ## Kullanım
 
-Dört bölüm: **Soru çöz**, **Konular**, **Öğretmen**, **İlerleme**. Ana ekran doğrudan gerçek bir soru açar. Konu anlatımları, öğretmen seçimi ve hesap işlemleri kendi alanlarındadır; kullanıcıdan içerik aktarması istenmez.
+Dört bölüm: **Soru çöz**, **Konular**, **Öğretmen**, **İlerleme**. Ana ekran doğrudan gerçek bir soru açar. Konu anlatımları, öğretmen seçimi ve hesap işlemleri kendi alanlarındadır. Küçük **Sınav Modu** seçeneği TYT/AYT/KPSS kitapçıklarını, uygulama içi görüntüleyiciyi, optik formu ve kronometreyi açar; bu kontroller yalnız mod içinde görünür.
 
 - [Sade arayüz yenilemesi](docs/SADE_ARAYUZ_RAPORU.md)
+- [Sınav Modu hazırlık raporu](docs/SINAV_MODU_HAZIRLIK_RAPORU.md)
 
 ## Güncel soru kuralı
 
@@ -29,7 +30,7 @@ Güncel katalog: **132 gerçek numaralı soru + 10 yayımlanmış çözümlü ö
 - `shared/curriculum.js`: 27 konunun soru içermeyen tanımsal anlatımları.
 - `js/app.js`: kaynak kartları, konu seçimi, öğretmen ve ilerleme arayüzü.
 - `js/exams.js`: hesap işlemleri, güvenli eşitleme, ilerleme ve geçmiş.
-- `js/private-exams.js`: eski özel çalışma modülü; yeni arayüzde başlatılmaz.
+- `js/exam-mode.js` / `js/private-exams.js`: yalnız Sınav Modu içinde açılan özel kitapçık çalışması.
 - `shared/private-library.js`: hesap kimliğiyle ayrılan yerel IndexedDB deposu; PDF/anahtar için sunucu isteği yapmaz.
 - `data/turkish-exams.js` / `shared/private-exam.js`: 17 kaynak kitapçık kimliği, anahtar kanıtları, iptal denetimi ve dosya eşleştirmesi. Soru metni içermez.
 - `cloudflare-worker/worker.js`: yalnız seçili kaynak sorusuna bağlı AI açıklaması.
@@ -53,8 +54,8 @@ Kişisel geçmiş, eski ilerleme kimlikleri ve hesaplar silinmez. İlk profil ya
 
 Herkese açık bankada 2018–2026 TYT/AYT seçimi bulunur; izinli ve nihai anahtarı doğrulanmış tam 40 soru olmadan kamuya açık tam deneme açılmaz. Eski PDF önbelleği korunur; bu eski genel akışta kaynak/izin/tamlık ve dosya SHA-256 doğrulaması gerekir.
 
-Eski belge aktarımı ve boş cevap kâğıdı akışları yeni kullanıcı arayüzünde bulunmaz. Bu akışların cihaz depoları, yarım çalışmalar ve geçmiş kayıtları korunur. Veri modelleri ve eski kitapçık/anahtar araştırması uyumluluk için depoda saklanır; mevcut soru bankasına uydurma içerik eklemek için kullanılmaz.
+Belge seçimi, uygulama içi PDF görüntüleme ve optik alan yalnız **Sınav Modu** içinde bulunur. TYT/AYT için 15 tam anahtar dosya kimliği ayrıca teyit edilerek kullanılabilir. KPSS tam anahtarları doğrulanmadığında sonuç otomatik puanlanmaz. Özel dosyalar ve ilerleme hesap kimliğiyle ayrılan güvenli yerel depoda kalır; eski kayıtlar silinmez. Kısmi KPSS kaynağı tam deneme sayılmaz. Bu görev otomatik birleştirme veya yayın yapmaz.
 
-Canlı Supabase ve gerçek AI/model bağlantısı doğrulanmadı. Worker erişim kodu kişisel kullanım içindir; çok kullanıcılı sunucu kimliğinin yerine geçmez. Sırlar istemciye veya GitHub’a konmaz. Yayın, kullanıcının açık talimatıyla mevcut GitHub Pages adresinde yapılır.
+Canlı Supabase ve gerçek AI/model bağlantısı doğrulanmadı. Worker erişim kodu kişisel kullanım içindir; çok kullanıcılı sunucu kimliğinin yerine geçmez. Sırlar istemciye veya GitHub’a konmaz. Bu geliştirme PR üzerinde hazırlanır; bu görevde otomatik birleştirme veya yayın yapılmaz.
 
 Önceki aşamaların raporları `docs/` altında tarihsel kayıt olarak korunur; eski soru üretimi hakkındaki açıklamaları güncel davranış değildir.

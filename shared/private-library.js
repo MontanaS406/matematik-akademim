@@ -2,7 +2,8 @@
 // Owner scoping is a local application boundary, not encryption against scripts on this origin.
 export const PRIVATE_LIBRARY_DATABASE = 'MatematikAkademimPrivateLibraryV1';
 export const MAX_PRIVATE_PDF_BYTES = 50 * 1024 * 1024;
-export const PRIVATE_EXAM_TYPES = Object.freeze(['TYT','AYT','KPSS_ONLISANS','KPSS_ORTAOGRETIM','ALES','DGS','MEB','OTHER']);
+import {PRIVATE_EXAM_TYPES} from './private-exam.js';
+export {PRIVATE_EXAM_TYPES};
 const object = value => !!value && typeof value === 'object' && !Array.isArray(value);
 const hashId = value => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value);
 const plainText = (value,max) => typeof value === 'string' && value.trim().length > 0 && value.trim().length <= max && !/[\u0000-\u001f\u007f]/.test(value);
