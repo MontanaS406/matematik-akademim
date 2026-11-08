@@ -2,6 +2,12 @@
 
 Türkçe ders anlatımları, altı AI öğretmen, kaynaklı matematik soru bankası ve kullanıcıya özel deneme geçmişi.
 
+## Kullanım
+
+Dört bölüm: **Soru çöz**, **Konular**, **Öğretmen**, **İlerleme**. Ana ekran doğrudan gerçek bir soru açar. Konu anlatımları, öğretmen seçimi ve hesap işlemleri kendi alanlarındadır; kullanıcıdan içerik aktarması istenmez.
+
+- [Sade arayüz yenilemesi](docs/SADE_ARAYUZ_RAPORU.md)
+
 ## Güncel soru kuralı
 
 Uygulama soru üretmez. Geliştirici alıştırmaları, eski rastgele üretici ve hazır örnek sorular kaldırıldı. Soru bankası yalnızca **kaynağı, yeniden kullanım izni ve cevap anahtarı doğrulanmış** içerikleri kabul eder. Uygun içerik olmayan konuda boş durum mesajı gösterilir.
@@ -22,8 +28,8 @@ Güncel katalog: **132 gerçek numaralı soru + 10 yayımlanmış çözümlü ö
 - `shared/question-bank.js`: yayın, kaynak, izin, cevap, yinelenme, yıl ve tam sınav denetimi.
 - `shared/curriculum.js`: 27 konunun soru içermeyen tanımsal anlatımları.
 - `js/app.js`: kaynak kartları, konu seçimi, öğretmen ve ilerleme arayüzü.
-- `js/exams.js`: doğrulanmış sınav kapısı, cevap alanı, süre ve geçmiş.
-- `js/private-exams.js`: cihazdaki özel PDF, optik form, kronometre, konu etiketleri ve sonuç inceleme.
+- `js/exams.js`: hesap işlemleri, güvenli eşitleme, ilerleme ve geçmiş.
+- `js/private-exams.js`: eski özel çalışma modülü; yeni arayüzde başlatılmaz.
 - `shared/private-library.js`: hesap kimliğiyle ayrılan yerel IndexedDB deposu; PDF/anahtar için sunucu isteği yapmaz.
 - `data/turkish-exams.js` / `shared/private-exam.js`: 17 kaynak kitapçık kimliği, anahtar kanıtları, iptal denetimi ve dosya eşleştirmesi. Soru metni içermez.
 - `cloudflare-worker/worker.js`: yalnız seçili kaynak sorusuna bağlı AI açıklaması.
@@ -47,11 +53,7 @@ Kişisel geçmiş, eski ilerleme kimlikleri ve hesaplar silinmez. İlk profil ya
 
 Herkese açık bankada 2018–2026 TYT/AYT seçimi bulunur; izinli ve nihai anahtarı doğrulanmış tam 40 soru olmadan kamuya açık tam deneme açılmaz. Eski PDF önbelleği korunur; bu eski genel akışta kaynak/izin/tamlık ve dosya SHA-256 doğrulaması gerekir.
 
-Yeni **Türkiye sınav kitapçığımı cihazımda çöz** alanı, kullanıcının kendi edindiği gerçek PDF'yi yalnız kendi tarayıcısında açar. Soru, şekil ve seçenekler özgün PDF'de; cevap alanları aynı ekranda görünür. Dosya, kullanıcı anahtarı, konu etiketleri ve sonuçlar hesap kimliğine göre ayrılan yerel IndexedDB'de tutulur; Supabase'e, AI'ya veya herkese açık bankaya gönderilmez. Bu ayrım cihazda şifreleme değildir; tarayıcı verileri silinirse yerel kopyalar kaybolabilir. Cevap yedeği dışa aktarılabilir; PDF ayrıca saklanmalıdır.
-
-17 TYT/AYT kitapçık kimliği ve anahtar durumu incelendi. İptalsiz 15 tam anahtar, kullanıcı sınav/yıl/temel kitapçık ve soru sırasını açıkça teyit ettikten sonra **çalışma neti** hesaplar. Bu teyit PDF'nin bağımsız dosya doğrulaması değildir; gerçek kaynak dosyalarının SHA-256 özeti henüz yoktur. 2019 TYT 7 ve 2026 AYT 23 iptalleri nedeniyle bu iki sınavın neti kapalıdır. Bilinmeyen anahtar puan üretmez; kullanıcı anahtarıyla hesaplama yalnız açık manuel işlemle ve doğrulanmamış etiketiyle yapılır. Bu sonuç ÖSYM sınav/yerleştirme puanı değildir.
-
-KPSS, ALES, DGS, MEB ve diğer gerçek kaynaklar özel PDF olarak açılabilir; bunlar için tam resmî anahtar doğrulaması tamamlanmadı. Özgün soru numaraları ve kullanıcıya ait sayfa eşleştirmeleri korunur; konu sınıflandırması kullanıcı etiketidir. Türkiye sınav soruları için yeniden yayım izni bulunmadı. Açık lisanslı kaynaklardan eklenen gerçek matematik soruları ve çözümlü örnekler yukarıdaki katalogda yer alır.
+Eski belge aktarımı ve boş cevap kâğıdı akışları yeni kullanıcı arayüzünde bulunmaz. Bu akışların cihaz depoları, yarım çalışmalar ve geçmiş kayıtları korunur. Veri modelleri ve eski kitapçık/anahtar araştırması uyumluluk için depoda saklanır; mevcut soru bankasına uydurma içerik eklemek için kullanılmaz.
 
 Canlı Supabase ve gerçek AI/model bağlantısı doğrulanmadı. Worker erişim kodu kişisel kullanım içindir; çok kullanıcılı sunucu kimliğinin yerine geçmez. Sırlar istemciye veya GitHub’a konmaz. Yayın, kullanıcının açık talimatıyla mevcut GitHub Pages adresinde yapılır.
 
