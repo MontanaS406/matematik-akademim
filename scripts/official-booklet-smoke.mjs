@@ -191,8 +191,34 @@ async function checkBooklet(download,device) {
       } finally { await library.close(); }
     },row.id);
     assert.deepEqual(saved,{sha256,answers:1,duration:12,net:1});
+    const restartConfirmation=page.waitForEvent('dialog').then(async dialog=>{
+      assert.equal(dialog.type(),'confirm');
+      assert.equal(dialog.message(),'Tamamlanan çalışmayı geçmişte saklayıp aynı kitapçığı yeniden çözmek istiyor musun?');
+      await dialog.accept();
+    });
+    await Promise.all([restartConfirmation,page.locator('#privateRestart').click()]);
+    await expect(page.locator('#privatePause')).toHaveText('Duraklat');
+    await expect(page.locator('#privateCurrent')).toContainText('0/40 işaretli');
+    await page.reload({waitUntil:'domcontentloaded'});
+    await enterBooklet(page,row,{navigate:false});
+    await page.locator('#privateBookList button').filter({hasText:row.title}).first().click();
+    await expectNativeDocument(page);
+    await expect(page.locator('#privateCurrent')).toContainText('0/40 işaretli');
+    await page.locator('#privateAttempts > summary').click();
+    await page.locator('#privateAttemptList button').first().click();
+    await expect(page.locator('#privateAttemptView')).toContainText('salt okunur');
+    await expect(page.locator('#privateAttemptView')).toContainText('1.00 çalışma neti');
+    const repeated=await page.evaluate(async examId=>{
+      const {openPrivateLibrary}=await import('/shared/private-library.js');
+      const library=openPrivateLibrary('guest');
+      try{
+        const book=(await library.list()).find(record=>record.metadata.bookletId===examId);
+        return {count:book.attempts.length,oldNet:book.attempts[0].progress.score.net,oldMarks:book.attempts[0].progress.answers.filter(Boolean).length,currentMarks:book.progress.answers.filter(Boolean).length,attemptId:book.progress.attemptId};
+      }finally{await library.close()}
+    },row.id);
+    assert.deepEqual(repeated,{count:1,oldNet:1,oldMarks:1,currentMarks:0,attemptId:'attempt-2'});
     assert.equal(externalBodyAttempts,0,'The private booklet or answers must never be posted to an external service.');
-    process.stdout.write(JSON.stringify({status:'passed',device,exam:row.examType,id:row.id,year:row.year,bytes:buffer.byteLength,sha256,viewLoaded:true,answerFields:40,persistedMarks:saved.answers,pausedSecondsExcluded:true,resumedAfterReload:true,duration:saved.duration,practiceNet:saved.net,fileIdentity:'sha256',legacyManualScoreRechecked:true,externalBodyAttempts}) + '\n');
+    process.stdout.write(JSON.stringify({status:'passed',device,exam:row.examType,id:row.id,year:row.year,bytes:buffer.byteLength,sha256,viewLoaded:true,answerFields:40,persistedMarks:saved.answers,pausedSecondsExcluded:true,resumedAfterReload:true,duration:saved.duration,practiceNet:saved.net,fileIdentity:'sha256',legacyManualScoreRechecked:true,repeatedAttemptPreserved:true,externalBodyAttempts}) + '\n');
   } finally { await context.close(); }
 }
 
