@@ -34,3 +34,25 @@ test('private progress retains explicit user page mappings without inventing unm
 test('KPSS Lisans private storage shares the model type and keeps a thirty-answer key unverified',async()=>{
  const {PRIVATE_EXAM_TYPES}=await import('../shared/private-library.js');const model=await import('../shared/private-exam.js');assert.equal(PRIVATE_EXAM_TYPES,model.PRIVATE_EXAM_TYPES);assert.ok(PRIVATE_EXAM_TYPES.includes('KPSS_LISANS'));const value=validatePrivateMetadata({...metadata(),examType:'KPSS_LISANS',year:2026,questionCount:30,sourceUrl:null,bookletId:null,verified:true});assert.equal(value.examType,'KPSS_LISANS');assert.equal(value.sourceUrl,null);assert.equal(value.verified,undefined);assert.deepEqual(value.questionNumbers,Array.from({length:30},(_,i)=>i+1));const key=normalizePrivateAnswerKey({value:'A'.repeat(30),verified:true},value.questionCount);assert.equal(key.verified,false);assert.equal(key.provenance,'user-entered');
 });
+
+
+test('attempt history reads legacy records as empty and whitelists immutable completed snapshots',async()=>{
+ const {normalizePrivateAttempts}=await import('../shared/private-library.js');const now=100000;
+ const item={id:'attempt-1',archivedAt:new Date(95000).toISOString(),metadata:{...metadata(),questionCount:2,questionNumbers:[1,2],verified:true},answerKey:{value:'AB',verified:true,secret:'not-stored'},progress:{answers:['A',null],index:0,startedAt:1000,pausedAt:null,pausedMs:0,finishedAt:new Date(90000).toISOString(),finishedDuration:89,score:{correct:1,wrong:0,blank:1,net:1},access_token:'not-stored'},access_token:'not-stored'};
+ assert.deepEqual(normalizePrivateAttempts(undefined,now),[]);const normalized=normalizePrivateAttempts([item],now);
+ assert.equal(normalized[0].progress.answers[0],'A');assert.equal(normalized[0].progress.access_token,undefined);assert.equal(normalized[0].access_token,undefined);assert.equal(normalized[0].metadata.verified,undefined);assert.equal(normalized[0].answerKey.verified,false);assert.equal(normalized[0].answerKey.secret,undefined);
+ normalized[0].progress.answers[0]='E';assert.equal(item.progress.answers[0],'A');
+});
+test('attempt history rejects unfinished, duplicate, future or oversized archives without truncation',async()=>{
+ const {normalizePrivateAttempts,MAX_PRIVATE_ATTEMPTS}=await import('../shared/private-library.js');const now=100000;
+ const item={id:'attempt-1',archivedAt:new Date(95000).toISOString(),metadata:{...metadata(),questionCount:2},answerKey:null,progress:{answers:['A',null],index:0,startedAt:1000,finishedAt:new Date(90000).toISOString(),finishedDuration:89}};
+ for(const bad of [null,{},[item,item],[{...item,id:'../other'}],[{...item,archivedAt:new Date(80000).toISOString()}],[{...item,archivedAt:new Date(110000).toISOString()}],[{...item,progress:{...item.progress,finishedAt:null,finishedDuration:null}}],Array(MAX_PRIVATE_ATTEMPTS+1).fill(item)])assert.throws(()=>normalizePrivateAttempts(bad,now));
+ assert.equal(normalizePrivateAttempts([item],now).length,1);
+});
+
+
+test('private progress preserves a validated attempt generation without changing legacy records',async()=>{
+ const {normalizePrivateProgress}=await import('../shared/private-library.js');const raw={answers:[null],index:0,startedAt:1000};
+ assert.equal('attemptId' in normalizePrivateProgress(raw,1,10000),false);assert.equal(normalizePrivateProgress({...raw,attemptId:'attempt-2'},1,10000).attemptId,'attempt-2');
+ for(const attemptId of [null,[],['attempt-2'],{},true,'attempt-0','attempt-01','../other','attempt-1234567'])assert.throws(()=>normalizePrivateProgress({...raw,attemptId},1,10000));
+});
