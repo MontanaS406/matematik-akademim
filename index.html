@@ -1,50 +1,48 @@
-<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Matematik Akademim — Kapsamlı</title><style>
-:root{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;color:#17233b;background:#f6f8fc}*{box-sizing:border-box}body{margin:0}button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #8caefc;outline-offset:2px}.wrap{max-width:760px;margin:auto;padding:22px 18px 100px}header{display:flex;align-items:center;justify-content:space-between;margin-bottom:35px}.brand{font-weight:850;font-size:19px;letter-spacing:-.6px}.brand span{color:#4168df}.muted{color:#76839b}.tiny{font-size:13px}.pill{border:1px solid #e3e8f1;border-radius:999px;background:white;padding:9px 14px;color:#33415c}.hero{margin:0 0 24px}h1{font-size:clamp(29px,5vw,42px);letter-spacing:-1.5px;margin:5px 0 8px}h2{font-size:20px;margin:0 0 12px;letter-spacing:-.5px}p{line-height:1.65}.card{background:white;border:1px solid #e6ebf3;border-radius:22px;padding:25px;box-shadow:0 10px 35px #182f5b08}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.btn{border:0;border-radius:13px;padding:14px 20px;background:#4168df;color:white;font-weight:750}.btn.secondary{background:#edf2ff;color:#3459ce}.btn.ghost{background:transparent;color:#50617f}.btn:disabled{opacity:.45;cursor:default}.wide{width:100%}.progress{height:7px;background:#edf1f8;border-radius:20px;overflow:hidden;margin:16px 0}.progress>div{height:100%;background:#4168df;transition:width .2s}.question{font-size:clamp(27px,5vw,38px);font-weight:800;line-height:1.45;text-align:center;padding:35px 8px;white-space:pre-line}.choices{display:grid;grid-template-columns:1fr 1fr;gap:12px}.choice{background:#f8faff;border:1.5px solid #e0e8f5;border-radius:14px;padding:20px 10px;font-weight:750;font-size:21px;color:#243450}.choice:hover:not(:disabled){border-color:#4168df}.choice.correct{background:#e7f8ee;border-color:#28a46a}.choice.wrong{background:#fff0f0;border-color:#d45b63}.feedback{background:#f4f7fd;padding:16px;border-radius:14px;margin-top:16px;line-height:1.6}.hide{display:none!important}.nav{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(12px);border-top:1px solid #e8ecf4;display:flex;justify-content:center;gap:10px;padding:10px 12px max(10px,env(safe-area-inset-bottom));z-index:4}.nav button{border:0;background:transparent;border-radius:12px;padding:10px 20px;color:#7b889d;font-weight:700}.nav button.active{background:#edf2ff;color:#3159d3}.list{display:grid;gap:9px;max-height:60vh;overflow:auto}.topic{border:1px solid #e7ebf3;background:#fff;border-radius:13px;padding:16px;display:flex;justify-content:space-between;text-align:left;color:#273754;font-weight:700}.topic.selected{border-color:#4168df;background:#f1f5ff}.topic small{color:#8390a4;font-weight:500}.modal{position:fixed;inset:0;background:#12203891;z-index:8;display:grid;place-items:center;padding:15px}.modal>.card{width:min(520px,100%);max-height:90vh;overflow:auto}.field{width:100%;border:1px solid #dce3ee;border-radius:12px;padding:13px;margin:8px 0 13px;background:white;color:#243450}textarea.field{resize:vertical;min-height:90px}.chat{display:grid;gap:12px;max-height:380px;overflow:auto;margin:20px 0}.bubble{padding:13px 16px;border-radius:16px;background:#f0f4fb;white-space:pre-wrap;line-height:1.6;overflow-wrap:anywhere}.bubble.me{background:#e8efff;margin-left:18%}.bubble.ai{margin-right:8%}.note{padding:14px;background:#f3f6fc;border-radius:12px;font-size:14px;color:#5e6e87;line-height:1.6}.link{display:block;padding:13px;border:1px solid #e4eaf3;border-radius:12px;color:#365ccf;text-decoration:none;margin-top:9px}.subnav{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}.subnav button{padding:10px 12px;border:1px solid #e3e8f2;border-radius:11px;background:white;color:#42516a}.subnav button.active{background:#edf2ff;border-color:#b7c8ff;color:#345dd6}@media(max-width:520px){.wrap{padding:18px 13px 100px}.card{padding:19px}.nav button{padding:10px 13px}.question{padding:26px 5px}.choice{padding:17px 6px}}
-button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #9bd4ff;outline-offset:3px}
-@media(max-width:530px){.exam-grid button{min-height:44px}.exam-main{display:flex;flex-direction:column}.pdf-box,.optik-box{width:100%;box-sizing:border-box}.exam-wrap{min-width:0}.nav button{min-height:44px}.pdf-box iframe{min-height:240px;height:42vh}}
-</style><style id="blue-theme-v10">
-:root{color-scheme:dark;color:#e9f1ff;background:#09172d}
-body{background:radial-gradient(ellipse at 50% -15%,#193f78 0%,#0d2345 35%,#09172d 80%);min-height:100vh;color:#e9f1ff}
-.brand span{color:#75b9ff}.muted,.tiny.muted{color:#a5bad7}
-.card{background:#132b4c;border-color:#284c76;box-shadow:0 15px 40px #020b1d55}
-.pill,.topic,.subnav button{background:#17365b;border-color:#31577f;color:#e7f1ff}
-.topic small{color:#a6bedb}.topic.selected,.subnav button.active{background:#244f89;border-color:#6baeff;color:#fff}
-.btn{background:#327be9;color:#fff}.btn.secondary,.nav button.active{background:#244f89;color:#eaf4ff}.btn.ghost{color:#a9d4ff}.btn:hover:not(:disabled){filter:brightness(1.12)}
-.progress{background:#28466b}.progress>div{background:#61a9ff}
-.choice{background:#19385f;border-color:#355d8a;color:#eff6ff}.choice:hover:not(:disabled){border-color:#80b9ff;background:#224d80}
-.choice.correct{background:#174c42;border-color:#4dc999;color:#eafff6}.choice.wrong{background:#60303d;border-color:#e57c8b;color:#fff}
-.feedback,.note{background:#1a3a60;color:#d5e6ff}.nav{background:#0c203beF;border-color:#2a4d74}.nav button{color:#adc0dc}
-.field{background:#102743;border-color:#365c87;color:#f0f6ff}.field::placeholder{color:#94aac7}
-.bubble{background:#1c416d;color:#eff7ff}.bubble.me{background:#285ba0}.link{border-color:#345c88;color:#91c7ff}
-.modal{background:#020a19c9}button:focus-visible,input:focus-visible,textarea:focus-visible{outline-color:#9dd2ff}
-</style>
-<style>
-/* Exam screen: no popups, PDF is shown in same app panel */
-.wrap:has(#mockexam:not(.hide)){max-width:1520px}
-.exam-wrap{max-width:none;width:100%}.exam-setup{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
-.exam-select{background:#102b4e;color:#edf6ff;border:1px solid #4b6992;border-radius:11px;padding:14px;width:100%;margin-top:6px}
-.exam-top{display:flex;align-items:center;gap:18px;justify-content:space-between;flex-wrap:wrap;margin:14px 0;padding:12px 18px;background:#102e50;border:1px solid #254972;border-radius:15px}
-.exam-main{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,390px);gap:16px;align-items:start}
-.pdf-box,.optik-box{background:#102c4d;border:1px solid #295078;border-radius:17px;padding:14px;min-width:0}
-.pdf-box iframe{width:100%;height:min(73vh,900px);min-height:500px;background:#fff;border:1px solid #5a7694;border-radius:8px;display:block;margin:12px 0}
-.pdf-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}.smallbtn{display:inline-block;border:1px solid #4b75a6;background:#1b426d;color:#d8ebff;border-radius:9px;padding:9px 12px;font-size:13px;cursor:pointer}
-.upload-btn{cursor:pointer}.optik-box .exam-grid{grid-template-columns:repeat(8,1fr);gap:5px;margin:14px 0 22px}.optik-box .exam-grid button{height:34px;padding:0}
-.exam-options{grid-template-columns:repeat(5,1fr);gap:6px;margin:10px 0}.exam-options button{text-align:center;padding:12px 3px;font-weight:850;font-size:17px}
-.current-answer{padding-top:14px;border-top:1px solid #38577a;color:#d4e9ff}.optik-box>.btn{margin-top:12px;width:100%}
-.score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:22px 0}.score-grid div{padding:18px;background:#153a61;border:1px solid #37638b;border-radius:12px;text-align:center}.score-grid b{display:block;font-size:24px}.score-grid span{color:#adccec;font-size:13px}.wrong-list{display:flex;gap:9px;flex-wrap:wrap;margin:10px 0 22px}.wrong-list span{background:#193b60;border-radius:8px;padding:9px 12px;font-size:13px}
-@media(max-width:950px){.exam-main{grid-template-columns:1fr}.pdf-box iframe{height:62vh;min-height:440px}.optik-box .exam-grid{grid-template-columns:repeat(10,1fr)}}
-@media(max-width:530px){.exam-setup{grid-template-columns:1fr}.score-grid{grid-template-columns:repeat(2,1fr)}.optik-box .exam-grid{grid-template-columns:repeat(8,1fr)}.pdf-box iframe{height:63vh;min-height:380px}}
-</style>
-<link rel="stylesheet" href="styles/platform.css"></head><body><main class="wrap"><header><div class="brand">✦ Matematik <span>Akademim</span></div><button class="pill" id="topicButton">Konular ▾</button></header>
-<section id="study"><div id="learningRoot"></div></section>
-<section id="teacher" class="hide"><div class="hero"><div class="muted tiny">Kişisel asistanın</div><h1>AI Öğretmen</h1><div class="muted">Takıldığın yeri sor, birlikte çözelim.</div></div><div class="card"><div id="teacherPicker" aria-label="Öğretmen seçimi"></div><p id="teacherDescription" class="muted"></p><div id="teacherOptions"></div><p id="aiQuestion" class="note"></p><div id="chat" class="chat" role="log" aria-live="polite"><div class="bubble ai">Takıldığın konuyu birlikte öğrenebiliriz.</div></div><div class="row"><button class="smallbtn" id="clearChat">Sohbeti temizle</button><label for="tutorMode">Yardım biçimi</label><select class="field" id="tutorMode"><option value="hint">İpucuyla ilerle</option><option value="solution">Adım adım çözüm</option></select></div><textarea class="field" id="message" aria-label="Öğretmene sor" maxlength="2500" placeholder="Konuyu veya takıldığın adımı yaz..."></textarea><button class="btn wide" id="send">Gönder →</button><details style="margin-top:19px"><summary class="muted tiny" style="cursor:pointer">⚙ AI bağlantı ayarları</summary><p class="tiny muted">Cloudflare Worker adresini ve erişim kodunu gir. API anahtarını buraya yazma.</p><label for="endpoint">Worker adresi</label><input class="field" id="endpoint" placeholder="https://...workers.dev"><label for="access">Erişim kodu</label><input class="field" id="access" type="password" placeholder="Worker erişim kodu"><button class="btn secondary" id="saveAI">Bağlantıyı kaydet</button><div class="tiny muted" id="aiStatus" role="status" style="margin-top:10px"></div></details></div></section>
-<section id="library" class="hide"><div class="hero"><div class="muted tiny">Gerçek sınav kitapçıkları</div><h1>Çıkmış sorular</h1><div class="muted">ÖSYM kitapçığını seçerek çalışmaya başla.</div></div><div class="card"><div class="subnav" id="exams"></div><div id="examLinks"></div><p class="note">Ders kitabı soruları TYT/AYT çıkmış sorusu olarak sunulmaz. Yalnızca doğrulanmış kullanım izni bulunan içerikler soru bankasında gösterilir.</p></div></section>
-</main><nav class="nav"><button class="active" data-page="study">⌂ Ders</button><button data-page="teacher">✧ AI Hoca</button><button data-page="library">▤ Çıkmışlar</button></nav>
-<script type="module" src="js/app.js"></script><style>
-.exam-wrap{max-width:760px;margin:auto}.exam-tabs{display:flex;gap:8px;flex-wrap:wrap}.exam-tabs button{flex:1}.exam-timer{font-size:27px;font-weight:800;font-variant-numeric:tabular-nums}.exam-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px;margin:16px 0}.exam-grid button{border:1px solid #3a638b;border-radius:9px;background:#18385f;color:#e9f3ff;padding:10px 0}.exam-grid button.marked{background:#327be9}.exam-grid button.current{outline:2px solid #a6d5ff}.exam-options{display:grid;gap:9px}.exam-options button{text-align:left;background:#19385e;color:#f0f6ff;border:1px solid #3a638b;border-radius:12px;padding:14px}.exam-options button.chosen{background:#265eaa;border-color:#8cc8ff}.exam-result{border-bottom:1px solid #33557c;padding:10px 0}.exam-muted{color:#aec4e3;font-size:13px}.exam-wrap input{background:#0f2747;color:#fff;border:1px solid #44668e;border-radius:10px;padding:12px;width:100%;margin:6px 0}.exam-wrap .btn{margin:5px 3px 5px 0}.exam-wrap .card{margin:12px 0}.nav{flex-wrap:wrap}.nav button{padding:9px 12px}
-</style>
-<style>
-#mockexam{max-width:none}#realPdf:not([src]){display:none}#mockexam .exam-options button{text-align:center}
-@media(max-width:530px){.nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:3px}.nav button{padding:10px 2px;font-size:13px;white-space:nowrap;min-width:0}#mockexam .pdf-box iframe{height:42vh;min-height:240px}#mockexam .exam-grid button{min-height:44px}#mockexam .exam-main{display:flex;flex-direction:column}}
-</style>
-<script type="module" src="js/exams.js"></script></body></html>
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1424">
+  <title>Matematik Akademim</title>
+  <link rel="stylesheet" href="styles/platform.css?v=clean-1">
+</head>
+<body>
+  <header class="app-header">
+    <a class="brand" href="#" aria-label="Matematik Akademim ana ekran"><span class="brand-mark" aria-hidden="true">∑</span><span>Matematik<br><strong>Akademim</strong></span></a>
+    <button id="accountButton" class="account-button" aria-label="Hesabım"><span class="account-dot" aria-hidden="true">●</span><span>Hesabım</span></button>
+  </header>
+  <nav class="nav" aria-label="Ana menü">
+    <button class="active" data-page="study"><span class="nav-icon" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="3" width="16" height="18" rx="4"/><path d="M8 8h8M8 12h6M8 16h4"/></svg></span><span>Soru çöz</span></button>
+    <button data-page="library"><span class="nav-icon" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><span>Konular</span></button>
+    <button data-page="teacher"><span class="nav-icon" aria-hidden="true"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="m3 8 9-5 9 5-9 5-9-5Z"/><path d="M7 10.5V16c3 3 7 3 10 0v-5.5M21 8v8"/></svg></span><span>Öğretmen</span></button>
+  </nav>
+  <main class="wrap">
+    <section id="study" class="app-page"><div id="learningRoot"></div></section>
+    <section id="library" class="app-page hide">
+      <div class="page-heading"><div><p class="eyebrow">ADIM ADIM ÖĞREN</p><h1>Konular</h1></div><span id="lessonCount" class="count-badge"></span></div>
+      <label class="search-box" for="lessonSearch"><span aria-hidden="true">⌕</span><input id="lessonSearch" type="search" placeholder="Konu ara" autocomplete="off"></label>
+      <div id="lessonGroups" class="filter-pills" aria-label="Konu grupları"></div>
+      <div id="lessonList" class="lesson-grid"></div>
+      <article id="lessonDetails" class="surface lesson-content hide"></article>
+    </section>
+    <section id="teacher" class="app-page hide">
+      <div class="page-heading"><div><p class="eyebrow">BİRLİKTE ÇÖZELİM</p><h1>Öğretmenin</h1></div><button id="teacherChange" class="smallbtn">Değiştir</button></div>
+      <div class="surface tutor-panel">
+        <div class="tutor-identity"><span id="selectedTeacherAvatar" class="avatar"></span><div><h2 id="selectedTeacherName"></h2><p id="teacherDescription"></p></div></div>
+        <p id="aiQuestion" class="context-note"></p>
+        <div id="teacherOptions"></div>
+        <div id="chat" class="chat" role="log" aria-live="polite"></div>
+        <div class="chat-tools"><select id="tutorMode" aria-label="Yardım biçimi"><option value="hint">İpucu</option><option value="solution">Adım adım</option></select><button id="clearChat" class="text-button">Sohbeti temizle</button></div>
+        <label class="sr-only" for="message">Öğretmene mesajın</label><div class="message-box"><textarea id="message" maxlength="2500" rows="2" placeholder="Takıldığın adımı yaz…"></textarea><button id="send" class="btn" aria-label="Mesaj gönder">Gönder <span aria-hidden="true">→</span></button></div>
+        <p id="aiStatus" class="status-note" role="status"></p>
+      </div>
+      <details class="connection-settings"><summary>Bağlantı ayarları</summary><label for="endpoint">Öğretmen sunucusu</label><input class="field" id="endpoint" type="url" placeholder="https://…workers.dev"><label for="access">Erişim kodu</label><input class="field" id="access" type="password" autocomplete="off"><button class="smallbtn" id="saveAI">Kaydet</button></details>
+    </section>
+  </main>
+  <dialog id="teacherDialog" class="app-dialog"><div class="dialog-heading"><h2>Öğretmenini seç</h2><button id="closeTeacherDialog" class="icon-button" aria-label="Kapat">×</button></div><div id="teacherPicker" class="teacher-grid"></div></dialog>
+  <dialog id="sourceInfo" class="app-dialog"><div class="dialog-heading"><h2>Soru bilgisi</h2><button id="closeSourceInfo" class="icon-button" aria-label="Kapat">×</button></div><p id="sourceAttribution" class="legal-note"></p><div class="source-links"><a id="originalSourceLink" target="_blank" rel="noopener noreferrer">Kaynak</a><a id="licenseLink" target="_blank" rel="noopener noreferrer">Lisans</a><a id="answerEvidenceLink" target="_blank" rel="noopener noreferrer">Cevap</a></div></dialog>
+  <script type="module" src="js/app.js?v=clean-1"></script>
+  <script type="module" src="js/exams.js?v=clean-1"></script>
+</body>
+</html>

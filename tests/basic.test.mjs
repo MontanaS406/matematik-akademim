@@ -3,38 +3,36 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
 import {spawnSync} from 'node:child_process';
+import {QUESTION_BANK} from '../data/question-bank.js';
+import {createQuestionRegistry,verifiedExam} from '../shared/question-bank.js';
+import {parseAnswerKey,scorePrivateExam} from '../shared/private-exam.js';
 
-const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const exams = fs.readFileSync(new URL('../js/exams.js',import.meta.url),'utf8');
-const scripts = Array.from(html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi), m => m[1]);
+const html=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');
+const account=fs.readFileSync(new URL('../js/exams.js',import.meta.url),'utf8');
+const scripts=Array.from(html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi),match=>match[1]);
 
-test('HTML contains app and main views', () => {
-  for (const marker of ['id="study"', 'id="teacher"', "sec.id='mockexam'", 'id="examBody"']) {
-    assert.ok((html+exams).includes(marker), `Missing ${marker}`);
-  }
+test('entrypoint contains the learning views and loads the application modules',()=>{
+ for(const marker of ['id="study"','id="teacher"','id="library"'])assert.ok(html.includes(marker),`Missing ${marker}`);
+ assert.match(html,/src="js\/app\.js/);assert.match(html,/src="js\/exams\.js/);
 });
-test('all inline browser scripts parse', () => {
-  assert.ok(scripts.length >= 2, 'Expected module scripts');
-  for(const dir of ['js','shared','cloudflare-worker','data'])for(const file of fs.readdirSync(new URL('../'+dir+'/',import.meta.url)).filter(f=>f.endsWith('.js'))){const result=spawnSync(process.execPath,['--check',new URL('../'+dir+'/'+file,import.meta.url).pathname],{encoding:'utf8'});assert.equal(result.status,0,result.stderr)}
-  scripts.forEach((js, i) => assert.doesNotThrow(() => new vm.Script(js, {filename: `inline-${i}.js`})));
+test('all browser and worker modules parse',()=>{
+ assert.ok(scripts.length>=2,'Expected application module scripts');
+ for(const dir of ['js','shared','cloudflare-worker','data'])for(const file of fs.readdirSync(new URL('../'+dir+'/',import.meta.url)).filter(file=>file.endsWith('.js'))){const result=spawnSync(process.execPath,['--check',new URL('../'+dir+'/'+file,import.meta.url).pathname],{encoding:'utf8'});assert.equal(result.status,0,result.stderr)}
+ scripts.forEach((source,index)=>assert.doesNotThrow(()=>new vm.Script(source,{filename:`inline-${index}.js`})));
 });
-test('exam sources pass through the shared verification gate',()=>{assert.match(exams,/verifiedExam/);assert.doesNotMatch(exams,/dokuman\.osym\.gov\.tr\/pdfdokuman/)});
-test('40-question answer sheet and timing are implemented', () => {
-  assert.match(exams, /Array\(40\)/);
-  assert.match(exams, /const elapsed=\(\)=>/);
-  assert.match(exams, /function finish\(/);
+test('the normal student and account views do not directly mount the separate exam workspace',()=>{
+ assert.doesNotMatch(html,/type\s*=\s*["']file["']/i);
+ assert.doesNotMatch(account,/mountPrivateExams|from\s+['"]\.\/private-exams\.js/);
 });
-test('no server API keys in checked files', () => {
-  for (const path of [new URL('../index.html', import.meta.url), new URL('../cloudflare-worker/worker.js', import.meta.url)]) {
-    const body = fs.readFileSync(path, 'utf8');
-    assert.doesNotMatch(body, /sb_secret_|sk-proj-[A-Za-z0-9]/);
-  }
+test('published questions remain registry-backed and cannot be advertised as a complete official exam',()=>{
+ const registry=createQuestionRegistry(QUESTION_BANK);assert.equal(registry.questions.length,142);
+ assert.equal(verifiedExam(QUESTION_BANK,'TYT',2026),null);assert.equal(verifiedExam(QUESTION_BANK,'AYT',2026),null);
 });
-test('unverified exams cannot use a hardcoded answer key',()=>{assert.doesNotMatch(exams,/const ANSWER_KEYS/);assert.match(exams,/verifiedExam/)});
-test('scoring extremes and blanks obey four-wrong deduction',()=>{
-  const fn=exams.match(/function calcStats\(ans,key\)\{[^\n]+/)[0];
-  const score=vm.runInNewContext('('+fn+')');
-  assert.equal(score(Array(40).fill('A'),'A'.repeat(40)).net,40);
-  assert.equal(score(Array(40).fill('B'),'A'.repeat(40)).net,-10);
-  const blank=score(Array(40).fill(null),'A'.repeat(40));assert.equal(blank.net,0);assert.equal(blank.blank,40);
+test('no server API keys are included in application files',()=>{
+ for(const file of ['index.html','js/app.js','js/exams.js','cloudflare-worker/worker.js'])assert.doesNotMatch(fs.readFileSync(new URL('../'+file,import.meta.url),'utf8'),/sb_secret_|sk-proj-[A-Za-z0-9]/);
+});
+test('retained scoring model preserves four-wrong deduction without exposing a bare-sheet UI',()=>{
+ const key=parseAnswerKey('A'.repeat(40),40),score=answers=>scorePrivateExam(answers,key,{manual:true});
+ assert.equal(score(Array(40).fill('A')).net,40);assert.equal(score(Array(40).fill('B')).net,-10);
+ const blank=score(Array(40).fill(null));assert.equal(blank.net,0);assert.equal(blank.blank,40);
 });

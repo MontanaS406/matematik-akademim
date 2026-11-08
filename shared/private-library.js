@@ -2,7 +2,9 @@
 // Owner scoping is a local application boundary, not encryption against scripts on this origin.
 export const PRIVATE_LIBRARY_DATABASE = 'MatematikAkademimPrivateLibraryV1';
 export const MAX_PRIVATE_PDF_BYTES = 50 * 1024 * 1024;
-export const PRIVATE_EXAM_TYPES = Object.freeze(['TYT','AYT','KPSS_ONLISANS','KPSS_ORTAOGRETIM','ALES','DGS','MEB','OTHER']);
+export const MAX_PRIVATE_ATTEMPTS = 1000;
+import {PRIVATE_EXAM_TYPES} from './private-exam.js';
+export {PRIVATE_EXAM_TYPES};
 const object = value => !!value && typeof value === 'object' && !Array.isArray(value);
 const hashId = value => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value);
 const plainText = (value,max) => typeof value === 'string' && value.trim().length > 0 && value.trim().length <= max && !/[\u0000-\u001f\u007f]/.test(value);
@@ -58,6 +60,8 @@ export function normalizePrivateProgress(input,questionCount,now=Date.now()) {
   if (!object(input) || !Number.isInteger(questionCount) || questionCount < 1 || questionCount > 100) throw new TypeError('Çalışma kaydı geçersiz.');
   if (!Array.isArray(input.answers) || input.answers.length !== questionCount || input.answers.some(a=>a!==null&&!/^[ABCDE]$/.test(a))) throw new TypeError('Cevap kaydı kitapçığın soru sayısıyla eşleşmiyor.');
   if (!Number.isInteger(input.index) || input.index < 0 || input.index >= questionCount) throw new TypeError('Geçerli bir soru konumu gerekli.');
+  const attemptId=input.attemptId;
+  if(attemptId!==undefined&&(typeof attemptId!=='string'||!/^attempt-[1-9]\d{0,5}$/.test(attemptId)))throw new TypeError('Deneme nesli geçersiz.');
   const startedAt=input.startedAt;
   if (!Number.isFinite(startedAt) || startedAt <= 0 || startedAt > now) throw new TypeError('Çalışma başlangıç zamanı geçersiz.');
   const pausedAt=input.pausedAt ?? null,pausedMs=input.pausedMs ?? 0;
@@ -86,10 +90,29 @@ export function normalizePrivateProgress(input,questionCount,now=Date.now()) {
     if(!object(value)||typeof value.examId!=='string'||! /^[a-zA-Z0-9_-]{1,120}$/.test(value.examId)||!Number.isFinite(confirmed)||confirmed<=0||confirmed>now)throw new TypeError('Kitapçık eşleştirme onayı geçersiz.');
     binding={examId:value.examId,confirmedAt:new Date(confirmed).toISOString()};
   }
-  return {answers:input.answers.slice(),index:input.index,binding,pdfPage,questionPages,
+  return {answers:input.answers.slice(),index:input.index,binding,pdfPage,questionPages,...(attemptId===undefined?{}:{attemptId}),
     flags:Array.from({length:questionCount},(_,i)=>input.flags?.[i]===true),
     topics:Array.from({length:questionCount},(_,i)=>PRIVATE_TOPICS.has(input.topics?.[i])?input.topics[i]:null),
     startedAt,pausedAt,pausedMs,finishedDuration,finishedAt,limitSeconds,score};
+}
+// Completed attempts are append-only snapshots, separate from active progress.
+// Legacy records have no attempts field and remain readable without a migration.
+export function normalizePrivateAttempts(input,now=Date.now()) {
+  if (input===undefined) return [];
+  if (!Array.isArray(input) || input.length>MAX_PRIVATE_ATTEMPTS) throw new TypeError('Deneme geçmişi geçersiz.');
+  return input.map((entry,index)=>{
+    if (!object(entry) || entry.id!=='attempt-'+(index+1)) throw new TypeError('Deneme geçmişi kimliği geçersiz.');
+    const metadata=validatePrivateMetadata(entry.metadata),progress=normalizePrivateProgress(entry.progress,metadata.questionCount,now);
+    const archivedAt=typeof entry.archivedAt==='string'?Date.parse(entry.archivedAt):NaN;
+    if (!progress?.finishedAt || !Number.isFinite(archivedAt) || archivedAt<Date.parse(progress.finishedAt) || archivedAt>now) throw new TypeError('Tamamlanmış deneme geçmişi geçersiz.');
+    return {id:entry.id,archivedAt:new Date(archivedAt).toISOString(),metadata,answerKey:normalizePrivateAnswerKey(entry.answerKey,metadata.questionCount),progress};
+  });
+}
+function freshAttempt(progress,questionCount,finishedAt) {
+  const next=normalizePrivateProgress(progress,questionCount);
+  for(const [field,blank] of [['flags',false],['topics',null],['questionPages',null]])if(progress[field]!==undefined&&(!Array.isArray(progress[field])||progress[field].length!==questionCount||progress[field].some(value=>value!==blank)))throw new TypeError('Yeni deneme boş işaret ve konu bilgileriyle başlamalı.');
+  if (!next || next.finishedAt!==null || next.score!==null || next.binding!==null || next.answers.some(answer=>answer!==null) || next.index!==0 || next.pausedAt!==null || next.pausedMs!==0 || next.flags.some(Boolean) || next.topics.some(Boolean) || next.questionPages.some(Boolean) || next.startedAt<Date.parse(finishedAt)) throw new TypeError('Yeni deneme boş cevaplarla ve yeni başlangıç zamanı ile başlamalı.');
+  return next;
 }
 export async function preparePrivatePdf(blob,cryptoProvider=globalThis.crypto) {
   if (!(blob instanceof Blob) || blob.size < 5 || blob.size > MAX_PRIVATE_PDF_BYTES) throw new TypeError('PDF dosyası 50 MB sınırını aşmamalı.');
@@ -102,7 +125,7 @@ export async function preparePrivatePdf(blob,cryptoProvider=globalThis.crypto) {
 }
 function safeRecord(record){
  const metadata=validatePrivateMetadata(record.metadata);
- return {...record,metadata,answerKey:normalizePrivateAnswerKey(record.answerKey,metadata.questionCount),progress:record.progress?normalizePrivateProgress(record.progress,metadata.questionCount):null};
+ return {...record,metadata,answerKey:normalizePrivateAnswerKey(record.answerKey,metadata.questionCount),progress:record.progress?normalizePrivateProgress(record.progress,metadata.questionCount):null,attempts:normalizePrivateAttempts(record.attempts)};
 }
 function summary(record){if(!record)return null;const {owner,blob,...value}=safeRecord(record);return value;}
 function fullRecord(record){if(!record)return null;const {owner,...value}=safeRecord(record);return {...value,blob:new Blob([record.blob],{type:'application/pdf'})};}
@@ -146,10 +169,10 @@ export function openPrivateLibrary(owner,options={}) {
       if (input.id !== undefined && input.id !== prepared.sha256) throw new TypeError('Kitapçık kimliği dosyayla eşleşmiyor.');
       return writeRecord(prepared.sha256,existing=>{
         const keyValue=input.answerKey === undefined ? existing?.answerKey ?? null : input.answerKey;
-        if(existing?.progress&&!sameExamIdentity(validatePrivateMetadata(existing.metadata),metadata))throw new Error('Kaydı olan çalışmanın sınav kimliği veya soru sırası değiştirilemez; mevcut cevaplar korunuyor.');
+        if((existing?.progress||existing?.attempts?.length)&&!sameExamIdentity(validatePrivateMetadata(existing.metadata),metadata))throw new Error('Kaydı olan çalışmanın sınav kimliği veya soru sırası değiştirilemez; mevcut cevaplar korunuyor.');
         const answerKey=normalizePrivateAnswerKey(keyValue,metadata.questionCount),time=now();
         return {owner:scopedOwner,id:prepared.sha256,sha256:prepared.sha256,blob:prepared.blob,byteLength:prepared.byteLength,metadata,
-          progress:existing?.progress??null,fileName:sanitizePrivateFilename(input.fileName ?? input.blob.name ?? existing?.fileName ?? metadata.sourceTitle),answerKey,createdAt:existing?.createdAt||time,updatedAt:time};
+          progress:existing?.progress??null,attempts:normalizePrivateAttempts(existing?.attempts),fileName:sanitizePrivateFilename(input.fileName ?? input.blob.name ?? existing?.fileName ?? metadata.sourceTitle),answerKey,createdAt:existing?.createdAt||time,updatedAt:time};
       });
     },
     async update(id,changes){
@@ -159,7 +182,7 @@ export function openPrivateLibrary(owner,options={}) {
         const rawMetadata=changes.metadata===undefined?existing.metadata:{...existing.metadata,...changes.metadata};
         if(changes.metadata?.questionCount!==undefined&&changes.metadata.questionNumbers===undefined&&(!existing.metadata.questionNumbers||existing.metadata.questionNumbers.every((n,i)=>n===i+1)))delete rawMetadata.questionNumbers;
         const metadata=validatePrivateMetadata(rawMetadata);
-        if(existing.progress&&!sameExamIdentity(validatePrivateMetadata(existing.metadata),metadata))throw new Error('Kaydı olan çalışmanın sınav kimliği veya soru sırası değiştirilemez; mevcut cevaplar korunuyor.');
+        if((existing.progress||existing.attempts?.length)&&!sameExamIdentity(validatePrivateMetadata(existing.metadata),metadata))throw new Error('Kaydı olan çalışmanın sınav kimliği veya soru sırası değiştirilemez; mevcut cevaplar korunuyor.');
         const answerKey=normalizePrivateAnswerKey(changes.answerKey===undefined?existing.answerKey:changes.answerKey,metadata.questionCount);
         return {...existing,metadata,answerKey,updatedAt:now()};
       });
@@ -167,7 +190,23 @@ export function openPrivateLibrary(owner,options={}) {
     async saveProgress(id,progress){
       validId(id);return writeRecord(id,existing=>{
         if(!existing)throw new Error('Bu hesaba ait kitapçık bulunamadı.');
-        return {...existing,progress:normalizePrivateProgress(progress,existing.metadata.questionCount),updatedAt:now()};
+        const next=normalizePrivateProgress(progress,existing.metadata.questionCount);
+        if(existing.progress&&((next&&next.startedAt!==existing.progress.startedAt)||(existing.progress.attemptId!==undefined&&next?.attemptId!==existing.progress.attemptId)))throw new Error('Bu deneme başka bir sekmede değişti; güncel kaydı yeniden aç.');
+        if(existing.progress?.finishedAt&&(!next?.finishedAt||next.startedAt!==existing.progress.startedAt))throw new Error('Tamamlanmış deneme silinemez; geçmişi koruyarak yeni deneme başlat.');
+        return {...existing,progress:next,updatedAt:now()};
+      });
+    },
+    async restart(id,nextProgress){
+      validId(id);return writeRecord(id,existing=>{
+        if(!existing)throw new Error('Bu hesaba ait kitapçık bulunamadı.');
+        const previous=existing.progress?normalizePrivateProgress(existing.progress,existing.metadata.questionCount):null;
+        if(!previous?.finishedAt)throw new Error('Yarım kalan deneme bitmeden yeni deneme başlatılamaz.');
+        const attempts=normalizePrivateAttempts(existing.attempts);
+        if(attempts.length>=MAX_PRIVATE_ATTEMPTS)throw new Error('Bu kitapçığın deneme geçmişi sınırına ulaşıldı; eski kayıtlar korunuyor.');
+        const progress={...freshAttempt(nextProgress,existing.metadata.questionCount,previous.finishedAt),attemptId:'attempt-'+(attempts.length+2)},time=now();
+        const archive={id:'attempt-'+(attempts.length+1),archivedAt:time,metadata:validatePrivateMetadata(existing.metadata),answerKey:normalizePrivateAnswerKey(existing.answerKey,existing.metadata.questionCount),progress:previous};
+        const history=normalizePrivateAttempts([...attempts,archive]);
+        return {...existing,attempts:history,progress,updatedAt:time};
       });
     },
     async remove(id){
