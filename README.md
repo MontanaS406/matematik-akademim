@@ -32,7 +32,7 @@ Güncel katalog: **132 gerçek numaralı soru + 10 yayımlanmış çözümlü ö
 - `js/exams.js`: hesap işlemleri, güvenli eşitleme, ilerleme ve geçmiş.
 - `js/exam-mode.js` / `js/private-exams.js`: yalnız Sınav Modu içinde açılan özel kitapçık çalışması.
 - `shared/private-library.js`: hesap kimliğiyle ayrılan yerel IndexedDB deposu; PDF/anahtar için sunucu isteği yapmaz.
-- `data/turkish-exams.js` / `shared/private-exam.js`: 17 kaynak kitapçık kimliği, anahtar kanıtları, iptal denetimi ve dosya eşleştirmesi. Soru metni içermez.
+- `data/turkish-exams.js` / `shared/private-exam.js`: 18 kaynak kitapçık kimliği, anahtar kanıtları, iptal denetimi ve dosya eşleştirmesi. Soru metni içermez.
 - `cloudflare-worker/worker.js`: yalnız seçili kaynak sorusuna bağlı AI açıklaması.
 - `supabase/question-bank.sql` / `question-bank-seed.sql`: yeni içerik tabloları ve incelenebilir 142 kayıtlık staging aktarımı. Üretime uygulanmadı.
 
@@ -52,10 +52,10 @@ Kurulu Chromium için `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm
 
 Kişisel geçmiş, eski ilerleme kimlikleri ve hesaplar silinmez. Başlatma, bitirme ve sonuç eşleştirmesi depoya yazılmadan tamamlanmış gösterilmez; yazma hatasında önceki durum korunur. Güncel dosya/anahtar denetimiyle uyuşmayan eski netler silinmeden gizlenir; uygun kaynakta açık yeniden hesaplama yapılabilir. İlk profil yazmasından önce hesap başına yerel yedek alınır. Kaldırılmış soru metinleri eski kayıtlardan tekrar üretilmez.
 
-2018–2026 TYT/AYT yıl ve kitapçık seçimi Sınav Modu’ndadır. Herkese açık 142 kayıt çıkmış TYT/AYT sorusu olarak sunulmaz; yeniden dağıtım izni olmayan kitapçıklar kamuya açık bankaya kopyalanmaz. Eski PDF önbelleği ve önceki akışın kaynak/izin/tamlık denetimleri korunur.
+2018–2026 TYT/AYT yıl ve kitapçık seçimi Sınav Modu’ndadır. Herkese açık 142 kayıt çıkmış TYT/AYT sorusu olarak sunulmaz; yeniden dağıtım izni olmayan kitapçıklar kamuya açık bankaya kopyalanmaz. 2019 AYT’nin 40 matematik cevabı resmî kaynaktan doğrulanarak kataloğa eklendi. Eski PDF önbelleği ve önceki akışın kaynak/izin/tamlık denetimleri korunur.
 
-Belge seçimi, uygulama içi PDF görüntüleme ve optik alan yalnız **Sınav Modu** içinde bulunur. TYT/AYT için 15 tam anahtar korunur. Özgün 2024 TYT/AYT dosyaları kayıtlı SHA-256 özetiyle otomatik tanınır; bilinen özete uymayan dosyada kaynak anahtarı açılamaz. Dosya özeti henüz bulunmayan diğer 13 anahtar açık kitapçık kimliği teyidi gerektirir. KPSS tam anahtarları doğrulanmadığında sonuç otomatik puanlanmaz. Özel dosyalar ve ilerleme hesap kimliğiyle ayrılan güvenli yerel depoda kalır; eski kayıtlar silinmez. Kısmi KPSS kaynağı tam deneme sayılmaz. Bu görev otomatik birleştirme veya yayın yapmaz.
+Belge seçimi, uygulama içi PDF görüntüleme ve optik alan yalnız **Sınav Modu** içinde bulunur. TYT/AYT için 16 iptalsiz tam anahtar korunur. Özgün 2024 TYT/AYT dosyaları kayıtlı SHA-256 özetiyle otomatik tanınır; bilinen özete uymayan dosyada kaynak anahtarı açılamaz. Dosya özeti henüz bulunmayan diğer 14 anahtar açık kitapçık kimliği teyidi gerektirir. KPSS tam anahtarları doğrulanmadığında sonuç otomatik puanlanmaz. Özel dosyalar ve ilerleme hesap kimliğiyle ayrılan güvenli yerel depoda kalır; eski kayıtlar silinmez. 2024 KPSS Lisans ve Ön Lisans kısmi kaynakları tam deneme sayılmaz; Lisans’ın yayımlanan matematik konumları 31, 41, 46’dır ve 42 iptali ayrıca bildirilir. Aynı kitapçık yeniden çözülebilir; bitmiş denemeler salt okunur geçmişte cevap/anahtar anlık görüntüleriyle korunur. Eski sekmenin yeni denemeyi ezmesi engellenir. Geçmiş JSON dışa aktarmaya dahildir. Bu görev otomatik birleştirme veya yayın yapmaz.
 
-Canlı Supabase ve gerçek AI/model bağlantısı doğrulanmadı. Worker erişim kodu kişisel kullanım içindir; çok kullanıcılı sunucu kimliğinin yerine geçmez. Sırlar istemciye veya GitHub’a konmaz. Bu geliştirme PR üzerinde hazırlanır; bu görevde otomatik birleştirme veya yayın yapılmaz.
+Hesaptan çıkış cihazda hemen uygulanır ve yakalanan eski Supabase oturumu için scope=local sunucu çıkışı denenir; geç yanıt yeni hesaba dokunmaz. Sunucu çıkışı doğrulanamazsa açık uyarı gösterilir. Canlı Supabase ve gerçek AI/model bağlantısı doğrulanmadı. Worker erişim kodu kişisel kullanım içindir; çok kullanıcılı sunucu kimliğinin yerine geçmez. Sırlar istemciye veya GitHub’a konmaz. Bu geliştirme PR üzerinde hazırlanır; bu görevde otomatik birleştirme veya yayın yapılmaz.
 
 Önceki aşamaların raporları `docs/` altında tarihsel kayıt olarak korunur; eski soru üretimi hakkındaki açıklamaları güncel davranış değildir.

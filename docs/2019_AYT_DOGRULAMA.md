@@ -29,7 +29,7 @@ Bu eklemeyle 2018–2026 TYT/AYT aralığındaki 18 temel kitapçığın tamamı
 | 41 | 14 | B |
 | 46 | 16 | E |
 
-Bu, tam 30 soruluk matematik kitapçığı veya tam anahtar değildir. Diğer 27 konuma cevap uydurulmadı. Kısmi katalog kaydı sunulursa yalnız `questionNumbers: [31, 41, 46]`, 3 cevap alanı ve kısmi kapsam taşımalıdır; tam deneme neti iddiası olmamalıdır.
+Bu, tam 30 soruluk matematik kitapçığı veya tam anahtar değildir. Diğer 27 konuma cevap uydurulmadı. Eklenen kısmi katalog kaydı yalnız `questionNumbers: [31, 41, 46]`, 3 cevap alanı ve kısmi kapsam taşır; tam deneme neti iddiası yoktur. 42 iptali yayımlanan üç sorunun dışında olsa da uygulamanın muhafazakâr yıl/tür iptal kontrolü bu grupta neti kapalı tutar.
 
 [23 Ağustos 2024 sonuç duyurusu](https://www.osym.gov.tr/2024kpss-lisans-genel-yetenekgenel-kultur-egitim-bilimleri-alan-bilgisi-ve-oabt-sonuclari-aciklandi), Genel Yetenek temel kitapçığındaki **42. soruyu iptal eder**. Özgün 42, matematiğin 31–60 kapsamında olduğu için `KPSS_LISANS / 2024` iptal uyarısına eklendi. Yayımlanan üç sorudan biri değildir.
 
