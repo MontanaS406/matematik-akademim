@@ -114,14 +114,20 @@ async function checkBooklet(download) {
     await expect(page.locator('#privateGrid button')).toHaveCount(40);
     await page.clock.install();
     await page.locator('#privateStart').click();
+    await expect(page.locator('#privatePause')).toHaveText('Duraklat');
     await page.locator('#privateChoices button').filter({hasText:new RegExp('^' + row.answerKey[0] + '$')}).click();
     await page.clock.fastForward(9000);
     await page.locator('#privatePause').click();
+    // The public control is redrawn only after its progress write completes.
+    // Wait for that completed state before advancing time or navigating away.
+    await expect(page.locator('#privatePause')).toHaveText('Devam et');
     await page.clock.fastForward(60000);
     await expect(page.locator('#privateClock')).toHaveText('00:00:09');
     await page.locator('#privatePause').click();
+    await expect(page.locator('#privatePause')).toHaveText('Duraklat');
     await page.clock.fastForward(3000);
     await page.locator('#privatePause').click();
+    await expect(page.locator('#privatePause')).toHaveText('Devam et');
     await expect(page.locator('#privateClock')).toHaveText('00:00:12');
 
     await page.reload({waitUntil:'domcontentloaded'});
