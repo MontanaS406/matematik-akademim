@@ -1,10 +1,9 @@
 import {COURSES, getCourse, buildStudyPlan} from '../shared/curriculum.js';
 import {TEACHERS, DEFAULT_TEACHER_ID, PROFANITY_LEVELS} from '../shared/teachers.js';
 import {normalizeState, mergeLearningStates, progressFromAttempts} from '../shared/learning-state.js';
-import {QUESTION_BANK} from '../data/question-bank.js?v=empty-bank-20261110';
+import {QUESTION_BANK} from '../data/question-bank.js?v=no-upload-20261110';
 import {createQuestionRegistry} from '../shared/question-bank.js';
 const bankRegistry=createQuestionRegistry(QUESTION_BANK);
-import {createExamMode} from './exam-mode.js';
 import {captureLearningSnapshot} from '../shared/learning-migration.js';
 const $=id=>document.getElementById(id);
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -42,7 +41,7 @@ const activeQuestion=()=>bankRegistry.getQuestion(selectedQuestionId);
 const chatKey=()=>teacher().id+':'+(tutorLesson||!activeQuestion()?'lesson:'+course().id:selectedQuestionId);
 function verifiedProgress(){const valid=new Set(bankRegistry.getQuestions({}).map(q=>q.id));return progressFromAttempts({...state,attempts:state.attempts.filter(a=>valid.has(a.exerciseId))})}
 
-let lessonGroup='Tümü',examMode=null;
+let lessonGroup='Tümü';
 const shortGreeting={
  cagatay:'Hadi bakalım, şu karışık adımları birlikte toparlayalım.',
  beyza:'Sağlam bir çözümün temellerini birlikte atalım.',
@@ -56,8 +55,8 @@ function renderLearning(){
  const questions=eligibleQuestions();
  if(!questions.some(q=>q.id===selectedQuestionId))selectedQuestionId=questions[0]?.id||null;
  const momentum=learningMomentum(),t=teacher();
- $('learningRoot').innerHTML=`<div class="page-heading"><h1>Soru çöz</h1><span class="count-badge">${bankRegistry.questions.length} soru</span></div><div class="practice-toolbar"><button id="browseCourses" class="topic-button"><span>${bankScope==='all'?'Tüm konular':esc(course().title)}</span><span aria-hidden="true">⌄</span></button><button id="allQuestions" class="text-button" ${bankScope==='all'?'hidden':''}>Tüm sorular</button><button id="examModeButton" class="smallbtn">Sınav Modu</button></div><div class="practice-layout"><div id="sourceQuestion" class="surface question-panel"></div><aside class="practice-aside"><div class="surface mentor-card"><span class="avatar" aria-hidden="true">${esc(t.avatar)}</span><h2>${esc(t.name)}</h2><p>${esc(t.tagline)}</p><button class="smallbtn" id="askLessonTeacher">Öğretmenime sor</button></div><div class="surface today-card"><p class="eyebrow">BUGÜN</p><div class="today-value"><span id="practiceToday">${momentum.practiceToday}</span><small>soru</small></div><button id="viewProgress" class="text-button">İlerlemeni gör →</button></div></aside></div>`;
- $('browseCourses').onclick=openCatalog;$('examModeButton').onclick=()=>examMode.open();
+ $('learningRoot').innerHTML=`<div class="page-heading"><h1>Soru çöz</h1><span class="count-badge">${bankRegistry.questions.length} soru</span></div><div class="practice-toolbar"><button id="browseCourses" class="topic-button"><span>${bankScope==='all'?'Tüm konular':esc(course().title)}</span><span aria-hidden="true">⌄</span></button><button id="allQuestions" class="text-button" ${bankScope==='all'?'hidden':''}>Tüm sorular</button></div><div class="practice-layout"><div id="sourceQuestion" class="surface question-panel"></div><aside class="practice-aside"><div class="surface mentor-card"><span class="avatar" aria-hidden="true">${esc(t.avatar)}</span><h2>${esc(t.name)}</h2><p>${esc(t.tagline)}</p><button class="smallbtn" id="askLessonTeacher">Öğretmenime sor</button></div><div class="surface today-card"><p class="eyebrow">BUGÜN</p><div class="today-value"><span id="practiceToday">${momentum.practiceToday}</span><small>soru</small></div><button id="viewProgress" class="text-button">İlerlemeni gör →</button></div></aside></div>`;
+ $('browseCourses').onclick=openCatalog;
  $('allQuestions').onclick=()=>{bankScope='all';bankDifficulty='';selectedQuestionId=null;answeredQuestionId=null;renderLearning();renderChat()};
  $('askLessonTeacher').onclick=()=>openTeacher(true);
  $('viewProgress').onclick=()=>document.querySelector('[data-page=mockexam]')?.click();
@@ -167,7 +166,6 @@ function setupAI(){
   finally{clearTimeout(timer);if(activeRequest===controller)activeRequest=null;if(epoch===teacherEpoch)$('send').disabled=false}
  };
 }function showPage(page){
- examMode?.close(false);
  document.querySelectorAll('.nav button').forEach(button=>button.classList.toggle('active',button.dataset.page===page));
  for(const id of ['study','teacher','library','mockexam']){const node=$(id);if(node)node.classList.toggle('hide',id!==page)}
  if(page==='library')renderLessons();
@@ -177,6 +175,5 @@ document.querySelector('.nav').addEventListener('click',event=>{const button=eve
 $('accountButton').onclick=()=>{document.querySelector('[data-page=mockexam]')?.click();const panel=$('accountPanel');if(panel)panel.open=true};
 document.querySelector('.brand').onclick=event=>{event.preventDefault();showPage('study')};
 $('lessonSearch').oninput=renderLessons;$('teacherChange').onclick=()=>$('teacherDialog').showModal();$('closeTeacherDialog').onclick=()=>$('teacherDialog').close();$('closeSourceInfo').onclick=()=>$('sourceInfo').close();
-examMode=createExamMode({onEnter:()=>{for(const id of ['study','teacher','library','mockexam'])$(id)?.classList.add('hide');document.querySelectorAll('.nav button').forEach(button=>button.classList.toggle('active',button.dataset.page==='study'))},onClose:()=>showPage('study')});
 state=loadLocal();renderLearning();setupAI();renderTeachers();renderLessons();
 window.addEventListener('ma-account-changed',changeAccount);changeAccount();
