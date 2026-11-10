@@ -1,7 +1,7 @@
 import {COURSES, getCourse, buildStudyPlan} from '../shared/curriculum.js';
 import {TEACHERS, DEFAULT_TEACHER_ID, PROFANITY_LEVELS} from '../shared/teachers.js';
 import {normalizeState, mergeLearningStates, progressFromAttempts} from '../shared/learning-state.js';
-import {QUESTION_BANK} from '../data/question-bank.js';
+import {QUESTION_BANK} from '../data/question-bank.js?v=empty-bank-20261110';
 import {createQuestionRegistry} from '../shared/question-bank.js';
 const bankRegistry=createQuestionRegistry(QUESTION_BANK);
 import {createExamMode} from './exam-mode.js';
@@ -74,8 +74,10 @@ function selectCourse(id){
 function renderSourceQuestion(){
  const node=$('sourceQuestion'),q=activeQuestion(),questions=eligibleQuestions();
  if(!q){
-  node.innerHTML='<div class="empty-state"><h2>Başka bir konuyla devam et</h2><button class="btn" id="showAllQuestions">Soruları aç</button></div>';
-  $('showAllQuestions').onclick=()=>{bankScope='all';bankDifficulty='';selectedQuestionId=null;renderLearning()};return;
+  node.innerHTML=bankRegistry.questions.length
+   ? '<div class="empty-state" role="status"><h2>Bu konuda soru yok</h2></div>'
+   : '<div id="questionBankEmpty" class="empty-state" role="status"><h2>Henüz soru yok</h2></div>';
+  return;
  }
  const index=questions.findIndex(item=>item.id===q.id);
  node.innerHTML=`<article id="questionCard" data-question-id="${esc(q.id)}"><div class="question-top"><span class="topic-label">${esc(q.topic)}</span><div class="row"><span class="question-count">${index+1} / ${questions.length}</span><button id="openSourceInfo" class="icon-button" aria-label="Soru bilgisi">i</button></div></div><div id="originalPrompt" class="question-body"></div><div id="sourceAnswerArea"></div><p id="sourceFeedback" class="answer-feedback" role="status"></p><div class="question-footer"><div class="question-nav"><button id="previousSource" aria-label="Önceki soru" ${index<=0?'disabled':''}>←</button><button id="nextSource" aria-label="Sonraki soru" ${index>=questions.length-1?'disabled':''}>→</button></div><button id="askTeacher" class="text-button teacher-help">Öğretmene sor</button></div></article>`;

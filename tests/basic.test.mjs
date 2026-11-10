@@ -14,6 +14,14 @@ const scripts=Array.from(html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>
 test('entrypoint contains the learning views and loads the application modules',()=>{
  for(const marker of ['id="study"','id="teacher"','id="library"'])assert.ok(html.includes(marker),`Missing ${marker}`);
  assert.match(html,/src="js\/app\.js/);assert.match(html,/src="js\/exams\.js/);
+ const urls=[...html.matchAll(/<script[^>]+src=["']([^"']+)["']/g)].map(match=>new URL(match[1],'https://app.example/'));
+ const appVersion=urls.find(url=>url.pathname==='/js/app.js').searchParams.get('v');assert.match(appVersion,/^empty-bank-\d{8}$/);
+ for(const file of ['app.js','exams.js']){
+  assert.equal(urls.find(url=>url.pathname==='/js/'+file).searchParams.get('v'),appVersion);
+  const code=fs.readFileSync(new URL('../js/'+file,import.meta.url),'utf8'),bankImport=code.match(/from\s+['"]([^'"]*data\/question-bank\.js[^'"]*)['"]/);
+  assert.ok(bankImport,'Each browser module must name the empty-bank cache identity');assert.equal(new URL(bankImport[1],'https://app.example/js/').searchParams.get('v'),appVersion);
+ }
+
 });
 test('all browser and worker modules parse',()=>{
  assert.ok(scripts.length>=2,'Expected application module scripts');
@@ -24,8 +32,8 @@ test('the normal student and account views do not directly mount the separate ex
  assert.doesNotMatch(html,/type\s*=\s*["']file["']/i);
  assert.doesNotMatch(account,/mountPrivateExams|from\s+['"]\.\/private-exams\.js/);
 });
-test('published questions remain registry-backed and cannot be advertised as a complete official exam',()=>{
- const registry=createQuestionRegistry(QUESTION_BANK);assert.equal(registry.questions.length,142);
+test('the empty public registry cannot advertise or restore an official exam',()=>{
+ const registry=createQuestionRegistry(QUESTION_BANK);assert.equal(registry.questions.length,0);
  assert.equal(verifiedExam(QUESTION_BANK,'TYT',2026),null);assert.equal(verifiedExam(QUESTION_BANK,'AYT',2026),null);
 });
 test('no server API keys are included in application files',()=>{
