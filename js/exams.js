@@ -1,5 +1,5 @@
 import {EXAM_YEARS, normalizeFlags, normalizeTopics} from '../shared/exam-model.js';
-import {QUESTION_BANK} from '../data/question-bank.js';
+import {QUESTION_BANK} from '../data/question-bank.js?v=empty-bank-20261110';
 import {normalizeState} from '../shared/learning-state.js';
 
 // Existing account and history keys are retained. Retired study drafts and local

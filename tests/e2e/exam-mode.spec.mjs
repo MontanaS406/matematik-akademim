@@ -49,10 +49,10 @@ async function expectCleanNormalMode(page){
  await expect(page.locator('.nav button')).toHaveCount(4);
 }
 
-test('exam mode is explicit and returning restores the unchanged four-tab question interface',async({page})=>{
- await page.goto('/');await expectCleanNormalMode(page);const before=await page.locator('#questionCard').getAttribute('data-question-id');
+test('exam mode is explicit and returning restores the unchanged empty four-tab interface',async({page})=>{
+ await page.goto('/');await expectCleanNormalMode(page);await expect(page.locator('#questionBankEmpty')).toBeVisible();
  await enterMode(page,{navigate:false});await openReviewed(page);await expect(page.locator('#privateFile')).toBeVisible();await expect(page.locator('#study')).toBeHidden();
- await page.locator('#closeExamMode').click();await expectCleanNormalMode(page);await expect(page.locator('#questionCard')).toHaveAttribute('data-question-id',before);
+ await page.locator('#closeExamMode').click();await expectCleanNormalMode(page);await expect(page.locator('#questionBankEmpty')).toBeVisible();await expect(page.locator('#questionCard')).toHaveCount(0);
 });
 test('a custom booklet selection survives leaving and reopening a year with a reviewed source',async({page})=>{
  await enterMode(page);await page.locator('#examYear').selectOption('2024');
