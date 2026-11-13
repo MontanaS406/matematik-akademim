@@ -1,0 +1,5417 @@
+{
+  "duplicates": [
+    {
+      "duplicateOf": "AI-TYT01-01",
+      "id": "AI-TYT01-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT01-01",
+      "id": "AI-TYT01-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT01-01",
+      "id": "AI-TYT01-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT01-01",
+      "id": "AI-TYT01-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT01-01",
+      "id": "AI-TYT01-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT01-01",
+      "id": "AI-TYT01-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT01-01",
+      "id": "AI-TYT01-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT01-01",
+      "id": "AI-TYT01-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT02-01",
+      "id": "AI-TYT02-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT02-01",
+      "id": "AI-TYT02-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT02-01",
+      "id": "AI-TYT02-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT02-01",
+      "id": "AI-TYT02-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT02-01",
+      "id": "AI-TYT02-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT02-01",
+      "id": "AI-TYT02-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT02-01",
+      "id": "AI-TYT02-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT02-01",
+      "id": "AI-TYT02-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT02-01",
+      "id": "AI-TYT02-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT03-01",
+      "id": "AI-TYT03-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT03-01",
+      "id": "AI-TYT03-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT03-01",
+      "id": "AI-TYT03-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT03-01",
+      "id": "AI-TYT03-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT03-01",
+      "id": "AI-TYT03-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT03-01",
+      "id": "AI-TYT03-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT03-01",
+      "id": "AI-TYT03-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT03-01",
+      "id": "AI-TYT03-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT03-01",
+      "id": "AI-TYT03-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT04-01",
+      "id": "AI-TYT04-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT04-01",
+      "id": "AI-TYT04-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT04-01",
+      "id": "AI-TYT04-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT04-01",
+      "id": "AI-TYT04-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT04-01",
+      "id": "AI-TYT04-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT04-01",
+      "id": "AI-TYT04-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT04-01",
+      "id": "AI-TYT04-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT04-01",
+      "id": "AI-TYT04-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT05-01",
+      "id": "AI-TYT05-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT05-01",
+      "id": "AI-TYT05-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT05-01",
+      "id": "AI-TYT05-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT05-01",
+      "id": "AI-TYT05-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT05-01",
+      "id": "AI-TYT05-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT05-01",
+      "id": "AI-TYT05-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT05-01",
+      "id": "AI-TYT05-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT05-01",
+      "id": "AI-TYT05-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT05-01",
+      "id": "AI-TYT05-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT06-01",
+      "id": "AI-TYT06-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT06-01",
+      "id": "AI-TYT06-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT06-01",
+      "id": "AI-TYT06-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT06-01",
+      "id": "AI-TYT06-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT06-01",
+      "id": "AI-TYT06-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT06-01",
+      "id": "AI-TYT06-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT06-01",
+      "id": "AI-TYT06-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT06-01",
+      "id": "AI-TYT06-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT06-01",
+      "id": "AI-TYT06-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT07-01",
+      "id": "AI-TYT07-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT07-01",
+      "id": "AI-TYT07-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT07-01",
+      "id": "AI-TYT07-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT07-01",
+      "id": "AI-TYT07-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT07-01",
+      "id": "AI-TYT07-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT07-01",
+      "id": "AI-TYT07-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT07-03",
+      "id": "AI-TYT07-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT07-03",
+      "id": "AI-TYT07-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT08-01",
+      "id": "AI-TYT08-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT08-01",
+      "id": "AI-TYT08-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT08-01",
+      "id": "AI-TYT08-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT08-01",
+      "id": "AI-TYT08-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT08-01",
+      "id": "AI-TYT08-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT08-01",
+      "id": "AI-TYT08-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT10-03",
+      "id": "AI-TYT10-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT10-03",
+      "id": "AI-TYT10-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT10-05",
+      "id": "AI-TYT10-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT10-01",
+      "id": "AI-TYT10-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT11-01",
+      "id": "AI-TYT11-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT11-01",
+      "id": "AI-TYT11-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT11-01",
+      "id": "AI-TYT11-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT11-01",
+      "id": "AI-TYT11-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT11-01",
+      "id": "AI-TYT11-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT11-01",
+      "id": "AI-TYT11-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT11-01",
+      "id": "AI-TYT11-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT11-01",
+      "id": "AI-TYT11-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT12-01",
+      "id": "AI-TYT12-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT12-01",
+      "id": "AI-TYT12-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT12-01",
+      "id": "AI-TYT12-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT12-01",
+      "id": "AI-TYT12-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT12-01",
+      "id": "AI-TYT12-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT12-01",
+      "id": "AI-TYT12-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT12-01",
+      "id": "AI-TYT12-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT12-01",
+      "id": "AI-TYT12-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT12-01",
+      "id": "AI-TYT12-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT13-02",
+      "id": "AI-TYT13-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT13-04",
+      "id": "AI-TYT13-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT13-04",
+      "id": "AI-TYT13-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT13-01",
+      "id": "AI-TYT13-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT13-01",
+      "id": "AI-TYT13-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT13-02",
+      "id": "AI-TYT13-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT15-01",
+      "id": "AI-TYT15-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT15-01",
+      "id": "AI-TYT15-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT15-01",
+      "id": "AI-TYT15-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT15-01",
+      "id": "AI-TYT15-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT15-01",
+      "id": "AI-TYT15-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT15-01",
+      "id": "AI-TYT15-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT15-01",
+      "id": "AI-TYT15-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT15-01",
+      "id": "AI-TYT15-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT16-01",
+      "id": "AI-TYT16-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT16-01",
+      "id": "AI-TYT16-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT16-01",
+      "id": "AI-TYT16-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT16-01",
+      "id": "AI-TYT16-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT16-01",
+      "id": "AI-TYT16-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT17-01",
+      "id": "AI-TYT17-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT17-01",
+      "id": "AI-TYT17-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT17-01",
+      "id": "AI-TYT17-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT17-01",
+      "id": "AI-TYT17-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT17-01",
+      "id": "AI-TYT17-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT17-01",
+      "id": "AI-TYT17-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT17-01",
+      "id": "AI-TYT17-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT17-01",
+      "id": "AI-TYT17-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT17-01",
+      "id": "AI-TYT17-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT18-01",
+      "id": "AI-TYT18-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT18-02",
+      "id": "AI-TYT18-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT18-01",
+      "id": "AI-TYT18-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT18-02",
+      "id": "AI-TYT18-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT18-01",
+      "id": "AI-TYT18-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT18-06",
+      "id": "AI-TYT18-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT20-01",
+      "id": "AI-TYT20-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT20-01",
+      "id": "AI-TYT20-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT20-04",
+      "id": "AI-TYT20-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT21-01",
+      "id": "AI-TYT21-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT21-01",
+      "id": "AI-TYT21-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT21-01",
+      "id": "AI-TYT21-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT21-01",
+      "id": "AI-TYT21-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT21-01",
+      "id": "AI-TYT21-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT21-01",
+      "id": "AI-TYT21-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT21-01",
+      "id": "AI-TYT21-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT21-01",
+      "id": "AI-TYT21-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT21-01",
+      "id": "AI-TYT21-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT22-01",
+      "id": "AI-TYT22-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT22-01",
+      "id": "AI-TYT22-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT22-01",
+      "id": "AI-TYT22-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT22-01",
+      "id": "AI-TYT22-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT22-01",
+      "id": "AI-TYT22-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-TYT22-01",
+      "id": "AI-TYT22-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT07-01",
+      "id": "AI-AYT07-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT07-01",
+      "id": "AI-AYT07-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT07-01",
+      "id": "AI-AYT07-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT07-01",
+      "id": "AI-AYT07-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT07-01",
+      "id": "AI-AYT07-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT07-05",
+      "id": "AI-AYT07-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT07-05",
+      "id": "AI-AYT07-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT07-05",
+      "id": "AI-AYT07-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT09-03",
+      "id": "AI-AYT09-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT09-03",
+      "id": "AI-AYT09-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT09-04",
+      "id": "AI-AYT09-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT09-02",
+      "id": "AI-AYT09-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT09-01",
+      "id": "AI-AYT09-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT09-03",
+      "id": "AI-AYT09-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT10-01",
+      "id": "AI-AYT10-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT10-01",
+      "id": "AI-AYT10-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT10-01",
+      "id": "AI-AYT10-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT10-01",
+      "id": "AI-AYT10-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT10-01",
+      "id": "AI-AYT10-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT10-01",
+      "id": "AI-AYT10-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT10-01",
+      "id": "AI-AYT10-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT11-01",
+      "id": "AI-AYT11-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT11-03",
+      "id": "AI-AYT11-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT11-01",
+      "id": "AI-AYT11-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT11-03",
+      "id": "AI-AYT11-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT11-01",
+      "id": "AI-AYT11-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT11-03",
+      "id": "AI-AYT11-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT11-03",
+      "id": "AI-AYT11-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT12-01",
+      "id": "AI-AYT12-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT12-05",
+      "id": "AI-AYT12-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT12-05",
+      "id": "AI-AYT12-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT12-01",
+      "id": "AI-AYT12-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT12-01",
+      "id": "AI-AYT12-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT12-04",
+      "id": "AI-AYT12-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT13-01",
+      "id": "AI-AYT13-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT13-03",
+      "id": "AI-AYT13-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT13-03",
+      "id": "AI-AYT13-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT13-09",
+      "id": "AI-AYT13-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT14-01",
+      "id": "AI-AYT14-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT14-02",
+      "id": "AI-AYT14-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT14-02",
+      "id": "AI-AYT14-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT14-03",
+      "id": "AI-AYT14-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT14-01",
+      "id": "AI-AYT14-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT14-04",
+      "id": "AI-AYT14-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT15-02",
+      "id": "AI-AYT15-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-001-01",
+      "id": "V3-TYT-001-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-001-01",
+      "id": "V3-TYT-001-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-001-01",
+      "id": "V3-TYT-001-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-001-01",
+      "id": "V3-TYT-001-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-001-01",
+      "id": "V3-TYT-001-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-001-01",
+      "id": "V3-TYT-001-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-001-01",
+      "id": "V3-TYT-001-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-001-01",
+      "id": "V3-TYT-001-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-001-01",
+      "id": "V3-TYT-001-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-002-01",
+      "id": "V3-TYT-002-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-002-01",
+      "id": "V3-TYT-002-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-002-01",
+      "id": "V3-TYT-002-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-002-01",
+      "id": "V3-TYT-002-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-002-01",
+      "id": "V3-TYT-002-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-002-01",
+      "id": "V3-TYT-002-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-002-01",
+      "id": "V3-TYT-002-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-002-01",
+      "id": "V3-TYT-002-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-002-01",
+      "id": "V3-TYT-002-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-003-01",
+      "id": "V3-TYT-003-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-003-01",
+      "id": "V3-TYT-003-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-003-01",
+      "id": "V3-TYT-003-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-003-01",
+      "id": "V3-TYT-003-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-003-01",
+      "id": "V3-TYT-003-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-003-01",
+      "id": "V3-TYT-003-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-003-01",
+      "id": "V3-TYT-003-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-003-01",
+      "id": "V3-TYT-003-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-003-01",
+      "id": "V3-TYT-003-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-004-01",
+      "id": "V3-TYT-004-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-004-01",
+      "id": "V3-TYT-004-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-004-01",
+      "id": "V3-TYT-004-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-004-01",
+      "id": "V3-TYT-004-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-004-01",
+      "id": "V3-TYT-004-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-004-01",
+      "id": "V3-TYT-004-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-004-01",
+      "id": "V3-TYT-004-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-004-01",
+      "id": "V3-TYT-004-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-004-01",
+      "id": "V3-TYT-004-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-005-01",
+      "id": "V3-TYT-005-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-005-01",
+      "id": "V3-TYT-005-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-005-01",
+      "id": "V3-TYT-005-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-005-01",
+      "id": "V3-TYT-005-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-005-01",
+      "id": "V3-TYT-005-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-005-01",
+      "id": "V3-TYT-005-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-005-01",
+      "id": "V3-TYT-005-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-005-01",
+      "id": "V3-TYT-005-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-005-01",
+      "id": "V3-TYT-005-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-006-01",
+      "id": "V3-TYT-006-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-006-01",
+      "id": "V3-TYT-006-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-006-01",
+      "id": "V3-TYT-006-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-006-01",
+      "id": "V3-TYT-006-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-006-01",
+      "id": "V3-TYT-006-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-006-01",
+      "id": "V3-TYT-006-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-006-01",
+      "id": "V3-TYT-006-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-006-01",
+      "id": "V3-TYT-006-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-006-01",
+      "id": "V3-TYT-006-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-007-01",
+      "id": "V3-TYT-007-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-007-01",
+      "id": "V3-TYT-007-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-007-01",
+      "id": "V3-TYT-007-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-007-01",
+      "id": "V3-TYT-007-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-007-01",
+      "id": "V3-TYT-007-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-007-01",
+      "id": "V3-TYT-007-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-007-01",
+      "id": "V3-TYT-007-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-007-01",
+      "id": "V3-TYT-007-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-007-01",
+      "id": "V3-TYT-007-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-008-01",
+      "id": "V3-TYT-008-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-008-01",
+      "id": "V3-TYT-008-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-008-01",
+      "id": "V3-TYT-008-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-008-01",
+      "id": "V3-TYT-008-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-008-01",
+      "id": "V3-TYT-008-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-008-01",
+      "id": "V3-TYT-008-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-008-01",
+      "id": "V3-TYT-008-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-008-01",
+      "id": "V3-TYT-008-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-008-01",
+      "id": "V3-TYT-008-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-009-01",
+      "id": "V3-TYT-009-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-009-01",
+      "id": "V3-TYT-009-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-009-01",
+      "id": "V3-TYT-009-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-009-01",
+      "id": "V3-TYT-009-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-009-01",
+      "id": "V3-TYT-009-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-009-01",
+      "id": "V3-TYT-009-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-009-01",
+      "id": "V3-TYT-009-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-009-01",
+      "id": "V3-TYT-009-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-009-01",
+      "id": "V3-TYT-009-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-010-01",
+      "id": "V3-TYT-010-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-010-01",
+      "id": "V3-TYT-010-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-010-01",
+      "id": "V3-TYT-010-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-010-01",
+      "id": "V3-TYT-010-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-010-01",
+      "id": "V3-TYT-010-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-010-01",
+      "id": "V3-TYT-010-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-010-01",
+      "id": "V3-TYT-010-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-010-01",
+      "id": "V3-TYT-010-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-010-01",
+      "id": "V3-TYT-010-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-011-01",
+      "id": "V3-TYT-011-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-011-01",
+      "id": "V3-TYT-011-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-011-01",
+      "id": "V3-TYT-011-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-011-01",
+      "id": "V3-TYT-011-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-011-01",
+      "id": "V3-TYT-011-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-011-01",
+      "id": "V3-TYT-011-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-011-01",
+      "id": "V3-TYT-011-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-011-01",
+      "id": "V3-TYT-011-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-011-01",
+      "id": "V3-TYT-011-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-012-01",
+      "id": "V3-TYT-012-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-012-01",
+      "id": "V3-TYT-012-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-012-01",
+      "id": "V3-TYT-012-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-012-01",
+      "id": "V3-TYT-012-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-012-01",
+      "id": "V3-TYT-012-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-012-01",
+      "id": "V3-TYT-012-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-012-01",
+      "id": "V3-TYT-012-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-012-01",
+      "id": "V3-TYT-012-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-012-01",
+      "id": "V3-TYT-012-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-013-02",
+      "id": "V3-TYT-013-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-013-02",
+      "id": "V3-TYT-013-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-013-02",
+      "id": "V3-TYT-013-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-013-01",
+      "id": "V3-TYT-013-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-013-02",
+      "id": "V3-TYT-013-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-013-01",
+      "id": "V3-TYT-013-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-013-02",
+      "id": "V3-TYT-013-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-013-02",
+      "id": "V3-TYT-013-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-014-02",
+      "id": "V3-TYT-014-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-014-02",
+      "id": "V3-TYT-014-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-014-02",
+      "id": "V3-TYT-014-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-014-02",
+      "id": "V3-TYT-014-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-014-01",
+      "id": "V3-TYT-014-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-014-02",
+      "id": "V3-TYT-014-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-014-01",
+      "id": "V3-TYT-014-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-014-02",
+      "id": "V3-TYT-014-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-015-01",
+      "id": "V3-TYT-015-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-015-01",
+      "id": "V3-TYT-015-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-015-01",
+      "id": "V3-TYT-015-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-015-01",
+      "id": "V3-TYT-015-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-015-01",
+      "id": "V3-TYT-015-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-015-01",
+      "id": "V3-TYT-015-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-015-01",
+      "id": "V3-TYT-015-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-015-01",
+      "id": "V3-TYT-015-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-015-01",
+      "id": "V3-TYT-015-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-016-01",
+      "id": "V3-TYT-016-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-016-01",
+      "id": "V3-TYT-016-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-016-01",
+      "id": "V3-TYT-016-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-016-01",
+      "id": "V3-TYT-016-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-016-01",
+      "id": "V3-TYT-016-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-016-01",
+      "id": "V3-TYT-016-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-016-01",
+      "id": "V3-TYT-016-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-016-01",
+      "id": "V3-TYT-016-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-016-01",
+      "id": "V3-TYT-016-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-017-01",
+      "id": "V3-TYT-017-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-017-01",
+      "id": "V3-TYT-017-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-017-01",
+      "id": "V3-TYT-017-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-017-01",
+      "id": "V3-TYT-017-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-017-01",
+      "id": "V3-TYT-017-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-017-01",
+      "id": "V3-TYT-017-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-017-01",
+      "id": "V3-TYT-017-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-017-01",
+      "id": "V3-TYT-017-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-017-01",
+      "id": "V3-TYT-017-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-018-01",
+      "id": "V3-TYT-018-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-018-01",
+      "id": "V3-TYT-018-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-018-01",
+      "id": "V3-TYT-018-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-018-01",
+      "id": "V3-TYT-018-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-018-01",
+      "id": "V3-TYT-018-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-018-01",
+      "id": "V3-TYT-018-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-018-01",
+      "id": "V3-TYT-018-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-018-01",
+      "id": "V3-TYT-018-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-018-01",
+      "id": "V3-TYT-018-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-019-01",
+      "id": "V3-TYT-019-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-019-01",
+      "id": "V3-TYT-019-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-019-01",
+      "id": "V3-TYT-019-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-019-01",
+      "id": "V3-TYT-019-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-019-01",
+      "id": "V3-TYT-019-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-019-01",
+      "id": "V3-TYT-019-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-019-01",
+      "id": "V3-TYT-019-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-019-01",
+      "id": "V3-TYT-019-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-019-01",
+      "id": "V3-TYT-019-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-020-01",
+      "id": "V3-TYT-020-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-020-01",
+      "id": "V3-TYT-020-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-020-01",
+      "id": "V3-TYT-020-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-020-01",
+      "id": "V3-TYT-020-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-020-01",
+      "id": "V3-TYT-020-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-020-01",
+      "id": "V3-TYT-020-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-020-01",
+      "id": "V3-TYT-020-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-020-01",
+      "id": "V3-TYT-020-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-020-01",
+      "id": "V3-TYT-020-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-021-01",
+      "id": "V3-TYT-021-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-021-01",
+      "id": "V3-TYT-021-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-021-01",
+      "id": "V3-TYT-021-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-021-01",
+      "id": "V3-TYT-021-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-021-01",
+      "id": "V3-TYT-021-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-021-01",
+      "id": "V3-TYT-021-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-021-01",
+      "id": "V3-TYT-021-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-021-01",
+      "id": "V3-TYT-021-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-021-01",
+      "id": "V3-TYT-021-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-022-01",
+      "id": "V3-TYT-022-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-022-01",
+      "id": "V3-TYT-022-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-022-01",
+      "id": "V3-TYT-022-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-022-01",
+      "id": "V3-TYT-022-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-022-01",
+      "id": "V3-TYT-022-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-022-01",
+      "id": "V3-TYT-022-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-022-01",
+      "id": "V3-TYT-022-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-022-01",
+      "id": "V3-TYT-022-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-022-01",
+      "id": "V3-TYT-022-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-023-01",
+      "id": "V3-TYT-023-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-023-01",
+      "id": "V3-TYT-023-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-023-01",
+      "id": "V3-TYT-023-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-023-01",
+      "id": "V3-TYT-023-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-023-01",
+      "id": "V3-TYT-023-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-023-01",
+      "id": "V3-TYT-023-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-023-01",
+      "id": "V3-TYT-023-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-023-01",
+      "id": "V3-TYT-023-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-023-01",
+      "id": "V3-TYT-023-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-024-01",
+      "id": "V3-TYT-024-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-024-01",
+      "id": "V3-TYT-024-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-024-01",
+      "id": "V3-TYT-024-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-024-01",
+      "id": "V3-TYT-024-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-024-01",
+      "id": "V3-TYT-024-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-024-01",
+      "id": "V3-TYT-024-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-024-01",
+      "id": "V3-TYT-024-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-024-01",
+      "id": "V3-TYT-024-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-024-01",
+      "id": "V3-TYT-024-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-025-01",
+      "id": "V3-TYT-025-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-025-01",
+      "id": "V3-TYT-025-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-025-01",
+      "id": "V3-TYT-025-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-025-01",
+      "id": "V3-TYT-025-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-025-01",
+      "id": "V3-TYT-025-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-025-01",
+      "id": "V3-TYT-025-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-025-01",
+      "id": "V3-TYT-025-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-025-01",
+      "id": "V3-TYT-025-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-025-01",
+      "id": "V3-TYT-025-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-026-01",
+      "id": "V3-TYT-026-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-026-01",
+      "id": "V3-TYT-026-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-026-01",
+      "id": "V3-TYT-026-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-026-01",
+      "id": "V3-TYT-026-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-026-01",
+      "id": "V3-TYT-026-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-026-01",
+      "id": "V3-TYT-026-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-026-01",
+      "id": "V3-TYT-026-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-026-01",
+      "id": "V3-TYT-026-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-026-01",
+      "id": "V3-TYT-026-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-027-03",
+      "id": "V3-TYT-027-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-027-05",
+      "id": "V3-TYT-027-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-027-06",
+      "id": "V3-TYT-027-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-027-06",
+      "id": "V3-TYT-027-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-028-01",
+      "id": "V3-TYT-028-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-028-01",
+      "id": "V3-TYT-028-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-028-01",
+      "id": "V3-TYT-028-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-028-01",
+      "id": "V3-TYT-028-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-028-01",
+      "id": "V3-TYT-028-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-028-01",
+      "id": "V3-TYT-028-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-028-01",
+      "id": "V3-TYT-028-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-028-01",
+      "id": "V3-TYT-028-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-028-01",
+      "id": "V3-TYT-028-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-029-01",
+      "id": "V3-TYT-029-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-029-01",
+      "id": "V3-TYT-029-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-029-01",
+      "id": "V3-TYT-029-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-029-01",
+      "id": "V3-TYT-029-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-029-01",
+      "id": "V3-TYT-029-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-029-01",
+      "id": "V3-TYT-029-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-029-01",
+      "id": "V3-TYT-029-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-029-01",
+      "id": "V3-TYT-029-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-029-01",
+      "id": "V3-TYT-029-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-030-01",
+      "id": "V3-TYT-030-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-030-01",
+      "id": "V3-TYT-030-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-030-01",
+      "id": "V3-TYT-030-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-030-01",
+      "id": "V3-TYT-030-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-030-01",
+      "id": "V3-TYT-030-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-030-01",
+      "id": "V3-TYT-030-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-030-01",
+      "id": "V3-TYT-030-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-030-01",
+      "id": "V3-TYT-030-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-030-01",
+      "id": "V3-TYT-030-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-031-01",
+      "id": "V3-TYT-031-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-031-01",
+      "id": "V3-TYT-031-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-031-01",
+      "id": "V3-TYT-031-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-031-01",
+      "id": "V3-TYT-031-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-031-01",
+      "id": "V3-TYT-031-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-031-01",
+      "id": "V3-TYT-031-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-031-01",
+      "id": "V3-TYT-031-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-031-01",
+      "id": "V3-TYT-031-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-031-01",
+      "id": "V3-TYT-031-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-032-01",
+      "id": "V3-TYT-032-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-032-01",
+      "id": "V3-TYT-032-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-032-01",
+      "id": "V3-TYT-032-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-032-01",
+      "id": "V3-TYT-032-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-032-01",
+      "id": "V3-TYT-032-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-032-01",
+      "id": "V3-TYT-032-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-032-01",
+      "id": "V3-TYT-032-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-032-01",
+      "id": "V3-TYT-032-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-032-01",
+      "id": "V3-TYT-032-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-033-01",
+      "id": "V3-TYT-033-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-033-01",
+      "id": "V3-TYT-033-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-033-01",
+      "id": "V3-TYT-033-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-033-01",
+      "id": "V3-TYT-033-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-033-01",
+      "id": "V3-TYT-033-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-033-01",
+      "id": "V3-TYT-033-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-033-01",
+      "id": "V3-TYT-033-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-033-01",
+      "id": "V3-TYT-033-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-033-01",
+      "id": "V3-TYT-033-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-034-01",
+      "id": "V3-TYT-034-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-034-01",
+      "id": "V3-TYT-034-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-034-01",
+      "id": "V3-TYT-034-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-034-01",
+      "id": "V3-TYT-034-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-034-01",
+      "id": "V3-TYT-034-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-034-01",
+      "id": "V3-TYT-034-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-034-01",
+      "id": "V3-TYT-034-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-034-01",
+      "id": "V3-TYT-034-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-034-01",
+      "id": "V3-TYT-034-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-035-01",
+      "id": "V3-TYT-035-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-035-01",
+      "id": "V3-TYT-035-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-035-01",
+      "id": "V3-TYT-035-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-035-01",
+      "id": "V3-TYT-035-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-035-01",
+      "id": "V3-TYT-035-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-035-01",
+      "id": "V3-TYT-035-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-035-01",
+      "id": "V3-TYT-035-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-035-01",
+      "id": "V3-TYT-035-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-035-01",
+      "id": "V3-TYT-035-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-036-01",
+      "id": "V3-TYT-036-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-036-01",
+      "id": "V3-TYT-036-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-036-01",
+      "id": "V3-TYT-036-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-036-01",
+      "id": "V3-TYT-036-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-036-01",
+      "id": "V3-TYT-036-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-036-01",
+      "id": "V3-TYT-036-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-036-01",
+      "id": "V3-TYT-036-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-036-01",
+      "id": "V3-TYT-036-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-036-01",
+      "id": "V3-TYT-036-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-037-01",
+      "id": "V3-TYT-037-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-037-01",
+      "id": "V3-TYT-037-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-037-01",
+      "id": "V3-TYT-037-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-037-01",
+      "id": "V3-TYT-037-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-037-01",
+      "id": "V3-TYT-037-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-037-01",
+      "id": "V3-TYT-037-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-037-01",
+      "id": "V3-TYT-037-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-037-01",
+      "id": "V3-TYT-037-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-037-01",
+      "id": "V3-TYT-037-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-039-01",
+      "id": "V3-TYT-039-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-039-01",
+      "id": "V3-TYT-039-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-039-01",
+      "id": "V3-TYT-039-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-039-01",
+      "id": "V3-TYT-039-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-039-01",
+      "id": "V3-TYT-039-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-039-01",
+      "id": "V3-TYT-039-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-039-01",
+      "id": "V3-TYT-039-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-039-01",
+      "id": "V3-TYT-039-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-039-01",
+      "id": "V3-TYT-039-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-040-01",
+      "id": "V3-TYT-040-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-040-01",
+      "id": "V3-TYT-040-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-040-01",
+      "id": "V3-TYT-040-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-040-01",
+      "id": "V3-TYT-040-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-040-01",
+      "id": "V3-TYT-040-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-040-01",
+      "id": "V3-TYT-040-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-040-01",
+      "id": "V3-TYT-040-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-040-01",
+      "id": "V3-TYT-040-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-040-01",
+      "id": "V3-TYT-040-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-041-01",
+      "id": "V3-TYT-041-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-041-01",
+      "id": "V3-TYT-041-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-041-01",
+      "id": "V3-TYT-041-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-041-01",
+      "id": "V3-TYT-041-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-041-01",
+      "id": "V3-TYT-041-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-041-01",
+      "id": "V3-TYT-041-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-041-01",
+      "id": "V3-TYT-041-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-041-01",
+      "id": "V3-TYT-041-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-041-01",
+      "id": "V3-TYT-041-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-042-01",
+      "id": "V3-TYT-042-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-042-01",
+      "id": "V3-TYT-042-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-042-01",
+      "id": "V3-TYT-042-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-042-01",
+      "id": "V3-TYT-042-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-042-01",
+      "id": "V3-TYT-042-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-042-01",
+      "id": "V3-TYT-042-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-042-01",
+      "id": "V3-TYT-042-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-042-01",
+      "id": "V3-TYT-042-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-042-01",
+      "id": "V3-TYT-042-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-043-01",
+      "id": "V3-TYT-043-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-043-01",
+      "id": "V3-TYT-043-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-043-01",
+      "id": "V3-TYT-043-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-043-01",
+      "id": "V3-TYT-043-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-043-01",
+      "id": "V3-TYT-043-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-043-01",
+      "id": "V3-TYT-043-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-043-01",
+      "id": "V3-TYT-043-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-043-01",
+      "id": "V3-TYT-043-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-043-01",
+      "id": "V3-TYT-043-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-044-01",
+      "id": "V3-TYT-044-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-044-01",
+      "id": "V3-TYT-044-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-044-01",
+      "id": "V3-TYT-044-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-044-01",
+      "id": "V3-TYT-044-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-044-01",
+      "id": "V3-TYT-044-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-044-01",
+      "id": "V3-TYT-044-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-044-01",
+      "id": "V3-TYT-044-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-044-01",
+      "id": "V3-TYT-044-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-044-01",
+      "id": "V3-TYT-044-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-045-01",
+      "id": "V3-TYT-045-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-045-01",
+      "id": "V3-TYT-045-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-045-01",
+      "id": "V3-TYT-045-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-045-01",
+      "id": "V3-TYT-045-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-045-01",
+      "id": "V3-TYT-045-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-045-01",
+      "id": "V3-TYT-045-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-045-01",
+      "id": "V3-TYT-045-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-045-01",
+      "id": "V3-TYT-045-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-045-01",
+      "id": "V3-TYT-045-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-051-02",
+      "id": "V3-AYT-051-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-051-03",
+      "id": "V3-AYT-051-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-051-08",
+      "id": "V3-AYT-051-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-052-02",
+      "id": "V3-AYT-052-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-052-06",
+      "id": "V3-AYT-052-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-052-05",
+      "id": "V3-AYT-052-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-052-02",
+      "id": "V3-AYT-052-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-053-01",
+      "id": "V3-AYT-053-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-053-01",
+      "id": "V3-AYT-053-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-053-03",
+      "id": "V3-AYT-053-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-053-01",
+      "id": "V3-AYT-053-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-053-03",
+      "id": "V3-AYT-053-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-053-05",
+      "id": "V3-AYT-053-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-054-02",
+      "id": "V3-AYT-054-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-054-01",
+      "id": "V3-AYT-054-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-054-02",
+      "id": "V3-AYT-054-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-054-02",
+      "id": "V3-AYT-054-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-054-02",
+      "id": "V3-AYT-054-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-054-02",
+      "id": "V3-AYT-054-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-054-02",
+      "id": "V3-AYT-054-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-054-01",
+      "id": "V3-AYT-054-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-063-01",
+      "id": "V3-AYT-063-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-063-01",
+      "id": "V3-AYT-063-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-063-01",
+      "id": "V3-AYT-063-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-063-01",
+      "id": "V3-AYT-063-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-063-01",
+      "id": "V3-AYT-063-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-063-05",
+      "id": "V3-AYT-063-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-063-01",
+      "id": "V3-AYT-063-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-064-01",
+      "id": "V3-AYT-064-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-064-01",
+      "id": "V3-AYT-064-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-064-01",
+      "id": "V3-AYT-064-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-064-01",
+      "id": "V3-AYT-064-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-064-01",
+      "id": "V3-AYT-064-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-064-01",
+      "id": "V3-AYT-064-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-064-01",
+      "id": "V3-AYT-064-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-064-01",
+      "id": "V3-AYT-064-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-064-01",
+      "id": "V3-AYT-064-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-065-01",
+      "id": "V3-AYT-065-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-065-01",
+      "id": "V3-AYT-065-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-065-01",
+      "id": "V3-AYT-065-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-065-01",
+      "id": "V3-AYT-065-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-065-01",
+      "id": "V3-AYT-065-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-065-01",
+      "id": "V3-AYT-065-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-065-01",
+      "id": "V3-AYT-065-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-065-01",
+      "id": "V3-AYT-065-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-065-01",
+      "id": "V3-AYT-065-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-069-03",
+      "id": "V3-AYT-069-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-069-03",
+      "id": "V3-AYT-069-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-070-01",
+      "id": "V3-AYT-070-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-070-02",
+      "id": "V3-AYT-070-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-070-01",
+      "id": "V3-AYT-070-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-070-01",
+      "id": "V3-AYT-070-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-070-01",
+      "id": "V3-AYT-070-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-070-01",
+      "id": "V3-AYT-070-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-070-01",
+      "id": "V3-AYT-070-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-070-02",
+      "id": "V3-AYT-070-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-071-04",
+      "id": "V3-AYT-071-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-071-01",
+      "id": "V3-AYT-071-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-071-02",
+      "id": "V3-AYT-071-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-072-01",
+      "id": "V3-AYT-072-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-072-01",
+      "id": "V3-AYT-072-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-072-03",
+      "id": "V3-AYT-072-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-072-01",
+      "id": "V3-AYT-072-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-072-03",
+      "id": "V3-AYT-072-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-072-01",
+      "id": "V3-AYT-072-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-072-03",
+      "id": "V3-AYT-072-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-072-01",
+      "id": "V3-AYT-072-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-073-01",
+      "id": "V3-AYT-073-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-073-01",
+      "id": "V3-AYT-073-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-073-04",
+      "id": "V3-AYT-073-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-073-01",
+      "id": "V3-AYT-073-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-073-04",
+      "id": "V3-AYT-073-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-073-01",
+      "id": "V3-AYT-073-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-073-04",
+      "id": "V3-AYT-073-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-074-01",
+      "id": "V3-AYT-074-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-074-03",
+      "id": "V3-AYT-074-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-074-06",
+      "id": "V3-AYT-074-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-074-02",
+      "id": "V3-AYT-074-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-074-06",
+      "id": "V3-AYT-074-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-075-02",
+      "id": "V3-AYT-075-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-075-02",
+      "id": "V3-AYT-075-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-075-02",
+      "id": "V3-AYT-075-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-075-02",
+      "id": "V3-AYT-075-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-075-07",
+      "id": "V3-AYT-075-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-075-05",
+      "id": "V3-AYT-075-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-076-02",
+      "id": "V3-AYT-076-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-076-02",
+      "id": "V3-AYT-076-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-076-04",
+      "id": "V3-AYT-076-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-076-01",
+      "id": "V3-AYT-076-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-076-02",
+      "id": "V3-AYT-076-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-076-04",
+      "id": "V3-AYT-076-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-076-04",
+      "id": "V3-AYT-076-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-077-01",
+      "id": "V3-AYT-077-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-077-01",
+      "id": "V3-AYT-077-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-077-01",
+      "id": "V3-AYT-077-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-077-01",
+      "id": "V3-AYT-077-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-077-01",
+      "id": "V3-AYT-077-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-077-01",
+      "id": "V3-AYT-077-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-077-01",
+      "id": "V3-AYT-077-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-077-01",
+      "id": "V3-AYT-077-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-077-01",
+      "id": "V3-AYT-077-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-079-02",
+      "id": "V3-AYT-079-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-079-01",
+      "id": "V3-AYT-079-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-079-05",
+      "id": "V3-AYT-079-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-079-05",
+      "id": "V3-AYT-079-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-080-01",
+      "id": "V3-AYT-080-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-080-01",
+      "id": "V3-AYT-080-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-080-01",
+      "id": "V3-AYT-080-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-080-01",
+      "id": "V3-AYT-080-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-080-01",
+      "id": "V3-AYT-080-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-080-01",
+      "id": "V3-AYT-080-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-080-01",
+      "id": "V3-AYT-080-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-080-01",
+      "id": "V3-AYT-080-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-080-01",
+      "id": "V3-AYT-080-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-081-01",
+      "id": "V3-AYT-081-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-081-06",
+      "id": "V3-AYT-081-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-081-07",
+      "id": "V3-AYT-081-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-006-01",
+      "id": "AI-NEW-TYT-CONSECUTIVE-AVERAGE-01",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-10",
+      "id": "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-02",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-09",
+      "id": "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-03",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-07",
+      "id": "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-12",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-05",
+      "id": "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-13",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-052-01-PARABOLA-EXTREME-ROLE-02",
+      "id": "AI-NEW-AYT-AYT-052-01-PARABOLA-EXTREME-ROLE-12",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-052-01-PARABOLA-EXTREME-ROLE-08",
+      "id": "AI-NEW-AYT-AYT-052-01-PARABOLA-EXTREME-ROLE-13",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-054-01-PARABOLA-INTERCEPT-QUERY-06",
+      "id": "AI-NEW-AYT-AYT-054-01-PARABOLA-INTERCEPT-QUERY-10",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-03",
+      "id": "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-03",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-04",
+      "id": "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-05",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-09",
+      "id": "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-08",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-07",
+      "id": "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-09",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-08",
+      "id": "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-10",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-07",
+      "id": "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-11",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-02",
+      "id": "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-12",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-07",
+      "id": "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-13",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT13-01-ANTIDERIVATIVE-INITIAL-ROLE-06",
+      "id": "AI-NEW-AYT-AYT14-01-DEFINITE-INTEGRAL-STRUCTURE-07",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT13-01-ANTIDERIVATIVE-INITIAL-ROLE-09",
+      "id": "AI-NEW-AYT-AYT14-01-DEFINITE-INTEGRAL-STRUCTURE-12",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT13-01-ANTIDERIVATIVE-INITIAL-ROLE-03",
+      "id": "AI-NEW-AYT-AYT-074-01-AREA-INTEGRAL-DIRECTION-02",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT13-01-ANTIDERIVATIVE-INITIAL-ROLE-03",
+      "id": "AI-NEW-AYT-AYT-074-01-AREA-INTEGRAL-DIRECTION-06",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT13-01-ANTIDERIVATIVE-INITIAL-ROLE-08",
+      "id": "AI-NEW-AYT-AYT-074-01-AREA-INTEGRAL-DIRECTION-12",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT13-01-ANTIDERIVATIVE-INITIAL-ROLE-01",
+      "id": "AI-NEW-AYT-AYT-075-01-RECOVER-FUNCTION-DIRECTION-01",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT13-01-ANTIDERIVATIVE-INITIAL-ROLE-03",
+      "id": "AI-NEW-AYT-AYT-075-01-RECOVER-FUNCTION-DIRECTION-02",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT14-01-DEFINITE-INTEGRAL-STRUCTURE-06",
+      "id": "AI-NEW-AYT-AYT-075-01-RECOVER-FUNCTION-DIRECTION-07",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT13-01-ANTIDERIVATIVE-INITIAL-ROLE-08",
+      "id": "AI-NEW-AYT-AYT-075-01-RECOVER-FUNCTION-DIRECTION-09",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT14-01-DEFINITE-INTEGRAL-STRUCTURE-11",
+      "id": "AI-NEW-AYT-AYT-075-01-RECOVER-FUNCTION-DIRECTION-10",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT14-01-DEFINITE-INTEGRAL-STRUCTURE-05",
+      "id": "AI-NEW-AYT-AYT-075-01-RECOVER-FUNCTION-DIRECTION-13",
+      "reason": "same_symbolic_task_review_candidate"
+    },
+    {
+      "duplicateOf": "AI-AYT01-01",
+      "id": "AI-AYT01-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT01-01",
+      "id": "AI-AYT01-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT01-01",
+      "id": "AI-AYT01-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT01-01",
+      "id": "AI-AYT01-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT01-01",
+      "id": "AI-AYT01-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT01-01",
+      "id": "AI-AYT01-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT01-01",
+      "id": "AI-AYT01-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT01-01",
+      "id": "AI-AYT01-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT02-02",
+      "id": "AI-AYT02-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT02-02",
+      "id": "AI-AYT02-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT02-02",
+      "id": "AI-AYT02-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT02-02",
+      "id": "AI-AYT02-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT02-02",
+      "id": "AI-AYT02-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT02-02",
+      "id": "AI-AYT02-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT02-02",
+      "id": "AI-AYT02-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT02-02",
+      "id": "AI-AYT02-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT03-01",
+      "id": "AI-AYT03-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT03-01",
+      "id": "AI-AYT03-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT03-01",
+      "id": "AI-AYT03-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT03-01",
+      "id": "AI-AYT03-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT03-03",
+      "id": "AI-AYT03-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT03-01",
+      "id": "AI-AYT03-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT03-01",
+      "id": "AI-AYT03-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT03-01",
+      "id": "AI-AYT03-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT04-01",
+      "id": "AI-AYT04-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT04-01",
+      "id": "AI-AYT04-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT04-01",
+      "id": "AI-AYT04-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT04-05",
+      "id": "AI-AYT04-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT04-01",
+      "id": "AI-AYT04-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT04-01",
+      "id": "AI-AYT04-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT04-01",
+      "id": "AI-AYT04-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT05-01",
+      "id": "AI-AYT05-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT05-01",
+      "id": "AI-AYT05-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT05-01",
+      "id": "AI-AYT05-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT05-01",
+      "id": "AI-AYT05-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT06-01",
+      "id": "AI-AYT06-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT06-01",
+      "id": "AI-AYT06-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT06-01",
+      "id": "AI-AYT06-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT06-01",
+      "id": "AI-AYT06-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT06-01",
+      "id": "AI-AYT06-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT06-01",
+      "id": "AI-AYT06-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT06-01",
+      "id": "AI-AYT06-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT06-01",
+      "id": "AI-AYT06-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT08-01",
+      "id": "AI-AYT08-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT08-01",
+      "id": "AI-AYT08-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT08-01",
+      "id": "AI-AYT08-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT08-01",
+      "id": "AI-AYT08-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT08-01",
+      "id": "AI-AYT08-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT08-01",
+      "id": "AI-AYT08-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT08-01",
+      "id": "AI-AYT08-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT08-01",
+      "id": "AI-AYT08-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT08-01",
+      "id": "AI-AYT08-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT16-01",
+      "id": "AI-AYT16-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT16-01",
+      "id": "AI-AYT16-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT16-01",
+      "id": "AI-AYT16-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT16-01",
+      "id": "AI-AYT16-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT16-01",
+      "id": "AI-AYT16-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT16-01",
+      "id": "AI-AYT16-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT16-01",
+      "id": "AI-AYT16-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT16-01",
+      "id": "AI-AYT16-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT16-01",
+      "id": "AI-AYT16-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT17-01",
+      "id": "AI-AYT17-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT17-01",
+      "id": "AI-AYT17-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT17-01",
+      "id": "AI-AYT17-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT17-01",
+      "id": "AI-AYT17-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT17-01",
+      "id": "AI-AYT17-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-AYT17-01",
+      "id": "AI-AYT17-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-038-01",
+      "id": "V3-TYT-038-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-038-01",
+      "id": "V3-TYT-038-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-038-01",
+      "id": "V3-TYT-038-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-038-01",
+      "id": "V3-TYT-038-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-038-01",
+      "id": "V3-TYT-038-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-038-01",
+      "id": "V3-TYT-038-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-038-01",
+      "id": "V3-TYT-038-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-038-01",
+      "id": "V3-TYT-038-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-TYT-038-01",
+      "id": "V3-TYT-038-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-046-01",
+      "id": "V3-AYT-046-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-046-03",
+      "id": "V3-AYT-046-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-046-03",
+      "id": "V3-AYT-046-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-046-03",
+      "id": "V3-AYT-046-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-046-03",
+      "id": "V3-AYT-046-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-046-03",
+      "id": "V3-AYT-046-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-046-01",
+      "id": "V3-AYT-046-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-046-03",
+      "id": "V3-AYT-046-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-047-01",
+      "id": "V3-AYT-047-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-047-01",
+      "id": "V3-AYT-047-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-047-01",
+      "id": "V3-AYT-047-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-047-01",
+      "id": "V3-AYT-047-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-047-01",
+      "id": "V3-AYT-047-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-047-03",
+      "id": "V3-AYT-047-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-047-01",
+      "id": "V3-AYT-047-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-047-03",
+      "id": "V3-AYT-047-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-048-01",
+      "id": "V3-AYT-048-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-048-03",
+      "id": "V3-AYT-048-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-048-01",
+      "id": "V3-AYT-048-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-048-03",
+      "id": "V3-AYT-048-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-048-03",
+      "id": "V3-AYT-048-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-048-01",
+      "id": "V3-AYT-048-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-048-03",
+      "id": "V3-AYT-048-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-048-03",
+      "id": "V3-AYT-048-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-049-01",
+      "id": "V3-AYT-049-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-049-03",
+      "id": "V3-AYT-049-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-049-01",
+      "id": "V3-AYT-049-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-049-01",
+      "id": "V3-AYT-049-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-049-01",
+      "id": "V3-AYT-049-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-049-01",
+      "id": "V3-AYT-049-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-049-01",
+      "id": "V3-AYT-049-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-049-03",
+      "id": "V3-AYT-049-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-050-01",
+      "id": "V3-AYT-050-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-050-01",
+      "id": "V3-AYT-050-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-050-01",
+      "id": "V3-AYT-050-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-050-01",
+      "id": "V3-AYT-050-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-050-01",
+      "id": "V3-AYT-050-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-050-01",
+      "id": "V3-AYT-050-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-050-01",
+      "id": "V3-AYT-050-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-050-01",
+      "id": "V3-AYT-050-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-050-01",
+      "id": "V3-AYT-050-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-055-01",
+      "id": "V3-AYT-055-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-055-01",
+      "id": "V3-AYT-055-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-055-01",
+      "id": "V3-AYT-055-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-055-01",
+      "id": "V3-AYT-055-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-055-01",
+      "id": "V3-AYT-055-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-055-01",
+      "id": "V3-AYT-055-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-055-01",
+      "id": "V3-AYT-055-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-055-01",
+      "id": "V3-AYT-055-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-055-01",
+      "id": "V3-AYT-055-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-056-05",
+      "id": "V3-AYT-056-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-056-04",
+      "id": "V3-AYT-057-01",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-056-06",
+      "id": "V3-AYT-057-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-056-06",
+      "id": "V3-AYT-057-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-057-04",
+      "id": "V3-AYT-057-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-056-07",
+      "id": "V3-AYT-057-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-057-03",
+      "id": "V3-AYT-057-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-058-01",
+      "id": "V3-AYT-058-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-058-01",
+      "id": "V3-AYT-058-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-058-01",
+      "id": "V3-AYT-058-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-058-01",
+      "id": "V3-AYT-058-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-058-01",
+      "id": "V3-AYT-058-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-058-01",
+      "id": "V3-AYT-058-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-058-01",
+      "id": "V3-AYT-058-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-058-01",
+      "id": "V3-AYT-058-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-058-01",
+      "id": "V3-AYT-058-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-059-01",
+      "id": "V3-AYT-059-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-059-01",
+      "id": "V3-AYT-059-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-059-01",
+      "id": "V3-AYT-059-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-059-01",
+      "id": "V3-AYT-059-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-059-01",
+      "id": "V3-AYT-059-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-059-01",
+      "id": "V3-AYT-059-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-059-01",
+      "id": "V3-AYT-059-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-059-01",
+      "id": "V3-AYT-059-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-059-01",
+      "id": "V3-AYT-059-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-060-01",
+      "id": "V3-AYT-060-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-060-01",
+      "id": "V3-AYT-060-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-060-01",
+      "id": "V3-AYT-060-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-060-01",
+      "id": "V3-AYT-060-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-060-01",
+      "id": "V3-AYT-060-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-060-01",
+      "id": "V3-AYT-060-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-060-01",
+      "id": "V3-AYT-060-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-060-01",
+      "id": "V3-AYT-060-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-060-01",
+      "id": "V3-AYT-060-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-061-01",
+      "id": "V3-AYT-061-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-061-01",
+      "id": "V3-AYT-061-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-061-01",
+      "id": "V3-AYT-061-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-061-01",
+      "id": "V3-AYT-061-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-061-01",
+      "id": "V3-AYT-061-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-061-01",
+      "id": "V3-AYT-061-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-061-01",
+      "id": "V3-AYT-061-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-061-01",
+      "id": "V3-AYT-061-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-061-01",
+      "id": "V3-AYT-061-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-062-01",
+      "id": "V3-AYT-062-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-062-01",
+      "id": "V3-AYT-062-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-062-01",
+      "id": "V3-AYT-062-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-062-01",
+      "id": "V3-AYT-062-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-062-01",
+      "id": "V3-AYT-062-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-062-01",
+      "id": "V3-AYT-062-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-062-01",
+      "id": "V3-AYT-062-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-062-01",
+      "id": "V3-AYT-062-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-062-01",
+      "id": "V3-AYT-062-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-066-02",
+      "id": "V3-AYT-066-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-066-02",
+      "id": "V3-AYT-066-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-066-01",
+      "id": "V3-AYT-066-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-066-01",
+      "id": "V3-AYT-066-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-066-02",
+      "id": "V3-AYT-066-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-066-02",
+      "id": "V3-AYT-066-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-067-01",
+      "id": "V3-AYT-067-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-067-01",
+      "id": "V3-AYT-067-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-067-01",
+      "id": "V3-AYT-067-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-067-01",
+      "id": "V3-AYT-067-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-067-01",
+      "id": "V3-AYT-067-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-067-01",
+      "id": "V3-AYT-067-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-067-01",
+      "id": "V3-AYT-067-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-067-01",
+      "id": "V3-AYT-067-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-067-01",
+      "id": "V3-AYT-067-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "V3-AYT-068-01",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "V3-AYT-068-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "V3-AYT-068-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "V3-AYT-068-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "V3-AYT-068-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "V3-AYT-068-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "V3-AYT-068-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "V3-AYT-068-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "V3-AYT-068-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "V3-AYT-068-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-078-01-ARITHMETIC-STRUCTURE-01",
+      "id": "V3-AYT-078-01",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-078-01-ARITHMETIC-STRUCTURE-01",
+      "id": "V3-AYT-078-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-078-01-ARITHMETIC-STRUCTURE-01",
+      "id": "V3-AYT-078-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-078-03",
+      "id": "V3-AYT-078-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-078-03",
+      "id": "V3-AYT-078-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-078-01-ARITHMETIC-STRUCTURE-01",
+      "id": "V3-AYT-078-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-078-03",
+      "id": "V3-AYT-078-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-078-03",
+      "id": "V3-AYT-078-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "V3-AYT-078-03",
+      "id": "V3-AYT-078-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-TYT-CEILING-PATTERNS-03",
+      "id": "AI-NEW-TYT-CEILING-PATTERNS-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-TYT-MODULAR-ARITHMETIC-06",
+      "id": "AI-NEW-TYT-MODULAR-ARITHMETIC-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT03-01-BINOM-EXPONENT-TARGET-02",
+      "id": "AI-NEW-AYT-AYT03-01-BINOM-EXPONENT-TARGET-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT03-01-BINOM-EXPONENT-TARGET-01",
+      "id": "AI-NEW-AYT-AYT03-01-BINOM-EXPONENT-TARGET-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT03-01-BINOM-EXPONENT-TARGET-05",
+      "id": "AI-NEW-AYT-AYT03-01-BINOM-EXPONENT-TARGET-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT03-01-BINOM-EXPONENT-TARGET-07",
+      "id": "AI-NEW-AYT-AYT03-01-BINOM-EXPONENT-TARGET-13",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT06-01-PASCAL-IDENTITY-04",
+      "id": "AI-NEW-AYT-AYT06-01-PASCAL-IDENTITY-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT07-01-ABSOLUTE-COEFFICIENT-STRUCTURE-02",
+      "id": "AI-NEW-AYT-AYT07-01-ABSOLUTE-COEFFICIENT-STRUCTURE-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT07-01-ABSOLUTE-COEFFICIENT-STRUCTURE-06",
+      "id": "AI-NEW-AYT-AYT07-01-ABSOLUTE-COEFFICIENT-STRUCTURE-13",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-01",
+      "id": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-02",
+      "id": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-01",
+      "id": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-02",
+      "id": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-01",
+      "id": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-02",
+      "id": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-01",
+      "id": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-02",
+      "id": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-01",
+      "id": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-11",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-02",
+      "id": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-12",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-01",
+      "id": "AI-NEW-AYT-AYT08-01-COEFFICIENT-RATIO-13",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-01",
+      "id": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-02",
+      "id": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-01",
+      "id": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-06",
+      "id": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-07",
+      "id": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-10",
+      "id": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-11",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-10",
+      "id": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-12",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-10",
+      "id": "AI-NEW-AYT-AYT-058-01-UNIVARIATE-COEFFICIENT-13",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-03",
+      "id": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-02",
+      "id": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-01",
+      "id": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-02",
+      "id": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-03",
+      "id": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-04",
+      "id": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-03",
+      "id": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-11",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-02",
+      "id": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-12",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-01",
+      "id": "AI-NEW-AYT-AYT-059-01-COLLIDING-POWER-TARGET-13",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-060-01-ORDERED-BINOMIAL-TERM-01",
+      "id": "AI-NEW-AYT-AYT-060-01-ORDERED-BINOMIAL-TERM-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-060-01-ORDERED-BINOMIAL-TERM-02",
+      "id": "AI-NEW-AYT-AYT-060-01-ORDERED-BINOMIAL-TERM-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-060-01-ORDERED-BINOMIAL-TERM-03",
+      "id": "AI-NEW-AYT-AYT-060-01-ORDERED-BINOMIAL-TERM-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-060-01-ORDERED-BINOMIAL-TERM-04",
+      "id": "AI-NEW-AYT-AYT-060-01-ORDERED-BINOMIAL-TERM-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-060-01-ORDERED-BINOMIAL-TERM-05",
+      "id": "AI-NEW-AYT-AYT-060-01-ORDERED-BINOMIAL-TERM-11",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-060-01-ORDERED-BINOMIAL-TERM-06",
+      "id": "AI-NEW-AYT-AYT-060-01-ORDERED-BINOMIAL-TERM-12",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-060-01-ORDERED-BINOMIAL-TERM-01",
+      "id": "AI-NEW-AYT-AYT-060-01-ORDERED-BINOMIAL-TERM-13",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-046-01-VIETA-SYMMETRIC-0-03",
+      "id": "AI-NEW-AYT-AYT-046-01-VIETA-SYMMETRIC-0-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-046-01-VIETA-SYMMETRIC-0-03",
+      "id": "AI-NEW-AYT-AYT-046-01-VIETA-SYMMETRIC-0-11",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-06",
+      "id": "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-07",
+      "id": "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-08",
+      "id": "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-09",
+      "id": "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-10",
+      "id": "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-11",
+      "id": "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-11",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-12",
+      "id": "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-12",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-13",
+      "id": "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-13",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-11",
+      "id": "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-05",
+      "id": "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-06",
+      "id": "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-07",
+      "id": "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-08",
+      "id": "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-09",
+      "id": "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-10",
+      "id": "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-11",
+      "id": "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-11",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-12",
+      "id": "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-12",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-13",
+      "id": "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-13",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-062-01-TRIG-IDENTITY-TRANSFORM-02",
+      "id": "AI-NEW-AYT-AYT-062-01-TRIG-IDENTITY-TRANSFORM-05",
+      "reason": "independent_duplicate_audit"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-077-01-COMPLEX-POWER-ROLE-08",
+      "id": "AI-NEW-AYT-AYT-077-01-COMPLEX-POWER-ROLE-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-080-01-VARIABLE-LOG-BASE-02",
+      "id": "AI-NEW-AYT-AYT-080-01-VARIABLE-LOG-BASE-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-080-01-VARIABLE-LOG-BASE-06",
+      "id": "AI-NEW-AYT-AYT-080-01-VARIABLE-LOG-BASE-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-080-01-VARIABLE-LOG-BASE-03",
+      "id": "AI-NEW-AYT-AYT-080-01-VARIABLE-LOG-BASE-13",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-067-01-GEOMETRIC-STRUCTURE-04",
+      "id": "AI-NEW-AYT-AYT-067-01-GEOMETRIC-STRUCTURE-05",
+      "reason": "independent_duplicate_audit"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-02",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-03",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-04",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-01",
+      "id": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-07",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-08",
+      "id": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-09",
+      "reason": "independent_duplicate_audit"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-08",
+      "id": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-10",
+      "reason": "independent_duplicate_audit"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-08",
+      "id": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-13",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-078-01-ARITHMETIC-STRUCTURE-03",
+      "id": "AI-NEW-AYT-AYT-078-01-ARITHMETIC-STRUCTURE-04",
+      "reason": "independent_duplicate_audit"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT11-01-HIGHER-DERIVATIVE-PARAMETER-03",
+      "id": "AI-NEW-AYT-AYT11-01-HIGHER-DERIVATIVE-PARAMETER-08",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT11-01-HIGHER-DERIVATIVE-PARAMETER-05",
+      "id": "AI-NEW-AYT-AYT11-01-HIGHER-DERIVATIVE-PARAMETER-13",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-072-01-EXTERNAL-TANGENT-ROLE-02",
+      "id": "AI-NEW-AYT-AYT-072-01-EXTERNAL-TANGENT-ROLE-09",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-072-01-EXTERNAL-TANGENT-ROLE-03",
+      "id": "AI-NEW-AYT-AYT-072-01-EXTERNAL-TANGENT-ROLE-10",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-073-01-DERIVATIVE-CONSTRAINT-DIRECTION-02",
+      "id": "AI-NEW-AYT-AYT-073-01-DERIVATIVE-CONSTRAINT-DIRECTION-05",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT15-01-CONTINUOUS-RATIONAL-LIMIT-03",
+      "id": "AI-NEW-AYT-AYT15-01-CONTINUOUS-RATIONAL-LIMIT-06",
+      "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-NEW-AYT-AYT-070-01-INDETERMINATE-LIMIT-STRUCTURE-01",
+      "id": "AI-NEW-AYT-AYT-070-01-INDETERMINATE-LIMIT-STRUCTURE-02",
+      "reason": "same_prose_changed_constants"
+    }
+  ],
+  "pending": [
+    {
+      "id": "AI-AYT01-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "AI-AYT02-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "AI-AYT02-02",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "AI-AYT03-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "AI-AYT03-03",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "AI-AYT04-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "AI-AYT04-05",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "AI-AYT05-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "AI-AYT06-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "AI-AYT08-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "AI-AYT16-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "AI-AYT17-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-TYT-038-01",
+      "mathPassed": false,
+      "reasons": [
+        "ambiguous_range_endpoints_1_ile_N_arasinda"
+      ]
+    },
+    {
+      "id": "V3-AYT-046-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-046-03",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-047-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-047-03",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-048-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-048-03",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-049-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-049-03",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-050-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-055-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-056-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-056-02",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-056-03",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-056-04",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-056-05",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-056-06",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-056-07",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-056-08",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-056-10",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-057-02",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-057-03",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-057-04",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-057-06",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-058-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-059-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-060-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-061-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review",
+        "AYT_topic_classification_review_triangle_angle_sum"
+      ]
+    },
+    {
+      "id": "V3-AYT-062-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-066-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-066-02",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-066-05",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-066-08",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-067-01",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    },
+    {
+      "id": "V3-AYT-078-03",
+      "mathPassed": true,
+      "reasons": [
+        "exam_boundary_review"
+      ]
+    }
+  ],
+  "schemaVersion": 1
+}

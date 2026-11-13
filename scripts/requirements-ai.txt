@@ -1,0 +1,2 @@
+# Used only by offline authoring and independent mathematical audit scripts.
+sympy==1.14.0

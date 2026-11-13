@@ -1,0 +1,398 @@
+{
+  "action": "Conservative quarantine: preserve one eligible representative of each repeated symbolic task.",
+  "groups": [
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "2*x^2 + 4*x - 30=0 denkleminin kökleri α ve β olmak üzere (α−β)² kaçtır?",
+        "3*x^2 + 6*x - 72=0 denkleminin kökleri α ve β olmak üzere (α−β)² kaçtır?",
+        "4*x^2 + 8*x - 140=0 denkleminin kökleri α ve β olmak üzere (α−β)² kaçtır?"
+      ],
+      "groupId": "semantic-review-ae9fae4f28b14384",
+      "ids": [
+        "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-06",
+        "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-06",
+        "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-06"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "2*x^2 + 4*x - 30=0 denkleminin kökleri α ve β olmak üzere α/β+β/α kaçtır?",
+        "3*x^2 + 6*x - 72=0 denkleminin kökleri α ve β olmak üzere α/β+β/α kaçtır?",
+        "4*x^2 + 8*x - 140=0 denkleminin kökleri α ve β olmak üzere α/β+β/α kaçtır?"
+      ],
+      "groupId": "semantic-review-5bac723afa9f5c89",
+      "ids": [
+        "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-07",
+        "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-07",
+        "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-07"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "2*x^2 + 4*x - 30=0 denkleminin kökleri α ve β olmak üzere (α+3)(β+3) kaçtır?",
+        "3*x^2 + 6*x - 72=0 denkleminin kökleri α ve β olmak üzere (α+4)(β+4) kaçtır?",
+        "4*x^2 + 8*x - 140=0 denkleminin kökleri α ve β olmak üzere (α+5)(β+5) kaçtır?"
+      ],
+      "groupId": "semantic-review-44bd924b007d7049",
+      "ids": [
+        "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-08",
+        "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-08",
+        "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-08"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "2*x^2 + 4*x - 30=0 denkleminin kökleri α ve β olmak üzere (2α+1)²+(2β+1)² kaçtır?",
+        "3*x^2 + 6*x - 72=0 denkleminin kökleri α ve β olmak üzere (2α+1)²+(2β+1)² kaçtır?",
+        "4*x^2 + 8*x - 140=0 denkleminin kökleri α ve β olmak üzere (3α−2)²+(3β−2)² kaçtır?"
+      ],
+      "groupId": "semantic-review-0c0fb33a2a6dd33c",
+      "ids": [
+        "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-09",
+        "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-09",
+        "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-03",
+        "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-09"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "2*x^2 + 4*x - 30=0 denkleminin kökleri α ve β olmak üzere 1/α²+1/β² kaçtır?",
+        "3*x^2 + 6*x - 72=0 denkleminin kökleri α ve β olmak üzere 1/α²+1/β² kaçtır?",
+        "4*x^2 + 8*x - 140=0 denkleminin kökleri α ve β olmak üzere Köklerin karelerinin çarpmaya göre terslerinin toplamı kaçtır?"
+      ],
+      "groupId": "semantic-review-4427a5b5c78fc1d9",
+      "ids": [
+        "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-10",
+        "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-10",
+        "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-02",
+        "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-10"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "2*x^2 + 4*x - 30=0 denkleminin kökleri α ve β olmak üzere α⁴+β⁴ kaçtır?",
+        "3*x^2 + 6*x - 72=0 denkleminin kökleri α ve β olmak üzere α⁴+β⁴ kaçtır?",
+        "4*x^2 + 8*x - 140=0 denkleminin kökleri α ve β olmak üzere α⁴+β⁴ kaçtır?"
+      ],
+      "groupId": "semantic-review-cf76063d4a94fa38",
+      "ids": [
+        "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-11",
+        "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-11",
+        "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-11"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "2*x^2 + 4*x - 30=0 denkleminin kökleri α ve β olmak üzere (α−1)³+(β−1)³ kaçtır?",
+        "3*x^2 + 6*x - 72=0 denkleminin kökleri α ve β olmak üzere (α−1)³+(β−1)³ kaçtır?",
+        "4*x^2 + 8*x - 140=0 denkleminin kökleri α ve β olmak üzere (α−1)³+(β−1)³ kaçtır?"
+      ],
+      "groupId": "semantic-review-815ca7773304faeb",
+      "ids": [
+        "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-12",
+        "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-12",
+        "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-12"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "2*x^2 + 4*x - 30=0 denkleminin kökleri α ve β olmak üzere 1/(α+1)+1/(β+1) kaçtır?",
+        "3*x^2 + 6*x - 72=0 denkleminin kökleri α ve β olmak üzere 1/(α+1)+1/(β+1) kaçtır?",
+        "4*x^2 + 8*x - 140=0 denkleminin kökleri α ve β olmak üzere 1/(α+1)+1/(β+1) kaçtır?"
+      ],
+      "groupId": "semantic-review-13291a62ca3826e4",
+      "ids": [
+        "AI-NEW-AYT-AYT-047-01-VIETA-SYMMETRIC-1-13",
+        "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-13",
+        "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-13"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "3*x^2 + 6*x - 72=0 denkleminin kökleri α ve β olmak üzere 1/α+1/β kaçtır?",
+        "4*x^2 + 8*x - 140=0 denkleminin kökleri α ve β olmak üzere 1/α+1/β kaçtır?"
+      ],
+      "groupId": "semantic-review-d9ce54046171bb73",
+      "ids": [
+        "AI-NEW-AYT-AYT-048-01-VIETA-SYMMETRIC-2-05",
+        "AI-NEW-AYT-AYT-049-01-VIETA-SYMMETRIC-3-05"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "y=7 - 3*(x + 2)^2 parabolünde simetri ekseni x=h olduğuna göre h kaçtır?",
+        "y=2 - 5*(x + 1)^2 parabolü veriliyor. Grafiğin yatay teğetinin değme noktasının apsisi kaçtır?"
+      ],
+      "groupId": "semantic-review-7070c3abb3027578",
+      "ids": [
+        "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-02",
+        "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-12"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "y=(x - 7)*(x - 1) parabolünde x eksenini kestiği iki noktanın orta noktasının apsisi kaçtır?",
+        "y=(x - 8)*(x - 2) parabolü veriliyor. İki x ekseni kesiminin orta apsisi kaçtır?"
+      ],
+      "groupId": "semantic-review-84a47f8b06b9f925",
+      "ids": [
+        "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-03",
+        "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-03"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "y=3*x^2 + 18*x - 1 parabolünde en küçük değeri aldığı x kaçtır?",
+        "y=2*x^2 + 10*x - 3 parabolü veriliyor. Tam kare biçimindeki yatay öteleme sabiti h kaçtır?"
+      ],
+      "groupId": "semantic-review-708772e216b20029",
+      "ids": [
+        "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-04",
+        "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-05"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "y=-2*x^2 + 20*x + 3 parabolünde en büyük değeri aldığı x kaçtır?",
+        "y=-4*x^2 + 12*x + 9 parabolünde maksimum yüksekliğe ulaşılan x kaçtır?"
+      ],
+      "groupId": "semantic-review-0b07c6e2d7dce156",
+      "ids": [
+        "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-05",
+        "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-13"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "y=4*x^2 - 8*x + 6 parabolünde tam kareye tamamlama sonucunda y=4(x−h)²+k biçimindeki h kaçtır?",
+        "y=5*x^2 - 35*x + 1 parabolünde tepe noktasının apsisi kaçtır?",
+        "y=3*x^2 - 21*x + 1 parabolü veriliyor. Aynı yükseklikteki noktaların apsis ortalaması kaçtır?"
+      ],
+      "groupId": "semantic-review-fc5c7ec9c839cd49",
+      "ids": [
+        "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-07",
+        "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-12",
+        "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-09",
+        "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-11",
+        "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-13"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "y=(x + 5)^2 - 8 parabolünde simetri ekseninin x eksenini kestiği noktanın apsisi kaçtır?",
+        "y=(x + 3)^2 - 5 parabolü veriliyor. Grafik 2 birim sağa ötelenince yeni eksen x=k+2 ise eski k kaçtır?"
+      ],
+      "groupId": "semantic-review-8ad85d68ce6810a6",
+      "ids": [
+        "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-08",
+        "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-10"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "y=2*(x - 4)^2 - 3 parabolünde birbirinden farklı aynı ordinatlı iki noktanın apsisleri toplamının yarısı kaçtır?",
+        "y=4*(x - 1)^2 - 9 parabolü veriliyor. f(k−3)=f(k+3) sağlayan tek k kaçtır?"
+      ],
+      "groupId": "semantic-review-a09b05b2776c6990",
+      "ids": [
+        "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-09",
+        "AI-NEW-AYT-AYT-079-01-PARABOLA-SYMMETRY-CONTEXT-08"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "y=11 - 3*(x + 2)^2 için en büyük değer kaçtır?",
+        "y=8 - 2*(x + 3)^2 için grafiğe üstten teğet yatay doğrunun y sabiti kaçtır?"
+      ],
+      "groupId": "semantic-review-1fc9eb7a5a7e6616",
+      "ids": [
+        "AI-NEW-AYT-AYT-052-01-PARABOLA-EXTREME-ROLE-02",
+        "AI-NEW-AYT-AYT-052-01-PARABOLA-EXTREME-ROLE-12"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "y=4*x^2 - 20*x + 29 için tam kare biçimindeki y=4(x−h)²+k ifadesinde k kaçtır?",
+        "y=5*x^2 - 10*x + 9 için gerçek x için y≥k sağlayan en büyük k kaçtır?"
+      ],
+      "groupId": "semantic-review-379f89885a9c080b",
+      "ids": [
+        "AI-NEW-AYT-AYT-052-01-PARABOLA-EXTREME-ROLE-08",
+        "AI-NEW-AYT-AYT-052-01-PARABOLA-EXTREME-ROLE-13"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "y=2*x^2 - 18*x + 36 parabolünün kesim apsislerinden 1 çıkarıldığında oluşan sayıların çarpımı kaçtır?",
+        "y=2*x^2 - 14*x + 12 parabolünün iki kesim apsisine de 2 eklenerek elde edilen sayıların çarpımı kaçtır?"
+      ],
+      "groupId": "semantic-review-5c51054beb22f97e",
+      "ids": [
+        "AI-NEW-AYT-AYT-054-01-PARABOLA-INTERCEPT-QUERY-06",
+        "AI-NEW-AYT-AYT-054-01-PARABOLA-INTERCEPT-QUERY-10"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "y=2*x^3 + 32 eğrisine çizilen bir teğet (0,0) noktasından geçiyor. bu teğetin eğimi kaçtır?",
+        "y=2*x^3 + 40 eğrisine çizilen bir teğet (0,8) noktasından geçiyor. bu teğetin eğimi kaçtır?"
+      ],
+      "groupId": "semantic-review-baa239aa7e1197e9",
+      "ids": [
+        "AI-NEW-AYT-AYT-072-01-EXTERNAL-TANGENT-ROLE-03",
+        "AI-NEW-AYT-AYT-072-01-EXTERNAL-TANGENT-ROLE-10"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "f′(x)=3*x^2 + 2*x - 1, f(0)=4 ise f(2) kaçtır?",
+        "f′(x)=6*x^2 + 4*x - 1 ve f(0)=-3. f(2) kaçtır?"
+      ],
+      "groupId": "semantic-review-767e81be67c571c1",
+      "ids": [
+        "AI-NEW-AYT-AYT13-01-ANTIDERIVATIVE-INITIAL-ROLE-01",
+        "AI-NEW-AYT-AYT-075-01-RECOVER-FUNCTION-DIRECTION-01"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "f′(x)=2*x + 5, f(-1)=4 ise f(2) kaçtır?",
+        "∫[3→-1] (2*x + 1) dx belirli integralinin değeri kaçtır?",
+        "∫[-2→0] (2*x + 4) dx belirli integralinin değeri kaçtır?"
+      ],
+      "groupId": "semantic-review-416da52b5f02471e",
+      "ids": [
+        "AI-NEW-AYT-AYT13-01-ANTIDERIVATIVE-INITIAL-ROLE-03",
+        "AI-NEW-AYT-AYT-074-01-AREA-INTEGRAL-DIRECTION-02",
+        "AI-NEW-AYT-AYT-074-01-AREA-INTEGRAL-DIRECTION-06",
+        "AI-NEW-AYT-AYT-075-01-RECOVER-FUNCTION-DIRECTION-02"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "f′(x)=1/x, f(1)=0 ise f(4) kaçtır?",
+        "∫[1→3] (1/x) dx kaçtır?"
+      ],
+      "groupId": "semantic-review-1231f4dec4adeb0f",
+      "ids": [
+        "AI-NEW-AYT-AYT13-01-ANTIDERIVATIVE-INITIAL-ROLE-06",
+        "AI-NEW-AYT-AYT14-01-DEFINITE-INTEGRAL-STRUCTURE-07"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "f′(x)=2*x/(x^2 + 1), f(0)=3 ise f(1) kaçtır?",
+        "∫[0→2] (2*x/(x^2 + 4)) dx belirli integralinin değeri kaçtır?",
+        "f′(x)=2*x/(x^2 + 1) ve f(1)=3. f(0) kaçtır?"
+      ],
+      "groupId": "semantic-review-1ee61275c79069f7",
+      "ids": [
+        "AI-NEW-AYT-AYT13-01-ANTIDERIVATIVE-INITIAL-ROLE-08",
+        "AI-NEW-AYT-AYT-074-01-AREA-INTEGRAL-DIRECTION-12",
+        "AI-NEW-AYT-AYT-075-01-RECOVER-FUNCTION-DIRECTION-09"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "f′(x)=(x + 1)^(-2), f(0)=5 ise f(1) kaçtır?",
+        "∫[0→3] ((x + 1)^(-2)) dx kaçtır?"
+      ],
+      "groupId": "semantic-review-6c938b0e587ae415",
+      "ids": [
+        "AI-NEW-AYT-AYT13-01-ANTIDERIVATIVE-INITIAL-ROLE-09",
+        "AI-NEW-AYT-AYT14-01-DEFINITE-INTEGRAL-STRUCTURE-12"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "∫[0→pi] (sin(x)) dx kaçtır?",
+        "f′(x)=sin(x) ve f(pi/2)=1. f(pi) kaçtır?"
+      ],
+      "groupId": "semantic-review-372c1f1965147479",
+      "ids": [
+        "AI-NEW-AYT-AYT14-01-DEFINITE-INTEGRAL-STRUCTURE-05",
+        "AI-NEW-AYT-AYT-075-01-RECOVER-FUNCTION-DIRECTION-13"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "∫[0→pi/4] (cos(2*x)) dx kaçtır?",
+        "f′(x)=cos(2*x) ve f(0)=4. f(pi/4) kaçtır?"
+      ],
+      "groupId": "semantic-review-397417ba8a9fbbab",
+      "ids": [
+        "AI-NEW-AYT-AYT14-01-DEFINITE-INTEGRAL-STRUCTURE-06",
+        "AI-NEW-AYT-AYT-075-01-RECOVER-FUNCTION-DIRECTION-07"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    },
+    {
+      "action": "editorial_review",
+      "examplePrompts": [
+        "∫[0→9] (sqrt(x)) dx kaçtır?",
+        "f′(x)=sqrt(x) ve f(1)=2. f(4) kaçtır?"
+      ],
+      "groupId": "semantic-review-b58154729efc4819",
+      "ids": [
+        "AI-NEW-AYT-AYT14-01-DEFINITE-INTEGRAL-STRUCTURE-11",
+        "AI-NEW-AYT-AYT-075-01-RECOVER-FUNCTION-DIRECTION-10"
+      ],
+      "reason": "Same declared mathematical task and coefficient-neutral expression structure; distinct contexts may still teach a different representation."
+    }
+  ],
+  "limitations": "Coefficient-neutral symbolic structure is a near-clone heuristic; different representations may require later editorial reassessment.",
+  "schemaVersion": 1
+}

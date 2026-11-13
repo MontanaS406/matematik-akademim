@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "status": "completed",
+  "reviewer": "independent-natural-language-semantic-review",
+  "scope": "Read-only manual mathematical/natural-language inspection of all authoring rows present at review time. Not a full human editorial sign-off; typed checker remains necessary.",
+  "reviewedFiles": [
+    "scripts/generation/tyt_generator.py",
+    "scripts/generation/tyt_counting.py",
+    "scripts/generation/ayt_generator.py"
+  ],
+  "coverage": {
+    "TYT": "All630 emitted templates across complete authored arithmetic/basic/digit/word/algebra/sequence/divisibility/counting/remaining families, including60counting forms; finalJSON spotchecks of reported fixes.",
+    "AYT": "All676 emitted templates across52eligibleclusters, including208calculus templates; source/PDF bodies not reviewed."
+  },
+  "findings": [
+    {
+      "id": "AI-NEW-AYT-AYT-047-01-VIETA-INVERSE-05",
+      "family": "vieta-inverse-05",
+      "issue": "Parameter in leading coefficient cancels from reciprocal root sum; original prompt had infinitely many solutions although spec returned1.",
+      "resolution": "Generator changed parameter to linear coefficient; rechecked raw algebra is now parameter-dependent and unique.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "2*a*x + x^2 - 15=0 denkleminin sıfır olmayan kökleri için 1/α+1/β=2/15 olsun. a kaçtır?",
+      "checkedValue": "1"
+    },
+    {
+      "id": "AI-NEW-TYT-REVERSE-DIGITS-10",
+      "family": "reverse-digits",
+      "issue": "Original declared result642 contradicted A6,B4,C4 and expression644.",
+      "resolution": "Declared answer now644.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "ABC üç basamaklıdır. ABC−CBA=198 ve B=4, A+C=10 ise ABC kaçtır?",
+      "checkedValue": "644"
+    },
+    {
+      "id": "AI-NEW-TYT-SCORE-PROBLEMS-08",
+      "family": "score-problems",
+      "issue": "Draw score was missing; assumed1 without condition.",
+      "resolution": "Prompt now explicitly states win3/draw1.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "Galibiyet 3, beraberlik 1 puandır. Bir takımın 6 galibiyetinden biri beraberlik sayılsaydı toplam puanı kaç azalırdı?",
+      "checkedValue": "2"
+    },
+    {
+      "id": "AI-NEW-TYT-MIXTURE-09",
+      "family": "mixture",
+      "issue": "Question did not specify that only liquidsA/B exist.",
+      "resolution": "Prompt now explicitly states onlyA/B.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "Yalnız A ve B sıvılarından oluşan karışımın 2/5’i A sıvısıdır. 15 L karışımda kaç L B sıvısı vardır?",
+      "checkedValue": "9"
+    },
+    {
+      "id": "AI-NEW-TYT-POWER-SCALING-02",
+      "family": "power-scaling",
+      "issue": "A=x²y³ scaling ratio undefined at zero; require x,y nonzero.",
+      "resolution": "Reported to author; final confirmation pending.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "x,y≠0 için A=x²y³ ifadesinde x üç katına çıkarılırken y üçte birine indiriliyor. Yeni A eski A’nın kaç katıdır?",
+      "checkedValue": "1/3"
+    },
+    {
+      "id": "AI-NEW-TYT-POWER-SCALING-03",
+      "family": "power-scaling",
+      "issue": "x⁴y²/z³ scaling ratio requires x,y,z nonzero.",
+      "resolution": "Reported to author; final confirmation pending.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "x,y,z≠0 için x⁴y²/z³ ifadesinde üç değişken de iki katına çıkarılırsa ifade kaç katına dönüşür?",
+      "checkedValue": "8"
+    },
+    {
+      "id": "AI-NEW-TYT-FACTOR-PAIRS-05",
+      "family": "factor-pairs",
+      "issue": "Prompt lacks positive integer domain but spec imposes1..48; over reals claimed minimum differs/unbounded for negatives.",
+      "resolution": "Reported to author.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "a,b pozitif tam sayılar, a≤b ve ab=48 için a+b’nin en küçük değeri kaçtır?",
+      "checkedValue": "14"
+    },
+    {
+      "id": "AI-NEW-TYT-FACTOR-PAIRS-06",
+      "family": "factor-pairs",
+      "issue": "Prompt lacks positive integer domain but spec imposes1..64; over reals maximum unbounded.",
+      "resolution": "Reported to author.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "a,b pozitif tam sayılar, a<b ve ab=64 için a+b’nin en büyük değeri kaçtır?",
+      "checkedValue": "65"
+    },
+    {
+      "id": "AI-NEW-AYT-AYT17-01-UNIT-CIRCLE-RELATION-04",
+      "family": "unit-circle-relation-04",
+      "issue": "Original question gives y15/17 then asks for same y; no mathematical demand.",
+      "resolution": "Requested to ask x or provide x−8/17 and ask y.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "Birim çemberde II. bölgede x=−8/17 ise y koordinatı kaçtır?",
+      "checkedValue": "15/17"
+    },
+    {
+      "id": "AI-NEW-AYT-AYT-056-01-REMAINDER-COMPOSITION-01",
+      "family": "remainder-composition-01",
+      "issue": "P(2) for2x³−3x²+4x−5 equals7, declared9.",
+      "resolution": "Reported; author assertion should also detect.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "P(x)=2*x^3 - 3*x^2 + 4*x - 5 veriliyor. P(x) polinomunun x−2 ile bölümünden kalan kaçtır?",
+      "checkedValue": "7"
+    },
+    {
+      "id": "AI-NEW-AYT-AYT-056-01-REMAINDER-COMPOSITION-09",
+      "family": "remainder-composition-09",
+      "issue": "(x²+1)P(x) at2 equals35, declared45.",
+      "resolution": "Reported; author assertion should also detect.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "P(x)=2*x^3 - 3*x^2 + 4*x - 5 veriliyor. (x²+1)P(x) polinomunun x−2 ile bölümünden kalan kaçtır?",
+      "checkedValue": "35"
+    },
+    {
+      "id": "AI-NEW-AYT-AYT-068-01-TELESCOPING-STRUCTURE-03",
+      "family": "telescoping-structure-03",
+      "issue": "Sum1/[n(n+2)],n1..6 equals69/112, declared65/112.",
+      "resolution": "Reported; author assertion should also detect.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "1/(1·3)+1/(2·4)+...+1/(6·8) toplamı kaçtır?",
+      "checkedValue": "69/112"
+    },
+    {
+      "id": "AI-NEW-TYT-ABSOLUTE-VALUE-09",
+      "family": "absolute-value",
+      "issue": "Prompt confusingly referred to root product while asking square sum.",
+      "resolution": "Requested to ask only square sum; clarity edit not necessarily incorrect value.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "|x−1|+|x−5|=8 denkleminin tam sayı köklerinin kareleri toplamı kaçtır?",
+      "checkedValue": "50"
+    },
+    {
+      "id": "AI-NEW-AYT-AYT-076-01-FUNDAMENTAL-THEOREM-CHAIN-03",
+      "family": "fundamental-theorem-chain-03",
+      "issue": "Variable upper/lower bound derivative result is25, not26.",
+      "resolution": "Corrected in generated output; independent semantic reread confirmed.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "F(x)=∫[x→x^2] (2*u - 1) du ise F′(2) kaçtır?",
+      "checkedValue": "25"
+    },
+    {
+      "id": "AI-NEW-AYT-AYT-076-01-FUNDAMENTAL-THEOREM-CHAIN-09",
+      "family": "fundamental-theorem-chain-09",
+      "issue": "Variable upper/lower bound derivative result is−2, not+2.",
+      "resolution": "Corrected in generated output; independent semantic reread confirmed.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "F(x)=∫[x^2→x^3] (u - 3) du ise F′(1) kaçtır?",
+      "checkedValue": "-2"
+    },
+    {
+      "id": "AI-NEW-AYT-AYT12-01-POLYNOMIAL-DERIVATIVE-STRUCTURE-08",
+      "family": "polynomial-derivative-structure-08",
+      "issue": "Derivative of(2x−1)^3 at2 is54, not108.",
+      "resolution": "Corrected in generated output; independent semantic reread confirmed.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "f(x)=(2*x - 1)^3 için 1. türevin x=2 noktasındaki değeri kaçtır?",
+      "checkedValue": "54"
+    },
+    {
+      "id": "AI-NEW-AYT-AYT-069-01-CONTINUOUS-EXPRESSION-LIMIT-13",
+      "family": "continuous-expression-limit-13",
+      "issue": "Square-root domain endpoint needs explicit right-hand limit.",
+      "resolution": "Corrected in generated output; independent semantic reread confirmed.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "lim[x→-1/2 sağdan] (x + sqrt(2*x + 1)) kaçtır?",
+      "checkedValue": "-1/2"
+    },
+    {
+      "id": "AI-NEW-AYT-AYT-051-01-PARABOLA-AXIS-ROLE-06",
+      "family": "parabola-axis-role-06",
+      "issue": "Contradictory wording everyh/uniqueh needed removal of everyh.",
+      "resolution": "Corrected in generated output; independent semantic reread confirmed.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "y=(x - 2)^2 + 3 parabolünde f(h−1)=f(h+1) eşitliğini sağlayan tek h kaçtır?",
+      "checkedValue": "2"
+    },
+    {
+      "id": "AI-NEW-TYT-REVERSE-DIGITS-09",
+      "family": "reverse-digits",
+      "issue": "Eight reversed-digit values total476, not484; author independently corrected.",
+      "resolution": "Corrected and rechecked.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "AB ile BA iki basamaklı ve AB−BA=9’dur. Bu sayılardan AB’nin alabileceği değerlerin toplamı kaçtır?",
+      "checkedValue": "476"
+    },
+    {
+      "id": "AI-NEW-TYT-C-PROBABILITY-06",
+      "family": "probability",
+      "issue": "New ordinary-event question wordYalnız could mean onlysecondred rather than secondred irrespectivefirst; intended5/9 differs from onlysecondred5/18.",
+      "resolution": "Final wording explicitly disregards first colour; correct second-position marginal probability is5/9.",
+      "status": "confirmed_fixed_in_generated_output",
+      "checkedPrompt": "5 kırmızı ve 4 mavi bilyeden geri koymadan sırayla iki bilye çekiliyor. İlk bilyenin rengine bakılmaksızın ikinci çekilen bilyenin kırmızı olma olasılığı nedir?",
+      "checkedValue": "5/9"
+    }
+  ],
+  "classificationReview": [
+    {
+      "family": "probability",
+      "variants": [
+        6,
+        11,
+        15
+      ],
+      "issue": "Explicit conditional probability is generallyAYT; needs exam boundary review or TYT basic-event replacement.",
+      "status": "resolved_in_generated_output",
+      "resolution": "Explicit conditional events replaced by ordinary unconditional events: secondred5/9,atleastonered5/6,atleasttwogirls25/42."
+    }
+  ],
+  "limitations": [
+    "No original PDF content was present or reviewed.",
+    "All authored template definitions were read and AI semantically checked, but not an exhaustive independent natural-language theorem prover or human editorial sign-off.",
+    "Final offline QA must still rerun per-question mathematical equivalence and uniqueness.",
+    "No claim of exhaustive plagiarism detection, semantic equivalence detection or calibrated difficulty."
+  ],
+  "limits": "Per-template AI semantic review; mathematical audit still independently runs. This is not human editorial approval.",
+  "reviewedGeneratedCount": {
+    "TYT": 630,
+    "AYT": 676,
+    "total": 1306
+  },
+  "unresolvedConcreteFindings": [],
+  "editorialStatus": "pending",
+  "reviewedAs": "AI semantic/mathematical review; not human editorial approval",
+  "reviewerType": "AI",
+  "humanEditorialApproval": false
+}

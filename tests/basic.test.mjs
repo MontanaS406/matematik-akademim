@@ -16,11 +16,11 @@ test('entrypoint contains the learning views and loads the application modules',
  for(const marker of ['id="study"','id="teacher"','id="library"'])assert.ok(html.includes(marker),`Missing ${marker}`);
  assert.match(html,/src="js\/app\.js/);assert.match(html,/src="js\/exams\.js/);
  const urls=[...html.matchAll(/<script[^>]+src=["']([^"']+)["']/g)].map(match=>new URL(match[1],'https://app.example/'));
- const appVersion=urls.find(url=>url.pathname==='/js/app.js').searchParams.get('v');assert.match(appVersion,/^no-upload-\d{8}$/);
+ const appVersion=urls.find(url=>url.pathname==='/js/app.js').searchParams.get('v');assert.match(appVersion,/^ai-bank-\d{8}$/);
  for(const file of ['app.js','exams.js']){
   assert.equal(urls.find(url=>url.pathname==='/js/'+file).searchParams.get('v'),appVersion);
   const code=fs.readFileSync(new URL('../js/'+file,import.meta.url),'utf8'),bankImport=code.match(/from\s+['"]([^'"]*data\/question-bank\.js[^'"]*)['"]/);
-  assert.ok(bankImport,'Each browser module must name the upload-free cache identity');assert.equal(new URL(bankImport[1],'https://app.example/js/').searchParams.get('v'),appVersion);
+  assert.ok(bankImport,'Each browser module must name the current cache identity');assert.equal(new URL(bankImport[1],'https://app.example/js/').searchParams.get('v'),appVersion);
  }
 
 });

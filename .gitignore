@@ -10,3 +10,5 @@ private/
 work/
 test-results/
 playwright-report/
+__pycache__/
+*.pyc
