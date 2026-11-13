@@ -3,12 +3,12 @@ import {TEACHERS} from '../../shared/teachers.js';
 import {chooseTeacher,configureAI,openAdultOptions} from './source-helpers.mjs';
 
 async function openLessonTeacher(page){
- await page.goto('/');await expect(page.locator('#questionCard')).toHaveCount(0);
+ await page.goto('/');await page.locator('#bankPool').selectOption('original');await expect(page.locator('#questionCard')).toHaveCount(0);
  await page.locator('.nav').getByRole('button',{name:'Konular',exact:true}).click();await page.locator('#lessonSearch').fill('Kesirler');await page.locator('#lessonList button').first().click();await page.locator('#lessonAskTeacher').click();await expect(page.locator('#teacher')).toBeVisible();
 }
 const lessonReply=answer=>({mode:'lesson',courseId:'fractions',isOfficialSolution:false,answer});
 
-test('all six teachers keep distinct greetings and stored choices while the bank is empty',async({page})=>{
+test('all six teachers keep distinct greetings and stored choices in lesson mode',async({page})=>{
  await openLessonTeacher(page);const greetings=new Set();
  for(const teacher of TEACHERS){await chooseTeacher(page,teacher.name);await expect(page.locator('#selectedTeacherName')).toHaveText(teacher.name);greetings.add(await page.locator('#chat').innerText());expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('ma_learning_v1_guest')).teacherId)).toBe(teacher.id)}expect(greetings.size).toBe(6);
  await chooseTeacher(page,'Çağatay Hoca');await openAdultOptions(page);await expect(page.locator('#profanityLevel')).toBeDisabled();await page.locator('#adultConfirmed').check();await expect(page.locator('#profanityLevel')).toBeDisabled();await page.locator('#profanityConsent').check();await page.locator('#profanityLevel').selectOption('heavy');await configureAI(page);const sent=[];

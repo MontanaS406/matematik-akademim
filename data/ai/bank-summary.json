@@ -1,0 +1,66 @@
+{
+  "blockingReasonsBeforeDedup": {
+    "AYT_topic_classification_review_triangle_angle_sum": 10,
+    "ambiguous_range_endpoints_1_ile_N_arasinda": 10,
+    "exam_boundary_review": 249,
+    "numeric_template_duplicate": 87
+  },
+  "duplicateExcluded": 1016,
+  "duplicateReasons": {
+    "independent_duplicate_audit": 5,
+    "same_prose_changed_constants": 985,
+    "same_symbolic_task_review_candidate": 26
+  },
+  "existing": 1165,
+  "limits": [
+    "Automated mathematical checks do not constitute human editorial approval.",
+    "Near-clone quarantine is conservative text-shape detection, not an exhaustive semantic proof.",
+    "Original publisher PDFs and question bodies are absent; references are not questions."
+  ],
+  "mathematicsNotPassed": 10,
+  "mathematicsPassed": 2461,
+  "needsReviewBeforeDedup": 346,
+  "newAYT": 676,
+  "newTYT": 630,
+  "originalExamIndexPositions": 480,
+  "originalInlineQuestions": 0,
+  "originalPageReferences": 185,
+  "originalSourceReferences": 8,
+  "pendingReview": 47,
+  "pipelineVersion": "ai-bank-v1",
+  "schemaVersion": 1,
+  "stagedTotal": 2471,
+  "totalUsableUnique": 1408,
+  "usableByCourse": {
+    "absolute": 12,
+    "complex": 13,
+    "derivative": 131,
+    "divisibility": 65,
+    "equations": 70,
+    "fractions": 17,
+    "functions": 16,
+    "integral": 76,
+    "limits": 56,
+    "logarithms": 55,
+    "numbers": 271,
+    "parabola": 77,
+    "polynomials": 41,
+    "powers": 23,
+    "probability": 174,
+    "problems": 144,
+    "quadratics": 43,
+    "ratio": 11,
+    "sequences": 41,
+    "sets": 23,
+    "statistics": 11,
+    "trigonometry": 38
+  },
+  "usableByDifficulty": {
+    "easy": 379,
+    "hard": 348,
+    "medium": 681
+  },
+  "usableGeneratedAYT": 565,
+  "usableGeneratedTYT": 627,
+  "usableImported": 216
+}

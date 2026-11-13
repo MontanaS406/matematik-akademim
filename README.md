@@ -1,37 +1,79 @@
 # Matematik Akademim
 
-Türkçe konu anlatımları, altı öğretmen, kullanıcı hesabı ve deneme geçmişi.
+Türkçe konu anlatımları, altı öğretmen, kullanıcı hesabı ve gece mavisi dört menü:
+**Soru Çöz**, **Konular**, **Öğretmen**, **İlerleme**.
 
-## Güncel durum
+## Soru havuzları
 
-Kullanıcının talebiyle herkese açık soru bankası tamamen boşaltıldı: **0 kaynak / 0 soru**. Önceki 142 kaydın soru metinleri hem uygulama kataloğundan hem SQL aktarım dosyasından çıkarıldı. Yeni içerik, kullanıcının göndereceği ZIP incelendikten sonra eklenecek; bu aşamada yeni soru üretilmez veya yedek soruyla doldurulmaz.
+- **AI alıştırmaları:** Kullanıcının ZIP'indeki 1.165 kayıt ve erişilebilir AI
+  sorularından bağımsız biçimde hazırlanan yeni TYT/AYT alıştırmaları. Konu,
+  sınav, alt konu, seviye ve içe aktarılan/yeni havuz filtreleri bulunur. Beş
+  seçenekten biri işaretlenip kontrol edildiğinde açıklamalı çözüm açılır.
+- **Orijinal sorular:** Ayrı tutulur. ZIP'teki 8 kaynak/185 sayfa aralığı ve 480
+  sınav soru konumu yalnızca **indekstir**; asıl soru içerikleri ZIP'te yoktur.
+  Görülmemiş kitapçıklar okunmuş gibi sayılmaz. Bu havuzda şu an 0 soru vardır.
+- **ÖSYM denemeleri:** AI alıştırmaları bu havuza taşınmaz, çıkmış soru veya
+  resmî cevap anahtarı gibi sunulmaz. Mevcut resmî soru kataloğu boştur.
 
-Dört ana menü ve gece mavisi tasarım korunur: **Soru Çöz**, **Konular**, **Öğretmen**, **İlerleme**. Soru Çöz ekranında yalnız **Henüz soru yok** boş durumu görünür; cevap formu veya örnek soru açılmaz. Konu anlatımları, öğretmen seçimi ve hesap sistemi yerindedir. Sınav yükleme bölümü, dosya seçme kontrolleri ve Sınav Modu giriş düğmesi kaldırıldı; kullanıcıdan dosya yüklemesi istenmez.
+Kesin sayılar [bank-summary.json](data/ai/bank-summary.json) içindedir.
+Tüm 1.165 arşiv kaydı korunur; matematik denetimi geçmeyenler, sınav etiketi
+incelemesi gerekenler ve tekrarlar çözülebilir listeden dışlanır. Otomatik
+matematik denetimi **insan editör onayı değildir**; bu ayrım soru bilgisinde
+açıkça gösterilir. Zorluk seviyeleri gerekçeli otomatik önerilerdir, öğrenci
+başarı verisiyle kalibre edilmiş ölçümler değildir.
 
-Kişisel PDF’ler, hesaplar, ilerleme kayıtları ve deneme geçmişi silinmedi. Kullanıcıya özel dosyalar herkese açık banka değildir. Eski soru kimliklerini içeren ilerleme kayıtları, kaldırılmış metinleri yeniden oluşturmaz. Sunucuya veri silme, şema veya seed işlemi uygulanmadı.
+Dosya seçme/yükleme ekranı eklenmedi. Eski cihaz kitapçıkları, hesaplar,
+ilerleme ve deneme geçmişi silinmez. AI yanıtları mevcut hesap kapsamlı
+öğrenme kayıtlarına eklenir; eski veya inceleme durumundaki kimliklerin
+geçmiş kayıtları tutulur. Üretim Supabase şeması/verisi değiştirilmez. Geliştirme
+ayrı dal ve PR üzerinden yürütülür; yayın, kullanıcının son isteği doğrultusunda
+matematik denetimi, otomatik testler ve CI tamamlandıktan sonra yapılır.
 
-## Kod ve veri
+## Veri ve yeniden üretilebilir denetim
 
-- `data/question-bank.js`: uygulama ve Worker için boş ortak katalog.
-- `supabase/question-bank-seed.sql`: yalnız `begin`/`commit` içeren, soru eklemeyen aktarım.
-- `shared/question-bank.js`: gelecekteki içerik için kaynak/izin/cevap doğrulaması.
-- `js/app.js`: aynı menüler ve açık boş durum.
-- `js/exams.js`: hesap ve ilerleme/geçmiş arayüzü.
-- `shared/private-library.js`: eski cihaz kayıtlarını koruyan veri katmanı; uygulamada yükleme ekranı açmaz.
-- `shared/curriculum.js`, `shared/teachers.js`: konu anlatımları ve altı öğretmen.
+- `data/ai/archive-input.json`: tek ana arşiv; TYT/AYT alt listeleri yeniden
+  içe alınmadığı için çift kayıt oluşmaz. Kaynak açıklaması: [IMPORT.md](data/ai/IMPORT.md).
+- `scripts/imported-math-audit.py`: soru metninden iki bağımsız yöntemle çözüm,
+  seçenek eşdeğerliği, cevap anahtarı ve belirsiz koşul denetimi.
+- `scripts/generation/`: sürümlenmiş, deterministik, çevrimdışı soru kurguları.
+  Yeni soruların ebeveyni gerçekten erişilen bir AI kayıt kimliğidir. Asıl
+  yayıncı kitapçıklarına erişildiği iddia edilmez.
+- `scripts/verify-generated-bank.py`: üreticinin sonucunu güvenilir kabul
+  etmeden sembolik çözüm/sonlu tarama, koşul, seçenek, anahtar ve istem-işlem
+  uyumu denetimi. Desteklenmeyen işlemler incelemeye gider.
+- `scripts/build-ai-bank.py`: bağımsız raporları birleştiren, tekrarları
+  karantinaya alan ve statik kataloğu oluşturan kapalı geçişli derleme.
+- `data/ai/batch-manifest.json`, `review-ledger.json`, `similarity-review.json`:
+  parti kimlikleri, işlenen kaynaklar, içerik özetleri ve dışlama nedenleri.
+  Benzerlik taraması temkinli bir metin/işlem denetimidir; bütün semantik
+  tekrarları bulduğu iddia edilmez.
+- `data/ai-bank.js`, `shared/ai-bank.js`: tarayıcı için statik AI kataloğu ve
+  yalnızca uygun kayıtları açan kayıt katmanı. Tarayıcı yeni soru üretmez.
+- `data/question-bank.js`, `shared/question-bank.js`: AI'dan ayrı, kaynak ve
+  kullanım hakkı denetimi olan özgün soru katmanı; boş tutulur.
 
-Uygulama modülleri, stil ve soru bankası URL’sinin sürümü birlikte yenilendi; eski katalog tarayıcı önbelleğinden yeni arayüze taşınmaz.
-
-## Yerel doğrulama
+Kısmi çalışma `work/ai-pipeline-state.json` ile giriş ve çıkış SHA-256
+özetlerine göre devam eder. Başarılı partiler değişmediyse tekrar üretilmez;
+girdisi değişen aşama yeniden çalışır. Temiz bir çalışma alanında tüm katalog
+aynı çıktıyla yeniden kurulabilir:
 
 ```sh
 npm ci
+python3 -m pip install -r scripts/requirements-ai.txt
+npm run build:ai-bank
+npm run audit:ai-bank
 npm test
 npm run audit:questions
 npx playwright install --with-deps chromium
 npm run test:e2e
 ```
 
-Kurulu Chromium için `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e` kullanılabilir. Testler üretime soru eklemez; dış servisler gerektiğinde sahte servislerle sınanır. Özel sınav dosyaları ve kullanıcı kayıtları korunur.
+`npm run audit:ai-bank` statik çıktıları değiştirmeden yeniden hesaplamayla
+karşılaştırır. `python3 scripts/ai-bank-pipeline.py --check --force` önbelleği
+atlayarak bütün denetimleri tekrar çalıştırır. CI aynı denetim ve masaüstü/
+telefon testlerini uygular. Kurulu Chromium için
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium` kullanılabilir.
 
-`docs/` altındaki önceki raporlar tarihsel kayıtlardır; eski 142 soru sayısı güncel bankayı anlatmaz.
+Tarayıcı testleri dış servisleri taklit eder. Gerçek Supabase hesaplarına veya
+ücretli AI servisine bağlanıldığı iddia edilmez. Telifli yayınevi kitapçıkları
+bu depoya kopyalanmaz. `docs/` içindeki önceki raporlar tarihsel kayıtlardır.

@@ -880,10 +880,16 @@ def main():
     parser.add_argument('--output',default='work/import-audit.json')
     parser.add_argument('--self-test',action='store_true',help='Run mutation and safe-parser checks before writing the audit')
     args=parser.parse_args()
-    data=json.loads(Path(args.input).read_text())
+    input_bytes=Path(args.input).read_bytes()
+    data=json.loads(input_bytes)
     if not isinstance(data,list):raise SystemExit('Expected an array of archive records')
     if args.self_test:print(f'Self-checks passed: {self_check(data)}')
     result=audit(data)
+    # Bind this independent result to the exact bytes that were inspected and
+    # the verifier implementation. Matching IDs alone cannot approve an edited
+    # question or key under an old audit.
+    result['inputSha256']=hashlib.sha256(input_bytes).hexdigest()
+    result['validatorSha256']=hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     Path(args.output).parent.mkdir(parents=True,exist_ok=True)
     Path(args.output).write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps(result['summary'],ensure_ascii=False,indent=2))

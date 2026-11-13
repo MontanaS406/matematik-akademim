@@ -1,5 +1,7 @@
 import {EXAM_YEARS, normalizeFlags, normalizeTopics} from '../shared/exam-model.js';
-import {QUESTION_BANK} from '../data/question-bank.js?v=no-upload-20261110';
+import {QUESTION_BANK} from '../data/question-bank.js?v=ai-bank-20261112';
+import {AI_BANK} from '../data/ai-bank.js?v=ai-bank-20261112';
+import {createAiRegistry} from '../shared/ai-bank.js';
 import {normalizeState} from '../shared/learning-state.js';
 
 // Existing account and history keys are retained. Retired study drafts and local
@@ -11,7 +13,9 @@ const config = {
 };
 const el = id => document.getElementById(id);
 const safe = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
-const reviewedIds = new Set(QUESTION_BANK.questions.map(question => question.id));
+// Only eligible, explicitly labelled AI exercises contribute to study totals.
+// Filtering displayed totals never removes earlier attempts from stored profiles.
+const reviewedIds = new Set([...QUESTION_BANK.questions, ...createAiRegistry(AI_BANK).questions].map(question => question.id));
 let auth = null;
 let accountEpoch = 0;
 let activeKey = HISTORY_KEY + '_guest';
