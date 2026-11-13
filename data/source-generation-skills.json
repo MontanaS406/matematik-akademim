@@ -1,0 +1,59 @@
+{
+  "ORIG-38351d2b9e81-P001-Q01": [
+    "mean_conservation"
+  ],
+  "ORIG-38351d2b9e81-P001-Q02": [
+    "missing_mean"
+  ],
+  "ORIG-38351d2b9e81-P001-Q03": [
+    "order_statistics"
+  ],
+  "ORIG-cca82e35aa09-P001-Q02": [
+    "set_cardinality"
+  ],
+  "ORIG-8d0018059e5e-P001-Q03": [
+    "integer_divisor_sets"
+  ],
+  "ORIG-ff7d09cc8415-P001-Q01": [
+    "product_counting"
+  ],
+  "ORIG-d39fa5113294-P001-Q01": [
+    "sample_space_probability"
+  ],
+  "ORIG-cf320c53b2bb-P001-Q03": [
+    "proposition_logic"
+  ],
+  "ORIG-9317e24dc024-P3-Q11": [
+    "inverse_affine"
+  ],
+  "ORIG-9317e24dc024-P3-Q12": [
+    "rational_inverse"
+  ],
+  "ORIG-9317e24dc024-P3-Q13": [
+    "functional_coefficients"
+  ],
+  "ORIG-9317e24dc024-P4-Q14": [
+    "inverse_composition"
+  ],
+  "ORIG-9317e24dc024-P4-Q15": [
+    "inverse_function_relations"
+  ],
+  "ORIG-9317e24dc024-P5-Q17": [
+    "domain_range"
+  ],
+  "ORIG-9317e24dc024-P5-Q8": [
+    "inverse_shift_parameter"
+  ],
+  "ORIG-9317e24dc024-P5-Q19": [
+    "involution_iterates"
+  ],
+  "ORIG-9317e24dc024-P7-Q23": [
+    "restricted_inverse"
+  ],
+  "ORIG-9317e24dc024-P8-Q25": [
+    "inverse_counterexamples"
+  ],
+  "ORIG-9317e24dc024-P8-Q26": [
+    "inverse_expression"
+  ]
+}
