@@ -5,15 +5,15 @@
     "pdfCount": 95,
     "pageCount": 1256,
     "sourceCount": 8,
-    "privateQuestionCount": 35,
-    "privateVerifiedQuestions": 28,
+    "privateQuestionCount": 36,
+    "privateVerifiedQuestions": 29,
     "privatePendingQuestions": 7,
-    "privateMathematicsPassed": 29,
+    "privateMathematicsPassed": 30,
     "publishableQuestions": 0,
     "permissionStatus": "unverified",
     "hasAytExamBooklets": false,
     "verifiedByExam": {
-      "TYT": 17,
+      "TYT": 18,
       "AYT": 11
     },
     "classificationNote": "AYT tags describe preparation-level skills in ORTAK source pages, not an official AYT paper."
@@ -40,6 +40,7 @@
       "pageRasterSha256": "f2b47f857bb69872d94a16570c3830408a225247ee0c5f64cc13b53ff9e8b3f9",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "mean_conservation"
       ]
@@ -65,6 +66,7 @@
       "pageRasterSha256": "f2b47f857bb69872d94a16570c3830408a225247ee0c5f64cc13b53ff9e8b3f9",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "missing_mean"
       ]
@@ -90,6 +92,7 @@
       "pageRasterSha256": "f2b47f857bb69872d94a16570c3830408a225247ee0c5f64cc13b53ff9e8b3f9",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "order_statistics"
       ]
@@ -115,6 +118,7 @@
       "pageRasterSha256": "47a6abba6d956930f26aa29d4ade52ff5a8c220f9e4d3a137a154bcf53456761",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": []
     },
     {
@@ -138,6 +142,7 @@
       "pageRasterSha256": "47a6abba6d956930f26aa29d4ade52ff5a8c220f9e4d3a137a154bcf53456761",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "integer_divisor_sets"
       ]
@@ -163,6 +168,7 @@
       "pageRasterSha256": "df350d0a23ab360272f5a47f4c4cd3a67245f78102d102f238014c6da5b9acd8",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": []
     },
     {
@@ -186,6 +192,7 @@
       "pageRasterSha256": "df350d0a23ab360272f5a47f4c4cd3a67245f78102d102f238014c6da5b9acd8",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "set_cardinality"
       ]
@@ -211,6 +218,7 @@
       "pageRasterSha256": "4b6346599e649f0248679bfabeedff438fc5660391db015d2ba7c04ed8b7a04f",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "product_counting"
       ]
@@ -236,6 +244,7 @@
       "pageRasterSha256": "4b6346599e649f0248679bfabeedff438fc5660391db015d2ba7c04ed8b7a04f",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": []
     },
     {
@@ -259,6 +268,7 @@
       "pageRasterSha256": "4b6346599e649f0248679bfabeedff438fc5660391db015d2ba7c04ed8b7a04f",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": []
     },
     {
@@ -282,6 +292,7 @@
       "pageRasterSha256": "4b6346599e649f0248679bfabeedff438fc5660391db015d2ba7c04ed8b7a04f",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": []
     },
     {
@@ -305,6 +316,7 @@
       "pageRasterSha256": "dddce28bf8a9c76853385a58273b64808b86ecd14b5db148cbe82ccc7a357357",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "sample_space_probability"
       ]
@@ -330,6 +342,7 @@
       "pageRasterSha256": "dddce28bf8a9c76853385a58273b64808b86ecd14b5db148cbe82ccc7a357357",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": []
     },
     {
@@ -353,6 +366,7 @@
       "pageRasterSha256": "dddce28bf8a9c76853385a58273b64808b86ecd14b5db148cbe82ccc7a357357",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": []
     },
     {
@@ -376,6 +390,7 @@
       "pageRasterSha256": "c82ebd530bebbe283dab8ef6ba73b052c5b1ccec7c6ec2daed4aef995254e779",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": []
     },
     {
@@ -399,6 +414,7 @@
       "pageRasterSha256": "c82ebd530bebbe283dab8ef6ba73b052c5b1ccec7c6ec2daed4aef995254e779",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "proposition_logic"
       ]
@@ -424,6 +440,7 @@
       "pageRasterSha256": "c82ebd530bebbe283dab8ef6ba73b052c5b1ccec7c6ec2daed4aef995254e779",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": []
     },
     {
@@ -447,6 +464,7 @@
       "pageRasterSha256": "a545c00e2e7f4971a510b11f1cdc16b4c6457bb09e2cb8154c0dfe1797c08567",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "inverse_affine"
       ]
@@ -472,6 +490,7 @@
       "pageRasterSha256": "a545c00e2e7f4971a510b11f1cdc16b4c6457bb09e2cb8154c0dfe1797c08567",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "rational_inverse"
       ]
@@ -497,6 +516,7 @@
       "pageRasterSha256": "a545c00e2e7f4971a510b11f1cdc16b4c6457bb09e2cb8154c0dfe1797c08567",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "functional_coefficients"
       ]
@@ -522,6 +542,7 @@
       "pageRasterSha256": "03c112156449d3e7a238abdfbd8de4ed4b104b71a9f7dbc8315e715b3e81dfc3",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "inverse_composition"
       ]
@@ -547,6 +568,7 @@
       "pageRasterSha256": "03c112156449d3e7a238abdfbd8de4ed4b104b71a9f7dbc8315e715b3e81dfc3",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "inverse_function_relations"
       ]
@@ -572,6 +594,7 @@
       "pageRasterSha256": "f30ba02626d63720ebe96344b25c019c6e146d22d394bc1ff6f908ce9b8af8e0",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "domain_range"
       ]
@@ -597,6 +620,7 @@
       "pageRasterSha256": "f30ba02626d63720ebe96344b25c019c6e146d22d394bc1ff6f908ce9b8af8e0",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "inverse_shift_parameter"
       ]
@@ -622,6 +646,7 @@
       "pageRasterSha256": "f30ba02626d63720ebe96344b25c019c6e146d22d394bc1ff6f908ce9b8af8e0",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "involution_iterates"
       ]
@@ -647,6 +672,7 @@
       "pageRasterSha256": "04bdbd6a32887ded44c8dd45adfb7b365e0b1ef03e2940be625270cb71117259",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "restricted_inverse"
       ]
@@ -672,6 +698,7 @@
       "pageRasterSha256": "46b503d423646c22abe6491d7c6fd7714ca5622223e2fbfcdfbabdb36a3bf080",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "inverse_counterexamples"
       ]
@@ -697,9 +724,40 @@
       "pageRasterSha256": "46b503d423646c22abe6491d7c6fd7714ca5622223e2fbfcdfbabdb36a3bf080",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "generationSkills": [
         "inverse_expression"
       ]
+    },
+    {
+      "id": "read-ORIG-7fc331f83bce-P003-Q01",
+      "sourceQuestionId": "ORIG-7fc331f83bce-P003-Q01",
+      "sourceDocumentId": "pdf-7fc331f83bce02ce",
+      "sha256": "7fc331f83bce02ce1acbc389fa551b977c6d4e7a06bb26bb21fcb7bd2fee81ea",
+      "physicalPage": 3,
+      "originalPdfPage": null,
+      "printedPage": 3,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 1,
+      "examType": "TYT",
+      "courseId": "problems",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "439c7011ceb649387c6d1ea574d36f9155b619c1e8f4de9a20d2b502236de8e7",
+      "pageTextSha256": "324220bb9b0972106800ff8d9f428d531f1e36822c93d57469ecf1fb557e81fc",
+      "pageRasterSha256": "151c0ec283881442ae6404ebeabd26c284cacdec117db57d919ec302fb8e3c0f",
+      "classificationBasis": "TYT preparation source question",
+      "isActualExamQuestion": true,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sourceDocumentId": "pdf-c50d107219dd2304",
+        "sha256": "c50d107219dd2304fb9b76038eeb7b7a36af7f16039c8a570e18676f79c48deb",
+        "physicalPage": 1,
+        "questionNumber": 1
+      },
+      "generationSkills": []
     }
   ],
   "reviewQueue": [
@@ -724,6 +782,7 @@
       "pageRasterSha256": "47a6abba6d956930f26aa29d4ade52ff5a8c220f9e4d3a137a154bcf53456761",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "reviewReasons": [
         "conceptual_semantic_editorial_review_required"
       ]
@@ -749,6 +808,7 @@
       "pageRasterSha256": "47a6abba6d956930f26aa29d4ade52ff5a8c220f9e4d3a137a154bcf53456761",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "reviewReasons": [
         "source_definition_countable_not_equivalent_to_finite"
       ]
@@ -774,6 +834,7 @@
       "pageRasterSha256": "dddce28bf8a9c76853385a58273b64808b86ecd14b5db148cbe82ccc7a357357",
       "classificationBasis": "TYT preparation source question",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "reviewReasons": [
         "source_mathematical_inconsistency",
         "publisher_key_cannot_verify_valid_probability_model"
@@ -800,6 +861,7 @@
       "pageRasterSha256": "03c112156449d3e7a238abdfbd8de4ed4b104b71a9f7dbc8315e715b3e81dfc3",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "reviewReasons": [
         "source_codomain_contradicts_function_image"
       ]
@@ -825,6 +887,7 @@
       "pageRasterSha256": "cc60fe9a65f1c2c760363c99b6af012025430dfe65dadda61de951bf7faada44",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "reviewReasons": [
         "graph_preimage_not_uniquely_determined_by_labels"
       ]
@@ -850,6 +913,7 @@
       "pageRasterSha256": "04bdbd6a32887ded44c8dd45adfb7b365e0b1ef03e2940be625270cb71117259",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "reviewReasons": [
         "source_graph_not_injective_inverse_domain_unspecified"
       ]
@@ -875,6 +939,7 @@
       "pageRasterSha256": "46b503d423646c22abe6491d7c6fd7714ca5622223e2fbfcdfbabdb36a3bf080",
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
       "reviewReasons": [
         "requested_input_outside_determined_image",
         "g_surjectivity_not_given",

@@ -37,6 +37,10 @@ def main():
          ['scripts/generation/ayt_generator.py', '--input', archive, '--output', 'work/generated-ayt.json']),
         ('generated-audit', ['scripts/verify-generated-bank.py', 'work/generated-tyt.json', 'work/generated-ayt.json'], ['work/generated-qa.json'],
          ['scripts/verify-generated-bank.py', '--input', 'work/generated-tyt.json', '--input', 'work/generated-ayt.json', '--output', 'work/generated-qa.json']),
+        ('author-original-to-ai', ['scripts/generation/source_derived_generator.py', 'data/source-read-evidence.json'], ['work/issue11-generated-source-ai.json'],
+         ['scripts/generation/source_derived_generator.py', '--source-evidence', 'data/source-read-evidence.json', '--output', 'work/issue11-generated-source-ai.json']),
+        ('audit-original-to-ai', ['scripts/verify-generated-bank.py', 'work/issue11-generated-source-ai.json'], ['work/issue11-source-ai-qa.json'],
+         ['scripts/verify-generated-bank.py', '--input', 'work/issue11-generated-source-ai.json', '--output', 'work/issue11-source-ai-qa.json']),
     ]
     for label, inputs, outputs, command in stages:
         fingerprint = {path: sha(path) for path in inputs}
@@ -54,6 +58,8 @@ def main():
         temp.replace(STATE)
     subprocess.run([sys.executable, 'scripts/verify-generated-bank.py', '--self-test'], cwd=ROOT, check=True)
     subprocess.run([sys.executable, 'scripts/build-ai-bank.py', '--self-test'], cwd=ROOT, check=True)
+    subprocess.run([sys.executable, 'scripts/ingest_private_source_pdfs.py', '--self-test'], cwd=ROOT, check=True)
+    subprocess.run([sys.executable, 'scripts/build_source_catalog.py', *(['--check'] if args.check else [])], cwd=ROOT, check=True)
     subprocess.run([sys.executable, 'scripts/build-ai-bank.py', *(['--check'] if args.check else [])], cwd=ROOT, check=True)
 
 if __name__ == '__main__':

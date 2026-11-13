@@ -1,44 +1,52 @@
 {
+  "actualSourcePagesRead": 1256,
+  "actualSourcePdfsRead": 95,
   "blockingReasonsBeforeDedup": {
     "AYT_topic_classification_review_triangle_angle_sum": 10,
     "ambiguous_range_endpoints_1_ile_N_arasinda": 10,
     "exam_boundary_review": 249,
     "numeric_template_duplicate": 87
   },
-  "duplicateExcluded": 1016,
+  "duplicateExcluded": 1017,
   "duplicateReasons": {
     "independent_duplicate_audit": 5,
     "same_prose_changed_constants": 985,
-    "same_symbolic_task_review_candidate": 26
+    "same_symbolic_task_review_candidate": 26,
+    "source_derived_near_clone_quarantine": 1
   },
   "existing": 1165,
   "limits": [
     "Automated mathematical checks do not constitute human editorial approval.",
     "Near-clone quarantine is conservative text-shape detection, not an exhaustive semantic proof.",
-    "Original publisher PDFs and question bodies are absent; references are not questions."
+    "Read original publisher bodies remain private; no public reuse permission has been verified.",
+    "New original read evidence is separate from PR10 archival AI provenance."
   ],
   "mathematicsNotPassed": 10,
-  "mathematicsPassed": 2461,
+  "mathematicsPassed": 2611,
   "needsReviewBeforeDedup": 346,
-  "newAYT": 676,
-  "newTYT": 630,
+  "newAYT": 746,
+  "newOriginalDerivedDrafts": 150,
+  "newTYT": 710,
   "originalExamIndexPositions": 480,
   "originalInlineQuestions": 0,
   "originalPageReferences": 185,
   "originalSourceReferences": 8,
   "pendingReview": 47,
   "pipelineVersion": "ai-bank-v1",
+  "preservedLegacyUsable": 1408,
+  "privateOriginalQuestions": 36,
   "schemaVersion": 1,
-  "stagedTotal": 2471,
-  "totalUsableUnique": 1408,
+  "stagedTotal": 2621,
+  "totalUsableUnique": 1557,
+  "usableAiToAi": 1192,
   "usableByCourse": {
     "absolute": 12,
     "complex": 13,
     "derivative": 131,
-    "divisibility": 65,
+    "divisibility": 75,
     "equations": 70,
     "fractions": 17,
-    "functions": 16,
+    "functions": 85,
     "integral": 76,
     "limits": 56,
     "logarithms": 55,
@@ -46,21 +54,23 @@
     "parabola": 77,
     "polynomials": 41,
     "powers": 23,
-    "probability": 174,
+    "probability": 194,
     "problems": 144,
     "quadratics": 43,
     "ratio": 11,
     "sequences": 41,
-    "sets": 23,
-    "statistics": 11,
+    "sets": 43,
+    "statistics": 41,
     "trigonometry": 38
   },
   "usableByDifficulty": {
-    "easy": 379,
-    "hard": 348,
-    "medium": 681
+    "easy": 388,
+    "hard": 360,
+    "medium": 809
   },
-  "usableGeneratedAYT": 565,
-  "usableGeneratedTYT": 627,
-  "usableImported": 216
+  "usableGeneratedAYT": 634,
+  "usableGeneratedTYT": 707,
+  "usableImported": 216,
+  "usableOriginalToAi": 149,
+  "verifiedPrivateOriginalQuestions": 29
 }

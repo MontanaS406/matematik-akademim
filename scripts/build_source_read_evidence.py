@@ -57,7 +57,13 @@ def build(args):
                     'questionContentSha256':record_hash, 'pageTextSha256':page_text_hash,
                     'pageRasterSha256':page_raster_hash,
                     'classificationBasis':'AYT preparation level in a shared-source book; not an actual AYT exam' if q['examType']=='AYT' else 'TYT preparation source question',
-                    'isActualExamQuestion':False}
+                    'isActualExamQuestion':q.get('isActualExamQuestion',False), 'isOfficialExamQuestion':False}
+        if isinstance(q.get('sourceAnswer'), dict) and q['sourceAnswer'].get('sourceDocumentId'):
+            source_answer = q['sourceAnswer']
+            answer_doc = next((d for d in inventory['documents'] if d['id'] == source_answer['sourceDocumentId']), None)
+            if not answer_doc or answer_doc['sha256'] != source_answer['sha256'] or not 1 <= source_answer['physicalPage'] <= answer_doc['pageCount']:
+                raise ValueError('Separate answer-key source is not in the actual PDF inventory')
+            metadata['answerEvidence'] = {key:source_answer[key] for key in ('sourceDocumentId','sha256','physicalPage','questionNumber')}
         if verified:
             metadata['generationSkills'] = skills.get(q['id'], [])
             evidence.append(metadata)

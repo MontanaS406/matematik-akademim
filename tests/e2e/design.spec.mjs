@@ -4,7 +4,8 @@ import {openAccount} from './source-helpers.mjs';
 const forbidden=/pdf|dosya\s*(?:seç|yükle)|kitapçık\s*aktar|sınav\s*modu/iu;
 async function expectEmptyBank(page){
  await page.locator('#bankPool').selectOption('original');
- await expect(page.locator('#questionBankEmpty')).toBeVisible();await expect(page.locator('#questionBankEmpty')).toHaveAttribute('role','status');await expect(page.locator('#questionBankEmpty h2')).toHaveText('Henüz soru yok');
+ await expect(page.locator('#questionBankEmpty')).toBeVisible();await expect(page.locator('#questionBankEmpty')).toHaveAttribute('role','status');await expect(page.locator('#questionBankEmpty h2')).toHaveText('Yayımlanabilir orijinal soru yok');
+ await expect(page.locator('#questionBankEmpty')).toContainText('Yeniden yayımlama izni doğrulanmadığı');
  await expect(page.locator('#questionCard,#originalPrompt,#sourceAnswerArea,#sourceResponse,#checkSourceAnswer,#openSourceInfo,#askTeacher')).toHaveCount(0);await expect(page.locator('#learningRoot .count-badge')).toHaveText('0 soru');
 }
 async function expectSimpleSurface(page){

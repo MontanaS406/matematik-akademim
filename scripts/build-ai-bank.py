@@ -149,7 +149,7 @@ def normalized(raw, audit, pool):
     steps = row.get('solutionSteps') or [part.strip() for part in re.split(r'\n+', answer.get('solution', '')) if part.strip()]
     raw_subtopic = row.get('subtopic') or row.get('topic', '')
     subtopic = raw_subtopic
-    if pool == 'generated':
+    if pool == 'generated' and row.get('derivationKind') != 'ORIGINAL_TO_AI':
         matches = [prefix for prefix in LABELS if raw_subtopic == prefix or raw_subtopic.startswith(prefix + '-')]
         if not matches:
             raise ValueError(f'Generated subtopic needs a Turkish label: {raw_subtopic}')
@@ -165,6 +165,7 @@ def normalized(raw, audit, pool):
                    'solution': answer.get('solution', '\n'.join(steps))},
         'solutionSteps': steps,
         'origin': 'AI_URETIMI', 'pool': pool,
+        'derivationKind': row.get('derivationKind'),
         'parentQuestionId': row.get('parentQuestionId'),
         'familyId': row.get('familyId') or row.get('provenance', {}).get('parentQuestionId'),
         'templateId': row.get('templateId'),
@@ -200,6 +201,9 @@ def main():
     parser.add_argument('--tyt', default='work/generated-tyt.json')
     parser.add_argument('--ayt', default='work/generated-ayt.json')
     parser.add_argument('--generated-audit', default='work/generated-qa.json')
+    parser.add_argument('--source-derived', default='work/issue11-generated-source-ai.json')
+    parser.add_argument('--source-derived-audit', default='work/issue11-source-ai-qa.json')
+    parser.add_argument('--source-evidence', default='data/source-read-evidence.json')
     parser.add_argument('--check', action='store_true')
     parser.add_argument('--self-test', action='store_true', help='Test stale-audit rejection without reading question inputs or writing output')
     args = parser.parse_args()
@@ -268,12 +272,80 @@ def main():
             representatives[row['id']] = row['id']
             if semantic_group:
                 semantic[semantic_group] = row['id']
+    # Freeze PR #10's entire legacy modules before considering new source-based
+    # exercises. New records may not displace previously usable question IDs.
+    legacy_usable = [row for row in rows if row['verification']['status'] == 'automated_verified' and not row.get('duplicateOf')]
+    source_bytes = (ROOT / args.source_derived).read_bytes()
+    source_authored = json.loads(source_bytes)
+    source_raw = source_authored['questions']
+    source_semantic_review = read(ROOT / 'data/source-ai-review.json')
+    if source_semantic_review.get('inputSha256') != bytes_digest(source_bytes):
+        raise ValueError('Source semantic review does not match the current authored batch')
+    reviewed_duplicates = source_semantic_review.get('duplicateOf', {})
+    source_ids = {q['id'] for q in source_raw}
+    if any(q not in source_ids or target not in source_ids or q == target for q,target in reviewed_duplicates.items()):
+        raise ValueError('Source semantic duplicate review contains unknown or self references')
+    source_report = read(ROOT / args.source_derived_audit)
+    validate_audit_binding(source_report,
+                           {normalized_input_path(args.source_derived): bytes_digest(source_bytes)},
+                           bytes_digest((ROOT / 'scripts/verify-generated-bank.py').read_bytes()))
+    source_audits = index_audit(source_report, [q['id'] for q in source_raw])
+    evidence_payload = read(ROOT / args.source_evidence)
+    evidence = {q['id']: q for q in evidence_payload['evidence']}
+    if len(evidence) != len(evidence_payload['evidence']):
+        raise ValueError('Duplicate original read-evidence IDs')
+    for q in source_raw:
+        p = q.get('provenance', {})
+        proof = evidence.get(p.get('sourceReadEvidenceId'))
+        if not proof or q.get('derivationKind') != 'ORIGINAL_TO_AI' or proof.get('readStatus') != 'read' or proof.get('answerStatus') != 'verified' or proof.get('publishable') is not False:
+            raise ValueError('New original-derived AI needs checked private-source read evidence')
+        if q.get('parentQuestionId') != proof['sourceQuestionId']:
+            raise ValueError('Original parent does not match actual read evidence')
+        if q.get('examType') != proof['examType']:
+            raise ValueError('Original-derived exercise must preserve its checked exam-level classification')
+        for field, proof_field in [('sourceQuestionId','sourceQuestionId'), ('sourceDocumentId','sourceDocumentId'), ('physicalPage','physicalPage'), ('originalPdfPage','originalPdfPage'), ('sourceQuestionNumber','questionNumber')]:
+            if p.get(field) != proof[proof_field]:
+                raise ValueError('Original-derived provenance changed: ' + q['id'])
+    source_rows = [normalized(q, source_audits[q['id']], 'generated') for q in source_raw]
+    if set(all_ids) & {q['id'] for q in source_rows} or len({q['id'] for q in source_rows}) != len(source_rows):
+        raise ValueError('Source-derived and existing question IDs must be distinct')
+    # Compare new exercises with the old playable bank, preserving all legacy
+    # data and keeping conservative duplicate candidates outside the UI.
+    exact = {canonical_prompt(q['prompt']):q['id'] for q in legacy_usable}
+    near = {canonical_prompt(q['prompt'], numbers=True):q['id'] for q in legacy_usable}
+    semantic = {q['semanticSimilarityGroup']:q['id'] for q in legacy_usable if q.get('semanticSimilarityGroup')}
+    source_representatives = {}
+    for q in sorted(source_rows, key=lambda q:q['verification']['status'] != 'automated_verified'):
+        prompt, shape = canonical_prompt(q['prompt']), canonical_prompt(q['prompt'], numbers=True)
+        group = q.get('semanticSimilarityGroup')
+        independent = reviewed_duplicates.get(q['id']) or source_audits[q['id']].get('duplicateOf')
+        if independent:
+            independent = source_representatives.get(independent, independent)
+        target = exact.get(prompt) or near.get(shape) or semantic.get(group) or independent
+        if target:
+            q['duplicateOf'] = target
+            q['duplicateReason'] = 'source_derived_near_clone_quarantine'
+            duplicates.append({'id':q['id'], 'duplicateOf':target, 'reason':q['duplicateReason']})
+            source_representatives[q['id']] = target
+        else:
+            exact[prompt], near[shape] = q['id'], q['id']
+            if group:
+                semantic[group] = q['id']
+            source_representatives[q['id']] = q['id']
+    rows.extend(source_rows)
     usable = [row for row in rows if row['verification']['status'] == 'automated_verified' and not row.get('duplicateOf')]
     usable_ids = {row['id'] for row in usable}
     pending = [row for row in rows if row['id'] not in usable_ids and not row.get('duplicateOf')]
     summary = {
         'schemaVersion': 1, 'pipelineVersion': VERSION,
-        'existing': len(original), 'newTYT': len(tyt['questions']), 'newAYT': len(ayt['questions']),
+        'existing': len(original), 'newTYT': len(tyt['questions']) + sum(q['examType']=='TYT' for q in source_raw), 'newAYT': len(ayt['questions']) + sum(q['examType']=='AYT' for q in source_raw),
+        'preservedLegacyUsable': len(legacy_usable),
+        'newOriginalDerivedDrafts':len(source_rows),
+        'usableOriginalToAi':sum(q.get('derivationKind')=='ORIGINAL_TO_AI' for q in usable),
+        'usableAiToAi':sum(q['pool']=='generated' and q.get('derivationKind')!='ORIGINAL_TO_AI' for q in legacy_usable),
+        'actualSourcePdfsRead':95, 'actualSourcePagesRead':1256,
+        'privateOriginalQuestions':evidence_payload['summary']['privateQuestionCount'],
+        'verifiedPrivateOriginalQuestions':evidence_payload['summary']['privateVerifiedQuestions'],
         'mathematicsPassed': sum(row['verification']['mathPassed'] for row in rows),
         'mathematicsNotPassed': sum(not row['verification']['mathPassed'] for row in rows),
         'needsReviewBeforeDedup': sum(row['verification']['status'] != 'automated_verified' for row in rows),
@@ -290,20 +362,22 @@ def main():
         'originalExamIndexPositions': 480,
         'limits': ['Automated mathematical checks do not constitute human editorial approval.',
                    'Near-clone quarantine is conservative text-shape detection, not an exhaustive semantic proof.',
-                   'Original publisher PDFs and question bodies are absent; references are not questions.'],
+                   'Read original publisher bodies remain private; no public reuse permission has been verified.',
+                   'New original read evidence is separate from PR10 archival AI provenance.'],
     }
     serial = lambda obj: json.dumps(obj, ensure_ascii=False, indent=2, sort_keys=True) + '\n'
     write('data/ai/imported.js', '// Generated by scripts/build-ai-bank.py; all staged archive rows, including quarantined rows.\nexport const IMPORTED_AI_QUESTIONS = ' + compact(imported_rows) + ';\n', args.check)
     write('data/ai/generated.js', '// Generated offline; no browser-time question generation.\nexport const GENERATED_AI_QUESTIONS = ' + compact(generated_rows) + ';\n', args.check)
-    write('data/ai-bank.js', "// Rebuild with npm run build:ai-bank; original sources stay separate.\nimport {IMPORTED_AI_QUESTIONS} from './ai/imported.js?v=ai-bank-20261112';\nimport {GENERATED_AI_QUESTIONS} from './ai/generated.js?v=ai-bank-20261112';\nexport const AI_BANK = {schemaVersion: 1, questions: [...IMPORTED_AI_QUESTIONS, ...GENERATED_AI_QUESTIONS]};\nexport const ORIGINAL_INDEX_SUMMARY = {sourceCount: 8, pageReferenceCount: 185, examIndexCount: 480, inlineQuestionCount: 0};\n", args.check)
+    write('data/source-derived-ai.js', '// Independent AI exercises; no original publisher question bodies.\nexport const SOURCE_DERIVED_AI_QUESTIONS = ' + compact(source_rows) + ';\n', args.check)
+    write('data/ai-bank.js', "// Rebuild with npm run build:ai-bank; original sources stay separate.\nimport {IMPORTED_AI_QUESTIONS} from './ai/imported.js?v=issue11-20261113';\nimport {GENERATED_AI_QUESTIONS} from './ai/generated.js?v=issue11-20261113';\nimport {SOURCE_DERIVED_AI_QUESTIONS} from './source-derived-ai.js?v=issue11-20261113';\nimport {SOURCE_READ_EVIDENCE} from './source-catalog.js?v=issue11-20261113';\nexport const AI_BANK = {schemaVersion: 1, sourceEvidence: SOURCE_READ_EVIDENCE, questions: [...IMPORTED_AI_QUESTIONS, ...GENERATED_AI_QUESTIONS, ...SOURCE_DERIVED_AI_QUESTIONS]};\nexport const ORIGINAL_INDEX_SUMMARY = {sourceCount: 8, pageReferenceCount: 185, examIndexCount: 480, inlineQuestionCount: 0};\n", args.check)
     write('data/ai/bank-summary.json', serial(summary), args.check)
     write('data/ai/review-ledger.json', serial({'schemaVersion': 1, 'duplicates': duplicates, 'pending': [
         {'id': row['id'], 'reasons': row['verification']['reasons'], 'mathPassed': row['verification']['mathPassed']}
         for row in pending]}), args.check)
     write('data/ai/similarity-review.json', serial({'schemaVersion': 1, 'action': 'Conservative quarantine: preserve one eligible representative of each repeated symbolic task.',
         'limitations': 'Coefficient-neutral symbolic structure is a near-clone heuristic; different representations may require later editorial reassessment.',
-        'groups': generation_report.get('semanticSimilarityGroups', [])}), args.check)
-    ledgers = {'TYT': tyt.get('ledger', []), 'AYT': ayt.get('ledger', [])}
+        'groups': generation_report.get('semanticSimilarityGroups', []) + source_report.get('semanticSimilarityGroups', [])}), args.check)
+    ledgers = {'TYT': tyt.get('ledger', []), 'AYT': ayt.get('ledger', []), 'ORIGINAL_TO_AI':source_authored.get('ledger', [])}
     batch_manifest = {
         'schemaVersion': 1, 'pipelineVersion': VERSION, 'archiveHash': digest(original),
         'subtopicLabelsHash': digest(LABELS),
@@ -313,11 +387,14 @@ def main():
                                      'validatorSha256':import_report['validatorSha256']},
         'independentGenerationBinding': {'inputs':generation_report['inputs'],
                                          'validatorSha256':generation_report['validatorSha256']},
+        'sourceReadEvidenceHash':digest(evidence_payload),
+        'sourceSemanticReviewHash':digest(source_semantic_review),
+        'sourceDerivedBinding':{'inputs':source_report['inputs'],'validatorSha256':source_report['validatorSha256']},
         'batches': [
             {'id': f'{kind}-{start // 100 + 1:03}', 'ids': [row['id'] for row in batch[start:start + 100]],
              'contentHash': digest(batch[start:start + 100]), 'status': 'audited',
              'usableIds': [row['id'] for row in batch[start:start + 100] if row['id'] in usable_ids]}
-            for kind, batch in [('imported', imported_rows), ('generated-TYT', generated_rows[:len(tyt['questions'])]), ('generated-AYT', generated_rows[len(tyt['questions']):])]
+            for kind, batch in [('imported', imported_rows), ('generated-TYT', generated_rows[:len(tyt['questions'])]), ('generated-AYT', generated_rows[len(tyt['questions']):]), ('original-to-ai',source_rows)]
             for start in range(0, len(batch), 100)
         ],
         'sourceLedger': ledgers,
