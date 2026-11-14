@@ -9,6 +9,25 @@ const registry=createAiRegistry(AI_BANK);
 const current=async page=>registry.getQuestion(await page.locator('#questionCard').getAttribute('data-question-id'));
 const openFilters=async page=>{const filters=page.locator('.extra-practice-filters');if(!await filters.evaluate(node=>node.open))await filters.locator('summary').click()};
 
+for(const [examType,subtopic] of [['TYT','Örneklem varyansı ve standart sapma'],['AYT','Pascal üçgeni ve binom toplamları']]){
+ test('new checked '+examType+' source batch can be filtered, answered and resumed',async({page})=>{
+  await page.goto('/');await page.locator('#bankExam').selectOption(examType);
+  await openFilters(page);await page.locator('#aiDerivation').selectOption('ORIGINAL_TO_AI');
+  await openFilters(page);await page.locator('#bankSubtopic').selectOption(subtopic);
+  const expected=registry.getQuestions({examType,subtopic,derivationKind:'ORIGINAL_TO_AI'});
+  expect(expected).toHaveLength(10);await expect(page.locator('#learningRoot .count-badge')).toHaveText('10 soru');
+  const q=await current(page);expect(q.id).toMatch(/^AI-VERIFIED-/);expect(q.examType).toBe(examType);
+  await page.locator(`[data-option="${q.answer.value}"]`).click();await page.locator('#checkSourceAnswer').click();
+  await expect(page.locator('#sourceFeedback')).toContainText('Doğru.');await expect(page.locator('#aiSolution')).toBeVisible();
+  for(const step of q.solutionSteps)await expect(page.locator('#aiSolution')).toContainText(step);
+  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('ma_learning_v1_guest')));
+  expect(saved.attempts).toHaveLength(1);expect(saved.attempts[0]).toMatchObject({exerciseId:q.id,correct:true});
+  await page.reload();const resumed=await page.evaluate(()=>JSON.parse(localStorage.getItem('ma_learning_v1_guest')));
+  expect(resumed.attempts).toEqual(saved.attempts);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ });
+}
+
 test('AI practice renders one usable question and reveals the explanation only after an explicit check',async({page})=>{
  const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.goto('/');
  await expect(page.locator('#bankPool')).toHaveValue('ai');await expect(page.locator('#questionCard')).toHaveCount(1);await expect(page.locator('#questionCard')).toHaveAttribute('data-origin','AI_URETIMI');

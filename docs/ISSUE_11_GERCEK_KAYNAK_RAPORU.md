@@ -1,5 +1,8 @@
 # Issue #11 — gerçek PDF kaynakları ve köken ayrımı
 
+**Güncel kapsam ve kalan iş:** [14 Kasım devam raporu](ISSUE_11_2026_11_14_DEVAM_RAPORU.md).
+Aşağıdaki sayılar 13 Kasım'da tamamlanan ilk partinin tarihsel kaydıdır.
+
 13 Kasım 2026. Bu geliştirme ayrı dalda PR olarak hazırlanmıştır; mevcut canlı
 site, üretim Supabase verileri ve main dalı değiştirilmez.
 
