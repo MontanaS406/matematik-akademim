@@ -12,7 +12,7 @@ import argparse
 import copy
 import signal
 import ast
-from collections import defaultdict
+from collections import Counter, defaultdict
 from fractions import Fraction
 from itertools import combinations, permutations, product
 import hashlib
@@ -558,6 +558,45 @@ def audit(q):
                 value=modes[0]
             else:raise Pending('unsupported_statistics_operation')
             method='independent_exact_order_statistics_or_frequency_count'
+        elif kind=='finite_image':
+            domain=[exact_expression(item) for item in spec['domain']]
+            if not domain or len(domain)>500:raise Pending('invalid_finite_image_domain')
+            image=set()
+            for item in domain:
+                env={'x':item}
+                if not bool(exact_expression(spec.get('predicate','True'),env)):continue
+                image.add(scalar(exact_expression(spec['expression'],env)))
+            if not image:raise Pending('empty_finite_image')
+            operation=spec['operation']
+            if operation=='count':value=S.Integer(len(image))
+            elif operation=='sum':value=sum(image,S.Integer(0))
+            elif operation=='range':value=max(image)-min(image)
+            elif operation=='maximum':value=max(image)
+            elif operation=='product_nonzero':value=S.prod(item for item in image if item!=0)
+            else:raise Pending('unsupported_finite_image_operation')
+            method='independent_enumeration_and_deduplicated_image_set'
+        elif kind=='data_summary':
+            values=sorted(scalar(exact_expression(item)) for item in spec['values'])
+            if not values or len(values)>10000:raise Pending('invalid_summary_data')
+            n=len(values);middle=n//2
+            mean=sum(values)/n
+            median=values[middle] if n%2 else (values[middle-1]+values[middle])/2
+            frequencies=Counter(values);top=max(frequencies.values())
+            modes=[v for v,c in frequencies.items() if c==top]
+            env={'mean':mean,'median':median,'count':S.Integer(n),
+                 'spread':max(values)-min(values),'total':sum(values)}
+            if len(modes)==1:env['mode']=modes[0]
+            variance=sum((v-mean)**2 for v in values)/n
+            env['population_variance']=variance
+            if n>1:env['sample_variance']=variance*n/(n-1)
+            if spec.get('operation')=='order':
+                i=spec['oneBasedIndex']
+                if not isinstance(i,int) or not 1<=i<=n:raise Pending('invalid_order_index')
+                value=values[i-1]
+            else:
+                value=exact_expression(spec['objective'],env)
+                if value.free_symbols:raise Pending('ambiguous_or_unknown_summary_statistic')
+            method='independent_raw_data_sort_frequency_and_centered_moments'
         else:raise Pending('unsupported_spec_type:'+str(kind))
         supporting=spec.get('supportingChecks',[])
         if len(supporting)>8:raise Pending('too_many_supporting_checks')
@@ -649,6 +688,17 @@ def self_test():
     assert exact_expression('d!=0 and 12%d==0',{'d':S.Integer(0)}) is False
     assert exact_expression('d==0 or 12%d==0',{'d':S.Integer(0)}) is True
     assert exact_expression('(r>0)+(b>0)+(g>0)',{'r':S.Integer(1),'b':S.Integer(0),'g':S.Integer(2)})==2
+    # Raw data recomputation must disagree with a stale key; image sets must
+    # collapse repeated output values rather than count input occurrences.
+    for spec,value in [
+        ({'type':'finite_image','domain':[-2,-1,1,2],'expression':'x**2','operation':'sum'},5),
+        ({'type':'data_summary','values':[2,4,6],'objective':'sqrt(sample_variance)'},2),
+        ({'type':'data_summary','values':[1,1,2,2,3],'objective':'median'},2)]:
+        q=copy.deepcopy(base);q['verificationSpec']={**spec,'promptAnchor':q['prompt']}
+        q['prompt']='TEST ONLY raw data';q['verificationSpec']['promptAnchor']=q['prompt']
+        q['options']=[{'id':letter,'text':str(v)} for letter,v in zip('ABCDE',[value-2,value-1,value,value+1,value+2])]
+        q['answer'].update(computedValue=str(value));assert audit(q)['mathPassed'],audit(q)
+        q['answer']['value']='A';assert not audit(q)['mathPassed']
     assert finite_search({'variables':{'x':[1,10]},'predicate':'x*x==49','objective':{'kind':'unique','expression':'x'}})==7
     assert finite_search({'variables':{'d':[-8,8]},'predicate':'d!=0 and -36%d==0','objective':{'kind':'sum','expression':'-36//d'}})==0
     assert finite_search({'variables':{'r':[0,5],'m':[0,4],'y':[0,3]},'predicate':'(r>0)+(m>0)+(y>0)<2','objective':{'kind':'max','expression':'r+m+y+1'}})==6

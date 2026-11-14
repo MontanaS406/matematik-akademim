@@ -5079,6 +5079,11 @@
       "duplicateOf": "AI-NEW-AYT-AYT-070-01-INDETERMINATE-LIMIT-STRUCTURE-01",
       "id": "AI-NEW-AYT-AYT-070-01-INDETERMINATE-LIMIT-STRUCTURE-02",
       "reason": "same_prose_changed_constants"
+    },
+    {
+      "duplicateOf": "AI-SOURCE-AYT-COMPOSITION-INVERSE-INPUT-KNOWN",
+      "id": "AI-SOURCE-AYT-COMPOSITION-KNOWN-OUTPUT-KNOWN-INPUT",
+      "reason": "source_derived_near_clone_quarantine"
     }
   ],
   "pending": [

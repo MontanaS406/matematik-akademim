@@ -3,10 +3,30 @@ import {AI_BANK} from '../../data/ai-bank.js';
 import {createAiRegistry} from '../../shared/ai-bank.js';
 import {getCourse} from '../../shared/curriculum.js';
 import {TEACHERS} from '../../shared/teachers.js';
+import {SOURCED_ARCHIVE_SUMMARY,SOURCE_DOCUMENTS,SOURCE_READ_EVIDENCE} from '../../data/source-catalog.js';
 import {configureAI,openAccount} from './source-helpers.mjs';
 const registry=createAiRegistry(AI_BANK);
 const current=async page=>registry.getQuestion(await page.locator('#questionCard').getAttribute('data-question-id'));
 const openFilters=async page=>{const filters=page.locator('.extra-practice-filters');if(!await filters.evaluate(node=>node.open))await filters.locator('summary').click()};
+
+for(const [examType,subtopic] of [['TYT','Örneklem varyansı ve standart sapma'],['AYT','Pascal üçgeni ve binom toplamları']]){
+ test('new checked '+examType+' source batch can be filtered, answered and resumed',async({page})=>{
+  await page.goto('/');await page.locator('#bankExam').selectOption(examType);
+  await openFilters(page);await page.locator('#aiDerivation').selectOption('ORIGINAL_TO_AI');
+  await openFilters(page);await page.locator('#bankSubtopic').selectOption(subtopic);
+  const expected=registry.getQuestions({examType,subtopic,derivationKind:'ORIGINAL_TO_AI'});
+  expect(expected).toHaveLength(10);await expect(page.locator('#learningRoot .count-badge')).toHaveText('10 soru');
+  const q=await current(page);expect(q.id).toMatch(/^AI-VERIFIED-/);expect(q.examType).toBe(examType);
+  await page.locator(`[data-option="${q.answer.value}"]`).click();await page.locator('#checkSourceAnswer').click();
+  await expect(page.locator('#sourceFeedback')).toContainText('Doğru.');await expect(page.locator('#aiSolution')).toBeVisible();
+  for(const step of q.solutionSteps)await expect(page.locator('#aiSolution')).toContainText(step);
+  const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('ma_learning_v1_guest')));
+  expect(saved.attempts).toHaveLength(1);expect(saved.attempts[0]).toMatchObject({exerciseId:q.id,correct:true});
+  await page.reload();const resumed=await page.evaluate(()=>JSON.parse(localStorage.getItem('ma_learning_v1_guest')));
+  expect(resumed.attempts).toEqual(saved.attempts);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ });
+}
 
 test('AI practice renders one usable question and reveals the explanation only after an explicit check',async({page})=>{
  const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.goto('/');
@@ -41,6 +61,27 @@ test('exam, topic, difficulty, subtopic and generation-pool filters use the chec
  await page.locator('#bankDifficulty').selectOption(seed.difficulty);await openFilters(page);await page.locator('#aiPool').selectOption('generated');await openFilters(page);await page.locator('#bankSubtopic').selectOption(seed.subtopic);
  const expected=registry.getQuestions({examType:seed.examType,courseId:seed.courseId,difficulty:seed.difficulty,pool:'generated',subtopic:seed.subtopic});await expect(page.locator('#learningRoot .count-badge')).toHaveText(expected.length+' soru');
  const actual=await current(page);expect(actual).toMatchObject({examType:seed.examType,courseId:seed.courseId,difficulty:seed.difficulty,pool:'generated',subtopic:seed.subtopic});await expect(page.locator('#questionCard')).toHaveCount(1);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+
+test('read original documents stay outside the public question pool until publication permission is verified',async({page})=>{
+ await page.goto('/');await page.locator('#bankPool').selectOption('original');
+ await expect(page.locator('#questionBankEmpty h2')).toHaveText('Yayımlanabilir orijinal soru yok');await expect(page.locator('#learningRoot .count-badge')).toHaveText('0 soru');
+ await expect(page.locator('#sourceArchiveDetails')).not.toHaveAttribute('open','');await expect(page.locator('#questionCard')).toHaveCount(0);await expect(page.locator('input[type=file],iframe')).toHaveCount(0);
+ await page.locator('#sourceArchiveDetails>summary').click();await expect(page.locator('#sourceArchiveSummary')).toContainText(SOURCED_ARCHIVE_SUMMARY.pdfCount+' kaynak dosyası');await expect(page.locator('#sourceArchiveSummary')).toContainText(SOURCED_ARCHIVE_SUMMARY.pageCount+' sayfa');await expect(page.locator('#sourceArchiveSummary')).toContainText(SOURCED_ARCHIVE_SUMMARY.privateVerifiedQuestions+' soru özel arşivde doğrulandı');
+ const evidence=SOURCE_READ_EVIDENCE[0],doc=SOURCE_DOCUMENTS.find(row=>row.id===evidence.sourceDocumentId);expect(evidence.readStatus).toBe('read');
+ await expect(page.locator('#sourceReadEvidence')).toContainText(doc.fileName);await expect(page.locator('#sourceReadEvidence')).toContainText('Dosya sayfası '+evidence.physicalPage);await expect(page.locator('#sourceReadEvidence')).toContainText('soru '+evidence.questionNumber);
+ await page.locator('.source-document-list>summary').click();await expect(page.locator('#sourceDocumentList>li')).toHaveCount(SOURCE_DOCUMENTS.length);await expect(page.locator('#sourceDocumentList')).toContainText('yayımlama izni doğrulanmadı');
+ await expect(page.locator('#sourceArchiveDetails img,#sourceArchiveDetails iframe,#sourceArchiveDetails a')).toHaveCount(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
+
+test('original-to-AI derivation uses verified read evidence and stays separate from AI-to-AI and original pools',async({page})=>{
+ await page.goto('/');await openFilters(page);await page.locator('#aiDerivation').selectOption('ORIGINAL_TO_AI');
+ const expected=registry.getQuestions({derivationKind:'ORIGINAL_TO_AI'});expect(expected.length).toBeGreaterThan(0);await expect(page.locator('#learningRoot .count-badge')).toHaveText(expected.length+' soru');
+ const q=await current(page);expect(q.derivationKind).toBe('ORIGINAL_TO_AI');await page.locator('.question-verification>summary').click();await expect(page.locator('.ai-lineage')).toContainText('Orijinal → AI');await expect(page.locator('.question-verification')).toContainText(q.provenance.sourceQuestionId);await expect(page.locator('.source-lineage-location')).toContainText('Dosya sayfası '+q.provenance.physicalPage);
+ await expect(page.locator('#questionCard')).toHaveAttribute('data-origin','AI_URETIMI');await expect(page.locator('#questionCard img,#questionCard iframe')).toHaveCount(0);
+ await openFilters(page);await page.locator('#aiDerivation').selectOption('AI_TO_AI');const previous=registry.getQuestions({derivationKind:'AI_TO_AI'});await expect(page.locator('#learningRoot .count-badge')).toHaveText(previous.length+' soru');expect((await current(page)).derivationKind).toBe('AI_TO_AI');
+ await openFilters(page);await page.locator('#aiDerivation').selectOption('ORIGINAL_TO_AI');await openFilters(page);await page.locator('#aiPool').selectOption('imported');await expect(page.locator('#questionBankEmpty')).toBeVisible();await page.locator('#clearPracticeFilters').click();await expect(page.locator('#learningRoot .count-badge')).toHaveText(registry.stats.usable+' soru');
+ await page.locator('#bankPool').selectOption('original');await expect(page.locator('#learningRoot .count-badge')).toHaveText('0 soru');await expect(page.locator('#questionCard')).toHaveCount(0);
 });
 
 test('AI teacher help uses lesson context and never passes an AI id as a real-source question',async({page})=>{

@@ -37,6 +37,18 @@ def main():
          ['scripts/generation/ayt_generator.py', '--input', archive, '--output', 'work/generated-ayt.json']),
         ('generated-audit', ['scripts/verify-generated-bank.py', 'work/generated-tyt.json', 'work/generated-ayt.json'], ['work/generated-qa.json'],
          ['scripts/verify-generated-bank.py', '--input', 'work/generated-tyt.json', '--input', 'work/generated-ayt.json', '--output', 'work/generated-qa.json']),
+        ('author-original-to-ai', ['scripts/generation/source_derived_generator.py', 'data/source-generation-evidence-v1.json'], ['work/issue11-generated-source-ai.json'],
+         ['scripts/generation/source_derived_generator.py', '--source-evidence', 'data/source-generation-evidence-v1.json', '--output', 'work/issue11-generated-source-ai.json']),
+        ('audit-original-to-ai', ['scripts/verify-generated-bank.py', 'work/issue11-generated-source-ai.json'], ['work/issue11-source-ai-qa.json'],
+         ['scripts/verify-generated-bank.py', '--input', 'work/issue11-generated-source-ai.json', '--output', 'work/issue11-source-ai-qa.json']),
+        ('author-source-expansion', ['scripts/generation/source_derived_expansion.py', 'scripts/generation/source_derived_generator.py', 'data/source-read-evidence.json'], ['work/nov14-source-expansion.json'],
+         ['scripts/generation/source_derived_expansion.py', '--output', 'work/nov14-source-expansion.json']),
+        ('author-verified-source-expansion', ['scripts/generation/verified_source_expansion.py', 'scripts/generation/source_derived_generator.py', 'data/source-read-evidence.json'], ['work/nov14-verified-source-expansion.json'],
+         ['scripts/generation/verified_source_expansion.py', '--output', 'work/nov14-verified-source-expansion.json']),
+        ('combine-source-expansion', ['scripts/combine_ai_batches.py', 'work/nov14-source-expansion.json', 'work/nov14-verified-source-expansion.json'], ['work/issue11-expanded-source-ai.json'],
+         ['scripts/combine_ai_batches.py', '--input', 'work/nov14-source-expansion.json', '--input', 'work/nov14-verified-source-expansion.json', '--output', 'work/issue11-expanded-source-ai.json']),
+        ('audit-source-expansion', ['scripts/verify-generated-bank.py', 'work/issue11-expanded-source-ai.json'], ['work/nov14-source-expansion-qa.json'],
+         ['scripts/verify-generated-bank.py', '--input', 'work/issue11-expanded-source-ai.json', '--output', 'work/nov14-source-expansion-qa.json']),
     ]
     for label, inputs, outputs, command in stages:
         fingerprint = {path: sha(path) for path in inputs}
@@ -54,6 +66,8 @@ def main():
         temp.replace(STATE)
     subprocess.run([sys.executable, 'scripts/verify-generated-bank.py', '--self-test'], cwd=ROOT, check=True)
     subprocess.run([sys.executable, 'scripts/build-ai-bank.py', '--self-test'], cwd=ROOT, check=True)
+    subprocess.run([sys.executable, 'scripts/ingest_private_source_pdfs.py', '--self-test'], cwd=ROOT, check=True)
+    subprocess.run([sys.executable, 'scripts/build_source_catalog.py', *(['--check'] if args.check else [])], cwd=ROOT, check=True)
     subprocess.run([sys.executable, 'scripts/build-ai-bank.py', *(['--check'] if args.check else [])], cwd=ROOT, check=True)
 
 if __name__ == '__main__':

@@ -4,14 +4,34 @@ import fs from 'node:fs';
 import crypto from 'node:crypto';
 import {AI_BANK, ORIGINAL_INDEX_SUMMARY} from '../data/ai-bank.js';
 import {QUESTION_BANK} from '../data/question-bank.js';
-import {createAiRegistry} from '../shared/ai-bank.js';
+import {aiDerivationKind,createAiRegistry} from '../shared/ai-bank.js';
 
 const read = file => JSON.parse(fs.readFileSync(new URL('../data/ai/' + file, import.meta.url), 'utf8'));
 const registry = createAiRegistry(AI_BANK);
 const archive = read('archive-input.json');
 const summary = read('bank-summary.json');
 const batches = read('batch-manifest.json');
+const preserved = read('preserved-1408.json');
 const canonical = value => Array.isArray(value) ? value.map(canonical) : value && typeof value === 'object' ? Object.fromEntries(Object.keys(value).sort().map(key => [key,canonical(value[key])])) : value;
+const hash = value => crypto.createHash('sha256').update(JSON.stringify(canonical(value))).digest('hex');
+
+test('all 1408 previously usable AI records keep their exact content and remain playable', () => {
+  assert.equal(preserved.schemaVersion,1);
+  assert.equal(preserved.count,1408);
+  assert.equal(preserved.questions.length,1408);
+  assert.equal(new Set(preserved.questions.map(row=>row.id)).size,1408);
+  const rawById=new Map(AI_BANK.questions.map(row=>[row.id,row]));
+  for (const previous of preserved.questions) {
+    assert.ok(rawById.has(previous.id),previous.id + ': previously published AI record removed');
+    assert.equal(hash(rawById.get(previous.id)),previous.recordHash,previous.id + ': existing content or provenance changed');
+    assert.ok(registry.getQuestion(previous.id),previous.id + ': existing usable exercise lost eligibility');
+  }
+  for (const [name,expected] of Object.entries(preserved.sourceContentHashes)) {
+    assert.ok(['imported','generated'].includes(name));
+    const actual=crypto.createHash('sha256').update(fs.readFileSync(new URL('../data/ai/' + name + '.js',import.meta.url))).digest('hex');
+    assert.equal(actual,expected,name + ': legacy static catalog was rewritten');
+  }
+});
 
 test('all archive records survive exactly once, apart from the original reference index', () => {
   assert.equal(archive.length, 1165);
@@ -42,11 +62,23 @@ test('AI bank cannot become a licensed original or a claimed official exam', () 
   }
 });
 
-test('generated lineage resolves to an accessible AI body and imports with flags stay out', () => {
+test('generated lineage resolves to the declared AI archive or verified original source and keeps flagged imports out', () => {
   const importedIds = new Set(archive.map(row => row.id));
+  const evidence = new Map((AI_BANK.sourceEvidence || []).map(row=>[row.id,row]));
   const flaggedIds = new Set(archive.filter(row => row.reviewFlags?.length).map(row => row.id));
   for (const row of registry.allQuestions.filter(row => row.pool === 'generated')) {
-    assert.ok(importedIds.has(row.parentQuestionId), row.id + ': missing accessible parent');
+    if (aiDerivationKind(row)==='ORIGINAL_TO_AI') {
+      const proof=evidence.get(row.provenance.sourceReadEvidenceId);
+      assert.ok(proof,row.id + ': missing actual original read evidence');
+      assert.equal(row.parentQuestionId,proof.sourceQuestionId);
+      assert.equal(row.provenance.sourceDocumentId,proof.sourceDocumentId);
+      assert.equal(row.provenance.physicalPage,proof.physicalPage);
+      assert.equal(row.provenance.originalPdfPage,proof.originalPdfPage);
+      assert.equal(row.provenance.sourceQuestionNumber,proof.questionNumber);
+    } else {
+      assert.equal(aiDerivationKind(row),'AI_TO_AI');
+      assert.ok(importedIds.has(row.parentQuestionId), row.id + ': missing accessible AI parent');
+    }
     assert.ok(['easy','medium','hard'].includes(row.difficulty));
     assert.ok(row.templateId);
     assert.ok(row.familyId);
@@ -57,6 +89,31 @@ test('generated lineage resolves to an accessible AI body and imports with flags
   assert.ok(registry.questions.some(row => row.difficulty === 'easy'));
   assert.ok(registry.questions.some(row => row.difficulty === 'medium'));
   assert.ok(registry.questions.some(row => row.difficulty === 'hard'));
+});
+
+test('original-derived AI read evidence is metadata-only and binds to actual supplied PDF bytes', () => {
+  const inventory=JSON.parse(fs.readFileSync(new URL('../data/source-pdf-inventory.json',import.meta.url),'utf8'));
+  const documents=new Map(inventory.documents.map(row=>[row.id,row]));
+  const evidence=AI_BANK.sourceEvidence || [];
+  const referenced=new Set(registry.allQuestions.filter(row=>aiDerivationKind(row)==='ORIGINAL_TO_AI').map(row=>row.provenance.sourceReadEvidenceId));
+  for (const id of referenced) assert.ok(evidence.some(row=>row.id===id),'Every original-derived child must resolve to a checked source proof');
+  for (const proof of evidence) {
+    const document=documents.get(proof.sourceDocumentId);
+    assert.ok(document,proof.id + ': original PDF is absent from supplied-byte inventory');
+    assert.equal(proof.sha256,document.sha256);
+    assert.equal(proof.origin,'ORIJINAL');
+    assert.equal(proof.readStatus,'read');
+    assert.equal(proof.answerStatus,'verified');
+    assert.equal(proof.publishable,false);
+    assert.ok(Number.isInteger(proof.physicalPage) && proof.physicalPage>=1 && proof.physicalPage<=document.pageCount);
+    for (const field of ['prompt','text','options','solution','solutionSteps','image','imagePath','pdfPath','pdfBytes']) assert.equal(proof[field],undefined,'Private original body must not enter public read metadata');
+  }
+  assert.equal(registry.lineageStats.AI_ARCHIVE_IMPORT + registry.lineageStats.AI_TO_AI + registry.lineageStats.ORIGINAL_TO_AI,registry.stats.usable);
+  for (const row of registry.questions.filter(row=>row.derivationKind==='ORIGINAL_TO_AI')) {
+    assert.equal(row.pool,'generated');
+    assert.equal(row.origin,'AI_URETIMI');
+    assert.ok(registry.sourceEvidence.some(proof=>proof.id===row.provenance.sourceReadEvidenceId));
+  }
 });
 
 test('public exercise counts match eligibility, quarantine and mathematical checks', () => {

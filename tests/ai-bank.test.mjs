@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createAiRegistry} from '../shared/ai-bank.js';
+import {aiDerivationKind,createAiRegistry} from '../shared/ai-bank.js';
 import {normalizeState} from '../shared/learning-state.js';
 
 // Test-only fixtures never enter either production question pool.
@@ -16,6 +16,17 @@ const fixture = (id = 'test-ai-1', extra = {}) => ({
 });
 const bank = (...questions) => ({schemaVersion:1,questions});
 const pending = (question, extra={}) => ({...question, verification:{...question.verification,status:'pending_review',mathPassed:false,reasons:['independent_check_required'],...extra}});
+const sourceEvidence = (extra={}) => ({
+  id:'TEST-READ-EVIDENCE', sourceQuestionId:'ORIG-test-document-P1-Q2', sourceDocumentId:'TEST-SOURCE-DOCUMENT',
+  sha256:'a'.repeat(64), physicalPage:1, originalPdfPage:275, questionNumber:2,
+  origin:'ORIJINAL', readStatus:'read', answerStatus:'verified', publishable:false, ...extra
+});
+const sourceDerived = (extra={}) => fixture('test-direct-original', {
+  pool:'generated', parentQuestionId:sourceEvidence().sourceQuestionId,
+  provenance:{derivationKind:'ORIGINAL_TO_AI',sourceQuestionId:sourceEvidence().sourceQuestionId,
+    sourceDocumentId:sourceEvidence().sourceDocumentId,sourceReadEvidenceId:sourceEvidence().id,
+    physicalPage:1,originalPdfPage:275,sourceQuestionNumber:2}, ...extra
+});
 
 test('AI registry exposes only automatically checked rows and keeps pending records inspectable', () => {
   const usable = fixture();
@@ -149,4 +160,92 @@ test('empty default bank is valid; unsupported envelopes and non-JSON cycles are
   for (const input of [null,[],{}, {schemaVersion:2,questions:[]},{schemaVersion:1,questions:{}}]) assert.throws(()=>createAiRegistry(input),TypeError);
   const cyclic=fixture();cyclic.loop=cyclic;
   assert.throws(()=>createAiRegistry(bank(cyclic)),TypeError);
+});
+
+test('legacy AI lineage is explicit without claiming original PDF access', () => {
+  const archive=fixture('test-archive-lineage',{provenance:{parentQuestionId:'UNSEEN-BOOK-REFERENCE',sourcePage:12,sourceQuestionNumber:1}});
+  const generated=fixture('test-generated-lineage',{pool:'generated',parentQuestionId:archive.id});
+  const registry=createAiRegistry(bank(archive,generated));
+  assert.equal(aiDerivationKind(archive),'AI_ARCHIVE_IMPORT');
+  assert.equal(aiDerivationKind(generated),'AI_TO_AI');
+  assert.equal(registry.getQuestion(archive.id).derivationKind,'AI_ARCHIVE_IMPORT');
+  assert.equal(registry.getQuestion(generated.id).derivationKind,'AI_TO_AI');
+  assert.deepEqual(registry.lineageStats,{AI_ARCHIVE_IMPORT:1,AI_TO_AI:1,ORIGINAL_TO_AI:0});
+  assert.deepEqual(registry.getQuestions({derivationKind:'AI_TO_AI'}).map(row=>row.id),[generated.id]);
+  assert.equal(archive.derivationKind,undefined,'legacy input is not rewritten');
+  assert.equal(generated.derivationKind,undefined);
+  assert.equal(aiDerivationKind({...archive,origin:'ORIJINAL'}),null);
+});
+
+test('a direct original-derived AI exercise requires matching metadata from an actually read source', () => {
+  const q=sourceDerived();
+  const input={schemaVersion:1,questions:[q],sourceEvidence:[sourceEvidence()]};
+  const registry=createAiRegistry(input);
+  assert.equal(registry.questions.length,1);
+  assert.equal(registry.questions[0].origin,'AI_URETIMI');
+  assert.equal(registry.questions[0].derivationKind,'ORIGINAL_TO_AI');
+  assert.equal(registry.getQuestions({derivationKind:'ORIGINAL_TO_AI'}).length,1);
+  assert.equal(registry.lineageStats.ORIGINAL_TO_AI,1);
+  assert.deepEqual(registry.issues,[]);
+  assert.deepEqual(registry.sourceEvidence,[sourceEvidence()]);
+  input.sourceEvidence[0].answerStatus='unknown';
+  assert.equal(registry.sourceEvidence[0].answerStatus,'verified');
+  assert.throws(()=>{registry.sourceEvidence[0].publishable=true},TypeError);
+  const unknownBookPage=sourceDerived({provenance:{...q.provenance,originalPdfPage:null}});
+  assert.equal(createAiRegistry({schemaVersion:1,questions:[unknownBookPage],sourceEvidence:[sourceEvidence({originalPdfPage:null})]}).questions.length,1,'do not invent a full-book page when only split-PDF location is known');
+});
+
+test('unread, unverified, ambiguous or mismatched original-source evidence fails closed', () => {
+  const good=sourceDerived();
+  const checks = [
+    {questions:[good]},
+    {questions:[good],sourceEvidence:[]},
+    {questions:[good],sourceEvidence:[sourceEvidence(),sourceEvidence()]},
+    {questions:[good],sourceEvidence:[sourceEvidence({id:'OTHER-READ'})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({sourceQuestionId:'ORIG-other-question'})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({sourceDocumentId:'OTHER-DOCUMENT'})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({physicalPage:2})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({physicalPage:0})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({physicalPage:1.5})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({originalPdfPage:276})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({originalPdfPage:undefined})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({questionNumber:3})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({sha256:'claimed-hash'})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({readStatus:'indexed'})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({answerStatus:'unknown'})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({origin:'AI_URETIMI'})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({publishable:true})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({prompt:'TEST ONLY: original statement must not enter public evidence'})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({options:[]})]},
+    {questions:[good],sourceEvidence:[sourceEvidence({imagePath:'/private/original.png'})]},
+    {questions:[{...good,parentQuestionId:'ORIG-different-parent'}],sourceEvidence:[sourceEvidence()]},
+    {questions:[{...good,provenance:{...good.provenance,sourceSha256:'b'.repeat(64)}}],sourceEvidence:[sourceEvidence()]},
+    {questions:[{...good,provenance:{...good.provenance,sourceQuestionNumber:undefined}}],sourceEvidence:[sourceEvidence()]}
+  ];
+  for (const [index,invalid] of checks.entries()) {
+    const registry=createAiRegistry({schemaVersion:1,...invalid});
+    assert.equal(registry.stats.usable,0,'untrusted original claim: '+index);
+    assert.equal(registry.allQuestions.length,1,'review row retained: '+index);
+    assert.equal(registry.getQuestion(good.id),null);
+    assert.ok(registry.issues.length,'diagnostic reason available: '+index);
+  }
+});
+
+test('AI parents cannot be relabeled as direct originals or hide conflicting lineage claims', () => {
+  const generated=fixture('test-false-original',{pool:'generated',parentQuestionId:'archive-parent'});
+  const candidates=[
+    {...generated,derivationKind:'ORIGINAL_TO_AI'},
+    {...generated,parentQuestionId:'ORIG-unread-question'},
+    {...generated,provenance:{derivationKind:'AI_TO_AI',sourceQuestionId:'ORIG-unread-question'}},
+    {...generated,provenance:{derivationKind:'AI_TO_AI',sourceDocumentId:'unread-document'}},
+    {...generated,provenance:{derivationKind:'AI_TO_AI',sourceReadEvidenceId:'unread-evidence'}},
+    {...generated,derivationKind:'AI_TO_AI',provenance:{derivationKind:'ORIGINAL_TO_AI'}},
+    {...generated,derivationKind:'AI_ARCHIVE_IMPORT'},
+    {...generated,derivationKind:'human_original'},
+    {...generated,derivationKind:null},
+    {...generated,provenance:{derivationKind:'unknown'}},
+    {...sourceDerived(),pool:'imported'}
+  ];
+  for (const candidate of candidates) assert.equal(createAiRegistry(bank(candidate)).questions.length,0,candidate.id);
+  for (const invalid of [null,{},'read']) assert.throws(()=>createAiRegistry({...bank(),sourceEvidence:invalid}),TypeError);
 });
