@@ -137,6 +137,9 @@ seçeneği hem kaynak sayfa render'ını hem OCR'yi yeniler.
   yeniden kullanıldı; belgeler ikinci kez yeni soru sayılmadı.
 - Gerçek üretim Supabase hesabında/ücretli AI servisinde işlem yapılmadı.
   Hesap ayrımı ve geçmiş koruma testleri yerel/taklit servislerle çalıştı.
+- İlk GitHub CI çalışmasında sentetik PDF yerleşim testinin PyMuPDF bağımlılığı
+  eksikti. CI bağımlılık listesine sabit sürüm eklendi; özel kaynak PDF'leri
+  CI'ya taşınmadı.
 
 ## Eksik dosyalar
 
