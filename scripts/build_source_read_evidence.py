@@ -13,6 +13,7 @@ from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+COURSE_ALIASES={'limit-continuity':'limits','derivatives':'derivative','integrals':'integral'}
 
 def sha(value):
     return hashlib.sha256(value).hexdigest()
@@ -37,6 +38,8 @@ def build(args):
         path = Path(source.get('pdfPath') or Path(args.extracted) / source['relativePath'])
         if sha(path.read_bytes()) != doc['sha256']:
             raise ValueError('Actual source PDF changed: ' + q['id'])
+        if not 1 <= source['physicalPage'] <= doc['pageCount']:
+            raise ValueError('Original source page is outside the actual PDF')
         if q['origin'] != 'ORIJINAL' or q['permission']['publishable'] is not False:
             raise ValueError('This metadata exporter cannot grant original publication permission')
         with fitz.open(path) as pdf:
@@ -46,24 +49,43 @@ def build(args):
             page_raster_hash = sha(page.get_pixmap(matrix=fitz.Matrix(1, 1), alpha=False).samples)
         record_hash = sha(canonical({'prompt':q['prompt'], 'options':q['options'], 'answer':q['answer'].get('value')}).encode())
         verified = (q['verification']['status'] == 'automated_verified'
-                    and q['verification']['mathPassed'] is True and not q['verification'].get('reasons'))
+                    and q['verification']['mathPassed'] is True and not q['verification'].get('reasons')
+                    and len(set(q['verification'].get('methods',[]))) >= 2
+                    and [o.get('id') for o in q['options']] == list('ABCDE'))
         metadata = {'id':'read-' + q['id'], 'sourceQuestionId':q['id'], 'sourceDocumentId':doc['id'],
                     'sha256':doc['sha256'], 'physicalPage':source['physicalPage'],
                     'originalPdfPage':source.get('originalPdfPage'), 'printedPage':source.get('printedPage'),
                     'originalPdfPageBasis':'provided_filename_range_not_full_book_verified',
-                    'questionNumber':source['questionNumber'], 'examType':q['examType'], 'courseId':q['courseId'],
+                    'questionNumber':source['questionNumber'], 'examType':q['examType'], 'courseId':COURSE_ALIASES.get(q['courseId'],q['courseId']),
                     'origin':'ORIJINAL', 'publishable':False, 'readStatus':'read',
                     'answerStatus':'verified' if verified else 'pending_review',
                     'questionContentSha256':record_hash, 'pageTextSha256':page_text_hash,
                     'pageRasterSha256':page_raster_hash,
-                    'classificationBasis':'AYT preparation level in a shared-source book; not an actual AYT exam' if q['examType']=='AYT' else 'TYT preparation source question',
+                    'classificationBasis':('AYT preparation topic test; not an actual AYT exam' if source.get('sourceExamLabel','').startswith('AYT')
+                        else 'AYT preparation level in a shared-source book; not an actual AYT exam') if q['examType']=='AYT' else 'TYT preparation source question',
                     'isActualExamQuestion':q.get('isActualExamQuestion',False), 'isOfficialExamQuestion':False}
-        if isinstance(q.get('sourceAnswer'), dict) and q['sourceAnswer'].get('sourceDocumentId'):
-            source_answer = q['sourceAnswer']
-            answer_doc = next((d for d in inventory['documents'] if d['id'] == source_answer['sourceDocumentId']), None)
+        source_answer = q.get('sourceAnswer') or q.get('publisherAnswerSource')
+        if isinstance(source_answer,dict) and not source_answer.get('sha256'):
+            # Legacy curated worked examples record their answer on the same
+            # source PDF page, without a separate answer-key document identity.
+            source_answer={**source_answer,'sourceDocumentId':doc['id'],
+                'sha256':doc['sha256'],'pdfPath':str(path),
+                'questionNumber':source['questionNumber']}
+        if not source_answer and q.get('answer',{}).get('publisherAnswerSourcePhysicalPage'):
+            source_answer={'sourceDocumentId':doc['id'],'sha256':doc['sha256'],
+                'physicalPage':q['answer']['publisherAnswerSourcePhysicalPage'],
+                'questionNumber':source['questionNumber'],'pdfPath':str(path)}
+        if isinstance(source_answer, dict):
+            answer_doc = documents.get(source_answer.get('sha256'))
             if not answer_doc or answer_doc['sha256'] != source_answer['sha256'] or not 1 <= source_answer['physicalPage'] <= answer_doc['pageCount']:
                 raise ValueError('Separate answer-key source is not in the actual PDF inventory')
-            metadata['answerEvidence'] = {key:source_answer[key] for key in ('sourceDocumentId','sha256','physicalPage','questionNumber')}
+            if source_answer.get('sourceDocumentId') and source_answer['sourceDocumentId'] != answer_doc['id']:
+                raise ValueError('Separate answer-key ID does not match its actual SHA')
+            answer_path=Path(source_answer.get('pdfPath') or Path(args.extracted)/answer_doc['archive']/answer_doc['member'])
+            if sha(answer_path.read_bytes()) != answer_doc['sha256']:
+                raise ValueError('Answer-key PDF bytes changed')
+            metadata['answerEvidence'] = {key:source_answer[key] for key in ('sha256','physicalPage','questionNumber')}
+            metadata['answerEvidence']['sourceDocumentId']=answer_doc['id']
         if verified:
             metadata['generationSkills'] = skills.get(q['id'], [])
             evidence.append(metadata)
@@ -80,7 +102,7 @@ def build(args):
                'privateMathematicsPassed':sum(q['verification'].get('mathPassed') is True for q in originals),
                'publishableQuestions':0, 'permissionStatus':'unverified', 'hasAytExamBooklets':False,
                'verifiedByExam':dict(Counter(row['examType'] for row in evidence)),
-               'classificationNote':'AYT tags describe preparation-level skills in ORTAK source pages, not an official AYT paper.'}
+               'classificationNote':'AYT tags describe preparation-level skills in shared-source pages or AYT topic tests, not official AYT exam papers.'}
     public = {'schemaVersion':1, 'scope':'read_evidence_metadata_only_no_original_bodies',
               'summary':summary, 'evidence':evidence, 'reviewQueue':pending}
     Path(args.output).write_text(json.dumps(public, ensure_ascii=False, indent=2) + '\n')
@@ -95,7 +117,7 @@ def build(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--inventory', default='data/source-pdf-inventory.json')
+    parser.add_argument('--inventory', default='data/source-pdf-inventory-all.json')
     parser.add_argument('--bank', action='append', required=True)
     parser.add_argument('--extracted', required=True)
     parser.add_argument('--skills', default='data/source-generation-skills.json')

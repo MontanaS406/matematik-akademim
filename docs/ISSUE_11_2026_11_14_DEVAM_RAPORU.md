@@ -1,5 +1,6 @@
 # Issue #11 / PR #12 — 14 Kasım 2026 ilerleme kaydı
 
+Güncel yeni ekler: [25 dosyalık yeni parti raporu](ISSUE_11_YENI_EKLER_RAPORU.md). Bu dosya önceki aşamanın tarihsel kaydıdır.
 Dal: `codex/issue-11-gercek-pdfler`. PR #12 güncellenir; **main'e merge,
 canlı yayın ve üretim Supabase değişikliği yapılmaz**. Önceki 1.408 soru ile
 PR #12'nin tamamlanmış 149 ek sorusu tam kayıt hash'leriyle korunur.

@@ -1,5 +1,6 @@
 import {test,expect} from './fixtures.mjs';
 import {AI_BANK} from '../../data/ai-bank.js';
+import {SOURCE_ADDITIONS_AI} from '../../data/source-additions-ai.js';
 import {createAiRegistry} from '../../shared/ai-bank.js';
 import {getCourse} from '../../shared/curriculum.js';
 import {TEACHERS} from '../../shared/teachers.js';
@@ -8,6 +9,24 @@ import {configureAI,openAccount} from './source-helpers.mjs';
 const registry=createAiRegistry(AI_BANK);
 const current=async page=>registry.getQuestion(await page.locator('#questionCard').getAttribute('data-question-id'));
 const openFilters=async page=>{const filters=page.locator('.extra-practice-filters');if(!await filters.evaluate(node=>node.open))await filters.locator('summary').click()};
+
+for(const courseId of ['limits','derivative','integral','sequences','logarithms','geometry']){
+ test('new uploaded-source practice works for '+courseId,async({page})=>{
+  const seed=SOURCE_ADDITIONS_AI.find(q=>q.courseId===courseId&&!q.duplicateOf);
+  expect(seed).toBeTruthy();await page.goto('/');await page.locator('#bankExam').selectOption(seed.examType);
+  await page.locator('#browseCourses').click();await page.locator('#courseSearch').fill(getCourse(courseId).title);await page.locator('#courseList button').first().click();
+  await page.locator('#bankDifficulty').selectOption(seed.difficulty);await openFilters(page);await page.locator('#aiDerivation').selectOption('ORIGINAL_TO_AI');
+  await openFilters(page);await page.locator('#bankSubtopic').selectOption(seed.subtopic);
+  const q=await current(page);expect(q.courseId).toBe(courseId);expect(SOURCE_ADDITIONS_AI.some(row=>row.id===q.id)).toBe(true);
+  await expect(page.locator('#sourceAnswerArea button')).toHaveCount(5);await expect(page.locator('#aiSolution')).toBeHidden();
+  await page.locator(`[data-option="${q.answer.value}"]`).click();await page.locator('#checkSourceAnswer').click();
+  await expect(page.locator('#sourceFeedback')).toContainText('Doğru.');await expect(page.locator('#aiSolution')).toBeVisible();
+  for(const step of q.solutionSteps)await expect(page.locator('#aiSolution')).toContainText(step);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+  await page.reload();const saved=await page.evaluate(()=>JSON.parse(localStorage.getItem('ma_learning_v1_guest')));
+  expect(saved.attempts).toHaveLength(1);expect(saved.attempts[0].exerciseId).toBe(q.id);
+ });
+}
 
 for(const [examType,subtopic] of [['TYT','Örneklem varyansı ve standart sapma'],['AYT','Pascal üçgeni ve binom toplamları']]){
  test('new checked '+examType+' source batch can be filtered, answered and resumed',async({page})=>{

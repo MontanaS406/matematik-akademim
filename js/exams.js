@@ -1,6 +1,6 @@
 import {EXAM_YEARS, normalizeFlags, normalizeTopics} from '../shared/exam-model.js';
-import {QUESTION_BANK} from '../data/question-bank.js?v=issue11-20261113';
-import {AI_BANK} from '../data/ai-bank.js?v=issue11-20261113';
+import {QUESTION_BANK} from '../data/question-bank.js?v=issue11-20261114';
+import {AI_BANK} from '../data/ai-bank.js?v=issue11-20261114';
 import {createAiRegistry} from '../shared/ai-bank.js';
 import {normalizeState} from '../shared/learning-state.js';
 

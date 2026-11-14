@@ -55,5 +55,11 @@
   ],
   "ORIG-9317e24dc024-P8-Q26": [
     "inverse_expression"
+  ],
+  "ORIG-947e47592d94-P001-Q01": [
+    "triangle_altitude_area"
+  ],
+  "ORIG-947e47592d94-P002-Q07": [
+    "partitioned_polygon_area"
   ]
 }

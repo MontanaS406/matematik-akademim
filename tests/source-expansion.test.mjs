@@ -20,19 +20,23 @@ test('all 1557 completed PR12 questions survive byte-equivalent records and elig
 });
 
 test('source extraction reports distinguish crop candidates, keys and independent curation',()=>{
-  const report=read('source-extraction-progress.json'),inventory=read('source-pdf-inventory.json');
+  const report=read('source-extraction-progress.json'),inventory=read('source-pdf-inventory-all.json');
   const s=report.summary;
   assert.equal(report.scope,'metadata_only_no_original_bodies');
   assert.equal(report.documents.length,inventory.documents.length);
-  assert.equal(s.actualPdfDocuments,95);assert.equal(s.actualPdfPages,1256);
-  assert.equal(s.suppliedZipParts,13);assert.equal(s.publishableOriginalQuestions,0);
-  assert.equal(s.sourceQuestionRegionCandidates,report.documents.reduce((n,d)=>n+d.questionCandidates,0));
+  assert.equal(s.actualPdfDocuments,220);assert.equal(s.actualPdfPages,3022);
+  assert.equal(s.suppliedZipParts,35);assert.equal(s.publishableOriginalQuestions,0);
+  assert.equal(s.privateRecordsAfterCuration,report.documents.reduce((n,d)=>n+d.questionCandidates,0));
   assert.equal(s.independentlyVerifiedOriginals,report.documents.reduce((n,d)=>n+d.independentlyVerified,0));
   assert.equal(s.privateRecordsAfterCuration,s.independentlyVerifiedOriginals+s.allReviewCandidates);
   assert.ok(s.publisherAnswersCaptured>s.independentlyVerifiedOriginals);
   assert.ok(s.curatedOriginalQuestions>s.independentlyVerifiedOriginals);
   assert.equal(s.uncheckpointedQuestionPages,0);
-  assert.equal(s.missingArchiveBasenamesKnown,false);
+  assert.equal(s.missingArchiveBasenamesKnown,true);
+  assert.equal(s.confirmedRepeatedSourceQuestions,9);
+  assert.equal(s.confirmedRepeatedCaptures,9);
+  assert.equal(s.uniqueRegionCandidatesAfterConfirmedRepeats,s.privateRecordsAfterCuration-9);
+  assert.equal(report.confirmedQuestionRepeats.filter(p=>p.captureMatch==='matched').length,9);
   assert.deepEqual(s.missingExactPdfNames,inventory.requestedV2FilesNotSuppliedByExactName);
   const forbidden=new Set(['prompt','options','answer','solution','solutionSteps','rawSourceText','image','cropPath','pdfPath','text']);
   const visit=v=>{if(Array.isArray(v))v.forEach(visit);else if(v&&typeof v==='object')for(const [k,x]of Object.entries(v)){assert.equal(forbidden.has(k),false,k);visit(x);}else if(typeof v==='string')assert.doesNotMatch(v,/\/workspace\/|\/tmp\/|data:image/);};

@@ -93,10 +93,36 @@ def build(args):
     captures = [q for b in batches for q in b['questions']]
     curated = [q for p in args.curated for q in json.loads(Path(p).read_text())['questions']]
     rows, matches = join(captures, curated)
+    repeat_evidence=[]
+    if args.question_overlaps:
+        review=json.loads(Path(args.question_overlaps).read_text())
+        indexed=defaultdict(list)
+        for q in rows:indexed[position(q)].append(q)
+        for pair in review.get('questionMatches',[]):
+            if pair.get('status')!='human_confirmed_repeated_question_in_reflowed_edition':
+                continue
+            old,new=pair['old'],pair['new']
+            old_rows=indexed[(old['sha256'],old['physicalPage'],str(old['questionNumber']))]
+            new_rows=indexed[(new['sha256'],new['physicalPage'],str(new['questionNumber']))]
+            matched=len(old_rows)==1 and len(new_rows)==1
+            if matched:
+                q=new_rows[0];q['duplicateOf']=old_rows[0]['id']
+                q['duplicateEvidence']='visually_confirmed_reflowed_edition_question'
+                q['verification']['status']='duplicate_rejected'
+                q['verification']['reasons'].append('confirmed_source_question_repeat')
+            repeat_evidence.append({'old':{k:old[k] for k in ('sha256','physicalPage','questionNumber')},
+                'new':{k:new[k] for k in ('sha256','physicalPage','questionNumber')},
+                'captureMatch':'matched' if matched else 'requires_segmentation_review',
+                'status':pair['status']})
     # Exact bytes of every supplied document are reopened, including keys.
     base = Path(args.extracted)
+    private_paths = {}
+    for manifest in args.manifest:
+        for record in json.loads(Path(manifest).read_text()):
+            if record.get('type')=='.pdf' and record.get('path'):
+                private_paths[record['sha256']]=Path(record['path'])
     for d in docs.values():
-        file = base / d['archive'] / d['member']
+        file = private_paths.get(d['sha256'],base / d['archive'] / d['member'])
         if sha(file) != d['sha256']:
             raise ValueError('Source bytes changed: ' + d['fileName'])
     for q in rows:
@@ -113,15 +139,17 @@ def build(args):
     # page without a usable anchor remains explicitly unresolved, never empty.
     page_index = {}
     for b in batches:
-        pages = b.get('pages', [])
+        pages = list(b.get('pages', []))
         if not pages and b.get('version', '').startswith('private-publisher'):
             pass
         for doc in b.get('documents', []):
-            if doc.get('path'):
+            if doc.get('path') and Path(doc['path']).suffix=='.json':
                 detail = json.loads(Path(doc['path']).read_text())
                 pages += [{**p,'sourceDocumentId':detail['document']['id']} for p in detail.get('pages', [])]
         for p in pages:
             sid = p.get('sourceDocumentId') or p.get('documentId')
+            if not sid and p.get('sourceSha256') in docs:
+                sid=docs[p['sourceSha256']]['id']
             if not sid:
                 continue
             page_index[(sid,p['physicalPage'])] = p
@@ -132,7 +160,8 @@ def build(args):
     for d in inventory['documents']:
         qq = by_doc[d['sha256']]
         captured_pages = sorted({p for sid,p in page_index if sid == d['id']})
-        is_key = d['categoryDirectory'] == 'CEVAP' if 'categoryDirectory' in d else '/CEVAP/' in ('/' + d['member'])
+        is_key = (d['categoryDirectory'] == 'CEVAP' if 'categoryDirectory' in d else
+                  '/CEVAP/' in ('/' + d['member']))
         missing_pages = [p for p in range(1,d['pageCount']+1) if p not in captured_pages]
         per_doc.append({'id':d['id'],'fileName':d['fileName'],'sha256':d['sha256'],
             'pageCount':d['pageCount'],'kind':'answer_key' if is_key else 'question_source',
@@ -142,25 +171,28 @@ def build(args):
     # Original extracted answer keys are not exported. Counts only.
     provided_keys = sum(q.get('answer', {}).get('value') in 'ABCDE'
                         if isinstance(q.get('answer', {}).get('value'),str) else False for q in captures)
-    summary = {'suppliedZipParts':len(inventory['archives']),'actualPdfDocuments':len(docs),
+    summary = {'suppliedZipParts':inventory['summary'].get('zipArchiveCount',len(inventory['archives'])),'actualPdfDocuments':len(docs),
         'actualPdfPages':sum(d['pageCount'] for d in docs.values()),
         'sourceQuestionRegionCandidates':len(captures),'privateRecordsAfterCuration':len(rows),
         'curatedOriginalQuestions':len(curated),'independentlyVerifiedOriginals':sum(approved(q) for q in rows),
         'curatedNeedsReview':sum(not approved(q) for q in curated),
         'allReviewCandidates':sum(not approved(q) for q in rows),
+        'confirmedRepeatedSourceQuestions':len(repeat_evidence),
+        'confirmedRepeatedCaptures':sum(q.get('duplicateEvidence') is not None for q in rows),
+        'uniqueRegionCandidatesAfterConfirmedRepeats':len(rows)-sum(q.get('duplicateEvidence') is not None for q in rows),
         'publisherAnswersCaptured':provided_keys,'fiveLabelCandidates':sum(five_labels(q) for q in captures),
-        'publishableOriginalQuestions':0,'missingExactPdfNames':inventory['requestedV2FilesNotSuppliedByExactName'],
-        'missingArchivePartNumbers':inventory['missingArchiveParts'],
-        'missingArchiveBasenamesKnown':False,
+        'publishableOriginalQuestions':0,'missingExactPdfNames':inventory.get('requestedV2FilesNotSuppliedByExactName',[]),
+        'missingArchivePartNumbers':inventory.get('missingArchiveParts',[]),
+        'missingArchiveBasenamesKnown':not inventory.get('missingArchiveParts'),
         'uncheckpointedQuestionPages':sum(len(d['pagesWithoutExtractionCheckpoint']) for d in per_doc),
         **{k:len(v) for k,v in matches.items()}}
     bindings = [{'kind':kind,'fileName':Path(p).name,'sha256':sha(p)}
         for kind, paths in [('capture',args.batch),('curation',args.curated)] for p in paths]
     private = {'schemaVersion':1,'version':VERSION,'summary':summary,'inputs':bindings,
-        'captureMatches':matches,'questions':rows,'documents':per_doc}
+        'captureMatches':matches,'questionRepeatEvidence':repeat_evidence,'questions':rows,'documents':per_doc}
     write(private_target(args.output),private)
     public = {'schemaVersion':1,'version':VERSION,'scope':'metadata_only_no_original_bodies',
-        'summary':summary,'inputs':bindings,'documents':per_doc,
+        'summary':summary,'inputs':bindings,'documents':per_doc,'confirmedQuestionRepeats':repeat_evidence,
         'limits':['Region extraction and five detected option labels are not a guarantee of complete transcription or correct segmentation.',
                   'Source diagrams/choices and continuation segments are preserved privately; OCR and unresolved layout need review.',
                   'A publisher answer is not independent mathematical verification.',
@@ -186,11 +218,13 @@ def self_test():
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--inventory',default='data/source-pdf-inventory.json')
+    p.add_argument('--manifest',action='append',default=[])
     p.add_argument('--batch',action='append',default=[])
     p.add_argument('--curated',action='append',default=[])
     p.add_argument('--extracted')
     p.add_argument('--output')
     p.add_argument('--public-progress',default='data/source-extraction-progress.json')
+    p.add_argument('--question-overlaps')
     p.add_argument('--self-test',action='store_true')
     args=p.parse_args()
     if args.self_test:self_test()

@@ -38,7 +38,7 @@ def build(inventory, payload):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--inventory', default='data/source-pdf-inventory.json')
+    parser.add_argument('--inventory', default='data/source-pdf-inventory-all.json')
     parser.add_argument('--evidence', default='data/source-read-evidence.json')
     parser.add_argument('--output', default='data/source-catalog.js')
     parser.add_argument('--check', action='store_true')

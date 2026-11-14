@@ -92,7 +92,7 @@ test('generated lineage resolves to the declared AI archive or verified original
 });
 
 test('original-derived AI read evidence is metadata-only and binds to actual supplied PDF bytes', () => {
-  const inventory=JSON.parse(fs.readFileSync(new URL('../data/source-pdf-inventory.json',import.meta.url),'utf8'));
+  const inventory=JSON.parse(fs.readFileSync(new URL('../data/source-pdf-inventory-all.json',import.meta.url),'utf8'));
   const documents=new Map(inventory.documents.map(row=>[row.id,row]));
   const evidence=AI_BANK.sourceEvidence || [];
   const referenced=new Set(registry.allQuestions.filter(row=>aiDerivationKind(row)==='ORIGINAL_TO_AI').map(row=>row.provenance.sourceReadEvidenceId));

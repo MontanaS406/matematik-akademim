@@ -1,5 +1,6 @@
 # Issue #11 — gerçek PDF kaynakları ve köken ayrımı
 
+Güncel yeni ekler: [25 dosyalık yeni parti raporu](ISSUE_11_YENI_EKLER_RAPORU.md). Bu dosya önceki aşamanın tarihsel kaydıdır.
 **Güncel kapsam ve kalan iş:** [14 Kasım devam raporu](ISSUE_11_2026_11_14_DEVAM_RAPORU.md).
 Aşağıdaki sayılar 13 Kasım'da tamamlanan ilk partinin tarihsel kaydıdır.
 

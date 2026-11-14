@@ -49,6 +49,16 @@ def main():
          ['scripts/combine_ai_batches.py', '--input', 'work/nov14-source-expansion.json', '--input', 'work/nov14-verified-source-expansion.json', '--output', 'work/issue11-expanded-source-ai.json']),
         ('audit-source-expansion', ['scripts/verify-generated-bank.py', 'work/issue11-expanded-source-ai.json'], ['work/nov14-source-expansion-qa.json'],
          ['scripts/verify-generated-bank.py', '--input', 'work/issue11-expanded-source-ai.json', '--output', 'work/nov14-source-expansion-qa.json']),
+        ('author-ayt-additions', ['scripts/generation/ayt_source_additions.py', 'scripts/generation/source_derived_generator.py', 'data/source-read-evidence.json'], ['work/ayt-source-additions.json'],
+         ['scripts/generation/ayt_source_additions.py', '--source-evidence', 'data/source-read-evidence.json', '--output', 'work/ayt-source-additions.json']),
+        ('author-ayt-additions-second', ['scripts/generation/ayt_source_additions_second.py', 'scripts/generation/source_derived_generator.py', 'data/source-read-evidence.json'], ['work/ayt-source-additions-second.json'],
+         ['scripts/generation/ayt_source_additions_second.py', '--source-evidence', 'data/source-read-evidence.json', '--output', 'work/ayt-source-additions-second.json']),
+        ('author-geometry-additions', ['scripts/generation/geometry_source_additions.py', 'scripts/generation/source_derived_generator.py', 'data/source-read-evidence.json'], ['work/geometry-source-additions.json'],
+         ['scripts/generation/geometry_source_additions.py', '--source-evidence', 'data/source-read-evidence.json', '--output', 'work/geometry-source-additions.json']),
+        ('combine-source-additions', ['scripts/combine_ai_batches.py', 'work/ayt-source-additions.json', 'work/ayt-source-additions-second.json', 'work/geometry-source-additions.json'], ['work/source-additions-all.json'],
+         ['scripts/combine_ai_batches.py', '--input', 'work/ayt-source-additions.json', '--input', 'work/ayt-source-additions-second.json', '--input', 'work/geometry-source-additions.json', '--output', 'work/source-additions-all.json']),
+        ('audit-source-additions', ['scripts/verify-generated-bank.py', 'work/source-additions-all.json'], ['work/source-additions-qa.json'],
+         ['scripts/verify-generated-bank.py', '--input', 'work/source-additions-all.json', '--output', 'work/source-additions-qa.json']),
     ]
     for label, inputs, outputs, command in stages:
         fingerprint = {path: sha(path) for path in inputs}

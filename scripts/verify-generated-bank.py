@@ -137,6 +137,19 @@ def finite_search(spec):
     if kind=='unique' and len(set(vals))==1:return vals[0]
     raise Pending('nonunique_solution')
 
+def resolve_model_expression(expr):
+    for integral in expr.atoms(S.Integral):
+        for limits in integral.limits:
+            if len(limits)!=3:raise Pending('parameter_integral_requires_finite_bounds')
+            integration_variable,lower,upper=limits
+            if (lower.free_symbols or upper.free_symbols or not lower.is_finite
+                    or not upper.is_finite or not lower.is_real or not upper.is_real):
+                raise Pending('parameter_integral_unresolved_bounds')
+            interval=S.Interval(min(lower,upper),max(lower,upper))
+            if S.calculus.util.continuous_domain(integral.function,integration_variable,interval)!=interval:
+                raise Pending('parameter_integral_not_continuous_on_closed_interval')
+    return S.expand_log(expr.doit())  # force=False preserves real-domain assumptions.
+
 def exact_math(spec):
     operation=spec['operation'];x=S.Symbol(spec.get('variable','x'),real=True)
     expr=exact_expression(spec.get('expression','0'))
@@ -176,7 +189,9 @@ def exact_math(spec):
         if spec.get('coordinate')=='x':return root
         if spec.get('coordinate')=='y':return expr.subs(x,root)
         raise Pending('unsupported_vertex_coordinate')
-    if operation=='limit':return S.limit(expr,x,exact_expression(spec.get('point','0')),dir=spec.get('direction','+'))
+    if operation=='limit':
+        if expr.has(S.Piecewise):raise Pending('piecewise_limit_requires_explicit_branches')
+        return S.limit(expr,x,exact_expression(spec.get('point','0')),dir=spec.get('direction','+'))
     if operation=='derivative':
         derivative=S.diff(expr,x,int(spec.get('order',1)))
         if 'point' in spec:return derivative.subs(x,exact_expression(spec['point'])).subs(subs)
@@ -219,6 +234,11 @@ def exact_math(spec):
         if hi-lo>10000:raise Pending('sum_domain_too_large')
         return sum((expr.subs(x,i) for i in range(lo,hi+1)),S.Integer(0)).subs(subs)
     if operation in ('log_equation','solve_parameter'):
+        # Evaluate the submitted derivative/integral model, rather than require
+        # the author to replace it with an already solved linear equation.
+        # Every integral must remain a proper integral on a closed interval;
+        # .doit() alone must not turn a singularity into a scored result.
+        expr=resolve_model_expression(expr)
         target=exact_expression(spec.get('target','0'))
         roots=S.solveset(S.Eq(expr,target),x,domain=S.S.Reals)
         if not isinstance(roots,S.FiniteSet):raise Pending('nonfinite_or_unresolved_roots')
@@ -432,7 +452,7 @@ def literal_numeric_ast(node):
 
 def rational_identity(spec):
     variables=[S.Symbol(name,real=True) for name in spec['variables']]
-    equations=[exact_expression(expression) for expression in spec['equations']]
+    equations=[resolve_model_expression(exact_expression(expression)) for expression in spec['equations']]
     target=exact_expression(spec['expression'])
     branches=S.solve(equations,variables,dict=True)
     if not branches:raise Pending('no_symbolic_identity_branches')
@@ -547,6 +567,40 @@ def audit(q):
         elif kind=='exact_math':value=exact_math(spec);method='independent_sympy_'+spec['operation']
         elif kind=='counting':value=counting(spec);method='labelled_finite_enumeration_or_exact_integer_construction'
         elif kind=='rational_identity':value=rational_identity(spec);method='independent_symbolic_constraint_branches_and_substitution'
+        elif kind=='polynomial_operator_identity':
+            variable=S.Symbol(spec.get('polynomialVariable','x'),real=True)
+            names=spec['variables']
+            if not 1<=len(names)<=6 or len(set(names))!=len(names):raise Pending('invalid_polynomial_parameters')
+            parameters={S.Symbol(name,real=True) for name in names}
+            operator=exact_expression(spec['operatorExpression']).doit()
+            right=exact_expression(spec['rightExpression']).doit()
+            difference=S.expand(operator-right)
+            if difference.free_symbols-parameters-{variable}:raise Pending('unlisted_polynomial_parameters')
+            polynomial=S.Poly(difference,variable)
+            if polynomial.degree()>16:raise Pending('polynomial_operator_degree_limit')
+            target=exact_expression(spec['targetExpression']).doit()
+            if target.free_symbols-parameters:raise Pending('polynomial_target_not_scalar_after_parameters')
+            extra=[]
+            for equation in spec.get('additionalEquations',[]):
+                condition=resolve_model_expression(exact_expression(equation))
+                if condition.free_symbols-parameters:raise Pending('polynomial_extra_condition_has_unlisted_variables')
+                extra.append(S.sstr(condition))
+            value=rational_identity({'variables':names,
+                'equations':[S.sstr(c) for c in polynomial.all_coeffs()]+extra,
+                'expression':S.sstr(target),'nonzero':spec.get('nonzero',[])})
+            method='independent_raw_operator_expansion_coefficient_constraints_and_substitution'
+        elif kind=='piecewise_limits':
+            variable=S.Symbol(spec.get('variable','x'),real=True)
+            point=scalar(exact_expression(spec['point']))
+            left=exact_expression(spec['leftExpression']);right=exact_expression(spec['rightExpression'])
+            if left.has(S.Piecewise) or right.has(S.Piecewise):raise Pending('nested_piecewise_branches_need_review')
+            env={'L':scalar(S.limit(left,variable,point,dir='-')),
+                 'R':scalar(S.limit(right,variable,point,dir='+'))}
+            if spec.get('requireTwoSided') and not equivalent(env['L'],env['R']):
+                raise Pending('two_sided_limit_does_not_exist')
+            if 'pointValue' in spec:env['V']=scalar(exact_expression(spec['pointValue']))
+            value=exact_expression(spec['objectiveExpression'],env)
+            method='independent_explicit_branch_limits_and_separate_point_value'
         elif kind=='statistics':
             values=sorted(exact_expression(item) for item in spec['values'])
             if not values:raise Pending('empty_statistics_data')
@@ -700,6 +754,35 @@ def self_test():
         q['answer'].update(computedValue=str(value));assert audit(q)['mathPassed'],audit(q)
         q['answer']['value']='A';assert not audit(q)['mathPassed']
     assert finite_search({'variables':{'x':[1,10]},'predicate':'x*x==49','objective':{'kind':'unique','expression':'x'}})==7
+    assert exact_math({'operation':'solve_parameter','variable':'a',
+        'expression':'Subs(Derivative(a*x**2,x),x,3)-18'})==3
+    assert exact_math({'operation':'solve_parameter','variable':'a',
+        'expression':'Integral(a*x,(x,0,2))-10'})==5
+    assert exact_math({'operation':'solve_parameter','variable':'x',
+        'expression':'log(2**(x+1),4)+log(8**x,2)-9'})==S.Rational(17,7)
+    branch=copy.deepcopy(base);branch['prompt']='TEST ONLY explicit branches'
+    branch['verificationSpec']={'type':'piecewise_limits','point':1,
+        'leftExpression':'x**2+1','rightExpression':'5','objectiveExpression':'L+R',
+        'pointValue':100,'promptAnchor':branch['prompt']}
+    assert audit(branch)['mathPassed']  # 2+5=7; f(1)=100 is not a one-sided limit.
+    branch['verificationSpec']['requireTwoSided']=True
+    assert 'two_sided_limit_does_not_exist' in audit(branch)['reasons']
+    operator=copy.deepcopy(base);operator['prompt']='TEST ONLY raw polynomial operator'
+    operator['verificationSpec']={'type':'polynomial_operator_identity',
+        'polynomialVariable':'x','variables':['a','b','c'],
+        'operatorExpression':'Derivative(a*x**2+b*x+c,x)+a*x**2+b*x+c',
+        'rightExpression':'x**2+4*x+6','targetExpression':'a+b+c',
+        'promptAnchor':operator['prompt']}
+    assert audit(operator)['mathPassed']  # a=1,b=2,c=4, sum=7.
+    operator['verificationSpec']['additionalEquations']=['a+b+c-8']
+    assert not audit(operator)['mathPassed']
+    operator['verificationSpec']['additionalEquations']=[]
+    operator['verificationSpec']['rightExpression']='x**2+4*x+7'
+    assert not audit(operator)['mathPassed']
+    try:exact_math({'operation':'solve_parameter','variable':'a',
+        'expression':'a+Integral(1/x,(x,-1,1))'})
+    except Pending as error:assert 'not_continuous' in str(error)
+    else:raise AssertionError('A singular integral parameter model must remain pending')
     assert finite_search({'variables':{'d':[-8,8]},'predicate':'d!=0 and -36%d==0','objective':{'kind':'sum','expression':'-36//d'}})==0
     assert finite_search({'variables':{'r':[0,5],'m':[0,4],'y':[0,3]},'predicate':'(r>0)+(m>0)+(y>0)<2','objective':{'kind':'max','expression':'r+m+y+1'}})==6
     assert exact_math({'operation':'integral','expression':'Abs(x)','lower':-2,'upper':3})==S.Rational(13,2)
@@ -716,6 +799,7 @@ def self_test():
     assert counting({'family':'permutations','parameters':{'n':6,'adjacent':[0,1]}})==240
     assert exact_math({'operation':'root_stat','expression':'x**2-7*x+12','statistic':'power_sum','power':-2})==S.Rational(25,144)
     assert rational_identity({'variables':['x','y','z'],'equations':['x+y+z'],'expression':'x/(y+z)+y/(x+z)+z/(x+y)','nonzero':['x*y*z']})==-3
+    assert rational_identity({'variables':['a','b'],'equations':['log(2**a,2)-b-1','log(9**b,3)-a-2'],'expression':'a+b','nonzero':['a','b','a-1','b-1']})==7
     assert rational_identity({'variables':['x','y'],'equations':['x+y'],'expression':'(x**3+y**3)/(x**2*y+x*y**2)','nonzero':['x*y'],'mode':'defined_indicator'})==0
     probability=copy.deepcopy(base)
     probability['id']='TEST-EXAM-BOUNDARY';probability['prompt']='5 kırmızı 4 mavi; ilk mavi bilindiğine göre ikinci kırmızı olasılığı?'

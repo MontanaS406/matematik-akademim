@@ -2,21 +2,21 @@
   "schemaVersion": 1,
   "scope": "read_evidence_metadata_only_no_original_bodies",
   "summary": {
-    "pdfCount": 95,
-    "pageCount": 1256,
-    "sourceCount": 8,
-    "privateQuestionCount": 82,
-    "privateVerifiedQuestions": 70,
+    "pdfCount": 220,
+    "pageCount": 3022,
+    "sourceCount": 13,
+    "privateQuestionCount": 104,
+    "privateVerifiedQuestions": 92,
     "privatePendingQuestions": 12,
-    "privateMathematicsPassed": 71,
+    "privateMathematicsPassed": 93,
     "publishableQuestions": 0,
     "permissionStatus": "unverified",
     "hasAytExamBooklets": false,
     "verifiedByExam": {
-      "TYT": 54,
-      "AYT": 16
+      "TYT": 56,
+      "AYT": 36
     },
-    "classificationNote": "AYT tags describe preparation-level skills in ORTAK source pages, not an official AYT paper."
+    "classificationNote": "AYT tags describe preparation-level skills in shared-source pages or AYT topic tests, not official AYT exam papers."
   },
   "evidence": [
     {
@@ -465,6 +465,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 3,
+        "questionNumber": 11,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "generationSkills": [
         "inverse_affine"
       ]
@@ -491,6 +497,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 3,
+        "questionNumber": 12,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "generationSkills": [
         "rational_inverse"
       ]
@@ -517,6 +529,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 3,
+        "questionNumber": 13,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "generationSkills": [
         "functional_coefficients"
       ]
@@ -543,6 +561,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 4,
+        "questionNumber": 14,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "generationSkills": [
         "inverse_composition"
       ]
@@ -569,6 +593,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 4,
+        "questionNumber": 15,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "generationSkills": [
         "inverse_function_relations"
       ]
@@ -595,6 +625,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 5,
+        "questionNumber": 17,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "generationSkills": [
         "domain_range"
       ]
@@ -621,6 +657,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 5,
+        "questionNumber": 8,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "generationSkills": [
         "inverse_shift_parameter"
       ]
@@ -647,6 +689,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 5,
+        "questionNumber": 19,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "generationSkills": [
         "involution_iterates"
       ]
@@ -673,6 +721,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 7,
+        "questionNumber": 23,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "generationSkills": [
         "restricted_inverse"
       ]
@@ -699,6 +753,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 8,
+        "questionNumber": 25,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "generationSkills": [
         "inverse_counterexamples"
       ]
@@ -725,6 +785,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 8,
+        "questionNumber": 26,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "generationSkills": [
         "inverse_expression"
       ]
@@ -752,10 +818,10 @@
       "isActualExamQuestion": true,
       "isOfficialExamQuestion": false,
       "answerEvidence": {
-        "sourceDocumentId": "pdf-c50d107219dd2304",
         "sha256": "c50d107219dd2304fb9b76038eeb7b7a36af7f16039c8a570e18676f79c48deb",
         "physicalPage": 1,
-        "questionNumber": 1
+        "questionNumber": 1,
+        "sourceDocumentId": "pdf-c50d107219dd2304"
       },
       "generationSkills": []
     },
@@ -1742,6 +1808,670 @@
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
       "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-947e47592d94-P001-Q01",
+      "sourceQuestionId": "ORIG-947e47592d94-P001-Q01",
+      "sourceDocumentId": "pdf-947e47592d94b2ec",
+      "sha256": "947e47592d94b2ec90b1a4612ba0560459778fd699cb229b6d0596b0a1864c05",
+      "physicalPage": 1,
+      "originalPdfPage": 81,
+      "printedPage": 81,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 1,
+      "examType": "TYT",
+      "courseId": "geometry",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "d7994e67581c35a81afebd385ea05ce156d8c0e8fb9fa7cacbaf8a74d888d9ed",
+      "pageTextSha256": "38029098ce5807ddb8cf9e5dac14931198c9fca7ead96e9972ee68100c5db7e4",
+      "pageRasterSha256": "a4ed129a92e69bfac2c3c6e2899a372e652ce2b8d46addb79c59d9e1f7a6f717",
+      "classificationBasis": "TYT preparation source question",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "947e47592d94b2ec90b1a4612ba0560459778fd699cb229b6d0596b0a1864c05",
+        "physicalPage": 2,
+        "questionNumber": 1,
+        "sourceDocumentId": "pdf-947e47592d94b2ec"
+      },
+      "generationSkills": [
+        "triangle_altitude_area"
+      ]
+    },
+    {
+      "id": "read-ORIG-947e47592d94-P002-Q07",
+      "sourceQuestionId": "ORIG-947e47592d94-P002-Q07",
+      "sourceDocumentId": "pdf-947e47592d94b2ec",
+      "sha256": "947e47592d94b2ec90b1a4612ba0560459778fd699cb229b6d0596b0a1864c05",
+      "physicalPage": 2,
+      "originalPdfPage": 82,
+      "printedPage": 82,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 7,
+      "examType": "TYT",
+      "courseId": "geometry",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "3ae0a3c4eec07953630777735ef52cb596a73a21da48c7296fafbbd7984667ee",
+      "pageTextSha256": "38029098ce5807ddb8cf9e5dac14931198c9fca7ead96e9972ee68100c5db7e4",
+      "pageRasterSha256": "012904c3c99ef4954a09a86b8cb1052710c384cb2eb7cbd4c078105bb12f9b86",
+      "classificationBasis": "TYT preparation source question",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "947e47592d94b2ec90b1a4612ba0560459778fd699cb229b6d0596b0a1864c05",
+        "physicalPage": 2,
+        "questionNumber": 7,
+        "sourceDocumentId": "pdf-947e47592d94b2ec"
+      },
+      "generationSkills": [
+        "partitioned_polygon_area"
+      ]
+    },
+    {
+      "id": "read-ORIG-1fda1064551b-P001-Q01",
+      "sourceQuestionId": "ORIG-1fda1064551b-P001-Q01",
+      "sourceDocumentId": "pdf-1fda1064551bd00f",
+      "sha256": "1fda1064551bd00f6b594de2b97b5ad4ab1de33d8543436c932317a9a9cc0e6f",
+      "physicalPage": 1,
+      "originalPdfPage": 269,
+      "printedPage": 269,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 1,
+      "examType": "AYT",
+      "courseId": "limits",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "661dcc6c582c55219b4b5a1053c9ba2f0b6b4dfbf78607cdfbb8be5127fb65d3",
+      "pageTextSha256": "47144c6217c4f55e550a86893da93fdfc8924e5963472cfae02a3136fc6232b5",
+      "pageRasterSha256": "6a3449fc0ee7d10a0226dda676df214be10b812e0dd29e8962773ec0565cd6d2",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 1,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-1fda1064551b-P001-Q02",
+      "sourceQuestionId": "ORIG-1fda1064551b-P001-Q02",
+      "sourceDocumentId": "pdf-1fda1064551bd00f",
+      "sha256": "1fda1064551bd00f6b594de2b97b5ad4ab1de33d8543436c932317a9a9cc0e6f",
+      "physicalPage": 1,
+      "originalPdfPage": 269,
+      "printedPage": 269,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 2,
+      "examType": "AYT",
+      "courseId": "limits",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "3a84c23ef2977907f010d88aa5b916d5655af31fddf161de8650e6a9f608167b",
+      "pageTextSha256": "47144c6217c4f55e550a86893da93fdfc8924e5963472cfae02a3136fc6232b5",
+      "pageRasterSha256": "6a3449fc0ee7d10a0226dda676df214be10b812e0dd29e8962773ec0565cd6d2",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 2,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-1fda1064551b-P001-Q03",
+      "sourceQuestionId": "ORIG-1fda1064551b-P001-Q03",
+      "sourceDocumentId": "pdf-1fda1064551bd00f",
+      "sha256": "1fda1064551bd00f6b594de2b97b5ad4ab1de33d8543436c932317a9a9cc0e6f",
+      "physicalPage": 1,
+      "originalPdfPage": 269,
+      "printedPage": 269,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 3,
+      "examType": "AYT",
+      "courseId": "limits",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "a1e1b1d0100225a1238d330a741199af8f9f4ab22fc28083a03f581902929178",
+      "pageTextSha256": "47144c6217c4f55e550a86893da93fdfc8924e5963472cfae02a3136fc6232b5",
+      "pageRasterSha256": "6a3449fc0ee7d10a0226dda676df214be10b812e0dd29e8962773ec0565cd6d2",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 3,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-1fda1064551b-P001-Q04",
+      "sourceQuestionId": "ORIG-1fda1064551b-P001-Q04",
+      "sourceDocumentId": "pdf-1fda1064551bd00f",
+      "sha256": "1fda1064551bd00f6b594de2b97b5ad4ab1de33d8543436c932317a9a9cc0e6f",
+      "physicalPage": 1,
+      "originalPdfPage": 269,
+      "printedPage": 269,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 4,
+      "examType": "AYT",
+      "courseId": "limits",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "d8417e69116ed690e46487488c8fcfa2be47ea72fba05c79c5c74f6be1ce39db",
+      "pageTextSha256": "47144c6217c4f55e550a86893da93fdfc8924e5963472cfae02a3136fc6232b5",
+      "pageRasterSha256": "6a3449fc0ee7d10a0226dda676df214be10b812e0dd29e8962773ec0565cd6d2",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 4,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-d7f29d828181-P001-Q01",
+      "sourceQuestionId": "ORIG-d7f29d828181-P001-Q01",
+      "sourceDocumentId": "pdf-d7f29d828181b829",
+      "sha256": "d7f29d828181b829523a920153476d4e9343f89fe5191ce6c670e31d26cf4424",
+      "physicalPage": 1,
+      "originalPdfPage": 281,
+      "printedPage": 281,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 1,
+      "examType": "AYT",
+      "courseId": "derivative",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "1fc867f41a0a2932aaa0edfe88836993025d414116e14a170faba5832366a1a0",
+      "pageTextSha256": "b1e87ef9336244d81029fa110c1042a3f93c90e7a415d9737b5b1664743dd1d2",
+      "pageRasterSha256": "9eb1fada9b830289f9e0071bd456eb7a77cde28f6353066a41a4afe9c8e57039",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 1,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-d7f29d828181-P001-Q02",
+      "sourceQuestionId": "ORIG-d7f29d828181-P001-Q02",
+      "sourceDocumentId": "pdf-d7f29d828181b829",
+      "sha256": "d7f29d828181b829523a920153476d4e9343f89fe5191ce6c670e31d26cf4424",
+      "physicalPage": 1,
+      "originalPdfPage": 281,
+      "printedPage": 281,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 2,
+      "examType": "AYT",
+      "courseId": "derivative",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "513a9d6ef555361cb3883a814a03f4dea683f2d86472987e87376a8c01d61daa",
+      "pageTextSha256": "b1e87ef9336244d81029fa110c1042a3f93c90e7a415d9737b5b1664743dd1d2",
+      "pageRasterSha256": "9eb1fada9b830289f9e0071bd456eb7a77cde28f6353066a41a4afe9c8e57039",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 2,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-d7f29d828181-P001-Q03",
+      "sourceQuestionId": "ORIG-d7f29d828181-P001-Q03",
+      "sourceDocumentId": "pdf-d7f29d828181b829",
+      "sha256": "d7f29d828181b829523a920153476d4e9343f89fe5191ce6c670e31d26cf4424",
+      "physicalPage": 1,
+      "originalPdfPage": 281,
+      "printedPage": 281,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 3,
+      "examType": "AYT",
+      "courseId": "derivative",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "ec6fd8d31812597912ba00f94ab698916c3749f3b968b6a32a0c1edaffef0765",
+      "pageTextSha256": "b1e87ef9336244d81029fa110c1042a3f93c90e7a415d9737b5b1664743dd1d2",
+      "pageRasterSha256": "9eb1fada9b830289f9e0071bd456eb7a77cde28f6353066a41a4afe9c8e57039",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 3,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-d7f29d828181-P001-Q04",
+      "sourceQuestionId": "ORIG-d7f29d828181-P001-Q04",
+      "sourceDocumentId": "pdf-d7f29d828181b829",
+      "sha256": "d7f29d828181b829523a920153476d4e9343f89fe5191ce6c670e31d26cf4424",
+      "physicalPage": 1,
+      "originalPdfPage": 281,
+      "printedPage": 281,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 4,
+      "examType": "AYT",
+      "courseId": "derivative",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "1acb83227d87db09180f98f488ae5e35de2fa6162ba770160b6e785b5411462c",
+      "pageTextSha256": "b1e87ef9336244d81029fa110c1042a3f93c90e7a415d9737b5b1664743dd1d2",
+      "pageRasterSha256": "9eb1fada9b830289f9e0071bd456eb7a77cde28f6353066a41a4afe9c8e57039",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 4,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-214b2c524989-P001-Q01",
+      "sourceQuestionId": "ORIG-214b2c524989-P001-Q01",
+      "sourceDocumentId": "pdf-214b2c524989bb66",
+      "sha256": "214b2c524989bb66cf7a18b563adcb3db7a800233e3a332c53054a91ab1c23af",
+      "physicalPage": 1,
+      "originalPdfPage": 305,
+      "printedPage": 305,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 1,
+      "examType": "AYT",
+      "courseId": "integral",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "b306c4d1d27ac4739ff697cc5fe5032eaece88e2ec498839fa9add68aab78aae",
+      "pageTextSha256": "7ea1333ee275a2a70c03d08c703d8e21e642805bba5b3e7ca980e39581f53b46",
+      "pageRasterSha256": "1e533654c90a9ea10ae4e349dea52f4d86ded21e07f029cb447d3205bba910d3",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 1,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-214b2c524989-P001-Q02",
+      "sourceQuestionId": "ORIG-214b2c524989-P001-Q02",
+      "sourceDocumentId": "pdf-214b2c524989bb66",
+      "sha256": "214b2c524989bb66cf7a18b563adcb3db7a800233e3a332c53054a91ab1c23af",
+      "physicalPage": 1,
+      "originalPdfPage": 305,
+      "printedPage": 305,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 2,
+      "examType": "AYT",
+      "courseId": "integral",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "9e8ce339f9a094466bbf5af962f95887183d56979af41d0b89ac78edacd7b5cc",
+      "pageTextSha256": "7ea1333ee275a2a70c03d08c703d8e21e642805bba5b3e7ca980e39581f53b46",
+      "pageRasterSha256": "1e533654c90a9ea10ae4e349dea52f4d86ded21e07f029cb447d3205bba910d3",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 2,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-214b2c524989-P001-Q03",
+      "sourceQuestionId": "ORIG-214b2c524989-P001-Q03",
+      "sourceDocumentId": "pdf-214b2c524989bb66",
+      "sha256": "214b2c524989bb66cf7a18b563adcb3db7a800233e3a332c53054a91ab1c23af",
+      "physicalPage": 1,
+      "originalPdfPage": 305,
+      "printedPage": 305,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 3,
+      "examType": "AYT",
+      "courseId": "integral",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "6e857ae3d3474d61a2a720aecb759eda1a215cfd06d156fd092386c2ed44ecb7",
+      "pageTextSha256": "7ea1333ee275a2a70c03d08c703d8e21e642805bba5b3e7ca980e39581f53b46",
+      "pageRasterSha256": "1e533654c90a9ea10ae4e349dea52f4d86ded21e07f029cb447d3205bba910d3",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 3,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-214b2c524989-P001-Q04",
+      "sourceQuestionId": "ORIG-214b2c524989-P001-Q04",
+      "sourceDocumentId": "pdf-214b2c524989bb66",
+      "sha256": "214b2c524989bb66cf7a18b563adcb3db7a800233e3a332c53054a91ab1c23af",
+      "physicalPage": 1,
+      "originalPdfPage": 305,
+      "printedPage": 305,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 4,
+      "examType": "AYT",
+      "courseId": "integral",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "84ef9330cecee8895dab47c130d659f8fa9a243bad116b63a93871ecaf8497df",
+      "pageTextSha256": "7ea1333ee275a2a70c03d08c703d8e21e642805bba5b3e7ca980e39581f53b46",
+      "pageRasterSha256": "1e533654c90a9ea10ae4e349dea52f4d86ded21e07f029cb447d3205bba910d3",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 4,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-53bc4bf33464-P001-Q01",
+      "sourceQuestionId": "ORIG-53bc4bf33464-P001-Q01",
+      "sourceDocumentId": "pdf-53bc4bf334649064",
+      "sha256": "53bc4bf3346490648bf8956466e58b80168f53e675629dad0b8142b1f6314e1b",
+      "physicalPage": 1,
+      "originalPdfPage": 261,
+      "printedPage": 261,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 1,
+      "examType": "AYT",
+      "courseId": "sequences",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "cb81e2d352dbfcbc3f67f8477e5f0358827fdef1c269b6493f69ec2bfa96a3d8",
+      "pageTextSha256": "437fcdcb604344baff81e4991d0e69dfd223ee8ddc5b02cd9d14a1cf7fe7dbf1",
+      "pageRasterSha256": "6c128d5ed1d144e3e4907e8bc68af4a667d2a362191d561cd3f0111ad4473569",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 1,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-53bc4bf33464-P001-Q02",
+      "sourceQuestionId": "ORIG-53bc4bf33464-P001-Q02",
+      "sourceDocumentId": "pdf-53bc4bf334649064",
+      "sha256": "53bc4bf3346490648bf8956466e58b80168f53e675629dad0b8142b1f6314e1b",
+      "physicalPage": 1,
+      "originalPdfPage": 261,
+      "printedPage": 261,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 2,
+      "examType": "AYT",
+      "courseId": "sequences",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "26e714aa4f98623548a3cdab7f12bb2cefd94335959f02817c665372112a983f",
+      "pageTextSha256": "437fcdcb604344baff81e4991d0e69dfd223ee8ddc5b02cd9d14a1cf7fe7dbf1",
+      "pageRasterSha256": "6c128d5ed1d144e3e4907e8bc68af4a667d2a362191d561cd3f0111ad4473569",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 2,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-53bc4bf33464-P001-Q03",
+      "sourceQuestionId": "ORIG-53bc4bf33464-P001-Q03",
+      "sourceDocumentId": "pdf-53bc4bf334649064",
+      "sha256": "53bc4bf3346490648bf8956466e58b80168f53e675629dad0b8142b1f6314e1b",
+      "physicalPage": 1,
+      "originalPdfPage": 261,
+      "printedPage": 261,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 3,
+      "examType": "AYT",
+      "courseId": "sequences",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "3aa584c892c15ae8585e87fcb402cf7b1e678dc34bd1b41edb91999b0b8b5e53",
+      "pageTextSha256": "437fcdcb604344baff81e4991d0e69dfd223ee8ddc5b02cd9d14a1cf7fe7dbf1",
+      "pageRasterSha256": "6c128d5ed1d144e3e4907e8bc68af4a667d2a362191d561cd3f0111ad4473569",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 3,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-53bc4bf33464-P001-Q04",
+      "sourceQuestionId": "ORIG-53bc4bf33464-P001-Q04",
+      "sourceDocumentId": "pdf-53bc4bf334649064",
+      "sha256": "53bc4bf3346490648bf8956466e58b80168f53e675629dad0b8142b1f6314e1b",
+      "physicalPage": 1,
+      "originalPdfPage": 261,
+      "printedPage": 261,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 4,
+      "examType": "AYT",
+      "courseId": "sequences",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "850f3139dc6862ce51010aaf1221878ea69b5df8bb3c7105e10e9f5a7e859548",
+      "pageTextSha256": "437fcdcb604344baff81e4991d0e69dfd223ee8ddc5b02cd9d14a1cf7fe7dbf1",
+      "pageRasterSha256": "6c128d5ed1d144e3e4907e8bc68af4a667d2a362191d561cd3f0111ad4473569",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 5,
+        "questionNumber": 4,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-8acb0d08e272-P001-Q01",
+      "sourceQuestionId": "ORIG-8acb0d08e272-P001-Q01",
+      "sourceDocumentId": "pdf-8acb0d08e272e2cb",
+      "sha256": "8acb0d08e272e2cb0232aba6c685976cc22b41c22af8a613eb1c8b8ac77e8d6e",
+      "physicalPage": 1,
+      "originalPdfPage": 249,
+      "printedPage": 249,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 1,
+      "examType": "AYT",
+      "courseId": "logarithms",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "98dbb7cd13d5444a6343932ea1202e379d6cc97f462c0948e4b41fc66ac2e9ae",
+      "pageTextSha256": "8424e7280fba742fe4c17f1fc53e0683dfa23db1d31bd1862e6cf41d0e396289",
+      "pageRasterSha256": "dfb122157b8d2137d8c30697be17d8ee537f3fe54438689887b802cccb31bf32",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 4,
+        "questionNumber": 1,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-8acb0d08e272-P001-Q02",
+      "sourceQuestionId": "ORIG-8acb0d08e272-P001-Q02",
+      "sourceDocumentId": "pdf-8acb0d08e272e2cb",
+      "sha256": "8acb0d08e272e2cb0232aba6c685976cc22b41c22af8a613eb1c8b8ac77e8d6e",
+      "physicalPage": 1,
+      "originalPdfPage": 249,
+      "printedPage": 249,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 2,
+      "examType": "AYT",
+      "courseId": "logarithms",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "262189b1b55ec4b602166d3d7347706ef5de5cd233a9228468beace91c6ec320",
+      "pageTextSha256": "8424e7280fba742fe4c17f1fc53e0683dfa23db1d31bd1862e6cf41d0e396289",
+      "pageRasterSha256": "dfb122157b8d2137d8c30697be17d8ee537f3fe54438689887b802cccb31bf32",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 4,
+        "questionNumber": 2,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-8acb0d08e272-P001-Q03",
+      "sourceQuestionId": "ORIG-8acb0d08e272-P001-Q03",
+      "sourceDocumentId": "pdf-8acb0d08e272e2cb",
+      "sha256": "8acb0d08e272e2cb0232aba6c685976cc22b41c22af8a613eb1c8b8ac77e8d6e",
+      "physicalPage": 1,
+      "originalPdfPage": 249,
+      "printedPage": 249,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 3,
+      "examType": "AYT",
+      "courseId": "logarithms",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "904cb9a5bc6802555e79e78e578e1d7a7acdf909f4d2178e7c25fa4a97e13b60",
+      "pageTextSha256": "8424e7280fba742fe4c17f1fc53e0683dfa23db1d31bd1862e6cf41d0e396289",
+      "pageRasterSha256": "dfb122157b8d2137d8c30697be17d8ee537f3fe54438689887b802cccb31bf32",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 4,
+        "questionNumber": 3,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
+    },
+    {
+      "id": "read-ORIG-8acb0d08e272-P001-Q04",
+      "sourceQuestionId": "ORIG-8acb0d08e272-P001-Q04",
+      "sourceDocumentId": "pdf-8acb0d08e272e2cb",
+      "sha256": "8acb0d08e272e2cb0232aba6c685976cc22b41c22af8a613eb1c8b8ac77e8d6e",
+      "physicalPage": 1,
+      "originalPdfPage": 249,
+      "printedPage": 249,
+      "originalPdfPageBasis": "provided_filename_range_not_full_book_verified",
+      "questionNumber": 4,
+      "examType": "AYT",
+      "courseId": "logarithms",
+      "origin": "ORIJINAL",
+      "publishable": false,
+      "readStatus": "read",
+      "answerStatus": "verified",
+      "questionContentSha256": "703b71133dc455bffc8ba28ea2c81f9e5322b5327dddff463585ab1275015461",
+      "pageTextSha256": "8424e7280fba742fe4c17f1fc53e0683dfa23db1d31bd1862e6cf41d0e396289",
+      "pageRasterSha256": "dfb122157b8d2137d8c30697be17d8ee537f3fe54438689887b802cccb31bf32",
+      "classificationBasis": "AYT preparation topic test; not an actual AYT exam",
+      "isActualExamQuestion": false,
+      "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "00fe320da92b77644a18556a129c5ce2a3b71fbbb15cd4136830ba55d84d30ab",
+        "physicalPage": 4,
+        "questionNumber": 4,
+        "sourceDocumentId": "pdf-00fe320da92b7764"
+      },
+      "generationSkills": []
     }
   ],
   "reviewQueue": [
@@ -1846,6 +2576,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 4,
+        "questionNumber": 16,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "reviewReasons": [
         "source_codomain_contradicts_function_image"
       ]
@@ -1872,6 +2608,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 6,
+        "questionNumber": 21,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "reviewReasons": [
         "graph_preimage_not_uniquely_determined_by_labels"
       ]
@@ -1898,6 +2640,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 7,
+        "questionNumber": 22,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "reviewReasons": [
         "source_graph_not_injective_inverse_domain_unspecified"
       ]
@@ -1924,6 +2672,12 @@
       "classificationBasis": "AYT preparation level in a shared-source book; not an actual AYT exam",
       "isActualExamQuestion": false,
       "isOfficialExamQuestion": false,
+      "answerEvidence": {
+        "sha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+        "physicalPage": 8,
+        "questionNumber": 24,
+        "sourceDocumentId": "pdf-9317e24dc024e0fb"
+      },
       "reviewReasons": [
         "requested_input_outside_determined_image",
         "g_surjectivity_not_given",
