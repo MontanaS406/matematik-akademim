@@ -1,6 +1,6 @@
 import {EXAM_YEARS, normalizeFlags, normalizeTopics} from '../shared/exam-model.js';
-import {QUESTION_BANK} from '../data/question-bank.js?v=issue11-20261114';
-import {AI_BANK} from '../data/ai-bank.js?v=issue11-20261114';
+import {QUESTION_BANK} from '../data/question-bank.js?v=issue11-20261115';
+import {AI_BANK} from '../data/ai-bank.js?v=issue11-20261115';
 import {createAiRegistry} from '../shared/ai-bank.js';
 import {normalizeState} from '../shared/learning-state.js';
 
@@ -25,6 +25,7 @@ let loginBusy = false;
 let refreshTask = null;
 let syncingEpoch = null;
 let showAll = false;
+let showAllPracticeHistory = false;
 
 const nav = document.querySelector('.nav');
 const tab = document.createElement('button');
@@ -52,6 +53,7 @@ function loadRecords(key) {
   if (!Array.isArray(retainedRows)) retainedRows = [];
   records = retainedRows.filter(validRecord).map(record => ({...record, verified: false}));
   showAll = false;
+  showAllPracticeHistory = false;
 }
 function saveRecords() {
   try {
@@ -79,11 +81,13 @@ function renderProgress() {
   try { state = normalizeState(JSON.parse(localStorage.getItem('ma_learning_v1_' + (auth?.user.id || 'guest')) || 'null')); }
   catch { state = normalizeState(null); }
   const attempts = state.attempts.filter(attempt => reviewedIds.has(attempt.exerciseId));
-  const solved = new Set(attempts.map(attempt => attempt.exerciseId)).size;
-  const correct = attempts.filter(attempt => attempt.correct).length;
+  const practiceAttempts = window.MAPracticeExams?.getSummary() || [];
+  const solved = new Set([...attempts.map(attempt => attempt.exerciseId), ...practiceAttempts.flatMap(attempt => attempt.answeredQuestionIds)]).size;
+  const correct = attempts.filter(attempt => attempt.correct).length + practiceAttempts.reduce((sum,attempt) => sum+(attempt.score?.correct || 0),0);
   const target = el('progressSummary');
   if (!target) return;
-  target.innerHTML = `<div class="stat-grid"><div class="stat-card"><strong>${solved}</strong><span>Çözülen soru</span></div><div class="stat-card"><strong>${correct}</strong><span>Doğru yanıt</span></div><div class="stat-card"><strong>${records.length}</strong><span>Deneme kaydı</span></div></div>`;
+  const practiceCount = practiceAttempts.length;
+  target.innerHTML = `<div class="stat-grid"><div class="stat-card"><strong>${solved}</strong><span>Çözülen soru</span></div><div class="stat-card"><strong>${correct}</strong><span>Doğru yanıt</span></div><div class="stat-card"><strong>${records.length + practiceCount}</strong><span>Deneme kaydı</span></div></div>`;
 }
 function renderHistory() {
   const target = el('history');
@@ -132,10 +136,38 @@ function renderHistory() {
       target.append(more);
     }
   }
+  renderPracticeHistory();
   renderProgress();
 }
+function renderPracticeHistory() {
+  const target = el('practiceExamHistory');
+  if (!target) return;
+  target.replaceChildren();
+  const attempts = (window.MAPracticeExams?.getSummary() || []).sort((a,b) => b.completedAt-a.completedAt);
+  target.hidden = !attempts.length;
+  if (!attempts.length) return;
+  const title = document.createElement('h2');
+  title.textContent = 'AI deneme geçmişi'; target.append(title);
+  for (const attempt of showAllPracticeHistory ? attempts : attempts.slice(0,5)) {
+    const row = document.createElement('article'); row.className = 'history-row';
+    const name = document.createElement('div'), label = document.createElement('strong'), meta = document.createElement('span');
+    label.textContent = attempt.type+' · '+attempt.number+'. Deneme';
+    meta.className = 'muted'; meta.textContent = new Date(attempt.completedAt).toLocaleDateString('tr-TR')+' · '+duration(attempt.duration);
+    name.append(label, meta);
+    const score = document.createElement('strong'); score.className = 'history-score';
+    score.textContent = attempt.score ? attempt.score.net.toFixed(2)+' alıştırma neti' : 'Puanlanmadı';
+    const button = document.createElement('button'); button.className = 'smallbtn'; button.textContent = 'Sonucu gör';
+    button.dataset.practiceResultId = attempt.id;
+    button.onclick = () => window.MAPracticeExams?.openResult(attempt.id);
+    row.append(name,score,button); target.append(row);
+  }
+  if (!showAllPracticeHistory && attempts.length > 5) {
+    const button = document.createElement('button'); button.className = 'smallbtn'; button.textContent = 'Tümünü gör';
+    button.onclick = () => { showAllPracticeHistory = true; renderPracticeHistory(); }; target.append(button);
+  }
+}
 function shell() {
-  section.innerHTML = `<div class="page-heading"><h1>İlerlemen</h1></div><div id="progressSummary"></div><section class="card progress-history"><div class="section-heading"><h2>Geçmiş çalışmalar</h2><span id="recordCount" class="muted"></span></div><div id="history"></div></section><details id="accountPanel" class="card account-panel"><summary>Hesabım</summary><div id="account"></div></details>`;
+  section.innerHTML = `<div class="page-heading"><h1>İlerlemen</h1></div><div id="progressSummary"></div><section class="card progress-history"><div class="section-heading"><h2>Geçmiş çalışmalar</h2><span id="recordCount" class="muted"></span></div><div id="history"></div></section><section id="practiceExamHistory" class="card progress-history" hidden></section><details id="accountPanel" class="card account-panel"><summary>Hesabım</summary><div id="account"></div></details>`;
   renderAccount();
   renderHistory();
 }
@@ -345,3 +377,4 @@ function openProgress() {
 nav.querySelectorAll('button').forEach(button => button.addEventListener('click',() => { if (button !== tab) section.classList.add('hide'); }));
 tab.onclick = openProgress;
 window.addEventListener('ma-learning-changed',renderProgress);
+window.addEventListener('ma-practice-exams-changed',renderHistory);

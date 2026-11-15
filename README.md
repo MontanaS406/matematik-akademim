@@ -7,13 +7,13 @@ Türkçe konu anlatımları, altı öğretmen, kullanıcı hesabı ve gece mavis
 
 - **AI alıştırmaları:** Önceki arşiv, AI → AI ve gerçekten okunan özgün kaynaktan
   bağımsız hazırlanan Orijinal → AI kayıtları ayrı köken alanları taşır. Önceden
-  kullanılabilir olan **1.408 kayıt aynen korunur**; bu dalda **149 yeni uygun
-  soru** ile toplam **1.557** kullanılabilir alıştırma vardır. Konu,
+  kullanılabilir olan **1.408 kayıt aynen korunur**; önceki sürümlerde eklenen
+  **590 uygun soru** ile toplam **1.998** kullanılabilir alıştırma vardır. Konu,
   sınav, alt konu, seviye ve içe aktarılan/yeni havuz filtreleri bulunur. Beş
   seçenekten biri işaretlenip kontrol edildiğinde açıklamalı çözüm açılır.
-- **Orijinal sorular:** Son gönderilen 13 ZIP'in içindeki **95 gerçek PDF /
-  1.256 sayfa** açıldı. Özel çalışma bankasında 36 soru ayrıldı; 29'u kullanım
-  için doğrulandı, 7'si incelemede. Yeniden yayım izni doğrulanmadığından bu
+- **Orijinal sorular:** Önceki çalışmada yüklenen arşivlerde **220 gerçek PDF /
+  3.022 sayfa** açıldı. Özel çalışma bankasında 104 soru ayrıldı; 92'sinin
+  matematiksel kontrolü geçti, 12'si incelemede. Yeniden yayım izni doğrulanmadığından bu
   özgün metin/görseller herkese açık kataloğa konulmadı: yayımlanabilir soru
   sayısı **0**. Ekrandaki kaynak durumu bu nedeni ve gerçek okuma kanıtlarını
   gösterir. Önceki 8 kaynak/185 aralık/480 konum indeksi ayrıca korunur.
@@ -31,8 +31,24 @@ Dosya seçme/yükleme ekranı eklenmedi. Eski cihaz kitapçıkları, hesaplar,
 ilerleme ve deneme geçmişi silinmez. AI yanıtları mevcut hesap kapsamlı
 öğrenme kayıtlarına eklenir; eski veya inceleme durumundaki kimliklerin
 geçmiş kayıtları tutulur. Üretim Supabase şeması/verisi değiştirilmez. Geliştirme
-ayrı dal ve PR üzerinden yürütülür. Issue #11 geliştirmesi incelemeye sunulur;
-birleştirme ve yayın için bu görevde otomatik işlem yapılmaz.
+ayrı dal ve PR üzerinden yürütülür. PR #12'deki soru entegrasyonu korunur;
+bu değişiklikte birleştirme ve yayın için otomatik işlem yapılmaz.
+
+## Konu dağılımına göre denemeler
+
+**Soru Çöz → Denemeler** ekranında 2025 konu tablosuna göre numaralı AI
+alıştırma denemeleri seçilir: **140 TYT (30 matematik sorusu)** ve
+**81 AYT (24/40 soruluk kısmi çalışma)**. AYT'de eksik olan 7 matematik ve
+9 geometri sorusu başka konularla doldurulmaz. Bunlar resmî ÖSYM sınavı değildir.
+
+Tamamlanan denemede ✓ görünür. **Bir daha çöz** yeni cevap kâğıdı açar,
+eski sonucu korur. Optik işaretleme, kronometre, duraklatma/devam, ara kayıt,
+çözümler ve İlerleme bölümünde sonuç geçmişi bulunur. Yeni kayıtlar bu
+tarayıcıda misafir ve hesap alanlarında ayrı tutulur; cihazlar arasında eşitlenmez.
+
+1.943 farklı soru dağılıma göre kullanılır; az bulunan konular farklı
+denemelerde tekrar edebilir. Kalan 55 soru tekli çözümde korunur. Yeni soru
+üretilmez. Ayrıntılar ve sınırlar: [Deneme raporu](docs/DENEMELER_RAPORU.md).
 
 ## Veri ve yeniden üretilebilir denetim
 
