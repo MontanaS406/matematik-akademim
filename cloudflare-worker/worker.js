@@ -1,4 +1,4 @@
-import {buildTeacherInstructions, resolveTeacherOptions} from '../shared/teachers.js';
+import {buildTeacherInstructions, resolveTeacherOptions, TEACHERS, TEACHER_PERSONA_VERSION} from '../shared/teachers.js';
 import {getPublishedQuestionById} from '../shared/question-bank.js';
 import {QUESTION_BANK} from '../data/question-bank.js';
 import {getCourse} from '../shared/curriculum.js';
@@ -63,7 +63,7 @@ export function createTutorWorker({questionBank = QUESTION_BANK} = {}) {
     if (request.headers.get('Origin') && !h['Access-Control-Allow-Origin']) return json({error: 'Bu siteye erişim izni verilmedi.'}, 403, h);
     if (request.method === 'OPTIONS') return new Response(null, {status: 204, headers: h});
     const url = new URL(request.url);
-    if (url.pathname === '/health' && request.method === 'GET') return json({ok: true, configured: !!(env.OPENAI_API_KEY && env.APP_ACCESS_TOKEN)}, 200, h);
+    if (url.pathname === '/health' && request.method === 'GET') return json({ok: true, configured: !!(env.OPENAI_API_KEY && env.APP_ACCESS_TOKEN), teacherIds:TEACHERS.map(teacher=>teacher.id),personaVersion:TEACHER_PERSONA_VERSION}, 200, h);
     if (url.pathname !== '/api/tutor' || request.method !== 'POST') return json({error: 'Bulunamadı'}, 404, h);
     if (!env.OPENAI_API_KEY || !env.APP_ACCESS_TOKEN) return json({error: 'Sunucu henüz yapılandırılmadı.'}, 503, h);
     if (request.headers.get('Authorization') !== `Bearer ${env.APP_ACCESS_TOKEN}`) return json({error: 'Erişim kodu hatalı.'}, 401, h);
@@ -135,8 +135,9 @@ export function createTutorWorker({questionBank = QUESTION_BANK} = {}) {
       if (!r.ok) return json({error: r.status === 429 ? 'AI kullanım limiti doldu.' : 'AI servisi yanıt vermedi.'}, r.status === 429 ? 429 : 502, h);
       const answer = explanationFrom(await r.json(), bindingField, bindingId);
       if (!answer) return json({error: lesson ? 'AI yanıtı seçili konu anlatımı kurallarına uymadı. Yeni soru veya örnek gösterilmedi.' : 'AI yanıtı kaynak sorusuna bağlı açıklama kurallarına uymadı. Yeni soru gösterilmedi.', code: 'UNSAFE_EXPLANATION_REJECTED'}, 502, h);
-      if (lesson) return json({answer: 'AI konu anlatımı — resmî çözüm değildir.\n' + answer, mode: 'lesson', courseId: lesson.id, isOfficialSolution: false}, 200, h);
-      return json({answer: 'AI açıklaması — resmî çözüm değildir.\n' + answer, ...responseMetadata(question)}, 200, h);
+      const persona={teacherId:teacher.teacherId,personaVersion:TEACHER_PERSONA_VERSION};
+      if (lesson) return json({answer: 'AI konu anlatımı — resmî çözüm değildir.\n' + answer, mode: 'lesson', courseId: lesson.id, isOfficialSolution: false,...persona}, 200, h);
+      return json({answer: 'AI açıklaması — resmî çözüm değildir.\n' + answer, ...responseMetadata(question),...persona}, 200, h);
     } catch { return json({error: 'AI servisine bağlanılamadı. Tekrar dene.'}, 502, h); }
   }};
 }

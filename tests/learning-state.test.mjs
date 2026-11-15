@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {normalizeState, mergeLearningStates, progressFromAttempts} from '../shared/learning-state.js';
+import {TEACHERS} from '../shared/teachers.js';
 const at = '2026-11-07T01:00:00.000Z';
 const outcome = (id, correct=true, extra={}) => ({id, courseId:'fractions', exerciseId:'fractions-easy', correct, difficulty:'easy', at, ...extra});
 test('profile normalization whitelists learning data and discards secrets/consent',()=>{
@@ -36,4 +37,16 @@ test('unsafe identifiers do not poison progress records',()=>{
   const state=normalizeState({teacherId:'<script>',courseId:'__proto__',attempts:[outcome('bad',true,{courseId:'__proto__'}),outcome('constructor',true,{courseId:'constructor'})]});
   assert.equal(state.teacherId,'elif');assert.equal(state.courseId,null);
   const progress=progressFromAttempts(state);assert.equal(Object.getPrototypeOf(progress),null);assert.deepEqual(progress.constructor,{correct:1,total:1});
+});
+test('all ten teacher choices survive account merges without losing old outcomes or persisting adult consent',()=>{
+  const old={teacherId:'beyza',preferencesAt:at,attempts:[outcome('previous-result',false)]};
+  for(const teacher of TEACHERS){
+    const current={teacherId:teacher.id,preferencesAt:'2026-11-16T00:00:00.000Z',attempts:[outcome('new-result')],adultConfirmed:true,profanityConsent:true};
+    const merged=mergeLearningStates(old,current);
+    assert.equal(merged.teacherId,teacher.id);
+    assert.deepEqual(new Set(merged.attempts.map(a=>a.id)),new Set(['previous-result','new-result']));
+    assert.equal(merged.attempts.find(a=>a.id==='previous-result').correct,false);
+    assert.equal(normalizeState(JSON.parse(JSON.stringify(merged))).teacherId,teacher.id);
+    assert.doesNotMatch(JSON.stringify(merged),/adultConfirmed|profanityConsent/);
+  }
 });

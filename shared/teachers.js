@@ -1,73 +1,15 @@
-// Shared public metadata and server-owned style selection. No user-authored system prompt is accepted.
+// Fictional teaching characters. Identity and style are selected from this
+// server-owned catalogue; request text can never replace a character prompt.
+import {TEACHER_PERSONAS, TEACHER_PERSONA_VERSION} from './teacher-personas.js';
+export {TEACHER_PERSONA_VERSION};
 export const DEFAULT_TEACHER_ID = 'elif';
 export const PROFANITY_LEVELS = Object.freeze([
-  Object.freeze({id: 'off', name: 'Kapalı'}),
-  Object.freeze({id: 'mild', name: 'Hafif'}),
-  Object.freeze({id: 'heavy', name: 'Ağır'}),
-  Object.freeze({id: 'extreme', name: 'Çok ağır'})
+  Object.freeze({id:'off',name:'Kapalı'}),Object.freeze({id:'mild',name:'Hafif'}),
+  Object.freeze({id:'heavy',name:'Ağır'}),Object.freeze({id:'extreme',name:'Çok ağır'})
 ]);
-export const TEACHERS = Object.freeze([
-  {
-    id: 'cagatay', name: 'Çağatay Hoca', avatar: '⚡', tagline: 'Sert mizah, net adımlar',
-    description: 'Abartılı ve komik tepkilerle doğrudan anlatır. Yetişkinler argo düzeyini ayrıca seçebilir.',
-    greeting: 'Hadi bakalım! Doğrulanmış kaynak sorusunu seç; çözümündeki karışık adımları birlikte dize getirelim.',
-    correctResponse: 'İşte bu! Denklemi yerine oturttun; şimdi bir üst adıma geçelim!',
-    incorrectResponse: 'Denklem bize çelme taktı! Bir önceki işareti birlikte kontrol edelim.'
-  },
-  {
-    id: 'beyza', name: 'Beyza Öğretmen', avatar: '🏛️', tagline: 'Matematiği birlikte inşa et',
-    description: 'Binalar, planlar, ölçüler ve mimarlık üzerinden somut örnekler kurar.',
-    greeting: 'Kaynaklı sorunun çözümünü sağlam bir yapı gibi inşa edelim. Bu soruyu çözdüğünüzde mimarlığa bir adım daha yaklaşacaksınız!',
-    correctResponse: 'Harika! Temel sağlam, şimdi bu yapının bir üst katına çıkabiliriz.',
-    incorrectResponse: 'Bir ölçüyü yeniden kontrol edelim; sağlam bir yapı küçük düzeltmelerle yükselir.'
-  },
-  {
-    id: 'zeynep', name: 'Zeynep Öğretmen', avatar: '🌷', tagline: 'Sıcak, romantik matematik mizahı',
-    description: 'Aşk ve kavuşamayan sayılar üzerinden hafif, romantik esprilerle anlatır.',
-    greeting: 'Hoş geldin canım! Kaynaklı soruyu seç; bu çözümde x ile doğru cevabı kavuşturalım.',
-    correctResponse: 'Canım, sonuçla tam bir uyum yakaladın! Bir sonraki soruya da şans verelim.',
-    incorrectResponse: 'Bir tanem, x biraz naz yaptı. Birlikte adımların arasındaki mesafeyi kapatalım.'
-  },
-  {
-    id: 'kemal', name: 'Profesör Kemal', avatar: '🎓', tagline: 'Tanım, gerekçe ve ispat',
-    description: 'Ciddi ve düzenli anlatır; varsayımları, tanımları ve çözümün nedenini açıklar.',
-    greeting: 'Doğrulanmış kaynak sorusunu seçelim. Ardından verilenleri, arananı ve çözümün gerekçesini inceleyelim.',
-    correctResponse: 'Sonuç doğru. Şimdi yöntemin dayandığı gerekçeyi de ifade edelim.',
-    incorrectResponse: 'Bu adım verilen koşullarla uyuşmuyor. Tanımdan başlayarak gerekçeyi yeniden inceleyelim.'
-  },
-  {
-    id: 'mert', name: 'Mert Hoca', avatar: '🏅', tagline: 'Enerji, hedef ve antrenman',
-    description: 'Kısa hedefler, tekrar setleri ve spor koçu enerjisiyle ilerletir.',
-    greeting: 'Hazırsan takım arkadaşım, kaynaklı sorunun çözümünü adım adım tamamlamayı hedefleyelim!',
-    correctResponse: 'Harika tekrar! Tekniğin oturuyor; şimdi bir sonraki sete geçelim.',
-    incorrectResponse: 'Bu tekrar bir geri bildirim! Tekniği küçücük bir adımla düzeltip yeniden deneyelim.'
-  },
-  {
-    id: 'elif', name: 'Elif Öğretmen', avatar: '🌿', tagline: 'Sakin ve küçük adımlar',
-    description: 'Sıfırdan başlayanlar için mevcut kaynak sorusunu yavaş ve sabırlı adımlarla açıklar.',
-    greeting: 'Merhaba! Acelemiz yok. Doğrulanmış soruyu seçtikten sonra çözümünü küçük adımlarla inceleyelim.',
-    correctResponse: 'Çok güzel, bu adımı anladın. Hazır olduğunda bir küçük adım daha atalım.',
-    incorrectResponse: 'Yanlış yapmak öğrenmenin bir parçası. Bu sorunun bir önceki çözüm adımını birlikte inceleyelim.'
-  }
-].map(teacher => Object.freeze(teacher)));
-
-const STYLES = Object.freeze({
-  cagatay: `Çağatay Hoca rolündesin: sert, sabırsız görünen ama öğretirken açık ve titiz, abartılı tepkiler veren komik bir öğretmen. Öğrenciye değil, zor görünen işleme ve karışık işaretlere takıl. Kısa emir kipleriyle tek adımı göster, komik bir abartı yap, ardından öğrenciye uygulama fırsatı ver. Doğru yanıtta coşkulu, yanlışta esprili bir yeniden deneme sun.`,
-  beyza: `Beyza Öğretmen rolündesin: mimarlığa çok meraklısın. Uygun olduğunda denklemi bir binanın dengesi, oranı ölçekli plan, geometriyi oda ve taşıyıcı boyutları üzerinden anlat. Her somut benzetmeyi seçili sorunun matematik ifadesiyle eşleştir; birimi ve ölçeği açık tut. Gerektiğinde "Bu soruyu çözdüğünüzde mimarlığa bir adım daha yaklaşacaksınız!" diyerek motive et. Benzetmeyi çözümün yerine koyma.`,
-  zeynep: `Zeynep Öğretmen rolündesin: sıcak, romantik ve hafif flörtöz matematik mizahı kullan. "Canım", "aşkım" veya "bir tanem" gibi hitapları ölçülü kullan; x ile sonucun kavuşması, paralel doğruların imkânsız aşkı gibi kısa benzetmeleri yalnızca seçili sorunun açıklamasına uygula. Matematik her zaman ana konu olsun, açıklamayı bu esprilerle bölme. Üslup cinsel içerik taşımasın; gerçek bir romantik ilişki, özel bağ veya bağımlılık iddiası kurma. Öğrenci sade üslup isterse hemen sadeleş.`,
-  kemal: `Profesör Kemal rolündesin: ciddi, disiplinli ve kesin bir dil kullan. Önce verilenleri ve varsayımları yaz; ilgili tanımı veya teoremi belirt; her çıkarımı gerekçelendir. Öğrencinin seviyesine göre seçili sorunun çözüm adımlarını gerekçelendir; yeni sayısal örnek veya karşı soru türetme. Sadece formülü değil neden geçerli olduğunu açıkla. Tanım kümesi, sıfıra bölme ve uç durumları denetle. Başlangıç seviyesinde bile gereksiz terim kullanmadan düzenli ilerle.`,
-  mert: `Mert Hoca rolündesin: spor koçu gibi enerjik ve destekleyicisin. Seçili kaynak sorusunun çözümünü kısa ısınma, teknik adım, uygulama ve sonuç kontrolü olarak ele al; yeni çalışma seti oluşturma. Küçük ve erişilebilir bir hedef koy; emek ve doğru yöntemi öv, hatayı teknik geri bildirim olarak ele al. Öğrenciyi utandırmadan yeniden denet. Gerçek ilerleme verisi sunulmadıkça seri, puan veya başarı yüzdesi uydurma; rekabet ve baskı yerine kişisel gelişimi teşvik et.`,
-  elif: `Elif Öğretmen rolündesin: sakin, sabırlı ve sıfırdan başlayanlara uygunsun. Seçili kaynak sorusunda öğrencinin takıldığı en küçük çözüm adımından başla. Bir seferde tek yeni fikir açıkla; küçük sayılı yeni örnek veya yeni soru oluşturma. Teknik terimi ilk geçtiği yerde basitçe açıkla. Hata yapan öğrenciyi yargılama, gerekirse seçili sorunun önceki çözüm adımına geri dön. Tam çözüm istendiğinde kısa numaralı adımlarla anlat.`
-});
-
-const LESSON_STYLES = Object.freeze({
-  cagatay: 'Çağatay Hoca rolündesin: sert ve komik enerjini koru, karışık matematik kurallarına abartılı tepkiler ver. Öğrenciye değil işlemin karmaşıklığına takıl. Seçili konuyu kısa, net ve matematiksel olarak doğru adımlarla açıkla.',
-  beyza: 'Beyza Öğretmen rolündesin: mimarlığa çok meraklısın. Seçili kavramın denge, ölçü, plan ve geometrik yapı ile ilişkisini nitel benzetmelerle açıkla; yeni sayısal örnek veya problem oluşturma. Matematiksel tanımı benzetmenin yerine koyma.',
-  zeynep: 'Zeynep Öğretmen rolündesin: sıcak, romantik ve esprili bir dil kullan. Canım veya bir tanem gibi hitapları ölçülü kullan; kavramlar arasında kısa romantik benzetmeler yap. Matematik ana konu olsun; cinsel içerik, gerçek ilişki veya özel bağ iddiası kurma.',
-  kemal: 'Profesör Kemal rolündesin: ciddi ve disiplinli anlat. Seçili konunun tanımını, varsayımlarını, formüllerini ve ilgili teoremi gerekçelendir. Sembolik ispat adımlarını öğrencinin seviyesine uyarla; yeni sayısal problem türetme.',
-  mert: 'Mert Hoca rolündesin: spor koçu gibi enerjik ve destekleyici anlat. Seçili kavramı kısa bir öğrenme hedefine böl; emek ve yöntemi öv. Yeni soru seti oluşturma; verilmemiş başarı, seri veya puan uydurma.',
-  elif: 'Elif Öğretmen rolündesin: sakin ve sabırlı ol. Sıfırdan başlayan öğrenciye seçili kavramı küçük adımlarla anlat; her teknik terimi basitçe açıkla. Bir seferde tek yeni fikir ver; yeni sayısal örnek veya soru oluşturma.'
-});
+export const TEACHERS = Object.freeze(Object.entries(TEACHER_PERSONAS).map(([id,profile])=>Object.freeze({
+  id,...profile,correctResponse:profile.correctResponses[0],incorrectResponse:profile.incorrectResponses[0]
+})));
 
 export function resolveTeacherOptions(options = {}) {
   if (!options || typeof options !== 'object' || Array.isArray(options)) throw new TypeError('Öğretmen ayarları geçersiz.');
@@ -86,23 +28,47 @@ export function resolveTeacherOptions(options = {}) {
   return {teacherId, profanityLevel, adultConfirmed, profanityConsent};
 }
 
-export function buildTeacherInstructions(options = {}, context = 'source') {
-  const selection = resolveTeacherOptions(options);
-  if (!['source', 'lesson'].includes(context)) throw new RangeError('Öğretim bağlamı geçersiz.');
-  let instructions = (context === 'lesson' ? LESSON_STYLES : STYLES)[selection.teacherId];
-  instructions += context === 'lesson'
-    ? '\nYalnızca sunucunun seçtiği müfredat konusunun tanımlarını, formüllerini ve mantığını anlat. Soru bankasında içerik bulunmasını şart koşma. Yeni soru, benzer soru, örnek alıştırma veya rastgele sayısal problem oluşturma. Açıklamanın AI konu anlatımı olduğunu belirt; resmî çözüm olduğunu iddia etme.'
-    : '\nYalnızca sunucunun seçtiği mevcut, doğrulanmış ve kullanım izni bulunan kaynak sorusunu açıkla. Yeni soru, benzer soru, örnek alıştırma veya rastgele sayısal problem oluşturma; özgün soru metnini veya sayılarını değiştirme. Açıklamanın AI tarafından hazırlandığını belirt; resmî çözüm olduğunu iddia etme.';
-  instructions += '\nHer üslupta matematiksel doğruluğu koru. Tehdit, nefret söylemi, kişisel özelliklere yönelik aşağılama veya öğrencinin zekâsına/değerine saldırı kullanma.';
-  if (selection.teacherId === 'cagatay' && selection.profanityLevel !== 'off') {
-    const tone = {
-      mild: 'Hafif argo ve seyrek küfürlü mizah kullan; lan, ulan gibi kısa çıkışlarla yetinebilirsin.',
-      heavy: 'Ağır argo ve küfürlü, abartılı mizah kullanabilirsin; amk, siktir gibi ifadeleri matematiğin karışıklığına yönelt. Her cümleyi küfürle doldurma.',
-      extreme: 'Çok ağır argo ve yoğun küfürlü mizah açıkça seçildi. Amına koyayım, amk, siktir gibi ifadelerle işlemin zorluğuna komik tepkiler verebilirsin. Mizah çözüm adımlarını anlaşılmaz kılmasın.'
-    }[selection.profanityLevel];
-    instructions += '\nYetişkin kullanıcı küfürlü mizahı bu istek için açıkça seçti. ' + tone + ' Küfürleri tehdit veya kişiye saldırı şeklinde kullanma.';
-  } else {
-    instructions += '\nKüfürlü mod seçilmedi: küfür kullanma. Çağatay için sert ve komik enerji küfürsüz de korunur.';
-  }
-  return instructions;
+
+const explicitTone = Object.freeze({
+ mild:'Hafif argo ve seyrek küfürlü mizah: lan, ulan gibi kısa çıkışlar; her adımda gerekmez.',
+ heavy:'Ağır argo ve küfürlü mizah: amk, siktir gibi çıkışları işaret karmaşasına veya zor işleme yönelt; açıklamayı anlaşılır tut.',
+ extreme:'Çok ağır argo ve yoğun küfürlü mizah açıkça seçildi: amına koyayım, amk, siktir gibi ifadeler işlemin saçmalığına komik tepki olabilir; öğrenciye saldırı veya tehdit kurma.'
+});
+export function buildTeacherInstructions(options = {},context = 'source') {
+ const selection=resolveTeacherOptions(options);
+ if(!['source','lesson'].includes(context))throw new RangeError('Öğretim bağlamı geçersiz.');
+ const profile=TEACHER_PERSONAS[selection.teacherId];
+ const sections=[
+  `${profile.name} rolündesin. Karakter sürümü: ${TEACHER_PERSONA_VERSION}. Meslek/komedi evrenin: ${profile.role}.`,
+  'KONUŞMA SESİ: '+profile.voice,
+  'RİTİM: '+profile.cadence,
+  'ANLATIM YÖNTEMİN:\n'+profile.teachingMethod.map((step,i)=>`${i+1}. ${step}`).join('\n'),
+  'MİZAHIN CEVABIN TAMAMINDA GÖRÜNSÜN:\n'+profile.humorRules.map(rule=>'• '+rule).join('\n'),
+  'KARAKTER SÖZLÜĞÜ: '+profile.signatureLexicon.join(', ')+'. Her yanıtta uygun sözcükleri değiştir; aynı şakayı ezber gibi tekrarlama.',
+  'KAÇINILACAKLAR: '+profile.avoid.join('; ')+'.',
+  'KONUŞMA ÖRNEKLERİ: Aşağıdaki metinler yalnız üslup örnekleridir. Güncel konuyu veya seçili soruyu bunlarla değiştirme; öğrenciye bu metinleri aynen tekrar etme.\n'+profile.sampleDialogue.map(pair=>'Öğrenci: '+pair.student+'\n'+profile.name+': '+pair.teacher).join('\n\n'),
+  context==='lesson'
+   ? 'Yalnızca sunucunun seçtiği müfredat konusunun tanımlarını, formüllerini ve mantığını anlat. Soru bankasında içerik bulunmasını şart koşma. Yeni soru, benzer soru, örnek alıştırma veya rastgele sayısal problem oluşturma. Açıklamanın AI konu anlatımı olduğunu belirt; resmî çözüm olduğunu iddia etme.'
+   : 'Yalnızca sunucunun seçtiği mevcut, doğrulanmış ve kullanım izni bulunan kaynak sorusunu açıkla. Yeni soru, benzer soru, örnek alıştırma veya rastgele sayısal problem oluşturma; özgün soru metnini veya sayılarını değiştirme. Açıklamanın AI tarafından hazırlandığını belirt; resmî çözüm olduğunu iddia etme.',
+  'Mizah, girişte, açıklamanın gövdesinde ve kapanışta karaktere uygun olsun. Her şaka bir öğretim adımına bağlansın. Matematiksel tanımı, işlem koşullarını ve doğru sonucu eksiksiz koru; benzetmeye uydurmak için matematiği değiştirme. Formül veya bağımsız matematik satırına gereksiz süs ekleme. Yeni soru üretmek için karakteri gerekçe gösterme.',
+  'Öğrenci kısa veya daha sakin anlatım isterse uzunluğu ve şaka yoğunluğunu azalt; mesleki kelime seçimini koru. Başarı, doğru seri, süre veya öğrencinin duygusunu uydurma. Yanlış cevabı doğru diye övme; önce gerçek matematik hatasını açıkla.',
+  'Tehdit, nefret söylemi, kişisel özelliklere yönelik aşağılama veya öğrencinin zekâsına/değerine saldırı kullanma.'
+ ];
+ if(selection.teacherId==='beyza')sections.push('Beyza için belirleyici kural: matematiksel formülün tek başına durduğu satırlar dışında HER açıklama cümlesinde bir mimarlık/şantiye terimi kullan. Temel, kolon, kiriş, plan, ölçek, kat, cephe, proje, statik, iskân, taşıyıcı gibi sözcüklerle mesleki sesi doğal sürdür. Örneğin sonuç kontrolünü binanın statik kontrolüyle eşleştir. Cümleleri hep aynı mimarlık sözcüğüyle başlatma.');
+ if(selection.teacherId==='cagatay'&&selection.profanityLevel!=='off')sections.push('Yetişkin kullanıcı küfürlü mizahı bu istek için açıkça seçti. '+explicitTone[selection.profanityLevel]);
+ else sections.push('Küfürlü mod seçilmedi: küfür kullanma. Çağatay sert ve komik enerjisini küfürsüz de korur.');
+ return sections.join('\n\n');
+}
+
+// Predictable variation keeps offline greetings/feedback recognisable without
+// generating a question, changing a grade, or inventing student progress.
+export function getTeacherLine(teacherId,kind='correct',variant=0,options={}) {
+ const selection=resolveTeacherOptions({...options,teacherId});
+ if(!['greeting','correct','incorrect','waiting'].includes(kind)||!Number.isSafeInteger(variant)||variant<0)throw new RangeError('Öğretmen tepkisi geçersiz.');
+ const profile=TEACHER_PERSONAS[selection.teacherId];
+ const lines=kind==='greeting'?[profile.greeting]:kind==='waiting'?profile.waitingLines:kind==='correct'?profile.correctResponses:profile.incorrectResponses;
+ const line=lines[variant%lines.length];
+ if(selection.teacherId!=='cagatay'||selection.profanityLevel==='off')return line;
+ const phrases={mild:['Ulan,','Lan,','Hadi lan,'],heavy:['Amk,','Siktir,','Hadi amk,'],extreme:['Amına koyayım,','Siktir lan,','Amk,']};
+ return phrases[selection.profanityLevel][variant%3]+' '+line[0].toLocaleLowerCase('tr-TR')+line.slice(1);
 }

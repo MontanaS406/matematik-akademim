@@ -1,7 +1,22 @@
 # Matematik Akademim
 
-Türkçe konu anlatımları, altı öğretmen, kullanıcı hesabı ve gece mavisi dört menü:
+Türkçe konu anlatımları, on mizahi öğretmen, kullanıcı hesabı ve gece mavisi dört menü:
 **Soru Çöz**, **Konular**, **Öğretmen**, **İlerleme**.
+
+## Öğretmen karakterleri
+
+Çağatay, Beyza, Zeynep, Kemal, Mert ve Elif korunur; Rıza Usta, Nermin Şef,
+Bora Kaptan ve Derya Dedektif ile kadro **10** olur. Her birinin farklı sözlüğü,
+öğretim yöntemi, karşılama ve doğru/yanlış tepkileri vardır. **Öğretmen →
+Karakteri tanı** altında üç hazır konuşma örneği görülebilir; bu önizleme AI
+isteği göndermez. Seçim mevcut hesap/misafir öğrenme kaydında saklanır.
+
+Beyza her açıklama cümlesini mimarlık terimleriyle kurar. Çağatay'ın argo modu
+iki açık yetişkin/kullanım onayıyla açılır; onaylar hesaba kaydedilmez.
+Matematik, cevap anahtarları ve soru havuzları karakter mizahı için değiştirilmez.
+Yeni canlı AI davranışı, güncel Worker'ın ayrıca dağıtılmasını gerektirir;
+kod/test hazırlığı canlı model doğrulaması anlamına gelmez.
+Ayrıntılar: [On öğretmen hazırlık raporu](docs/ON_OGRETMEN_KARAKTERLERI.md).
 
 ## Soru havuzları
 

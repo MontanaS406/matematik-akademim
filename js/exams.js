@@ -1,8 +1,8 @@
 import {EXAM_YEARS, normalizeFlags, normalizeTopics} from '../shared/exam-model.js';
-import {QUESTION_BANK} from '../data/question-bank.js?v=direct-exams-20261115';
-import {AI_BANK} from '../data/ai-bank.js?v=direct-exams-20261115';
+import {QUESTION_BANK} from '../data/question-bank.js?v=comic-teachers-20261116';
+import {AI_BANK} from '../data/ai-bank.js?v=comic-teachers-20261116';
 import {createAiRegistry} from '../shared/ai-bank.js';
-import {normalizeState} from '../shared/learning-state.js';
+import {normalizeState} from '../shared/learning-state.js?v=comic-teachers-20261116';
 
 // Existing account and history keys are retained. Retired study drafts and local
 // document stores are deliberately left untouched by this presentation module.
