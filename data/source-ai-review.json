@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "status": "completed",
+  "inputSha256": "50af0ab9d6d24ff8b5d4d4b55ea919f1f993f9908523962c7a118f59f7fe2561",
+  "reviewerType": "AI",
+  "humanEditorialApproval": false,
+  "scope": "Independent AI semantic inspection of all 70 AYT draft question statements, conditions, requested quantities, solutions and declared verification operations. TYT statements and answers were additionally inspected; 30 TYT templates received scoped language polishing. This complements the separate mathematical checker and is not human editorial approval.",
+  "generatedQuestionCount": 150,
+  "reviewedAYTQuestionCount": 70,
+  "reviewedAYTQuestionIds": [
+    "AI-SOURCE-AYT-AFFINE-INVERSE-VALUE",
+    "AI-SOURCE-AYT-AFFINE-PARAMETER-FROM-INVERSE",
+    "AI-SOURCE-AYT-AFFINE-SHIFTED-INPUT",
+    "AI-SOURCE-AYT-AFFINE-INVERSE-TRANSLATED-OUTPUT",
+    "AI-SOURCE-AYT-AFFINE-CROSSED-INVERSE-EQUATION",
+    "AI-SOURCE-AYT-AFFINE-SUMMED-PREIMAGES",
+    "AI-SOURCE-AYT-AFFINE-INVERSE-FIXED-INPUT",
+    "AI-SOURCE-AYT-AFFINE-TWO-KNOWN-PREIMAGES",
+    "AI-SOURCE-AYT-AFFINE-REVERSED-PREIMAGE-GAP",
+    "AI-SOURCE-AYT-AFFINE-DOUBLE-INVERSE-POSITIVE-SLOPE",
+    "AI-SOURCE-AYT-RATIONAL-INVERSE-CLEAR-DENOMINATOR",
+    "AI-SOURCE-AYT-RATIONAL-INVERSE-ZERO",
+    "AI-SOURCE-AYT-RATIONAL-TWO-PARAMETER-OBSERVATIONS",
+    "AI-SOURCE-AYT-RATIONAL-SELF-INVERSE-COMPOSITION",
+    "AI-SOURCE-AYT-RATIONAL-SUM-OF-TWO-PREIMAGES",
+    "AI-SOURCE-AYT-RATIONAL-VALUE-NEAR-RANGE-BOUNDARY",
+    "AI-SOURCE-AYT-RATIONAL-INVERSE-OUTPUT-GIVEN",
+    "AI-SOURCE-AYT-RATIONAL-COEFFICIENT-FROM-PREIMAGE",
+    "AI-SOURCE-AYT-RATIONAL-NEGATIVE-TARGET",
+    "AI-SOURCE-AYT-RATIONAL-DOMAIN-RANGE-GAP",
+    "AI-SOURCE-AYT-COEFFICIENTS-DOUBLE-MAP",
+    "AI-SOURCE-AYT-COEFFICIENTS-INPUT-DIFFERENCE",
+    "AI-SOURCE-AYT-COEFFICIENTS-DOUBLED-INPUT",
+    "AI-SOURCE-AYT-COEFFICIENTS-REFLECTED-INPUTS",
+    "AI-SOURCE-AYT-COEFFICIENTS-NEGATIVE-DOUBLE-MAP",
+    "AI-SOURCE-AYT-COEFFICIENTS-THREEFOLD-INPUT",
+    "AI-SOURCE-AYT-COEFFICIENTS-SUM-AND-DIFFERENCE",
+    "AI-SOURCE-AYT-COEFFICIENTS-ORIGIN-ORBIT",
+    "AI-SOURCE-AYT-COEFFICIENTS-COMPOSITION-GAP",
+    "AI-SOURCE-AYT-COEFFICIENTS-INVERSE-AFFINE-FORM",
+    "AI-SOURCE-AYT-COMPOSITION-INVERSE-TWO-LINEAR",
+    "AI-SOURCE-AYT-COMPOSITION-INVERSE-REVERSED-ORDER",
+    "AI-SOURCE-AYT-COMPOSITION-SQUARE-RESTRICTED",
+    "AI-SOURCE-AYT-COMPOSITION-KNOWN-PREIMAGE",
+    "AI-SOURCE-AYT-COMPOSITION-INVERSE-LEFT-CANCEL",
+    "AI-SOURCE-AYT-COMPOSITION-CONJUGATE-INPUT",
+    "AI-SOURCE-AYT-COMPOSITION-INVERSE-INPUT-KNOWN",
+    "AI-SOURCE-AYT-COMPOSITION-KNOWN-OUTPUT-KNOWN-INPUT",
+    "AI-SOURCE-AYT-COMPOSITION-INVERSE-GIVEN-TWO-LEVELS",
+    "AI-SOURCE-AYT-COMPOSITION-INVERSE-WHOLE-MAP",
+    "AI-SOURCE-AYT-DOMAIN-RANGE-SUM",
+    "AI-SOURCE-AYT-DOMAIN-RANGE-PRODUCT",
+    "AI-SOURCE-AYT-DOMAIN-LEADING-PARAMETER",
+    "AI-SOURCE-AYT-DOMAIN-NUMERATOR-PARAMETER",
+    "AI-SOURCE-AYT-DOMAIN-DENOMINATOR-SHIFT",
+    "AI-SOURCE-AYT-DOMAIN-POLE-AND-RANGE-GAP",
+    "AI-SOURCE-AYT-DOMAIN-CANCELLATION-FINITE-IMAGE",
+    "AI-SOURCE-AYT-DOMAIN-REMOVABLE-HOLE-IMAGE",
+    "AI-SOURCE-AYT-DOMAIN-SQUARE-ROOT-LEFT-END",
+    "AI-SOURCE-AYT-DOMAIN-DECREASING-INTERVAL-WIDTH",
+    "AI-SOURCE-AYT-INVERSE-RELATION-QUADRATIC-SHIFT",
+    "AI-SOURCE-AYT-INVERSE-RELATION-LINEAR-SCALE",
+    "AI-SOURCE-AYT-INVERSE-RELATION-SHIFT-INSIDE-SQUARE",
+    "AI-SOURCE-AYT-INVERSE-RELATION-RECIPROCAL-SCALE",
+    "AI-SOURCE-AYT-INVERSE-RELATION-RATIONAL-OFFSET",
+    "AI-SOURCE-AYT-INVERSE-RELATION-ABSOLUTE-SHIFT",
+    "AI-SOURCE-AYT-INVERSE-RELATION-REVERSED-FUNCTIONS",
+    "AI-SOURCE-AYT-INVERSE-RELATION-KNOWN-INPUT-IMAGE",
+    "AI-SOURCE-AYT-INVERSE-RELATION-CUBIC-SHIFT",
+    "AI-SOURCE-AYT-INVERSE-RELATION-RADICAL-DOMAIN",
+    "AI-SOURCE-AYT-ITERATE-REFLECTION-ODD",
+    "AI-SOURCE-AYT-ITERATE-FRACTION-EVEN",
+    "AI-SOURCE-AYT-ITERATE-RECIPROCAL-ODD",
+    "AI-SOURCE-AYT-ITERATE-NEGATION-EVEN",
+    "AI-SOURCE-AYT-ITERATE-TRANSLATION-LINEAR-GROWTH",
+    "AI-SOURCE-AYT-ITERATE-DILATION-GEOMETRIC-GROWTH",
+    "AI-SOURCE-AYT-ITERATE-RATIONAL-INVOLUTION-ODD",
+    "AI-SOURCE-AYT-ITERATE-THREE-STEP-AFFINE",
+    "AI-SOURCE-AYT-ITERATE-UNKNOWN-REFLECTION",
+    "AI-SOURCE-AYT-ITERATE-FINITE-INVOLUTION-FIXED-COUNT"
+  ],
+  "originalSourceReview": {
+    "privateOriginalRecordCount": 15,
+    "mathematicsVerified": 11,
+    "pending": 4,
+    "sourceSha256": "9317e24dc024e0fbd6db6155751dda2bcfc6ddc84f316649e9b615bc1f3e9abf",
+    "sourceExamLabel": "ORTAK",
+    "actualAYTExamPaperRead": false,
+    "proofLocations": [
+      {
+        "physicalPage": 3,
+        "printedPage": 365,
+        "questionNumbers": [
+          11,
+          12,
+          13
+        ]
+      },
+      {
+        "physicalPage": 4,
+        "printedPage": 366,
+        "questionNumbers": [
+          14,
+          15,
+          16
+        ]
+      },
+      {
+        "physicalPage": 5,
+        "printedPage": 367,
+        "questionNumbers": [
+          17,
+          8,
+          19
+        ]
+      },
+      {
+        "physicalPage": 6,
+        "printedPage": 368,
+        "questionNumbers": [
+          21
+        ]
+      },
+      {
+        "physicalPage": 7,
+        "printedPage": 369,
+        "questionNumbers": [
+          22,
+          23
+        ]
+      },
+      {
+        "physicalPage": 8,
+        "printedPage": 370,
+        "questionNumbers": [
+          24,
+          25,
+          26
+        ]
+      }
+    ],
+    "notes": [
+      "Original page text, full five-option sets and relevant diagrams were read from actual uploaded PDF bytes.",
+      "The question printed as 8 on physical page5 is not silently renumbered18.",
+      "Original full-book page positions are inferred from the split-file range label; physical split pages and printed footer numbers were actually inspected.",
+      "These original question bodies and page images remain private; public reuse permission is unverified."
+    ]
+  },
+  "duplicateOf": {
+    "AI-SOURCE-AYT-COMPOSITION-KNOWN-OUTPUT-KNOWN-INPUT": "AI-SOURCE-AYT-COMPOSITION-INVERSE-INPUT-KNOWN"
+  },
+  "duplicateReasons": {
+    "AI-SOURCE-AYT-COMPOSITION-KNOWN-OUTPUT-KNOWN-INPUT": "Same inverse-composition task after swapping f/g roles and changing affine coefficients and numbers; conservative near-clone quarantine."
+  },
+  "findings": [
+    {
+      "id": "range-unknown-outlier",
+      "status": "fixed",
+      "reason": "A formal solver unknown had previously reused the prompt letter for the mean while the prompt used it as an outlier. The frozen draft now enumerates the actual outlier and computes the mean as objective."
+    },
+    {
+      "id": "30-TYT-language-templates",
+      "status": "fixed",
+      "reason": "Word spacing and punctuation corrected in set_cardinality, integer_divisor_sets and product_counting without changing IDs, numeric values, parameters or verification expressions."
+    },
+    {
+      "id": "probability-distractors",
+      "status": "fixed",
+      "reason": "Proper-fraction answer distractors now remain distinct inside the probability interval instead of exposing the sole valid probability by range alone."
+    },
+    {
+      "id": "AI-SOURCE-AYT-COMPOSITION-INVERSE-RIGHT-CANCEL",
+      "status": "replaced",
+      "replacementId": "AI-SOURCE-AYT-COMPOSITION-CONJUGATE-INPUT",
+      "reason": "Previous role-swapped near clone was replaced by a three-function conjugation task; the new requested value was independently derived."
+    },
+    {
+      "id": "AI-SOURCE-AYT-COMPOSITION-KNOWN-OUTPUT-KNOWN-INPUT",
+      "status": "quarantine_required",
+      "duplicateOf": "AI-SOURCE-AYT-COMPOSITION-INVERSE-INPUT-KNOWN",
+      "reason": "Remaining role-swapped affine inverse-composition near clone."
+    }
+  ],
+  "unresolvedMathematicalFindings": [],
+  "limitations": [
+    "This report is an AI review, not a human editorial sign-off or an empirically calibrated difficulty assessment.",
+    "Some exact-expression specifications check the arithmetic after a function-domain or iteration inference. Those natural-language inferences were inspected separately in this review; the generic expression checker alone does not prove every such semantic step.",
+    "AYT labels describe intended preparation-level function skills in shared-curriculum source pages; the uploaded batch contains no separately identified official AYT exam booklet.",
+    "The near-clone mapping is conservative and is not a proof that no further semantic similarities exist.",
+    "This review does not claim that all questions on the95PDFs/1256pages have been fully extracted, classified or solved."
+  ],
+  "publicOriginalQuestionBodiesIncluded": false
+}

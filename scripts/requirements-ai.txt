@@ -1,2 +1,5 @@
-# Used only by offline authoring and independent mathematical audit scripts.
+# Offline mathematics and the synthetic PDF-layout regression test.
 sympy==1.14.0
+PyMuPDF==1.26.6
+Pillow==13.0.0
+numpy==2.3.5

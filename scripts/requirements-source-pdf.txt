@@ -1,0 +1,5 @@
+# Full private source extraction. CI uses only the PyMuPDF subset for a
+# synthetic layout test; no actual private PDF is needed by CI.
+PyMuPDF==1.26.6
+Pillow==13.0.0
+numpy==2.3.5

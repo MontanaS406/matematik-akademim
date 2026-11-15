@@ -1,0 +1,2 @@
+# Private source-PDF ingestion only; original PDFs are never CI fixtures.
+PyMuPDF==1.26.6

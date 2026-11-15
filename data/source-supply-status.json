@@ -1,0 +1,1823 @@
+{
+  "schemaVersion": 1,
+  "kind": "source_supply_status_metadata_not_question_bank",
+  "version": "combined-source-inventory-v1",
+  "summary": {
+    "receivedNewInputFiles": 25,
+    "newActualPdfCount": 125,
+    "newActualPages": 1766,
+    "combinedActualPdfCount": 220,
+    "combinedActualPages": 3022,
+    "requestedBookIdentitiesAvailable": 5,
+    "publicOriginalQuestionCount": 0,
+    "rightsVerifiedDocuments": 0
+  },
+  "receivedFiles": [
+    {
+      "fileName": "10_KATALOG.zip",
+      "containerId": "input-b5fd6fa54f201a09",
+      "sha256": "b5fd6fa54f201a0962c0bdc7c8186f0a6b3f5280061b24dc5d57392e866b7e93",
+      "bytes": 27948,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": []
+    },
+    {
+      "fileName": "12_UCGEN_02.zip",
+      "containerId": "input-65943e01e3de9707",
+      "sha256": "65943e01e3de97072db77ef73b1ed0ea4b494f9d5ed865c4d1c88dd96146cf9b",
+      "bytes": 28916017,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-b2f04efd15562701"
+      ]
+    },
+    {
+      "fileName": "11_UCGEN_01.zip",
+      "containerId": "input-016c27e96acf669f",
+      "sha256": "016c27e96acf669f69097c277c648fb71aaa4225c98937cfef88848f5a8c1d32",
+      "bytes": 29275733,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-5b8339cd45c3142e"
+      ]
+    },
+    {
+      "fileName": "13_UCGEN_03.zip",
+      "containerId": "input-e725e5358919485a",
+      "sha256": "e725e5358919485aed44910f4d92212db74859497adced9cb55850f045cf5d6c",
+      "bytes": 30039099,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-ae263d6a6a2be245",
+        "pdf-dde43d6aeba098fa"
+      ]
+    },
+    {
+      "fileName": "14_UCGEN_04.zip",
+      "containerId": "input-c4cbaf4fe1ae02b5",
+      "sha256": "c4cbaf4fe1ae02b516d7a141a00d6d60af995bd119ddc50e754af82d06d10ac5",
+      "bytes": 29725676,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-07278e05aa55e4d1",
+        "pdf-0a14c1ac14f78b52"
+      ]
+    },
+    {
+      "fileName": "15_UCGEN_05.zip",
+      "containerId": "input-30b31019bc7644f8",
+      "sha256": "30b31019bc7644f82a2112a9a0d462c40c5eac1e78955d7b5e51742294d0a42e",
+      "bytes": 30345999,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-0ff74c0ea4cdc8c9",
+        "pdf-99296aa98d463fb9",
+        "pdf-b680ae875e4eb76c",
+        "pdf-299b9d5499242448"
+      ]
+    },
+    {
+      "fileName": "16_UCGEN_06.zip",
+      "containerId": "input-7ed6d238c9deae03",
+      "sha256": "7ed6d238c9deae034a5de4cd75308661702c932596950cd20ba637bde403d346",
+      "bytes": 30367476,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-b36fba2d4c0d7103",
+        "pdf-a018b693ae01331c",
+        "pdf-aa9470cf7be15b2c",
+        "pdf-d70cb52c40d4e8bb"
+      ]
+    },
+    {
+      "fileName": "19_UCGEN_09.zip",
+      "containerId": "input-cb7ee8152aaa7dd2",
+      "sha256": "cb7ee8152aaa7dd2cf6e8e11c067926617969df1fee83817460d9292d0e63116",
+      "bytes": 15061289,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-4977e13f5f4577e8",
+        "pdf-f337f7fac8eed787",
+        "pdf-69f62ebd82265ebb"
+      ]
+    },
+    {
+      "fileName": "17_UCGEN_07.zip",
+      "containerId": "input-99e29efb71fd3380",
+      "sha256": "99e29efb71fd3380f5fc88127ce4cb1253cef054417e735c971681cc5570d4e9",
+      "bytes": 29055149,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-56468e9051d09519",
+        "pdf-28c594669625e2e3",
+        "pdf-06a3ac8a9f4d3c6c",
+        "pdf-3b819175c1667088"
+      ]
+    },
+    {
+      "fileName": "18_UCGEN_08.zip",
+      "containerId": "input-469b32e40c39002f",
+      "sha256": "469b32e40c39002f2ca6bb12f991c9501675d13fee78acc605da71a9548cad8c",
+      "bytes": 29312434,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-60feb9cd04ba22cb",
+        "pdf-9c8b3c8aa642bd67",
+        "pdf-876538fa475010ed",
+        "pdf-4f6eb3b9af5c93f2"
+      ]
+    },
+    {
+      "fileName": "20_345_01.zip",
+      "containerId": "input-6d4ef7ea8b9523aa",
+      "sha256": "6d4ef7ea8b9523aa7aaa6be641be3ff342905121a60a3a04295a811ebfd09730",
+      "bytes": 26521377,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-8d19cbb4cec11d85",
+        "pdf-9726623439000a05"
+      ]
+    },
+    {
+      "fileName": "22_345_03.zip",
+      "containerId": "input-654e28467b5b1915",
+      "sha256": "654e28467b5b19153ebe93991d17e31a2cad627fb0611b25cf155f87e8dd817c",
+      "bytes": 22531451,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-86cd9af18268f48d",
+        "pdf-637520e4e737a42a"
+      ]
+    },
+    {
+      "fileName": "21_345_02.zip",
+      "containerId": "input-9bb844a907886209",
+      "sha256": "9bb844a9078862093ad9fa14b92a37f37c83240584ed094a64de3fd1b9d196fa",
+      "bytes": 28738596,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-fa15d0e54f33857b",
+        "pdf-349b172f9efe7412",
+        "pdf-64e6610193b4add6"
+      ]
+    },
+    {
+      "fileName": "24_TUDEM.pdf",
+      "containerId": "input-e553af4cc8e28073",
+      "sha256": "e553af4cc8e280739d84fadf3d2570558b05e3f78a6b037f2dd6a0a61175d57c",
+      "bytes": 8098778,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-e553af4cc8e28073"
+      ]
+    },
+    {
+      "fileName": "25_OZDEBIR.pdf",
+      "containerId": "input-0924f9a879c3f7da",
+      "sha256": "0924f9a879c3f7daf055f5265d9ebba3549c3fb20033f5ab8d49a8cbc158a524",
+      "bytes": 5400916,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-0924f9a879c3f7da"
+      ]
+    },
+    {
+      "fileName": "02_AYT.zip",
+      "containerId": "input-559ef72d8e04f721",
+      "sha256": "559ef72d8e04f721b711bac7a486955c4f7c511bd5aa1ba76d05bf3f33bc3858",
+      "bytes": 967592,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-1fda1064551bd00f",
+        "pdf-d7f29d828181b829",
+        "pdf-214b2c524989bb66"
+      ]
+    },
+    {
+      "fileName": "23_ULTI.pdf",
+      "containerId": "input-24ee79b85e0d08d2",
+      "sha256": "24ee79b85e0d08d251fc5c4af07020adf872865bb15124b26146f0e49e1866e6",
+      "bytes": 23321614,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-24ee79b85e0d08d2"
+      ]
+    },
+    {
+      "fileName": "01_AYT.zip",
+      "containerId": "input-c21bb24e2c237e04",
+      "sha256": "c21bb24e2c237e049bd02b973f0fbcab70f1575e31cbb9bf72dfa2c40da18075",
+      "bytes": 23444211,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-da639c8942532e62",
+        "pdf-0980d46e8046e6a7",
+        "pdf-027b637a93a75d3b",
+        "pdf-4d83ed5b49d0aebb",
+        "pdf-9cfb405b446213c9",
+        "pdf-07009aae84fdb2e1",
+        "pdf-03e316d72fd5a544",
+        "pdf-3310d7ca5e0d69c0",
+        "pdf-bc0a1f34fb10ccd5",
+        "pdf-12714f39b75802d5",
+        "pdf-2b16ef94cae77055",
+        "pdf-da2eb725a68a4875",
+        "pdf-54c7c0919d2f235f",
+        "pdf-53bc4bf334649064",
+        "pdf-8acb0d08e272e2cb",
+        "pdf-3911f2664e2fb489",
+        "pdf-e8d1ad1d4e3561d0",
+        "pdf-7fd2700b5eb6218e"
+      ]
+    },
+    {
+      "fileName": "04_TYT.zip",
+      "containerId": "input-5d1b8a73e5dafbe8",
+      "sha256": "5d1b8a73e5dafbe82470e27ebf9f636f042f2b24e229dd823d98ffc233750bc1",
+      "bytes": 16650044,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-d7847ec1d4f2515f",
+        "pdf-3201b108bd6a6394",
+        "pdf-fc3b9f9f5ccbf217",
+        "pdf-495dd231fe60845d",
+        "pdf-bb1758fe04062036",
+        "pdf-aa3b5f8036b950ab",
+        "pdf-b4dfe930eef53d1a",
+        "pdf-37c1ae963e2815b6",
+        "pdf-df8eae9878f96ee2",
+        "pdf-c21b16685abe46b9",
+        "pdf-88326c78101e21e3",
+        "pdf-aaa365b2e44961d3"
+      ]
+    },
+    {
+      "fileName": "03_TYT.zip",
+      "containerId": "input-557c1c713f9537b3",
+      "sha256": "557c1c713f9537b37a15e5aa9c16870f90962a3aee131d1ec0e0f16c860c250b",
+      "bytes": 22417939,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-c66b64cc62a224c6",
+        "pdf-a4e996588bea275e",
+        "pdf-c4a76a62a837f1a2",
+        "pdf-4a6ca18d9034accf",
+        "pdf-36e8c4c1096c8614",
+        "pdf-b9f2d01b93fac2af",
+        "pdf-e7680cc38e82e5e1",
+        "pdf-38b5da8005660dbf",
+        "pdf-bec490bc0a1e21c8",
+        "pdf-61079adf42c4eb52",
+        "pdf-12098435bd3e1ac2",
+        "pdf-f89e44d5e9191ea2",
+        "pdf-1688c6117eccbb25",
+        "pdf-84ed6ccc29645173",
+        "pdf-eb0250f150a613b8",
+        "pdf-4a38289a65a7a89f",
+        "pdf-595d626c0335e302"
+      ]
+    },
+    {
+      "fileName": "05_TYT.zip",
+      "containerId": "input-5a2f44f56aa2547f",
+      "sha256": "5a2f44f56aa2547f9cb48da66bff3e9284e1d0235d4e2fadd1a0b962da965d18",
+      "bytes": 20982642,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-36015b1d4fd9dc2e",
+        "pdf-3f0de5af592c4748",
+        "pdf-a1809f2fdfaf139d",
+        "pdf-efbb240ce5ae699f",
+        "pdf-72a306f9191c42ca",
+        "pdf-57aed43f00465237"
+      ]
+    },
+    {
+      "fileName": "06_TYT.zip",
+      "containerId": "input-7ef97af9b4415c9f",
+      "sha256": "7ef97af9b4415c9f37ad0feb03bf23181dedc40e285dff9aa3a2c6815924f743",
+      "bytes": 23485453,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-2ac7e9682b6b4ffb",
+        "pdf-2434d0076c29b616",
+        "pdf-a297efe671cbf8ea",
+        "pdf-ec6f0c98c5e85f1e",
+        "pdf-2db22eb8120534d3",
+        "pdf-08e62a3a3560e449",
+        "pdf-db5e8634b4bdfa5c",
+        "pdf-e555c4d09980523b",
+        "pdf-0f6b8777de211dfc",
+        "pdf-94507bbf651172ce",
+        "pdf-79cd2be284d982c3"
+      ]
+    },
+    {
+      "fileName": "07_TYT.zip",
+      "containerId": "input-d02005a0c16fab07",
+      "sha256": "d02005a0c16fab0702387d6ab7665a93c660f3fe8a41d41148023e8a2d57b2c3",
+      "bytes": 23001313,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-aa1268194d937b09",
+        "pdf-399bb51022fb3ec8",
+        "pdf-2f4900261114252c",
+        "pdf-e891608fb07df836",
+        "pdf-d34f54e19caa0e1a",
+        "pdf-d3e7b24413d174aa",
+        "pdf-21af7e7f9722e82b",
+        "pdf-1b0fd19d643102bd",
+        "pdf-38cb1cc8cb5d868c",
+        "pdf-eda7e9c0a3f145a1",
+        "pdf-b644015b3fcb0656"
+      ]
+    },
+    {
+      "fileName": "08_TYT.zip",
+      "containerId": "input-6cb6611251b7f116",
+      "sha256": "6cb6611251b7f116d5ea676a66d5f7b815ac45e8b4b389a9f650298e015abeba",
+      "bytes": 21735769,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-7a5e16af681cb0d6",
+        "pdf-5aad4d31be9d9e9e",
+        "pdf-de2b0883e50040d7",
+        "pdf-1010c6afc37da2a3",
+        "pdf-64fd0d39b87428ef",
+        "pdf-5681556c88be08ea",
+        "pdf-16c4b7d4079e36c1",
+        "pdf-47c76925e53e4304"
+      ]
+    },
+    {
+      "fileName": "09_TYT.zip",
+      "containerId": "input-b5dd35203cd8f0d9",
+      "sha256": "b5dd35203cd8f0d92a8da49cb125ee7fd11bfd895143e4115882fcdead30868e",
+      "bytes": 19922382,
+      "actuallyRead": true,
+      "scanCompleteWithoutErrors": true,
+      "documentIds": [
+        "pdf-6aa70dc6dafb553c",
+        "pdf-4f22ed3668be2687",
+        "pdf-82bbecfc1e973f49",
+        "pdf-0b3151e716566d91"
+      ]
+    }
+  ],
+  "receivedPdfDocuments": [
+    {
+      "id": "pdf-b2f04efd15562701",
+      "sha256": "b2f04efd155627017f5439908db34803f18cbdbe3f5c100d3009943c3c2b199b",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_18_SAYFA_266-285.pdf",
+      "archive": "12_UCGEN_02",
+      "containerId": "input-65943e01e3de9707",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_18_SAYFA_266-285.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-5b8339cd45c3142e",
+      "sha256": "5b8339cd45c3142e2abbe3757e6e2e98648ba066904a6f4a28d68a372ba5957d",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_04_SAYFA_061-080.pdf",
+      "archive": "11_UCGEN_01",
+      "containerId": "input-016c27e96acf669f",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_04_SAYFA_061-080.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-ae263d6a6a2be245",
+      "sha256": "ae263d6a6a2be245ebca7bba53ff621ca62560f281fed4272f72e8bbd2c694ca",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_05_SAYFA_081-100.pdf",
+      "archive": "13_UCGEN_03",
+      "containerId": "input-e725e5358919485a",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_05_SAYFA_081-100.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-dde43d6aeba098fa",
+      "sha256": "dde43d6aeba098facdb2dceb9ca461b81ecd1abcb2cdb89b579116a936176d45",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_24_SAYFA_386-405.pdf",
+      "archive": "13_UCGEN_03",
+      "containerId": "input-e725e5358919485a",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_24_SAYFA_386-405.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-07278e05aa55e4d1",
+      "sha256": "07278e05aa55e4d101c94726c1dfea6c811e7a0f9b47dbfcdc809a04b5ab0609",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_06_SAYFA_101-120.pdf",
+      "archive": "14_UCGEN_04",
+      "containerId": "input-c4cbaf4fe1ae02b5",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_06_SAYFA_101-120.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-0a14c1ac14f78b52",
+      "sha256": "0a14c1ac14f78b52f19a773af6a545ec8c065c6802230b598f6bcec3a1a60b77",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_23_SAYFA_366-385.pdf",
+      "archive": "14_UCGEN_04",
+      "containerId": "input-c4cbaf4fe1ae02b5",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_23_SAYFA_366-385.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-0ff74c0ea4cdc8c9",
+      "sha256": "0ff74c0ea4cdc8c90ea4e3a11addd41f7233d6a9af1c44ce1ebb89cfb5b4c782",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_08_SAYFA_123-123.pdf",
+      "archive": "15_UCGEN_05",
+      "containerId": "input-30b31019bc7644f8",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_08_SAYFA_123-123.pdf",
+      "pageCount": 1,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-99296aa98d463fb9",
+      "sha256": "99296aa98d463fb953ccc71591078c4fbf70d2c1a46720752d96d4d1e96d129a",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_09_SAYFA_124-124.pdf",
+      "archive": "15_UCGEN_05",
+      "containerId": "input-30b31019bc7644f8",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_09_SAYFA_124-124.pdf",
+      "pageCount": 1,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-b680ae875e4eb76c",
+      "sha256": "b680ae875e4eb76c981cfac94e3e86d74653a20d46d76e9f6af8a495074fee31",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_12_SAYFA_165-184.pdf",
+      "archive": "15_UCGEN_05",
+      "containerId": "input-30b31019bc7644f8",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_12_SAYFA_165-184.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-299b9d5499242448",
+      "sha256": "299b9d54992424485178815aaf8b2eb29ec0f9fe2d9d53e08a4b71c9fcfaa9f6",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_17_SAYFA_246-265.pdf",
+      "archive": "15_UCGEN_05",
+      "containerId": "input-30b31019bc7644f8",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_17_SAYFA_246-265.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-b36fba2d4c0d7103",
+      "sha256": "b36fba2d4c0d7103a46b1482bc3e43093ce76decfae8d5399c04f8d655bdaf1b",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_02_SAYFA_021-040.pdf",
+      "archive": "16_UCGEN_06",
+      "containerId": "input-7ed6d238c9deae03",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_02_SAYFA_021-040.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-a018b693ae01331c",
+      "sha256": "a018b693ae01331cc8f55e3868f251f7f6a1976f4eff694fdc359f91d61c4742",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_14_SAYFA_205-205.pdf",
+      "archive": "16_UCGEN_06",
+      "containerId": "input-7ed6d238c9deae03",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_14_SAYFA_205-205.pdf",
+      "pageCount": 1,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-aa9470cf7be15b2c",
+      "sha256": "aa9470cf7be15b2c275eeca7545c2774af77c16fb2adb050d7d6ee3c7b98cc3f",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_19_SAYFA_286-305.pdf",
+      "archive": "16_UCGEN_06",
+      "containerId": "input-7ed6d238c9deae03",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_19_SAYFA_286-305.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-d70cb52c40d4e8bb",
+      "sha256": "d70cb52c40d4e8bbdd38112015061519968cbd88fe29fb030dd49ddb35e160ba",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_25_SAYFA_406-416.pdf",
+      "archive": "16_UCGEN_06",
+      "containerId": "input-7ed6d238c9deae03",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_25_SAYFA_406-416.pdf",
+      "pageCount": 11,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-4977e13f5f4577e8",
+      "sha256": "4977e13f5f4577e84556d6aa31e08dc111d74c791eba6bae6a27689bcf2edde4",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_01_SAYFA_001-020.pdf",
+      "archive": "19_UCGEN_09",
+      "containerId": "input-cb7ee8152aaa7dd2",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_01_SAYFA_001-020.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-f337f7fac8eed787",
+      "sha256": "f337f7fac8eed78772dccbb944d927b3c620b7ddfa420cb595c881b7c6905e52",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_07_SAYFA_121-122.pdf",
+      "archive": "19_UCGEN_09",
+      "containerId": "input-cb7ee8152aaa7dd2",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_07_SAYFA_121-122.pdf",
+      "pageCount": 2,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-69f62ebd82265ebb",
+      "sha256": "69f62ebd82265ebbc0cfe90f7dbb267b7fa189d61711140f868aece25fb5c103",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_15_SAYFA_206-225.pdf",
+      "archive": "19_UCGEN_09",
+      "containerId": "input-cb7ee8152aaa7dd2",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_15_SAYFA_206-225.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-56468e9051d09519",
+      "sha256": "56468e9051d0951942f5a1468dd7735b842b28648b2d2bda192f74e7e1f19392",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_03_SAYFA_041-060.pdf",
+      "archive": "17_UCGEN_07",
+      "containerId": "input-99e29efb71fd3380",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_03_SAYFA_041-060.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-28c594669625e2e3",
+      "sha256": "28c594669625e2e3a8f64a15e101be708b6190294230aa94ca16909191428eae",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_13_SAYFA_185-204.pdf",
+      "archive": "17_UCGEN_07",
+      "containerId": "input-99e29efb71fd3380",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_13_SAYFA_185-204.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-06a3ac8a9f4d3c6c",
+      "sha256": "06a3ac8a9f4d3c6ccdb1762f63013b1e49f4f70b827868a77b36adb217940cdc",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_16_SAYFA_226-245.pdf",
+      "archive": "17_UCGEN_07",
+      "containerId": "input-99e29efb71fd3380",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_16_SAYFA_226-245.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-3b819175c1667088",
+      "sha256": "3b819175c1667088a4261e609a321f8598992b18f1685d065564c4aea0a64fcd",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_22_SAYFA_346-365.pdf",
+      "archive": "17_UCGEN_07",
+      "containerId": "input-99e29efb71fd3380",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_22_SAYFA_346-365.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-60feb9cd04ba22cb",
+      "sha256": "60feb9cd04ba22cb794b80cca538b03fde8525e8af829d21e8537053bfb3aa02",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_10_SAYFA_125-144.pdf",
+      "archive": "18_UCGEN_08",
+      "containerId": "input-469b32e40c39002f",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_10_SAYFA_125-144.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-9c8b3c8aa642bd67",
+      "sha256": "9c8b3c8aa642bd671796a1d5a7569311d44e0f393c917d56b33e4f2287c99fec",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_11_SAYFA_145-164.pdf",
+      "archive": "18_UCGEN_08",
+      "containerId": "input-469b32e40c39002f",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_11_SAYFA_145-164.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-876538fa475010ed",
+      "sha256": "876538fa475010ed994683f3061b3438936a38e9f25c45d0d9dfb7caa10c1220",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_20_SAYFA_306-325.pdf",
+      "archive": "18_UCGEN_08",
+      "containerId": "input-469b32e40c39002f",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_20_SAYFA_306-325.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-4f6eb3b9af5c93f2",
+      "sha256": "4f6eb3b9af5c93f2a1b16844e0d71a5a6d27eb79fa1c3168ecffeabf661ef5e8",
+      "fileName": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_21_SAYFA_326-345.pdf",
+      "archive": "18_UCGEN_08",
+      "containerId": "input-469b32e40c39002f",
+      "member": "UcgenAkademi_TYT_Matematik_416sayfa_BOLUM_21_SAYFA_326-345.pdf",
+      "pageCount": 20,
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-8d19cbb4cec11d85",
+      "sha256": "8d19cbb4cec11d85f4b4f60b522ce8a39d390f119f1738c78f5494c41431e5f6",
+      "fileName": "UcDortBes_TYT_Matematik_416sayfa_BOLUM_04_SAYFA_193-256.pdf",
+      "archive": "20_345_01",
+      "containerId": "input-6d4ef7ea8b9523aa",
+      "member": "UcDortBes_TYT_Matematik_416sayfa_BOLUM_04_SAYFA_193-256.pdf",
+      "pageCount": 64,
+      "sourceId": "UcDortBes_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-9726623439000a05",
+      "sha256": "9726623439000a0562003c1ed1302f733c442bfe38cf59b37e6ab9b314f2b5d0",
+      "fileName": "UcDortBes_TYT_Matematik_416sayfa_BOLUM_05_SAYFA_257-320.pdf",
+      "archive": "20_345_01",
+      "containerId": "input-6d4ef7ea8b9523aa",
+      "member": "UcDortBes_TYT_Matematik_416sayfa_BOLUM_05_SAYFA_257-320.pdf",
+      "pageCount": 64,
+      "sourceId": "UcDortBes_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-86cd9af18268f48d",
+      "sha256": "86cd9af18268f48d1d784f2646871300ec3006b635bfcb75f2894c914cc8c476",
+      "fileName": "UcDortBes_TYT_Matematik_416sayfa_BOLUM_01_SAYFA_001-064.pdf",
+      "archive": "22_345_03",
+      "containerId": "input-654e28467b5b1915",
+      "member": "UcDortBes_TYT_Matematik_416sayfa_BOLUM_01_SAYFA_001-064.pdf",
+      "pageCount": 64,
+      "sourceId": "UcDortBes_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-637520e4e737a42a",
+      "sha256": "637520e4e737a42a0d93db2dab8c830158211a1d4cd88b085a5131e59d02f2d0",
+      "fileName": "UcDortBes_TYT_Matematik_416sayfa_BOLUM_02_SAYFA_065-128.pdf",
+      "archive": "22_345_03",
+      "containerId": "input-654e28467b5b1915",
+      "member": "UcDortBes_TYT_Matematik_416sayfa_BOLUM_02_SAYFA_065-128.pdf",
+      "pageCount": 64,
+      "sourceId": "UcDortBes_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-fa15d0e54f33857b",
+      "sha256": "fa15d0e54f33857bdae5ffd366206a57db519ca6c53496edccc91404ebe29383",
+      "fileName": "UcDortBes_TYT_Matematik_416sayfa_BOLUM_03_SAYFA_129-192.pdf",
+      "archive": "21_345_02",
+      "containerId": "input-9bb844a907886209",
+      "member": "UcDortBes_TYT_Matematik_416sayfa_BOLUM_03_SAYFA_129-192.pdf",
+      "pageCount": 64,
+      "sourceId": "UcDortBes_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-349b172f9efe7412",
+      "sha256": "349b172f9efe7412c82cf02ebab129e2add03617533ceb22939a743a858f75f8",
+      "fileName": "UcDortBes_TYT_Matematik_416sayfa_BOLUM_06_SAYFA_321-384.pdf",
+      "archive": "21_345_02",
+      "containerId": "input-9bb844a907886209",
+      "member": "UcDortBes_TYT_Matematik_416sayfa_BOLUM_06_SAYFA_321-384.pdf",
+      "pageCount": 64,
+      "sourceId": "UcDortBes_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-64e6610193b4add6",
+      "sha256": "64e6610193b4add6ca9a28c03e89384bb95ede425fb7014ca79257d04400363f",
+      "fileName": "UcDortBes_TYT_Matematik_416sayfa_BOLUM_07_SAYFA_385-416.pdf",
+      "archive": "21_345_02",
+      "containerId": "input-9bb844a907886209",
+      "member": "UcDortBes_TYT_Matematik_416sayfa_BOLUM_07_SAYFA_385-416.pdf",
+      "pageCount": 32,
+      "sourceId": "UcDortBes_TYT_Matematik_416sayfa"
+    },
+    {
+      "id": "pdf-e553af4cc8e28073",
+      "sha256": "e553af4cc8e280739d84fadf3d2570558b05e3f78a6b037f2dd6a0a61175d57c",
+      "fileName": "24_TUDEM.pdf",
+      "archive": "24_TUDEM.pdf",
+      "containerId": "input-e553af4cc8e28073",
+      "member": "24_TUDEM.pdf",
+      "pageCount": 16,
+      "sourceId": "Tudem_TYT_Matematik_Ornek_16sayfa"
+    },
+    {
+      "id": "pdf-0924f9a879c3f7da",
+      "sha256": "0924f9a879c3f7daf055f5265d9ebba3549c3fb20033f5ab8d49a8cbc158a524",
+      "fileName": "25_OZDEBIR.pdf",
+      "archive": "25_OZDEBIR.pdf",
+      "containerId": "input-0924f9a879c3f7da",
+      "member": "25_OZDEBIR.pdf",
+      "pageCount": 12,
+      "sourceId": "Ozdebir_GIS_TYT_Ornek_12sayfa"
+    },
+    {
+      "id": "pdf-1fda1064551bd00f",
+      "sha256": "1fda1064551bd00f6b594de2b97b5ad4ab1de33d8543436c932317a9a9cc0e6f",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_269-280.pdf",
+      "archive": "02_AYT",
+      "containerId": "input-559ef72d8e04f721",
+      "member": "AYT/M24_Limit_Sureklilik/Limit_ve_Sureklilik/OFB_Ozel_Fen_Bilimleri_PDF_269-280.pdf",
+      "pageCount": 12,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-d7f29d828181b829",
+      "sha256": "d7f29d828181b829523a920153476d4e9343f89fe5191ce6c670e31d26cf4424",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_281-304.pdf",
+      "archive": "02_AYT",
+      "containerId": "input-559ef72d8e04f721",
+      "member": "AYT/M25_Turev/Turev/OFB_Ozel_Fen_Bilimleri_PDF_281-304.pdf",
+      "pageCount": 24,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-214b2c524989bb66",
+      "sha256": "214b2c524989bb66cf7a18b563adcb3db7a800233e3a332c53054a91ab1c23af",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_305-325.pdf",
+      "archive": "02_AYT",
+      "containerId": "input-559ef72d8e04f721",
+      "member": "AYT/M26_Integral/Integral/OFB_Ozel_Fen_Bilimleri_PDF_305-325.pdf",
+      "pageCount": 21,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-24ee79b85e0d08d2",
+      "sha256": "24ee79b85e0d08d251fc5c4af07020adf872865bb15124b26146f0e49e1866e6",
+      "fileName": "23_ULTI.pdf",
+      "archive": "23_ULTI.pdf",
+      "containerId": "input-24ee79b85e0d08d2",
+      "member": "23_ULTI.pdf",
+      "pageCount": 54,
+      "sourceId": "ULTI_TYT_Matematik_54sayfa"
+    },
+    {
+      "id": "pdf-da639c8942532e62",
+      "sha256": "da639c8942532e62c566f7c1dcbcc63fd24ada22415537c46555e1b60057cd7e",
+      "fileName": "Orijinal_TYT_AYT_Geometri_PDF_376-394.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M18_Analitik_Geometri/Cemberin_Analitik_Incelemesi/Orijinal_TYT_AYT_Geometri_PDF_376-394.pdf",
+      "pageCount": 19,
+      "sourceId": "Orijinal_TYT_AYT_Geometri"
+    },
+    {
+      "id": "pdf-0980d46e8046e6a7",
+      "sha256": "0980d46e8046e6a7566b5db2bed613b776dfbc53b495f43ab702b7a4bc399ffc",
+      "fileName": "Orijinal_TYT_Matematik_PDF_373-380.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M19_Polinom_Ikinci_Derece/2_Dereceden_Denklemler/Orijinal_TYT_Matematik_PDF_373-380.pdf",
+      "pageCount": 8,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-027b637a93a75d3b",
+      "sha256": "027b637a93a75d3b36a474143c3de995a1b5640156f0dbe9d48053216ce4be13",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_183-190.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M19_Polinom_Ikinci_Derece/2_Dereceden_Denklemler/Paraf_Adim_Adim_TYT_PDF_183-190.pdf",
+      "pageCount": 8,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-4d83ed5b49d0aebb",
+      "sha256": "4d83ed5b49d0aebbb67e84ab6c132083db96ae97032e8c37df01d24087e7f831",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_221-228.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M19_Polinom_Ikinci_Derece/Denklem_ve_Esitsizlik_Sistemi/OFB_Ozel_Fen_Bilimleri_PDF_221-228.pdf",
+      "pageCount": 8,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-9cfb405b446213c9",
+      "sha256": "9cfb405b446213c9de5047e21bbc4290e466c98dac418c7edf235167b42e7906",
+      "fileName": "MEB_Dort_Dortluk_PDF_423-458.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M19_Polinom_Ikinci_Derece/Ikinci_Dereceden_Bir_Bilinmeyenli_Denklemler/MEB_Dort_Dortluk_PDF_423-458.pdf",
+      "pageCount": 36,
+      "sourceId": "MEB_Dort_Dortluk"
+    },
+    {
+      "id": "pdf-07009aae84fdb2e1",
+      "sha256": "07009aae84fdb2e17b0f400a5d442e41d5611297a61c3f0607bf40a13d42dc82",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_177-188.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M19_Polinom_Ikinci_Derece/Ikinci_Dereceden_Denklemler/OFB_Ozel_Fen_Bilimleri_PDF_177-188.pdf",
+      "pageCount": 12,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-03e316d72fd5a544",
+      "sha256": "03e316d72fd5a544891a203a62315593b07e5dcf4f2f92c7e8be0a87f67a914d",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_189-196.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M19_Polinom_Ikinci_Derece/Parabol/OFB_Ozel_Fen_Bilimleri_PDF_189-196.pdf",
+      "pageCount": 8,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-3310d7ca5e0d69c0",
+      "sha256": "3310d7ca5e0d69c077aa0d0a0b64a0e5a412833a96559598a217fb63fdb67672",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_197-204.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M19_Polinom_Ikinci_Derece/Parabol/Paraf_Adim_Adim_TYT_PDF_197-204.pdf",
+      "pageCount": 8,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-bc0a1f34fb10ccd5",
+      "sha256": "bc0a1f34fb10ccd57a42261236abbf88bdbfde6ad653df7e513ea221e1d1a3c6",
+      "fileName": "MEB_Dort_Dortluk_PDF_391-404.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M19_Polinom_Ikinci_Derece/Polinom_Kavrami_ve_Polinomlarda_Islemler/MEB_Dort_Dortluk_PDF_391-404.pdf",
+      "pageCount": 14,
+      "sourceId": "MEB_Dort_Dortluk"
+    },
+    {
+      "id": "pdf-12714f39b75802d5",
+      "sha256": "12714f39b75802d5d7dd46335373eba444a2dda7cdbbefd66a538863d33b54df",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_205-216.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M19_Polinom_Ikinci_Derece/Polinomlar/OFB_Ozel_Fen_Bilimleri_PDF_205-216.pdf",
+      "pageCount": 12,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-2b16ef94cae77055",
+      "sha256": "2b16ef94cae77055b78feaf3ccac0a4dc5d82ba661fa73ab055d406cc31fb217",
+      "fileName": "Orijinal_TYT_Matematik_PDF_363-372.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M19_Polinom_Ikinci_Derece/Polinomlar/Orijinal_TYT_Matematik_PDF_363-372.pdf",
+      "pageCount": 10,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-da2eb725a68a4875",
+      "sha256": "da2eb725a68a4875500cd34dd4f939a8c99babddba8517b3ac8862d03d65fdd5",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_191-196.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M19_Polinom_Ikinci_Derece/Polinomlar/Paraf_Adim_Adim_TYT_PDF_191-196.pdf",
+      "pageCount": 6,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-54c7c0919d2f235f",
+      "sha256": "54c7c0919d2f235f177f2beab765404e39ab8acf5568887169f5926c244598a4",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_229-248.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M21_Trigonometri/Trigonometri/OFB_Ozel_Fen_Bilimleri_PDF_229-248.pdf",
+      "pageCount": 20,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-53bc4bf334649064",
+      "sha256": "53bc4bf3346490648bf8956466e58b80168f53e675629dad0b8142b1f6314e1b",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_261-268.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M22_Logaritma_Diziler/Diziler/OFB_Ozel_Fen_Bilimleri_PDF_261-268.pdf",
+      "pageCount": 8,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-8acb0d08e272e2cb",
+      "sha256": "8acb0d08e272e2cb0232aba6c685976cc22b41c22af8a613eb1c8b8ac77e8d6e",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_249-260.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M22_Logaritma_Diziler/Logaritma/OFB_Ozel_Fen_Bilimleri_PDF_249-260.pdf",
+      "pageCount": 12,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-3911f2664e2fb489",
+      "sha256": "3911f2664e2fb4898a6c783e2c83a6e38b4cf5b30810619e076266b94155fa22",
+      "fileName": "Orijinal_TYT_Matematik_PDF_302-305.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M23_Karmasik_Binom/Binom/Orijinal_TYT_Matematik_PDF_302-305.pdf",
+      "pageCount": 4,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-e8d1ad1d4e3561d0",
+      "sha256": "e8d1ad1d4e3561d07222b150c23d290e8221bd2a519fbb9c99c2b6b171405981",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_219-223.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M23_Karmasik_Binom/Binom/Paraf_Adim_Adim_TYT_PDF_219-223.pdf",
+      "pageCount": 5,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-7fd2700b5eb6218e",
+      "sha256": "7fd2700b5eb6218e82f361faf6a7e482b22905ba2fd8991fd301b02553169340",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_217-220.pdf",
+      "archive": "01_AYT",
+      "containerId": "input-c21bb24e2c237e04",
+      "member": "AYT/M23_Karmasik_Binom/Binom_Acilimi/OFB_Ozel_Fen_Bilimleri_PDF_217-220.pdf",
+      "pageCount": 4,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-d7847ec1d4f2515f",
+      "sha256": "d7847ec1d4f2515fd0576cb306e0146f290b641761360921bb442f8cd66dc288",
+      "fileName": "Orijinal_TYT_Matematik_PDF_030-035.pdf",
+      "archive": "04_TYT",
+      "containerId": "input-5d1b8a73e5dafbe8",
+      "member": "TYT/M03_Tam_Sayilar_Bolunebilme/Ardisik_Sayilar/Orijinal_TYT_Matematik_PDF_030-035.pdf",
+      "pageCount": 6,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-3201b108bd6a6394",
+      "sha256": "3201b108bd6a63943931c3a8170dd6b342ac8f6f16e55c72be42b443b85dfc74",
+      "fileName": "Hiz_ve_Renk_Ornek_PDF_018-020.pdf",
+      "archive": "04_TYT",
+      "containerId": "input-5d1b8a73e5dafbe8",
+      "member": "TYT/M03_Tam_Sayilar_Bolunebilme/Asal_ve_Aralarinda_Asal_Sayilar/Hiz_ve_Renk_Ornek_PDF_018-020.pdf",
+      "pageCount": 3,
+      "sourceId": "Hiz_ve_Renk_Ornek"
+    },
+    {
+      "id": "pdf-fc3b9f9f5ccbf217",
+      "sha256": "fc3b9f9f5ccbf217f983420ef78ffc11725c98283983735c37f7141a32c744c8",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_025-030.pdf",
+      "archive": "04_TYT",
+      "containerId": "input-5d1b8a73e5dafbe8",
+      "member": "TYT/M03_Tam_Sayilar_Bolunebilme/Bolme_Bolunebilme/OFB_Ozel_Fen_Bilimleri_PDF_025-030.pdf",
+      "pageCount": 6,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-495dd231fe60845d",
+      "sha256": "495dd231fe60845d46980e00950750da524d4e91227b277c228bbb318087d558",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_051-056.pdf",
+      "archive": "04_TYT",
+      "containerId": "input-5d1b8a73e5dafbe8",
+      "member": "TYT/M03_Tam_Sayilar_Bolunebilme/Bolme_Bolunme_Kurallari/Paraf_Adim_Adim_TYT_PDF_051-056.pdf",
+      "pageCount": 6,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-bb1758fe04062036",
+      "sha256": "bb1758fe0406203613b51c070e448d6b4f0a4a63058870611a1b6a6931cacd10",
+      "fileName": "Orijinal_TYT_Matematik_PDF_046-054.pdf",
+      "archive": "04_TYT",
+      "containerId": "input-5d1b8a73e5dafbe8",
+      "member": "TYT/M03_Tam_Sayilar_Bolunebilme/Bolme_ve_Bolunebilme/Orijinal_TYT_Matematik_PDF_046-054.pdf",
+      "pageCount": 9,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-aa3b5f8036b950ab",
+      "sha256": "aa3b5f8036b950abbb80d88184969701829264866113a25ffce9997d10571c13",
+      "fileName": "MEB_Dort_Dortluk_PDF_067-082.pdf",
+      "archive": "04_TYT",
+      "containerId": "input-5d1b8a73e5dafbe8",
+      "member": "TYT/M03_Tam_Sayilar_Bolunebilme/Bolunebilme_Kurallari/MEB_Dort_Dortluk_PDF_067-082.pdf",
+      "pageCount": 16,
+      "sourceId": "MEB_Dort_Dortluk"
+    },
+    {
+      "id": "pdf-b4dfe930eef53d1a",
+      "sha256": "b4dfe930eef53d1a3e5b01d2fe649fe6e694ae9e9a3f9c372c313831f7b87de4",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_031-036.pdf",
+      "archive": "04_TYT",
+      "containerId": "input-5d1b8a73e5dafbe8",
+      "member": "TYT/M03_Tam_Sayilar_Bolunebilme/EBOB_EKOK/OFB_Ozel_Fen_Bilimleri_PDF_031-036.pdf",
+      "pageCount": 6,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-37c1ae963e2815b6",
+      "sha256": "37c1ae963e2815b6a4ae1cdb4963e8775ca1b212ee055c0d34827766d9b03f0b",
+      "fileName": "Orijinal_TYT_Matematik_PDF_055-060.pdf",
+      "archive": "04_TYT",
+      "containerId": "input-5d1b8a73e5dafbe8",
+      "member": "TYT/M03_Tam_Sayilar_Bolunebilme/EBOB_EKOK/Orijinal_TYT_Matematik_PDF_055-060.pdf",
+      "pageCount": 6,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-df8eae9878f96ee2",
+      "sha256": "df8eae9878f96ee259699fbd65127f3edce57269453585b150cf9ebedf75af35",
+      "fileName": "Orijinal_TYT_Matematik_PDF_036-039.pdf",
+      "archive": "04_TYT",
+      "containerId": "input-5d1b8a73e5dafbe8",
+      "member": "TYT/M03_Tam_Sayilar_Bolunebilme/Faktoriyel_Asal_ve_Aralarinda_Asal_Sayilar/Orijinal_TYT_Matematik_PDF_036-039.pdf",
+      "pageCount": 4,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-c21b16685abe46b9",
+      "sha256": "c21b16685abe46b9ef6b9eaf9490cb51815c2161be00214254a84bb59dbb5cfd",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_057-062.pdf",
+      "archive": "04_TYT",
+      "containerId": "input-5d1b8a73e5dafbe8",
+      "member": "TYT/M03_Tam_Sayilar_Bolunebilme/OBEB_OKEK/Paraf_Adim_Adim_TYT_PDF_057-062.pdf",
+      "pageCount": 6,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-88326c78101e21e3",
+      "sha256": "88326c78101e21e35f6dd265e1975fd3cf2dee0ede6d5be30e57e22e1807f703",
+      "fileName": "Hiz_ve_Renk_Ornek_PDF_016-017.pdf",
+      "archive": "04_TYT",
+      "containerId": "input-5d1b8a73e5dafbe8",
+      "member": "TYT/M03_Tam_Sayilar_Bolunebilme/Tek_ve_Cift_Sayilar/Hiz_ve_Renk_Ornek_PDF_016-017.pdf",
+      "pageCount": 2,
+      "sourceId": "Hiz_ve_Renk_Ornek"
+    },
+    {
+      "id": "pdf-aaa365b2e44961d3",
+      "sha256": "aaa365b2e44961d35b4b1752b33418326796ff9710338891c9ee2b9d0bc80762",
+      "fileName": "Orijinal_TYT_Matematik_PDF_017-021.pdf",
+      "archive": "04_TYT",
+      "containerId": "input-5d1b8a73e5dafbe8",
+      "member": "TYT/M03_Tam_Sayilar_Bolunebilme/Tek_ve_Cift_Sayilar/Orijinal_TYT_Matematik_PDF_017-021.pdf",
+      "pageCount": 5,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-c66b64cc62a224c6",
+      "sha256": "c66b64cc62a224c6b79e86f00df8d7c9a37464d6ccb938f6880841495f967ce5",
+      "fileName": "Orijinal_TYT_Matematik_PDF_073-077.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/00_Karisik_ve_Cevaplar/2018_2019_OSYM_Sorulari_Bolum_1_Kitap_Etiketi/Orijinal_TYT_Matematik_PDF_073-077.pdf",
+      "pageCount": 5,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-a4e996588bea275e",
+      "sha256": "a4e996588bea275e95fe764d608a907eb85f3ae17bfe52845160a013e018f9ed",
+      "fileName": "Orijinal_TYT_Matematik_PDF_149-152.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/00_Karisik_ve_Cevaplar/2018_2019_OSYM_Sorulari_Bolum_2_Kitap_Etiketi/Orijinal_TYT_Matematik_PDF_149-152.pdf",
+      "pageCount": 4,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-c4a76a62a837f1a2",
+      "sha256": "c4a76a62a837f1a2dc31c4fa7b6e0cea7f736fae75f7ace0c29d6a1846661436",
+      "fileName": "Orijinal_TYT_Matematik_PDF_214-220.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/00_Karisik_ve_Cevaplar/2018_2019_OSYM_Sorulari_Bolum_3_Kitap_Etiketi/Orijinal_TYT_Matematik_PDF_214-220.pdf",
+      "pageCount": 7,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-4a6ca18d9034accf",
+      "sha256": "4a6ca18d9034accf967bff2b9c161a6ff16477f9e1a994863f1fe3cf69d6c683",
+      "fileName": "Orijinal_TYT_Matematik_PDF_265-273.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/00_Karisik_ve_Cevaplar/2018_2019_OSYM_Sorulari_Bolum_4_Kitap_Etiketi/Orijinal_TYT_Matematik_PDF_265-273.pdf",
+      "pageCount": 9,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-36e8c4c1096c8614",
+      "sha256": "36e8c4c1096c8614b2f07e8254e1e2e03817886700f7601b0b8867dec37441a3",
+      "fileName": "Orijinal_TYT_Matematik_PDF_318-322.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/00_Karisik_ve_Cevaplar/2018_2019_OSYM_Sorulari_Bolum_5_Kitap_Etiketi/Orijinal_TYT_Matematik_PDF_318-322.pdf",
+      "pageCount": 5,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-b9f2d01b93fac2af",
+      "sha256": "b9f2d01b93fac2af6defc92a90bcdb4855ca49cda3066cd0e074840cea8352d4",
+      "fileName": "Orijinal_TYT_Matematik_PDF_381-381.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/00_Karisik_ve_Cevaplar/2018_2019_OSYM_Sorulari_Bolum_6_Kitap_Etiketi/Orijinal_TYT_Matematik_PDF_381-381.pdf",
+      "pageCount": 1,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-e7680cc38e82e5e1",
+      "sha256": "e7680cc38e82e5e19bdfcc15d088d8e8dc9d528cc71113feaafbfedcc6a79af1",
+      "fileName": "Orijinal_TYT_Matematik_PDF_022-029.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/M01_Matematik_Dili/Basamak_Kavrami/Orijinal_TYT_Matematik_PDF_022-029.pdf",
+      "pageCount": 8,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-38b5da8005660dbf",
+      "sha256": "38b5da8005660dbf04132017946e9669941c9a583ae6d773ee324ae09d7b4c6b",
+      "fileName": "Hiz_ve_Renk_Ornek_PDF_014-015.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/M01_Matematik_Dili/Pozitif_ve_Negatif_Sayilar/Hiz_ve_Renk_Ornek_PDF_014-015.pdf",
+      "pageCount": 2,
+      "sourceId": "Hiz_ve_Renk_Ornek"
+    },
+    {
+      "id": "pdf-bec490bc0a1e21c8",
+      "sha256": "bec490bc0a1e21c8499047faf47249d311f1b7a6f900124f3166ee4724869a57",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_013-020.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/M01_Matematik_Dili/Sayi_Basamaklari/Paraf_Adim_Adim_TYT_PDF_013-020.pdf",
+      "pageCount": 8,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-61079adf42c4eb52",
+      "sha256": "61079adf42c4eb525d28dde935d5a4479f68f9c7a60bf5ee62c519cb2c91be2f",
+      "fileName": "Ozdebir_GIS_2024_Ornek_PDF_014-015.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/M01_Matematik_Dili/Sayi_Cesitleri_1/Ozdebir_GIS_2024_Ornek_PDF_014-015.pdf",
+      "pageCount": 2,
+      "sourceId": "Ozdebir_GIS_2024_Ornek"
+    },
+    {
+      "id": "pdf-12098435bd3e1ac2",
+      "sha256": "12098435bd3e1ac2472c183d37d8f0f82fefb5d1e511ca943c266fb04a043bd9",
+      "fileName": "Ozdebir_GIS_2024_Ornek_PDF_016-017.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/M01_Matematik_Dili/Sayi_Cesitleri_2/Ozdebir_GIS_2024_Ornek_PDF_016-017.pdf",
+      "pageCount": 2,
+      "sourceId": "Ozdebir_GIS_2024_Ornek"
+    },
+    {
+      "id": "pdf-f89e44d5e9191ea2",
+      "sha256": "f89e44d5e9191ea2570f7c418daa4554ff765ad6ba84665700cbbb15a7531b06",
+      "fileName": "Ozdebir_GIS_2024_Ornek_PDF_018-019.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/M01_Matematik_Dili/Sayi_Cesitleri_3/Ozdebir_GIS_2024_Ornek_PDF_018-019.pdf",
+      "pageCount": 2,
+      "sourceId": "Ozdebir_GIS_2024_Ornek"
+    },
+    {
+      "id": "pdf-1688c6117eccbb25",
+      "sha256": "1688c6117eccbb25508e2139b165ec32aeb0862326d599211cf39b8b24c8dc07",
+      "fileName": "Ozdebir_GIS_2024_Ornek_PDF_020-020.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/M01_Matematik_Dili/Sayi_Cesitleri_4_Son_Sayfa/Ozdebir_GIS_2024_Ornek_PDF_020-020.pdf",
+      "pageCount": 1,
+      "sourceId": "Ozdebir_GIS_2024_Ornek"
+    },
+    {
+      "id": "pdf-84ed6ccc29645173",
+      "sha256": "84ed6ccc29645173067a70c6a716e08fc5b22217d2683cade3e4bfc7ad534622",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_007-024.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/M01_Matematik_Dili/Sayilar/OFB_Ozel_Fen_Bilimleri_PDF_007-024.pdf",
+      "pageCount": 18,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-eb0250f150a613b8",
+      "sha256": "eb0250f150a613b8e6a9a589325670dcecaa1fc0c406f781bd3dc78120369ba7",
+      "fileName": "Orijinal_TYT_Matematik_PDF_004-016.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/M01_Matematik_Dili/Temel_Kavramlar/Orijinal_TYT_Matematik_PDF_004-016.pdf",
+      "pageCount": 13,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-4a38289a65a7a89f",
+      "sha256": "4a38289a65a7a89f6a47f2e0a778dc860f2162db2b5c6990b4f5dcba9717c1c8",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_004-012.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/M01_Matematik_Dili/Temel_Kavramlar/Paraf_Adim_Adim_TYT_PDF_004-012.pdf",
+      "pageCount": 9,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-595d626c0335e302",
+      "sha256": "595d626c0335e30275d64e6a18179e836a48bcd6567df24d13bb38349d15f1f2",
+      "fileName": "Ozdebir_GIS_2024_Ornek_PDF_010-011.pdf",
+      "archive": "03_TYT",
+      "containerId": "input-557c1c713f9537b3",
+      "member": "TYT/M02_Dort_Islem/Dort_Islem/Ozdebir_GIS_2024_Ornek_PDF_010-011.pdf",
+      "pageCount": 2,
+      "sourceId": "Ozdebir_GIS_2024_Ornek"
+    },
+    {
+      "id": "pdf-36015b1d4fd9dc2e",
+      "sha256": "36015b1d4fd9dc2e799c60d225c63af795e43619b0ba1ee57673cfc5a334b081",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_037-042.pdf",
+      "archive": "05_TYT",
+      "containerId": "input-5a2f44f56aa2547f",
+      "member": "TYT/M04_Kesirler_Rasyonel/Rasyonel_Sayilar/OFB_Ozel_Fen_Bilimleri_PDF_037-042.pdf",
+      "pageCount": 6,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-3f0de5af592c4748",
+      "sha256": "3f0de5af592c47487f56f06195152ea0649b761e138ec9df0182e74ef9a8f924",
+      "fileName": "Orijinal_TYT_Matematik_PDF_061-072.pdf",
+      "archive": "05_TYT",
+      "containerId": "input-5a2f44f56aa2547f",
+      "member": "TYT/M04_Kesirler_Rasyonel/Rasyonel_Sayilar/Orijinal_TYT_Matematik_PDF_061-072.pdf",
+      "pageCount": 12,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-a1809f2fdfaf139d",
+      "sha256": "a1809f2fdfaf139d27f0277a060a51d0a54b842acb5980686fd7f1a59577f3f0",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_021-028.pdf",
+      "archive": "05_TYT",
+      "containerId": "input-5a2f44f56aa2547f",
+      "member": "TYT/M04_Kesirler_Rasyonel/Rasyonel_Sayilar/Paraf_Adim_Adim_TYT_PDF_021-028.pdf",
+      "pageCount": 8,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-efbb240ce5ae699f",
+      "sha256": "efbb240ce5ae699f79911535b4147ac38f7f0200c223dc558aac8f7ff8e63cc5",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_079-084.pdf",
+      "archive": "05_TYT",
+      "containerId": "input-5a2f44f56aa2547f",
+      "member": "TYT/M05_Oran_Yuzde/Oran_Oranti/OFB_Ozel_Fen_Bilimleri_PDF_079-084.pdf",
+      "pageCount": 6,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-72a306f9191c42ca",
+      "sha256": "72a306f9191c42cae7372997d6e2c3ad1f574705f5c0460e5278632ba4a4b047",
+      "fileName": "Orijinal_TYT_Matematik_PDF_153-164.pdf",
+      "archive": "05_TYT",
+      "containerId": "input-5a2f44f56aa2547f",
+      "member": "TYT/M05_Oran_Yuzde/Oran_Oranti/Orijinal_TYT_Matematik_PDF_153-164.pdf",
+      "pageCount": 12,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-57aed43f00465237",
+      "sha256": "57aed43f0046523799660b9bc08439410eaa8ea5fcd8c6684203eb7b327f0ef7",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_085-092.pdf",
+      "archive": "05_TYT",
+      "containerId": "input-5a2f44f56aa2547f",
+      "member": "TYT/M05_Oran_Yuzde/Oran_Oranti/Paraf_Adim_Adim_TYT_PDF_085-092.pdf",
+      "pageCount": 8,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-2ac7e9682b6b4ffb",
+      "sha256": "2ac7e9682b6b4ffb22817accdae2f7670985bdadbe6513eae863453197657113",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_070-078.pdf",
+      "archive": "06_TYT",
+      "containerId": "input-7ef97af9b4415c9f",
+      "member": "TYT/M06_Uslu_Koklu/Koklu_Ifadeler/OFB_Ozel_Fen_Bilimleri_PDF_070-078.pdf",
+      "pageCount": 9,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-2434d0076c29b616",
+      "sha256": "2434d0076c29b616debeaa7a066c721e724d6766b88a45ba79ba590da9c34e2a",
+      "fileName": "Orijinal_TYT_Matematik_PDF_125-136.pdf",
+      "archive": "06_TYT",
+      "containerId": "input-7ef97af9b4415c9f",
+      "member": "TYT/M06_Uslu_Koklu/Koklu_Sayilar/Orijinal_TYT_Matematik_PDF_125-136.pdf",
+      "pageCount": 12,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-a297efe671cbf8ea",
+      "sha256": "a297efe671cbf8eada99ca2524793df87a73ba68b0509ba06753fde01832a9a1",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_069-076.pdf",
+      "archive": "06_TYT",
+      "containerId": "input-7ef97af9b4415c9f",
+      "member": "TYT/M06_Uslu_Koklu/Koklu_ifadeler/Paraf_Adim_Adim_TYT_PDF_069-076.pdf",
+      "pageCount": 8,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-ec6f0c98c5e85f1e",
+      "sha256": "ec6f0c98c5e85f1e6ec806be0971497df270e2311897e59f1c0001f00edaa09d",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_061-069.pdf",
+      "archive": "06_TYT",
+      "containerId": "input-7ef97af9b4415c9f",
+      "member": "TYT/M06_Uslu_Koklu/Uslu_Ifadeler/OFB_Ozel_Fen_Bilimleri_PDF_061-069.pdf",
+      "pageCount": 9,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-2db22eb8120534d3",
+      "sha256": "2db22eb8120534d30a4a2e2214566c92775dee06513fa0a249c80ac93c72bd24",
+      "fileName": "MEB_Dort_Dortluk_PDF_111-126.pdf",
+      "archive": "06_TYT",
+      "containerId": "input-7ef97af9b4415c9f",
+      "member": "TYT/M06_Uslu_Koklu/Uslu_Ifadeler_ve_Denklemler/MEB_Dort_Dortluk_PDF_111-126.pdf",
+      "pageCount": 16,
+      "sourceId": "MEB_Dort_Dortluk"
+    },
+    {
+      "id": "pdf-08e62a3a3560e449",
+      "sha256": "08e62a3a3560e4496e1348c3ceb25afc93e7348bd482e70a4873e2148c7f2067",
+      "fileName": "Orijinal_TYT_Matematik_PDF_113-124.pdf",
+      "archive": "06_TYT",
+      "containerId": "input-7ef97af9b4415c9f",
+      "member": "TYT/M06_Uslu_Koklu/Uslu_Sayilar/Orijinal_TYT_Matematik_PDF_113-124.pdf",
+      "pageCount": 12,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-db5e8634b4bdfa5c",
+      "sha256": "db5e8634b4bdfa5cbd8617a9e2b4814abbe9089a54914f40350448cd087fc187",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_063-068.pdf",
+      "archive": "06_TYT",
+      "containerId": "input-7ef97af9b4415c9f",
+      "member": "TYT/M06_Uslu_Koklu/Uslu_Sayilar/Paraf_Adim_Adim_TYT_PDF_063-068.pdf",
+      "pageCount": 6,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-e555c4d09980523b",
+      "sha256": "e555c4d09980523bdfd27bb8e735ac230cfcf3fab8766a3f33b61f40542d7179",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_043-048.pdf",
+      "archive": "06_TYT",
+      "containerId": "input-7ef97af9b4415c9f",
+      "member": "TYT/M07_Cebirsel_Ifadeler/Birinci_Dereceden_Denklemler/OFB_Ozel_Fen_Bilimleri_PDF_043-048.pdf",
+      "pageCount": 6,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-0f6b8777de211dfc",
+      "sha256": "0f6b8777de211dfcf72a904e8e01af39b051bb2ba91799ff1309bd94366ef437",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_029-036.pdf",
+      "archive": "06_TYT",
+      "containerId": "input-7ef97af9b4415c9f",
+      "member": "TYT/M07_Cebirsel_Ifadeler/I_Derece_Denklemler/Paraf_Adim_Adim_TYT_PDF_029-036.pdf",
+      "pageCount": 8,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-94507bbf651172ce",
+      "sha256": "94507bbf651172ce45e1e30cedc7469063c0901a59f6cd03d52723ff5cab5de7",
+      "fileName": "Orijinal_TYT_Matematik_PDF_090-099.pdf",
+      "archive": "06_TYT",
+      "containerId": "input-7ef97af9b4415c9f",
+      "member": "TYT/M08_Esitsizlik_Mutlak_Deger/Basit_Esitsizlikler/Orijinal_TYT_Matematik_PDF_090-099.pdf",
+      "pageCount": 10,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-79cd2be284d982c3",
+      "sha256": "79cd2be284d982c3323cd5b349edeb862842140c8422b9ddcf4a916cb069152c",
+      "fileName": "Orijinal_TYT_Matematik_PDF_078-089.pdf",
+      "archive": "06_TYT",
+      "containerId": "input-7ef97af9b4415c9f",
+      "member": "TYT/M08_Esitsizlik_Mutlak_Deger/Birinci_Dereceden_Denklem_ve_Esitsizlikler/Orijinal_TYT_Matematik_PDF_078-089.pdf",
+      "pageCount": 12,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-aa1268194d937b09",
+      "sha256": "aa1268194d937b09dc8d4bc26e83a3f609b0893ff0de0e615cf91245e6b93aa7",
+      "fileName": "MEB_Dort_Dortluk_PDF_083-110.pdf",
+      "archive": "07_TYT",
+      "containerId": "input-d02005a0c16fab07",
+      "member": "TYT/M08_Esitsizlik_Mutlak_Deger/Birinci_Dereceden_Denklemler_ve_Esitsizlikler/MEB_Dort_Dortluk_PDF_083-110.pdf",
+      "pageCount": 28,
+      "sourceId": "MEB_Dort_Dortluk"
+    },
+    {
+      "id": "pdf-399bb51022fb3ec8",
+      "sha256": "399bb51022fb3ec80bc8b5896b68eda66532a908069a63801402cb398699a8d4",
+      "fileName": "MEB_Dort_Dortluk_PDF_127-168.pdf",
+      "archive": "07_TYT",
+      "containerId": "input-d02005a0c16fab07",
+      "member": "TYT/M08_Esitsizlik_Mutlak_Deger/Denklemler_ve_Esitsizliklerle_Ilgili_Uygulamalar/MEB_Dort_Dortluk_PDF_127-168.pdf",
+      "pageCount": 42,
+      "sourceId": "MEB_Dort_Dortluk"
+    },
+    {
+      "id": "pdf-2f4900261114252c",
+      "sha256": "2f4900261114252c435af6fecefc85b9e86ad70ef5b9e27373ce06a5057a9bc4",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_049-054.pdf",
+      "archive": "07_TYT",
+      "containerId": "input-d02005a0c16fab07",
+      "member": "TYT/M08_Esitsizlik_Mutlak_Deger/Esitsizlikler/OFB_Ozel_Fen_Bilimleri_PDF_049-054.pdf",
+      "pageCount": 6,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-e891608fb07df836",
+      "sha256": "e891608fb07df8365f732040fc5ce544e0e18e1dd0c24ad4fa41c0e00d2f9fa3",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_055-060.pdf",
+      "archive": "07_TYT",
+      "containerId": "input-d02005a0c16fab07",
+      "member": "TYT/M08_Esitsizlik_Mutlak_Deger/Mutlak_Deger/OFB_Ozel_Fen_Bilimleri_PDF_055-060.pdf",
+      "pageCount": 6,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-d34f54e19caa0e1a",
+      "sha256": "d34f54e19caa0e1a943b8ddda9892730a60145ffb62961efa1d002d4d006d657",
+      "fileName": "Orijinal_TYT_Matematik_PDF_100-112.pdf",
+      "archive": "07_TYT",
+      "containerId": "input-d02005a0c16fab07",
+      "member": "TYT/M08_Esitsizlik_Mutlak_Deger/Mutlak_Deger/Orijinal_TYT_Matematik_PDF_100-112.pdf",
+      "pageCount": 13,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-d3e7b24413d174aa",
+      "sha256": "d3e7b24413d174aa9b54f6c4db022cee8cbbb003c92f97e3cf805e88f601413f",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_045-050.pdf",
+      "archive": "07_TYT",
+      "containerId": "input-d02005a0c16fab07",
+      "member": "TYT/M08_Esitsizlik_Mutlak_Deger/Mutlak_Deger/Paraf_Adim_Adim_TYT_PDF_045-050.pdf",
+      "pageCount": 6,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-21af7e7f9722e82b",
+      "sha256": "21af7e7f9722e82b2a32ec6b79b6fb477652f0384cd833546aae2a7e11f397dd",
+      "fileName": "Orijinal_TYT_Matematik_PDF_241-244.pdf",
+      "archive": "07_TYT",
+      "containerId": "input-d02005a0c16fab07",
+      "member": "TYT/M09_Problemler/Grafik_Problemleri/Orijinal_TYT_Matematik_PDF_241-244.pdf",
+      "pageCount": 4,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-1b0fd19d643102bd",
+      "sha256": "1b0fd19d643102bdca3426fdc54aafe783e37491ae0faf3f41565964a6ae70f1",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_137-142.pdf",
+      "archive": "07_TYT",
+      "containerId": "input-d02005a0c16fab07",
+      "member": "TYT/M09_Problemler/Grafik_Problemleri/Paraf_Adim_Adim_TYT_PDF_137-142.pdf",
+      "pageCount": 6,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-38cb1cc8cb5d868c",
+      "sha256": "38cb1cc8cb5d868c56341ede985d7c4fad9e4f7296c4db8474d526c425fb6f29",
+      "fileName": "Orijinal_TYT_Matematik_PDF_201-213.pdf",
+      "archive": "07_TYT",
+      "containerId": "input-d02005a0c16fab07",
+      "member": "TYT/M09_Problemler/Hareket_Problemleri/Orijinal_TYT_Matematik_PDF_201-213.pdf",
+      "pageCount": 13,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-eda7e9c0a3f145a1",
+      "sha256": "eda7e9c0a3f145a18158ba15b179a6ca34b172e87191418f7d4ea98629674021",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_117-122.pdf",
+      "archive": "07_TYT",
+      "containerId": "input-d02005a0c16fab07",
+      "member": "TYT/M09_Problemler/Hiz_Problemleri/Paraf_Adim_Adim_TYT_PDF_117-122.pdf",
+      "pageCount": 6,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-b644015b3fcb0656",
+      "sha256": "b644015b3fcb065617234104e0cd06d7ecd8fec194108fd50d86307d22f9d928",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_111-116.pdf",
+      "archive": "07_TYT",
+      "containerId": "input-d02005a0c16fab07",
+      "member": "TYT/M09_Problemler/Is_Problemleri/Paraf_Adim_Adim_TYT_PDF_111-116.pdf",
+      "pageCount": 6,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-7a5e16af681cb0d6",
+      "sha256": "7a5e16af681cb0d650affdec508ac33e5cb0019c42e6314e59099d0eff8b3348",
+      "fileName": "Orijinal_TYT_Matematik_PDF_193-200.pdf",
+      "archive": "08_TYT",
+      "containerId": "input-6cb6611251b7f116",
+      "member": "TYT/M09_Problemler/Isci_Problemleri/Orijinal_TYT_Matematik_PDF_193-200.pdf",
+      "pageCount": 8,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-5aad4d31be9d9e9e",
+      "sha256": "5aad4d31be9d9e9eca56ebfcc5452ec754e68d1f8311a9b0d2702db4e0ea45cf",
+      "fileName": "Orijinal_TYT_Matematik_PDF_233-240.pdf",
+      "archive": "08_TYT",
+      "containerId": "input-6cb6611251b7f116",
+      "member": "TYT/M09_Problemler/Karisim_Problemleri/Orijinal_TYT_Matematik_PDF_233-240.pdf",
+      "pageCount": 8,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-de2b0883e50040d7",
+      "sha256": "de2b0883e50040d7e3f4ae0367cbedfa721c917a6f41916af7d48b05df6b7029",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_129-136.pdf",
+      "archive": "08_TYT",
+      "containerId": "input-6cb6611251b7f116",
+      "member": "TYT/M09_Problemler/Karisim_Problemleri/Paraf_Adim_Adim_TYT_PDF_129-136.pdf",
+      "pageCount": 8,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-1010c6afc37da2a3",
+      "sha256": "1010c6afc37da2a38074f8c8302afd964a2e8129b92e779aef7ae46be3207fd7",
+      "fileName": "Orijinal_TYT_Matematik_PDF_181-186.pdf",
+      "archive": "08_TYT",
+      "containerId": "input-6cb6611251b7f116",
+      "member": "TYT/M09_Problemler/Kesir_Problemleri/Orijinal_TYT_Matematik_PDF_181-186.pdf",
+      "pageCount": 6,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-64fd0d39b87428ef",
+      "sha256": "64fd0d39b87428efea28ed80033b4973954979d54f3b35d53e5898db4f235527",
+      "fileName": "Paraf_Adim_Adim_TYT_PDF_099-104.pdf",
+      "archive": "08_TYT",
+      "containerId": "input-6cb6611251b7f116",
+      "member": "TYT/M09_Problemler/Kesir_Problemleri/Paraf_Adim_Adim_TYT_PDF_099-104.pdf",
+      "pageCount": 6,
+      "sourceId": "Paraf_Adim_Adim_TYT"
+    },
+    {
+      "id": "pdf-5681556c88be08ea",
+      "sha256": "5681556c88be08eab1292d5be479e70699678e03c8b457d8bcc5766f086a7460",
+      "fileName": "Orijinal_TYT_Matematik_PDF_245-250.pdf",
+      "archive": "08_TYT",
+      "containerId": "input-6cb6611251b7f116",
+      "member": "TYT/M09_Problemler/Periyodik_Durumlar/Orijinal_TYT_Matematik_PDF_245-250.pdf",
+      "pageCount": 6,
+      "sourceId": "Orijinal_TYT_Matematik"
+    },
+    {
+      "id": "pdf-16c4b7d4079e36c1",
+      "sha256": "16c4b7d4079e36c1f80c7e59c5f6428ed35baf04851d204ac8925b7e1cf33a81",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_085-102.pdf",
+      "archive": "08_TYT",
+      "containerId": "input-6cb6611251b7f116",
+      "member": "TYT/M09_Problemler/Problemler/OFB_Ozel_Fen_Bilimleri_PDF_085-102.pdf",
+      "pageCount": 18,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-47c76925e53e4304",
+      "sha256": "47c76925e53e430400401f6d906adbf0b66273719840f294cf248927939150a2",
+      "fileName": "OFB_Ozel_Fen_Bilimleri_PDF_103-108.pdf",
+      "archive": "08_TYT",
+      "containerId": "input-6cb6611251b7f116",
+      "member": "TYT/M09_Problemler/Rutin_Olmayan_Problemler/OFB_Ozel_Fen_Bilimleri_PDF_103-108.pdf",
+      "pageCount": 6,
+      "sourceId": "OFB_Ozel_Fen_Bilimleri"
+    },
+    {
+      "id": "pdf-6aa70dc6dafb553c",
+      "sha256": "6aa70dc6dafb553c87c3d35765ddb6ce0805e7cc55e5ba2f2e28d72b66d3a11f",
+      "fileName": "Orijinal_TYT_AYT_Geometri_PDF_007-018.pdf",
+      "archive": "09_TYT",
+      "containerId": "input-b5dd35203cd8f0d9",
+      "member": "TYT/M13_Geometri_Temelleri/Temel_Kavramlar_ve_Dogruda_Acilar/Orijinal_TYT_AYT_Geometri_PDF_007-018.pdf",
+      "pageCount": 12,
+      "sourceId": "Orijinal_TYT_AYT_Geometri"
+    },
+    {
+      "id": "pdf-4f22ed3668be2687",
+      "sha256": "4f22ed3668be2687b2fc3ae0d9af1ea08ddf5f912f07f30d7038c75deffba31a",
+      "fileName": "MEB_Dort_Dortluk_PDF_169-182.pdf",
+      "archive": "09_TYT",
+      "containerId": "input-b5dd35203cd8f0d9",
+      "member": "TYT/M13_Geometri_Temelleri/Ucgenlerde_Temel_Kavramlar/MEB_Dort_Dortluk_PDF_169-182.pdf",
+      "pageCount": 14,
+      "sourceId": "MEB_Dort_Dortluk"
+    },
+    {
+      "id": "pdf-82bbecfc1e973f49",
+      "sha256": "82bbecfc1e973f4933299f428387a0485ae139a5fa30553e0d561028349a8c25",
+      "fileName": "Orijinal_TYT_AYT_Geometri_PDF_039-060.pdf",
+      "archive": "09_TYT",
+      "containerId": "input-b5dd35203cd8f0d9",
+      "member": "TYT/M14_Ucgenler_Ileri/Dik_ve_Ozel_Ucgenler/Orijinal_TYT_AYT_Geometri_PDF_039-060.pdf",
+      "pageCount": 22,
+      "sourceId": "Orijinal_TYT_AYT_Geometri"
+    },
+    {
+      "id": "pdf-0b3151e716566d91",
+      "sha256": "0b3151e716566d91fd4adf663f53305ec03aeb50e82f8610ef3cb7968abf36b4",
+      "fileName": "Orijinal_TYT_AYT_Geometri_PDF_071-080.pdf",
+      "archive": "09_TYT",
+      "containerId": "input-b5dd35203cd8f0d9",
+      "member": "TYT/M14_Ucgenler_Ileri/Eskenar_Ucgen/Orijinal_TYT_AYT_Geometri_PDF_071-080.pdf",
+      "pageCount": 10,
+      "sourceId": "Orijinal_TYT_AYT_Geometri"
+    }
+  ],
+  "verifiedRequestedBookIdentities": [
+    {
+      "requestedFileName": "UcgenAkademi_TYT_Matematik_416sayfa.pdf",
+      "sourceId": "UcgenAkademi_TYT_Matematik_416sayfa",
+      "suppliedAs": [
+        "11_UCGEN_01.zip",
+        "12_UCGEN_02.zip",
+        "13_UCGEN_03.zip",
+        "14_UCGEN_04.zip",
+        "15_UCGEN_05.zip",
+        "16_UCGEN_06.zip",
+        "17_UCGEN_07.zip",
+        "18_UCGEN_08.zip",
+        "19_UCGEN_09.zip"
+      ],
+      "bookTitle": "Üçgen Akademi TYT Matematik",
+      "expectedPages": 416,
+      "actualAvailablePages": 416,
+      "pdfSegments": 25,
+      "physicalPageCoverageComplete": true,
+      "identityStatus": "book_identity_and_page_coverage_checked",
+      "identityEvidencePhysicalPages": [
+        1
+      ],
+      "canonicalWholeFileShaVerified": false,
+      "rasterizedSourcePhysicalPages": [
+        124,
+        205
+      ],
+      "documentIds": [
+        "pdf-b2f04efd15562701",
+        "pdf-5b8339cd45c3142e",
+        "pdf-ae263d6a6a2be245",
+        "pdf-dde43d6aeba098fa",
+        "pdf-07278e05aa55e4d1",
+        "pdf-0a14c1ac14f78b52",
+        "pdf-0ff74c0ea4cdc8c9",
+        "pdf-99296aa98d463fb9",
+        "pdf-b680ae875e4eb76c",
+        "pdf-299b9d5499242448",
+        "pdf-b36fba2d4c0d7103",
+        "pdf-a018b693ae01331c",
+        "pdf-aa9470cf7be15b2c",
+        "pdf-d70cb52c40d4e8bb",
+        "pdf-4977e13f5f4577e8",
+        "pdf-f337f7fac8eed787",
+        "pdf-69f62ebd82265ebb",
+        "pdf-56468e9051d09519",
+        "pdf-28c594669625e2e3",
+        "pdf-06a3ac8a9f4d3c6c",
+        "pdf-3b819175c1667088",
+        "pdf-60feb9cd04ba22cb",
+        "pdf-9c8b3c8aa642bd67",
+        "pdf-876538fa475010ed",
+        "pdf-4f6eb3b9af5c93f2"
+      ]
+    },
+    {
+      "requestedFileName": "UcDortBes_TYT_Matematik_416sayfa.pdf",
+      "sourceId": "UcDortBes_TYT_Matematik_416sayfa",
+      "suppliedAs": [
+        "20_345_01.zip",
+        "21_345_02.zip",
+        "22_345_03.zip"
+      ],
+      "bookTitle": "ÜçDörtBeş TYT Matematik",
+      "expectedPages": 416,
+      "actualAvailablePages": 416,
+      "pdfSegments": 7,
+      "physicalPageCoverageComplete": true,
+      "identityStatus": "book_identity_and_page_coverage_checked",
+      "identityEvidencePhysicalPages": [
+        1,
+        2
+      ],
+      "canonicalWholeFileShaVerified": false,
+      "rasterizedSourcePhysicalPages": [],
+      "documentIds": [
+        "pdf-8d19cbb4cec11d85",
+        "pdf-9726623439000a05",
+        "pdf-86cd9af18268f48d",
+        "pdf-637520e4e737a42a",
+        "pdf-fa15d0e54f33857b",
+        "pdf-349b172f9efe7412",
+        "pdf-64e6610193b4add6"
+      ]
+    },
+    {
+      "requestedFileName": "ULTI_TYT_Matematik_54sayfa.pdf",
+      "sourceId": "ULTI_TYT_Matematik_54sayfa",
+      "suppliedAs": [
+        "23_ULTI.pdf"
+      ],
+      "bookTitle": "ULTİ Serisi TYT Matematik Soru Bankası",
+      "expectedPages": 54,
+      "actualAvailablePages": 54,
+      "pdfSegments": 1,
+      "physicalPageCoverageComplete": true,
+      "identityStatus": "book_identity_and_page_coverage_checked",
+      "identityEvidencePhysicalPages": [
+        1
+      ],
+      "canonicalWholeFileShaVerified": false,
+      "rasterizedSourcePhysicalPages": [],
+      "documentIds": [
+        "pdf-24ee79b85e0d08d2"
+      ]
+    },
+    {
+      "requestedFileName": "Tudem_TYT_Matematik_Ornek_16sayfa.pdf",
+      "sourceId": "Tudem_TYT_Matematik_Ornek_16sayfa",
+      "suppliedAs": [
+        "24_TUDEM.pdf"
+      ],
+      "bookTitle": "Tudem TYT Matematik Soru Bankası örnek",
+      "expectedPages": 16,
+      "actualAvailablePages": 16,
+      "pdfSegments": 1,
+      "physicalPageCoverageComplete": true,
+      "identityStatus": "book_identity_and_page_coverage_checked",
+      "identityEvidencePhysicalPages": [
+        1
+      ],
+      "canonicalWholeFileShaVerified": false,
+      "rasterizedSourcePhysicalPages": [],
+      "documentIds": [
+        "pdf-e553af4cc8e28073"
+      ]
+    },
+    {
+      "requestedFileName": "Ozdebir_GIS_TYT_Ornek_12sayfa.pdf",
+      "sourceId": "Ozdebir_GIS_TYT_Ornek_12sayfa",
+      "suppliedAs": [
+        "25_OZDEBIR.pdf"
+      ],
+      "bookTitle": "Özdebir TYT Matematik Gelişim İzleme Soru Bankası örnek",
+      "expectedPages": 12,
+      "actualAvailablePages": 12,
+      "pdfSegments": 1,
+      "physicalPageCoverageComplete": true,
+      "identityStatus": "book_identity_and_page_coverage_checked",
+      "identityEvidencePhysicalPages": [
+        1
+      ],
+      "canonicalWholeFileShaVerified": false,
+      "rasterizedSourcePhysicalPages": [],
+      "documentIds": [
+        "pdf-0924f9a879c3f7da"
+      ]
+    }
+  ],
+  "missingArchiveParts": [],
+  "requestedV2FilesNotSuppliedByExactName": [],
+  "noMissingNeeded": true,
+  "noMissingNeededMessage": "Önceden istenen kitaplar ve arşiv parçaları erişilebilir. Bu dosyaları yeniden yüklemen gerekmiyor.",
+  "partialCollectionOverlapNotices": [
+    {
+      "kind": "partial_question_overlap_not_complete_book_identity",
+      "historicalSourceId": "Ozdebir_GIS_2024_Ornek",
+      "newSourceId": "Ozdebir_GIS_TYT_Ornek_12sayfa",
+      "historicalDocumentIds": [
+        "pdf-f8cec28006f0a634"
+      ],
+      "newDocumentIds": [
+        "pdf-0924f9a879c3f7da"
+      ],
+      "status": "partial_question_overlap_reported_in_private_review",
+      "reason": "The previous two-page excerpt and supplied twelve-page sample have partial question overlap. They remain separate supplied collections; complete book identity and unique question totals are not inferred.",
+      "automaticallyMergeCollections": false
+    }
+  ],
+  "rights": {
+    "status": "unverified",
+    "allowsPublicInline": false
+  },
+  "limits": [
+    "File and page counts are not extracted or validated question totals.",
+    "Canonical original whole-file digest identity was not independently established.",
+    "Original publisher content remains private; no publication permission is inferred."
+  ]
+}
