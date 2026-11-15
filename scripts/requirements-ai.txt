@@ -3,3 +3,4 @@ sympy==1.14.0
 PyMuPDF==1.26.6
 Pillow==13.0.0
 numpy==2.3.5
+cryptography==50.0.0

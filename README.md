@@ -11,12 +11,16 @@ Türkçe konu anlatımları, altı öğretmen, kullanıcı hesabı ve gece mavis
   **590 uygun soru** ile toplam **1.998** kullanılabilir alıştırma vardır. Konu,
   sınav, alt konu, seviye ve içe aktarılan/yeni havuz filtreleri bulunur. Beş
   seçenekten biri işaretlenip kontrol edildiğinde açıklamalı çözüm açılır.
-- **Orijinal sorular:** Önceki çalışmada yüklenen arşivlerde **220 gerçek PDF /
-  3.022 sayfa** açıldı. Özel çalışma bankasında 104 soru ayrıldı; 92'sinin
-  matematiksel kontrolü geçti, 12'si incelemede. Yeniden yayım izni doğrulanmadığından bu
-  özgün metin/görseller herkese açık kataloğa konulmadı: yayımlanabilir soru
-  sayısı **0**. Ekrandaki kaynak durumu bu nedeni ve gerçek okuma kanıtlarını
-  gösterir. Önceki 8 kaynak/185 aralık/480 konum indeksi ayrıca korunur.
+- **Orijinal sorular / kişisel arşiv:** Gönderilen **220 kaynak / 3.022 sayfanın
+  tamamı** uygulama içinden görüntülenir. **12.716 soru/bölge kaydı**, özgün
+  şekil ve seçenek görüntüleriyle açılır; 9 kesin tekrar ayrıca kayıtlıdır.
+  Kırpım belirsizse asıl sayfa ve kaynağın bütün sayfaları içeride açılabilir.
+  **12 özgün TYT denemesi 40'ar soru ve yayınevi cevap anahtarıyla** çözülür.
+  İçerik kişisel erişim bağlantısıyla açılır; uygulama yeniden dosya istemez.
+  Özgün içerikler depoda açık metin/görüntü olarak tutulmaz; anahtar yalnız
+  kişisel teslim dosyasındadır. Matematik kontrolü geçen orijinal sayısı **92**;
+  diğer **12.624 kayıt** inceleme durumunda tutulur. Kayıt sayısı, bütün
+  soruların transkripsiyonunun ve matematiğinin onaylandığı anlamına gelmez.
 - **ÖSYM denemeleri:** AI alıştırmaları bu havuza taşınmaz, çıkmış soru veya
   resmî cevap anahtarı gibi sunulmaz. Mevcut resmî soru kataloğu boştur.
 
@@ -31,8 +35,30 @@ Dosya seçme/yükleme ekranı eklenmedi. Eski cihaz kitapçıkları, hesaplar,
 ilerleme ve deneme geçmişi silinmez. AI yanıtları mevcut hesap kapsamlı
 öğrenme kayıtlarına eklenir; eski veya inceleme durumundaki kimliklerin
 geçmiş kayıtları tutulur. Üretim Supabase şeması/verisi değiştirilmez. Geliştirme
-ayrı dal ve PR üzerinden yürütülür. PR #12'deki soru entegrasyonu korunur;
-bu değişiklikte birleştirme ve yayın için otomatik işlem yapılmaz.
+ayrı dal ve PR üzerinden yürütülür. PR #12'deki soru entegrasyonu ve önceki
+deneme geliştirmeleri korunur. Yayın öncesinde otomatik kontroller doğrulanır.
+
+## Kişisel orijinal arşiv
+
+Kişisel erişim bağlantısı **Soru Çöz → Orijinal sorular** havuzunu açar.
+Altında **Sorular**, **Denemeler** ve **Kaynaklar** bulunur. Kaynak, sınav ve
+konu filtreleri, arama, görüntüyü büyütme ve özgün sayfaya geçiş vardır.
+Kontrol edilmemiş konu etiketleri ve cevaplar onaylı gösterilmez.
+
+Özgün denemeler yayınevinin değişmemiş 1–40 sırası ve aynı kaynakta okunan
+anahtarlarıyla çalışır. Kronometre, duraklatma/devam, ara kayıt, tamamlanma
+tiki, tekrar çözme ve İlerleme geçmişi bulunur. Puan yayınevi anahtarına göre
+alıştırma sonucudur; ÖSYM sonucu veya bütün sorular için bağımsız matematik
+onayı değildir. Anahtarsız tekli kayıtta doğrulanmış doğru/yanlış üretilmez.
+
+Sayfa görüntüleri AES-256-GCM ile korunur ve gerektiğinde indirilir. Kişisel
+anahtar adresin sunucuya gönderilmeyen bölümünden alınır, adres hemen
+temizlenir; anahtar yalnız bu sekmenin hesap kapsamındaki oturum alanında
+saklanır. Kilitleme/hesap değişimi görüntüleri ve anahtarı temizler.
+Özgün deneme/yanıt geçmişi ayrı yerel anahtarlardadır; eski AI öğrenme,
+deneme veya cihaz belgesi depoları ve üretim Supabase verileri değiştirilmez.
+
+Ayrıntılar: [Kişisel arşiv raporu](docs/KISISEL_ORIJINAL_ARSIV_RAPORU.md).
 
 ## Konu dağılımına göre denemeler
 
