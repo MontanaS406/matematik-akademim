@@ -167,15 +167,32 @@ export function normalizePracticeExamStore(input, catalog, now = Date.now()) {
   if (input === null || input === undefined) return {version: 1, attempts: [], retained: []};
   if (!own(input) || input.version !== 1 || !Array.isArray(input.attempts) ||
       input.retained !== undefined && !Array.isArray(input.retained)) return null;
-  const exams = Array.isArray(catalog) ? catalog : catalog?.exams;
-  if (!Array.isArray(exams) || !timestamp(now)) return null;
-  const byExam = new Map(exams.map(exam => [exam.id, exam]));
+  // The active list may change when a previously missing topic is supplied.
+  // Old manifests remain readable through allExams/getExam; answers must never
+  // be padded or attached to the newer entry with the same displayed number.
+  const exams = Array.isArray(catalog) ? catalog : Array.isArray(catalog?.allExams) ? catalog.allExams :
+    Array.isArray(catalog?.exams) ? catalog.exams : null;
+  const hasResolver = !Array.isArray(catalog) && typeof catalog?.getExam === 'function';
+  if ((!exams && !hasResolver) || !timestamp(now)) return null;
+  const byExam = new Map();
+  for (const exam of exams || []) {
+    if (!identifier(exam?.id)) continue;
+    // Conflicting catalog IDs cannot select an arbitrary saved answer sheet.
+    byExam.set(exam.id, byExam.has(exam.id) ? null : exam);
+  }
+  const resolveExam = id => {
+    if (!identifier(id)) return null;
+    if (byExam.has(id)) return byExam.get(id);
+    if (!hasResolver) return null;
+    try { const found = catalog.getExam(id); return found?.id === id ? found : null; }
+    catch { return null; }
+  };
   const rows = [...input.attempts, ...(input.retained || [])];
   const counts = new Map();
   for (const row of rows) if (identifier(row?.id)) counts.set(row.id, (counts.get(row.id) || 0) + 1);
   const attempts = [], retained = [];
   for (const row of rows) {
-    const normalized = counts.get(row?.id) === 1 ? normalizePracticeAttempt(row, byExam.get(row?.examId), now) : null;
+    const normalized = counts.get(row?.id) === 1 ? normalizePracticeAttempt(row, resolveExam(row?.examId), now) : null;
     if (normalized) attempts.push(normalized);
     else retained.push(clone(row));
   }

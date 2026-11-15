@@ -1,7 +1,8 @@
 // These are AI practice sets assembled from the existing reviewed registry.
 // The user's 2025 topic tables describe the blueprint, not official exam content.
 // No question text, answer, exam-level label or original source is changed here.
-export const PRACTICE_DISTRIBUTION_VERSION = 'topic-2025-v1';
+export const PRACTICE_DISTRIBUTION_VERSION = 'topic-2025-v2';
+const PREVIOUS_DISTRIBUTION_VERSION = 'topic-2025-v1';
 const LETTERS = ['A', 'B', 'C', 'D', 'E'];
 const normalized = value => String(value ?? '').normalize('NFD').replace(/\p{M}/gu, '').replace(/ı/g, 'i').toLowerCase();
 const compare = (a, b) => a < b ? -1 : a > b ? 1 : 0;
@@ -30,7 +31,7 @@ function freeze(value) {
   }
   return value;
 }
-export const PRACTICE_DISTRIBUTIONS = freeze({
+const BASE_DISTRIBUTIONS = freeze({
   TYT: {
     label: '2025 konu dağılımı · Matematik', targetCount: 30,
     note: 'Paylaşılan TYT tablosunda geometri dağılımı bulunmadığı için bu setler 30 matematik sorusudur.',
@@ -80,6 +81,48 @@ export const PRACTICE_DISTRIBUTIONS = freeze({
   }
 });
 
+export const PRACTICE_DISTRIBUTIONS = freeze({
+  TYT: {
+    ...BASE_DISTRIBUTIONS.TYT,
+    distributionVersion: PRACTICE_DISTRIBUTION_VERSION,
+    label: '2025 konu dağılımı · Matematik ve Geometri', targetCount: 40,
+    note: 'Hedef 30 matematik ve 10 geometri sorusudur. Havuzda bulunmayan konular başka sorularla doldurulmaz.',
+    topics: [...BASE_DISTRIBUTIONS.TYT.topics,
+      topic('geo-graph', 'Grafik Okuma', 0, 'geometry'),
+      topic('geo-analytic', 'Analitik Geometri', 0, 'geometry'),
+      topic('geo-circle', 'Çember ve Daire', 0, 'geometry'),
+      topic('geo-solids', 'Katı Cisimler', 2, 'geometry'),
+      topic('geo-trapezoid', 'Yamuk', 1, 'geometry'),
+      topic('geo-polygons', 'Çokgenler', 1, 'geometry'),
+      topic('geo-triangles', 'Açılar ve Üçgenler', 4, 'geometry'),
+      topic('geo-rhombus', 'Eşkenar Dörtgen', 0, 'geometry'),
+      topic('geo-square', 'Kare', 1, 'geometry'),
+      topic('geo-rectangle', 'Dikdörtgen', 1, 'geometry')
+    ]
+  },
+  // AYT's blueprint and identities did not change when TYT geometry arrived.
+  AYT: {...BASE_DISTRIBUTIONS.AYT, distributionVersion: PREVIOUS_DISTRIBUTION_VERSION}
+});
+const LEGACY_TYT_DISTRIBUTION = freeze({...BASE_DISTRIBUTIONS.TYT, distributionVersion: PREVIOUS_DISTRIBUTION_VERSION});
+
+// All 20 accessible geometry bodies were read and classified individually.
+// This exact-ID map deliberately has no keyword fallback: a coordinate question
+// is not relabelled as a triangle simply because its diagram contains one.
+const GEOMETRY_PREFIX = 'AI-GEOMETRY-READ-TYT-GEOMETRY-ADD-';
+export const TYT_GEOMETRY_TOPIC_BY_QUESTION = freeze(Object.fromEntries(Object.entries({
+  'geo-triangles': [
+    'TWO-INTERNAL-RIGHT-TRIANGLES', 'EXTERNAL-ALTITUDE-DIFFERENCE', 'RECOVER-MISSING-OBLIQUE-SIDE',
+    'ISOSCELES-HALF-BASE', 'SHARED-ALTITUDE-SEGMENT-RATIO', 'INTEGER-RIGHT-TRIANGLE-PERIMETER',
+    'HERON-TO-ANOTHER-ALTITUDE', 'LARGEST-INTEGER-AREA-FIXED-HYPOTENUSE',
+    'INTERIOR-CUTOUT-AREA', 'TWO-STAGE-BASE-AND-HEIGHT-RATIO'
+  ],
+  'geo-polygons': ['DIAGONAL-OPPOSITE-DISTANCES', 'CROSSING-DIAGONAL-FOUR-REGIONS',
+    'RIGHT-TRIANGLE-SHARED-DIAGONAL', 'RECOVER-OPPOSITE-HEIGHT'],
+  'geo-square': ['SQUARE-CORNER-TRIM'],
+  'geo-analytic': ['MIDPOINT-SUBTRIANGLE-COORDINATES', 'VERTEX-PARALLEL-TRANSLATION',
+    'CONCAVE-COORDINATE-HEIGHT-RECOVERY', 'COORDINATE-FREE-HORIZONTAL-POSITION', 'COUNT-LATTICE-CONCAVE-VERTICES']
+}).flatMap(([topicId, suffixes]) => suffixes.map(suffix => [GEOMETRY_PREFIX + suffix, topicId]))));
+
 // The builder must be given createAiRegistry(...).questions. These additional
 // guards keep pending/duplicate/foreign records out if a caller passes raw rows.
 function eligible(question) {
@@ -101,6 +144,7 @@ export function practiceTopicForQuestion(question) {
   const text = normalized(question?.topic + ' ' + question?.subtopic);
   const course = question?.courseId;
   if (question?.examType === 'TYT') {
+    if (course === 'geometry') return Object.hasOwn(TYT_GEOMETRY_TOPIC_BY_QUESTION, question.id) ? TYT_GEOMETRY_TOPIC_BY_QUESTION[question.id] : null;
     if (course === 'numbers') return /basamak|rakam/.test(text) ? 'digits' : 'basic';
     if (course === 'divisibility') return /ebob|ekok/.test(text) ? 'gcd' : /basamak|rakam/.test(text) ? 'digits' : 'divisibility';
     if (course === 'equations') return /esitsizlik/.test(text) ? 'inequalities' : 'equations';
@@ -108,7 +152,7 @@ export function practiceTopicForQuestion(question) {
     if (course === 'sets') return /mantik|onerme|dogruluk|totoloji/.test(text) ? 'logic' : 'sets';
     if (course === 'probability') return /olasilik/.test(text) && !/garanti/.test(text) ? 'probability' : 'counting';
     if (course === 'fractions') return 'rational';
-    return ['absolute', 'functions', 'problems', 'ratio', 'statistics', 'geometry'].includes(course) ? course : null;
+    return ['absolute', 'functions', 'problems', 'ratio', 'statistics'].includes(course) ? course : null;
   }
   if (question?.examType === 'AYT') {
     if (course === 'probability' || course === 'equations' && /mutlak katsayi|katsayilarin mutlak/.test(text) || course === 'polynomials' && /binom/.test(text)) return 'counting';
@@ -147,9 +191,14 @@ export function buildPracticeExamCatalog(input) {
   const counts = new Map();
   for (const row of raw) if (typeof row?.id === 'string') counts.set(row.id, (counts.get(row.id) || 0) + 1);
   const questions = raw.filter(question => eligible(question) && counts.get(question.id) === 1);
-  const exams = [], byType = {};
-  for (const type of ['TYT', 'AYT']) {
-    const definition = PRACTICE_DISTRIBUTIONS[type], buckets = new Map(definition.topics.map(row => [row.id, []]));
+  const exams = [], legacyExams = [], byType = {};
+  const versions = [
+    ['TYT', PRACTICE_DISTRIBUTIONS.TYT, false],
+    ['AYT', PRACTICE_DISTRIBUTIONS.AYT, false],
+    ['TYT', LEGACY_TYT_DISTRIBUTION, true]
+  ];
+  for (const [type, definition, previousVersion] of versions) {
+    const buckets = new Map(definition.topics.map(row => [row.id, []]));
     const excludedQuestionIds = [], exclusionReasons = {};
     for (const question of questions.filter(row => row.examType === type)) {
       const topicId = practiceTopicForQuestion(question), blueprint = definition.topics.find(row => row.id === topicId);
@@ -166,7 +215,7 @@ export function buildPracticeExamCatalog(input) {
     const examCount = Math.max(0, ...topics.filter(row => row.count && row.available).map(row => Math.ceil(row.available / row.count)));
     const actualCount = topics.reduce((sum, row) => sum + Math.min(row.count, row.available), 0);
     const matchedQuestionCount = topics.reduce((sum, row) => sum + row.available, 0);
-    byType[type] = {examCount, actualCount, targetCount: definition.targetCount, matchedQuestionCount,
+    if (!previousVersion) byType[type] = {examCount, actualCount, targetCount: definition.targetCount, matchedQuestionCount,
       availableQuestionCount: questions.filter(row => row.examType === type).length,
       excludedQuestionIds: excludedQuestionIds.sort(compare), exclusionReasons, topics, shortages,
       reusedSlots: examCount * actualCount - matchedQuestionCount, completeDistribution: shortages.length === 0};
@@ -180,15 +229,16 @@ export function buildPracticeExamCatalog(input) {
           topicByQuestion[question.id] = row.id;
         }
       }
-      const manifest = hash(JSON.stringify([PRACTICE_DISTRIBUTION_VERSION, type, questionIds]));
-      exams.push({id: `practice-2025-${type}-${number}-${manifest}`, type, number,
+      const manifest = hash(JSON.stringify([definition.distributionVersion, type, questionIds]));
+      (previousVersion ? legacyExams : exams).push({id: `practice-2025-${type}-${number}-${manifest}`, type, number,
         label: `${number}. Deneme`, origin: 'AI_URETIMI', isOfficial: false,
-        distributionVersion: PRACTICE_DISTRIBUTION_VERSION, manifest, questionIds, topicByQuestion,
-        actualCount, targetCount: definition.targetCount, completeDistribution: shortages.length === 0, shortages});
+        distributionVersion: definition.distributionVersion, manifest, questionIds, topicByQuestion,
+        actualCount, targetCount: definition.targetCount, completeDistribution: shortages.length === 0, shortages,
+        ...(previousVersion ? {retired: true, previousVersion: true} : {})});
     }
   }
-  const byId = new Map(exams.map(exam => [exam.id, exam]));
-  const catalog = freeze({schemaVersion: 1, distributionVersion: PRACTICE_DISTRIBUTION_VERSION, exams, byType,
+  const allExams = [...exams, ...legacyExams], byId = new Map(allExams.map(exam => [exam.id, exam]));
+  const catalog = freeze({schemaVersion: 1, distributionVersion: PRACTICE_DISTRIBUTION_VERSION, exams, legacyExams, allExams, byType,
     usableQuestionCount: questions.length, getExam: id => byId.get(id) || null});
   if (deeplyFrozen(raw)) immutableCatalogs.set(raw, {catalog, trusted: new Map(questions.map(question => [question.id, question]))});
   return catalog;

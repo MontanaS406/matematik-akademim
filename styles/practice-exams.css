@@ -107,3 +107,4 @@
  .practice-review-list details{padding:13px}
 }
 .practice-exam-question{scroll-margin-top:100px}.exam-review-options{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.8;color:var(--muted);font-size:13px}.practice-review-list ol{padding-left:22px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}.practice-review-list li+li{margin-top:8px}#practiceExamHistory{margin-top:24px}#practiceExamHistory[hidden]{display:none}
+.practice-distribution-grid>p{display:flex;justify-content:space-between;gap:14px;min-width:0}.practice-distribution-grid>p>span{min-width:0;overflow-wrap:anywhere}

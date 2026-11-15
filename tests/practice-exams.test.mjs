@@ -3,21 +3,25 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {AI_BANK} from '../data/ai-bank.js';
 import {createAiRegistry} from '../shared/ai-bank.js';
-import {PRACTICE_DISTRIBUTIONS, PRACTICE_DISTRIBUTION_VERSION, practiceTopicForQuestion,
+import {PRACTICE_DISTRIBUTIONS, PRACTICE_DISTRIBUTION_VERSION, TYT_GEOMETRY_TOPIC_BY_QUESTION, practiceTopicForQuestion,
   buildPracticeExamCatalog, scorePracticeExam} from '../shared/practice-exams.js';
 
 const registry = createAiRegistry(AI_BANK);
 const catalog = buildPracticeExamCatalog(registry.questions);
 
-test('2025 user-supplied blueprints retain exact TYT30 and AYT31+9 quotas', () => {
+test('2025 user-supplied blueprints retain exact TYT30+10 and AYT31+9 quotas', () => {
   const tyt = PRACTICE_DISTRIBUTIONS.TYT, ayt = PRACTICE_DISTRIBUTIONS.AYT;
-  assert.equal(tyt.topics.reduce((sum, row) => sum + row.count, 0), 30);
+  assert.equal(tyt.targetCount, 40);
+  assert.equal(tyt.topics.filter(row => row.section === 'math').reduce((sum, row) => sum + row.count, 0), 30);
+  assert.equal(tyt.topics.filter(row => row.section === 'geometry').reduce((sum, row) => sum + row.count, 0), 10);
   assert.equal(ayt.topics.filter(row => row.section === 'math').reduce((sum, row) => sum + row.count, 0), 31);
   assert.equal(ayt.topics.filter(row => row.section === 'geometry').reduce((sum, row) => sum + row.count, 0), 9);
   assert.equal(ayt.topics.find(row => row.id === 'logarithms').count, 2);
   assert.equal(tyt.topics.find(row => row.id === 'problems').count, 12);
   assert.equal(catalog.distributionVersion, PRACTICE_DISTRIBUTION_VERSION);
   assert.match(tyt.note, /30 matematik/);
+  assert.equal(tyt.distributionVersion, 'topic-2025-v2');
+  assert.equal(ayt.distributionVersion, 'topic-2025-v1');
 });
 
 test('every numbered exam uses its quota exactly with unique eligible IDs and the correct exam level', () => {
@@ -46,7 +50,7 @@ test('every numbered exam uses its quota exactly with unique eligible IDs and th
   }
 });
 
-test('all 1943 matching questions occur and cross-exam reuse is both balanced and disclosed', () => {
+test('all 1958 matching questions occur and cross-exam reuse is both balanced and disclosed', () => {
   const globallyUsed = new Set();
   for (const type of ['TYT', 'AYT']) {
     const stats = catalog.byType[type], exams = catalog.exams.filter(exam => exam.type === type);
@@ -64,20 +68,21 @@ test('all 1943 matching questions occur and cross-exam reuse is both balanced an
       assert.ok(Math.max(...values) - Math.min(...values) <= 1, `${type} ${row.id} unfair cycling`);
     }
   }
-  assert.equal(globallyUsed.size, 1943);
+  assert.equal(globallyUsed.size, 1958);
   assert.equal(catalog.usableQuestionCount, 1998);
-  assert.equal(catalog.byType.TYT.matchedQuestionCount, 954);
+  assert.equal(catalog.byType.TYT.matchedQuestionCount, 969);
   assert.equal(catalog.byType.AYT.matchedQuestionCount, 989);
-  assert.equal(catalog.byType.TYT.excludedQuestionIds.length, 42);
+  assert.equal(catalog.byType.TYT.excludedQuestionIds.length, 27);
   assert.equal(catalog.byType.AYT.excludedQuestionIds.length, 13);
 });
 
-test('AYT gaps stay explicit at24/40 and are never filled with TYT, while TYT30 is complete', () => {
+test('TYT36/40 and AYT24/40 shortages stay explicit instead of replacing unavailable topics', () => {
   for (const exam of catalog.exams.filter(exam => exam.type === 'TYT')) {
-    assert.equal(exam.actualCount, 30);
-    assert.equal(exam.targetCount, 30);
-    assert.equal(exam.completeDistribution, true);
-    assert.deepEqual(exam.shortages, []);
+    assert.equal(exam.actualCount, 36);
+    assert.equal(exam.targetCount, 40);
+    assert.equal(exam.completeDistribution, false);
+    assert.deepEqual(exam.shortages.map(({topicId, missing}) => [topicId, missing]),
+      [['geo-solids', 2], ['geo-trapezoid', 1], ['geo-rectangle', 1]]);
   }
   for (const exam of catalog.exams.filter(exam => exam.type === 'AYT')) {
     assert.equal(exam.actualCount, 24);
@@ -92,10 +97,47 @@ test('AYT gaps stay explicit at24/40 and are never filled with TYT, while TYT30 
   assert.ok(binomialAbsolute.every(q => practiceTopicForQuestion(q) === 'counting'));
 });
 
+test('the 20 read geometry bodies have one exact classification and coordinate/square questions cannot fill unrelated quotas', () => {
+  const geometry = registry.questions.filter(question => question.examType === 'TYT' && question.courseId === 'geometry');
+  assert.equal(geometry.length, 20);
+  assert.deepEqual(Object.keys(TYT_GEOMETRY_TOPIC_BY_QUESTION).sort(), geometry.map(question => question.id).sort());
+  const counts = {};
+  for (const question of geometry) {
+    const topicId = practiceTopicForQuestion(question);
+    counts[topicId] = (counts[topicId] || 0) + 1;
+  }
+  assert.deepEqual(counts, {'geo-triangles': 10, 'geo-polygons': 4, 'geo-square': 1, 'geo-analytic': 5});
+  const prefix = 'AI-GEOMETRY-READ-TYT-GEOMETRY-ADD-';
+  for (const suffix of ['MIDPOINT-SUBTRIANGLE-COORDINATES', 'VERTEX-PARALLEL-TRANSLATION',
+    'CONCAVE-COORDINATE-HEIGHT-RECOVERY', 'COORDINATE-FREE-HORIZONTAL-POSITION', 'COUNT-LATTICE-CONCAVE-VERTICES']) {
+    assert.equal(practiceTopicForQuestion(registry.getQuestion(prefix + suffix)), 'geo-analytic');
+    assert.ok(catalog.byType.TYT.excludedQuestionIds.includes(prefix + suffix));
+    assert.equal(catalog.byType.TYT.exclusionReasons[prefix + suffix], 'zero_quota_in_2025');
+  }
+  assert.equal(practiceTopicForQuestion(registry.getQuestion(prefix + 'SQUARE-CORNER-TRIM')), 'geo-square');
+  assert.equal(practiceTopicForQuestion({...geometry[0], id:'unread-geometry-question'}), null);
+  assert.equal(practiceTopicForQuestion({...geometry[0], id:'constructor'}), null);
+  const quotas = catalog.byType.TYT.topics;
+  assert.equal(quotas.find(row => row.id === 'geo-analytic').count, 0);
+  assert.equal(quotas.find(row => row.id === 'geo-square').available, 1);
+  assert.equal(quotas.find(row => row.id === 'geo-rectangle').available, 0);
+  for (const exam of catalog.exams.filter(row => row.type === 'TYT')) {
+    const geometryIds = exam.questionIds.filter(id => registry.getQuestion(id).courseId === 'geometry');
+    assert.equal(geometryIds.length, 6);
+    assert.equal(exam.questionIds.length - geometryIds.length, 30);
+    assert.equal(geometryIds.filter(id => exam.topicByQuestion[id] === 'geo-triangles').length, 4);
+    assert.equal(geometryIds.filter(id => exam.topicByQuestion[id] === 'geo-polygons').length, 1);
+    assert.equal(geometryIds.filter(id => exam.topicByQuestion[id] === 'geo-square').length, 1);
+    assert.ok(geometryIds.every(id => !['geo-analytic', 'geo-rectangle'].includes(exam.topicByQuestion[id])));
+  }
+});
+
 test('catalogue identities survive input reordering and construction does not edit bank rows', () => {
   const before = JSON.stringify(registry.questions);
   const reordered = buildPracticeExamCatalog([...registry.questions].reverse());
   assert.deepEqual(reordered.exams, catalog.exams);
+  assert.deepEqual(reordered.legacyExams, catalog.legacyExams);
+  assert.deepEqual(reordered.allExams, catalog.allExams);
   assert.deepEqual(reordered.byType, catalog.byType);
   assert.equal(JSON.stringify(registry.questions), before);
   assert.ok(Object.isFrozen(catalog));
@@ -104,15 +146,51 @@ test('catalogue identities survive input reordering and construction does not ed
   assert.throws(() => catalog.exams[0].questionIds.pop(), TypeError);
 });
 
-test('checkpointed v1 numbered manifests remain pinned until a deliberate append-only catalogue migration', () => {
+test('checkpointed v1 identities remain resolvable while v2 active sets are independently pinned', () => {
   // Do not rebaseline this file when the bank grows. Preserve these ordered IDs
   // and numbers; introduce an explicit append-only catalogue migration instead.
   // A withdrawn question disables its old set rather than replacing its meaning.
   const pinned = JSON.parse(readFileSync(new URL('../data/practice-exams-v1.json', import.meta.url), 'utf8'));
   assert.equal(pinned.schemaVersion, 1);
-  assert.equal(pinned.distributionVersion, PRACTICE_DISTRIBUTION_VERSION);
+  assert.equal(pinned.distributionVersion, 'topic-2025-v1');
   assert.equal(pinned.bankUsable, catalog.usableQuestionCount);
-  assert.deepEqual(catalog.exams.map(({id, type, number, manifest, questionIds}) => ({id, type, number, manifest, questionIds})), pinned.exams);
+  assert.equal(catalog.legacyExams.length, 140);
+  assert.equal(catalog.allExams.length, 361);
+  assert.equal(new Set(catalog.allExams.map(exam => exam.id)).size, 361);
+  for (const old of pinned.exams) {
+    const exam = catalog.getExam(old.id);
+    assert.ok(exam);
+    const {id, type, number, manifest, questionIds} = exam;
+    assert.deepEqual({id, type, number, manifest, questionIds}, old);
+    assert.equal(exam.distributionVersion, 'topic-2025-v1');
+    if (exam.type === 'AYT') {
+      assert.equal(catalog.exams.find(row => row.id === id), exam);
+      assert.equal(exam.previousVersion, undefined);
+    } else {
+      assert.equal(exam.retired, true);
+      assert.equal(exam.previousVersion, true);
+      assert.equal(exam.actualCount, 30);
+      assert.equal(exam.targetCount, 30);
+      assert.equal(exam.completeDistribution, true);
+    }
+  }
+  const current = JSON.parse(readFileSync(new URL('../data/practice-exams-v2.json', import.meta.url), 'utf8'));
+  assert.equal(current.schemaVersion, 1);
+  assert.equal(current.distributionVersion, PRACTICE_DISTRIBUTION_VERSION);
+  assert.equal(current.bankUsable, catalog.usableQuestionCount);
+  assert.deepEqual(catalog.exams.map(({id, type, number, manifest, questionIds}) => ({id, type, number, manifest, questionIds})), current.exams);
+});
+
+test('an old TYT attempt is scored over its original30 IDs and cannot silently turn into the new36-question set', () => {
+  const old = catalog.legacyExams[0], current = catalog.exams.find(exam => exam.type === 'TYT' && exam.number === old.number);
+  assert.notEqual(current.id, old.id);
+  assert.equal(current.actualCount, 36);
+  assert.equal(old.actualCount, 30);
+  assert.deepEqual(current.questionIds.slice(0, 30), old.questionIds);
+  const answers = old.questionIds.map(id => registry.getQuestion(id).answer.value);
+  assert.deepEqual(scorePracticeExam(old, answers, registry), {correct: 30, wrong: 0, blank: 0, net: 30, total: 30, isOfficial: false});
+  assert.equal(scorePracticeExam(current, answers, registry), null);
+  assert.equal(scorePracticeExam({...old, actualCount:36, targetCount:40}, [...answers, ...Array(6).fill(null)], registry), null);
 });
 
 test('scoring uses verified practice answers and computes net for the actual manifest size', () => {

@@ -116,7 +116,7 @@ export function createPracticeExamController({registry, root, learningRoot}) {
   }
   function distributionDetails() {
     const stats = catalog.byType[type];
-    return `<details class="practice-distribution"><summary>Konu dağılımı ve havuz bilgisi</summary><p>Paylaştığın tablonun 2025 sütunu temel alındı. ${type === 'TYT' ? 'TYT görselinde geometri dağılımı bulunmadığı için bu liste 30 matematik sorusundan oluşur.' : 'AYT hedefi 31 matematik + 9 geometri sorusudur. Eksik konular başka sorularla doldurulmaz.'}</p><div class="practice-distribution-grid">${stats.topics.filter(topic => topic.count).map(topic => `<p class="${topic.missing ? 'practice-shortage' : ''}"><span>${escapeHtml(topic.label)}</span><strong>${topic.count} soru${topic.missing ? ' · '+topic.missing+' eksik' : ''}</strong></p>`).join('')}</div><p>${stats.matchedQuestionCount} farklı soru bu listede kullanılıyor. Konu havuzlarının büyüklükleri farklı olduğu için sorular farklı denemelerde tekrar edebilir; aynı denemede tekrar yoktur.</p><p>${stats.excludedQuestionIds.length} soru bu yılın dağılımına girmiyor; tekli Soru Çöz bölümünde korunuyor.</p><p>Cevap anahtarları otomatik matematik kontrolünden geçen AI alıştırmalarına aittir. Bu denemeler resmî ÖSYM sınavı değildir.</p><p>Kayıtlar bu tarayıcıda ${owner === 'guest' ? 'misafir alanında' : 'hesabına ayrılmış alanda'} saklanır; başka cihaza eşitlenmez. ${store.retained?.length ? store.retained.length+' eski veya tanınmayan kayıt silinmeden korunuyor.' : ''}</p></details>`;
+    return `<details class="practice-distribution"><summary>Konu dağılımı ve havuz bilgisi</summary><p>Paylaştığın tabloların 2025 sütunu temel alındı. ${type === 'TYT' ? 'TYT hedefi 30 matematik + 10 geometri sorusudur.' : 'AYT hedefi 31 matematik + 9 geometri sorusudur.'} Eksik konular başka sorularla doldurulmaz.</p><div class="practice-distribution-grid">${stats.topics.filter(topic => topic.count).map(topic => `<p class="${topic.missing ? 'practice-shortage' : ''}"><span>${escapeHtml(topic.label)}</span><strong>${topic.count} soru${topic.missing ? ' · '+topic.missing+' eksik' : ''}</strong></p>`).join('')}</div><p>${stats.matchedQuestionCount} farklı soru bu listede kullanılıyor. Konu havuzlarının büyüklükleri farklı olduğu için sorular farklı denemelerde tekrar edebilir; aynı denemede tekrar yoktur.</p><p>${stats.excludedQuestionIds.length} soru bu yılın dağılımına girmiyor; tekli Soru Çöz bölümünde korunuyor.</p><p>Cevap anahtarları otomatik matematik kontrolünden geçen AI alıştırmalarına aittir. Bu denemeler resmî ÖSYM sınavı değildir.</p><p>Kayıtlar bu tarayıcıda ${owner === 'guest' ? 'misafir alanında' : 'hesabına ayrılmış alanda'} saklanır; başka cihaza eşitlenmez. ${store.retained?.length ? store.retained.length+' eski veya tanınmayan kayıt silinmeden korunuyor.' : ''}</p></details>`;
   }
   function renderCards() {
     const all = catalog.exams.filter(exam => exam.type === type && (!query || String(exam.number).includes(query.trim())));
@@ -146,12 +146,45 @@ export function createPracticeExamController({registry, root, learningRoot}) {
     find('showMorePracticeExams').hidden = all.length <= visibleCount;
   }
   function renderList() {
-    root.innerHTML = header('Denemeler') + `<p class="practice-exam-intro">Konu dağılımına göre hazırlanmış çalışma listesi. Tamamladıkların ✓ ile işaretlenir. Aynı soru farklı denemelerde yer alabilir.</p><div class="practice-exam-controls"><label>Sınav<select id="practiceExamType" class="field"><option value="TYT">TYT · ${catalog.byType.TYT.actualCount} matematik sorusu</option><option value="AYT">AYT · ${catalog.byType.AYT.actualCount}/${catalog.byType.AYT.targetCount} soru${catalog.byType.AYT.completeDistribution ? '' : ' · kısmi'}</option></select></label><label>Deneme ara<input id="practiceExamSearch" class="field" type="search" inputmode="numeric" placeholder="Deneme numarası" maxlength="5"></label></div>${distributionDetails()}<div class="section-heading"><h2>${type} denemeleri</h2><span id="practiceExamListCount" class="muted"></span></div><div id="practiceExamList" class="practice-exam-grid"></div><button id="showMorePracticeExams" class="smallbtn">Diğer denemeleri göster</button>`;
+    const options = ['TYT','AYT'].map(family => {const stats=catalog.byType[family];return `<option value="${family}">${family} · ${stats.actualCount}/${stats.targetCount} soru${stats.completeDistribution?'':' · kısmi'}</option>`}).join('');
+    const stats = catalog.byType[type];
+    root.innerHTML = header('Denemeler') + `<p class="practice-exam-intro">Konu dağılımına göre hazırlanmış çalışma listesi. Tamamladıkların ✓ ile işaretlenir. Aynı soru farklı denemelerde yer alabilir.</p><div class="practice-exam-controls"><label>Sınav<select id="practiceExamType" class="field">${options}</select></label><label>Deneme ara<input id="practiceExamSearch" class="field" type="search" inputmode="numeric" placeholder="Deneme numarası" maxlength="5"></label></div>${!stats.completeDistribution ? `<p id="practiceExamShortage" class="practice-exam-intro practice-shortage">${stats.actualCount}/${stats.targetCount} soru hazır. Eksik: ${stats.shortages.map(row=>escapeHtml(row.label)+' ('+row.missing+')').join(', ')}.</p>` : ''}${distributionDetails()}<details id="previousPracticeExams" class="practice-distribution" hidden><summary>Önceki denemelerim</summary><p>Geometri eklenmeden önceki 30 soruluk kayıtların korunuyor. Bu kayıtlar yeni denemeleri tamamlanmış saymaz.</p><div id="previousPracticeAttempts"></div></details><div class="section-heading"><h2>${type} denemeleri</h2><span id="practiceExamListCount" class="muted"></span></div><div id="practiceExamList" class="practice-exam-grid"></div><button id="showMorePracticeExams" class="smallbtn">Diğer denemeleri göster</button>`;
     find('practiceExamType').value = type; find('practiceExamSearch').value = query;
     find('practiceExamType').onchange = event => { type = event.target.value; query = ''; visibleCount = 24; renderList(); };
     find('practiceExamSearch').oninput = event => { query = event.target.value; visibleCount = 24; renderCards(); };
     find('showMorePracticeExams').onclick = () => { visibleCount += 24; renderCards(); };
-    bindExit('closePracticeExams', close); renderCards();
+    bindExit('closePracticeExams', close); renderCards(); renderPreviousAttempts();
+  }
+  function renderPreviousAttempts() {
+    const attempts = store.attempts.filter(row => row.type === type && examFor(row)?.previousVersion).sort((a,b)=>b.updatedAt-a.updatedAt);
+    find('previousPracticeExams').hidden = !attempts.length;
+    const target = find('previousPracticeAttempts');
+    for (const attempt of attempts) {
+      const exam = examFor(attempt), card = document.createElement('article');
+      card.className = 'history-row'; card.dataset.previousAttemptId = attempt.id;
+      const title = document.createElement('strong'); title.textContent = exam.type+' · '+exam.number+'. Deneme · '+exam.actualCount+' soru';
+      card.append(title);
+      if (attempt.status === 'completed') {const tick=document.createElement('span');tick.className='exam-completed';tick.textContent='✓ Tamamlandı';card.append(tick)}
+      const button = document.createElement('button'); button.className = 'smallbtn';
+      if (attempt.status === 'completed') {
+        button.textContent = 'Sonucu gör'; button.dataset.reviewPreviousAttempt = attempt.id;
+        button.onclick = () => { resultId = attempt.id; activeId = null; renderResult(); window.scrollTo({top:0,behavior:'instant'}); };
+        const retry = document.createElement('button'); retry.className = 'smallbtn'; retry.textContent = 'Bir daha çöz'; retry.dataset.retryPreviousAttempt = attempt.id; retry.disabled = !writable;
+        retry.onclick = () => retryExam(exam); card.append(retry);
+      } else {
+        button.textContent = 'Devam et'; button.dataset.resumePreviousAttempt = attempt.id; button.disabled = !writable;
+        button.onclick = () => { if (commit(resumePracticeAttempt(attempt))) { activeId = attempt.id; resultId = null; renderSession(); window.scrollTo({top:0,behavior:'instant'}); } };
+      }
+      card.append(button); target.append(card);
+    }
+  }
+  function previousVersionNote(exam, id) {
+    return exam.previousVersion ? `<p id="${id}" class="practice-exam-intro">Önceki ${exam.actualCount} soruluk TYT sürümü. Cevapların ve eski soru sırası korunuyor; yeni 40 soruluk hedefe dönüştürülmez.</p>` : '';
+  }
+  function retryExam(exam) {
+    const draft = store.attempts.filter(row => row.examId === exam.id && row.status !== 'completed').sort((a,b) => b.updatedAt-a.updatedAt)[0];
+    if (draft) { if (commit(resumePracticeAttempt(draft))) { activeId = draft.id; resultId = null; renderSession(); } }
+    else start(exam);
   }
   function start(exam) {
     const attempt = createPracticeAttempt(exam, {id:crypto.randomUUID(), now:Date.now()});
@@ -163,7 +196,7 @@ export function createPracticeExamController({registry, root, learningRoot}) {
     const attempt = active(), exam = examFor(attempt);
     if (!attempt || !exam) { activeId = null; renderList(); return; }
     const paused = attempt.status === 'paused';
-    root.innerHTML = header(exam.type+' · '+exam.number+'. Deneme', 'practiceExamLeave') + `<section id="practiceExamSession"><div class="practice-exam-toolbar"><span>${exam.actualCount} soru${!exam.completeDistribution ? ' · Kısmi deneme ('+exam.targetCount+' hedef)' : ''}</span><div class="row"><time id="practiceExamTimer" class="exam-clock" aria-label="Geçen süre">${clock(elapsedPracticeSeconds(attempt))}</time><button id="pausePracticeExam" class="smallbtn">${paused ? 'Devam et' : 'Duraklat'}</button></div></div><p class="exam-paused-note" ${paused ? '' : 'hidden'}>Süre durdu. Soruları görmek için devam et.</p><div class="practice-exam-session-layout"><article id="practiceExamQuestion" class="surface practice-exam-question ai-question" ${paused ? 'hidden' : ''}></article><aside class="surface practice-exam-optical"><h2>Cevap kâğıdı</h2><p id="practiceExamAnswered" class="muted"></p><div id="practiceExamOptical" class="optical-grid" aria-label="Soru numaraları"></div><button id="finishPracticeExam" class="btn">Denemeyi bitir</button></aside></div></section><dialog id="practiceExamFinishDialog" class="app-dialog"><h2>Deneme bitirilsin mi?</h2><p>${attempt.answers.filter(answer => answer === null).length} boş sorun var. Bitirdikten sonra sonuçları ve çözümleri görebilirsin.</p><div class="exam-card-actions"><button id="cancelFinishPracticeExam" class="smallbtn">Devam et</button><button id="confirmFinishPracticeExam" class="btn">Bitir ve sonucu gör</button></div></dialog>`;
+    root.innerHTML = header(exam.type+' · '+exam.number+'. Deneme', 'practiceExamLeave') + previousVersionNote(exam,'previousPracticeExamNote') + `<section id="practiceExamSession"><div class="practice-exam-toolbar"><span>${exam.actualCount} soru${!exam.completeDistribution ? ' · Kısmi deneme ('+exam.targetCount+' hedef)' : ''}</span><div class="row"><time id="practiceExamTimer" class="exam-clock" aria-label="Geçen süre">${clock(elapsedPracticeSeconds(attempt))}</time><button id="pausePracticeExam" class="smallbtn">${paused ? 'Devam et' : 'Duraklat'}</button></div></div><p class="exam-paused-note" ${paused ? '' : 'hidden'}>Süre durdu. Soruları görmek için devam et.</p><div class="practice-exam-session-layout"><article id="practiceExamQuestion" class="surface practice-exam-question ai-question" ${paused ? 'hidden' : ''}></article><aside class="surface practice-exam-optical"><h2>Cevap kâğıdı</h2><p id="practiceExamAnswered" class="muted"></p><div id="practiceExamOptical" class="optical-grid" aria-label="Soru numaraları"></div><button id="finishPracticeExam" class="btn">Denemeyi bitir</button></aside></div></section><dialog id="practiceExamFinishDialog" class="app-dialog"><h2>Deneme bitirilsin mi?</h2><p>${attempt.answers.filter(answer => answer === null).length} boş sorun var. Bitirdikten sonra sonuçları ve çözümleri görebilirsin.</p><div class="exam-card-actions"><button id="cancelFinishPracticeExam" class="smallbtn">Devam et</button><button id="confirmFinishPracticeExam" class="btn">Bitir ve sonucu gör</button></div></dialog>`;
     bindExit('practiceExamLeave', showList);
     find('pausePracticeExam').onclick = () => { const current = active(); if (commit(current.status === 'running' ? pausePracticeAttempt(current) : resumePracticeAttempt(current))) renderSession(); };
     find('finishPracticeExam').onclick = () => find('practiceExamFinishDialog').showModal();
@@ -229,13 +262,9 @@ export function createPracticeExamController({registry, root, learningRoot}) {
     const attempt = attemptById(resultId), exam = examFor(attempt);
     if (!attempt || attempt.status !== 'completed' || !exam) { resultId = null; renderList(); return; }
     const score = scorePracticeExam(exam, attempt.answers, registry);
-    root.innerHTML = header(exam.type+' · '+exam.number+'. Deneme', 'returnToPracticeExams') + `<section id="practiceExamResult" class="surface practice-exam-result"><h2>✓ Deneme tamamlandı</h2><p>${exam.actualCount} soruluk ${exam.completeDistribution ? 'matematik denemesi' : 'kısmi deneme'} · ${clock(elapsedPracticeSeconds(attempt))}</p>${score ? `<div class="practice-score-grid"><div><strong>${score.correct}</strong><span>Doğru</span></div><div><strong>${score.wrong}</strong><span>Yanlış</span></div><div><strong>${score.blank}</strong><span>Boş</span></div><div><strong>${score.net.toFixed(2)}</strong><span>Alıştırma neti</span></div></div>` : '<p role="status">Cevap anahtarı doğrulanamadı; puan gösterilmiyor.</p>'}<p class="muted">Net = doğru − yanlış / 4. AI alıştırma sonucudur; resmî sınav sonucu değildir.${!exam.completeDistribution ? ' Eksik konular bu sonuçta değerlendirilmez.' : ''}</p><div class="exam-card-actions"><button id="retryPracticeExam" class="btn">Bir daha çöz</button></div><div id="practiceExamReview" class="practice-review-list"></div></section>`;
+    root.innerHTML = header(exam.type+' · '+exam.number+'. Deneme', 'returnToPracticeExams') + previousVersionNote(exam,'previousPracticeResultNote') + `<section id="practiceExamResult" class="surface practice-exam-result"><h2>✓ Deneme tamamlandı</h2><p>${exam.actualCount} soruluk ${exam.completeDistribution ? 'matematik denemesi' : 'kısmi deneme'} · ${clock(elapsedPracticeSeconds(attempt))}</p>${score ? `<div class="practice-score-grid"><div><strong>${score.correct}</strong><span>Doğru</span></div><div><strong>${score.wrong}</strong><span>Yanlış</span></div><div><strong>${score.blank}</strong><span>Boş</span></div><div><strong>${score.net.toFixed(2)}</strong><span>Alıştırma neti</span></div></div>` : '<p role="status">Cevap anahtarı doğrulanamadı; puan gösterilmiyor.</p>'}<p class="muted">Net = doğru − yanlış / 4. AI alıştırma sonucudur; resmî sınav sonucu değildir.${!exam.completeDistribution ? ' Eksik konular bu sonuçta değerlendirilmez.' : ''}</p><div class="exam-card-actions"><button id="retryPracticeExam" class="btn">Bir daha çöz</button></div><div id="practiceExamReview" class="practice-review-list"></div></section>`;
     bindExit('returnToPracticeExams', showList);
-    find('retryPracticeExam').onclick = () => {
-      const draft = store.attempts.filter(row => row.examId === exam.id && row.status !== 'completed').sort((a,b) => b.updatedAt-a.updatedAt)[0];
-      if (draft) { if (commit(resumePracticeAttempt(draft))) { activeId = draft.id; resultId = null; renderSession(); } }
-      else start(exam);
-    };
+    find('retryPracticeExam').onclick = () => retryExam(exam);
     for (let i = 0; i < exam.questionIds.length; i++) {
       const q = registry.getQuestion(exam.questionIds[i]);
       if (!q) continue;
@@ -252,6 +281,7 @@ export function createPracticeExamController({registry, root, learningRoot}) {
   function summary() {
     return store.attempts.filter(attempt => attempt.status === 'completed').map(attempt => ({
       id:attempt.id, type:attempt.type, number:attempt.number, completedAt:attempt.completedAt,
+      questionCount:attempt.questionIds.length, previousVersion:examFor(attempt)?.previousVersion === true,
       duration:elapsedPracticeSeconds(attempt), score:scorePracticeExam(examFor(attempt), attempt.answers, registry),
       answeredQuestionIds:attempt.questionIds.filter((id,index) => attempt.answers[index] !== null)
     }));

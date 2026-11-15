@@ -37,18 +37,22 @@ bu değişiklikte birleştirme ve yayın için otomatik işlem yapılmaz.
 ## Konu dağılımına göre denemeler
 
 **Soru Çöz → Denemeler** ekranında 2025 konu tablosuna göre numaralı AI
-alıştırma denemeleri seçilir: **140 TYT (30 matematik sorusu)** ve
-**81 AYT (24/40 soruluk kısmi çalışma)**. AYT'de eksik olan 7 matematik ve
-9 geometri sorusu başka konularla doldurulmaz. Bunlar resmî ÖSYM sınavı değildir.
+alıştırma denemeleri seçilir: **140 TYT (36/40 soruluk kısmi çalışma)** ve
+**81 AYT (24/40 soruluk kısmi çalışma)**. TYT hedefi 30 matematik + 10 geometri;
+mevcut havuzdan 4 üçgen, 1 çokgen ve 1 kare sorusu eklenir. Eksik 2 katı cisim,
+1 yamuk ve 1 dikdörtgen sorusu başka konularla doldurulmaz. AYT'deki
+7 matematik ve 9 geometri eksiği de ayrıca gösterilir. Bunlar resmî ÖSYM sınavı değildir.
 
 Tamamlanan denemede ✓ görünür. **Bir daha çöz** yeni cevap kâğıdı açar,
 eski sonucu korur. Optik işaretleme, kronometre, duraklatma/devam, ara kayıt,
 çözümler ve İlerleme bölümünde sonuç geçmişi bulunur. Yeni kayıtlar bu
 tarayıcıda misafir ve hesap alanlarında ayrı tutulur; cihazlar arasında eşitlenmez.
 
-1.943 farklı soru dağılıma göre kullanılır; az bulunan konular farklı
-denemelerde tekrar edebilir. Kalan 55 soru tekli çözümde korunur. Yeni soru
-üretilmez. Ayrıntılar ve sınırlar: [Deneme raporu](docs/DENEMELER_RAPORU.md).
+1.958 farklı soru dağılıma göre kullanılır; az bulunan konular farklı
+denemelerde tekrar edebilir. Kalan 40 soru tekli çözümde korunur. Yeni soru
+üretilmez. Eski 30 soruluk TYT kayıtları ve sonuçları **Önceki denemelerim**
+altında aynı sorularla açılır; yeni denemelere dönüştürülmez.
+Ayrıntılar ve sınırlar: [Deneme raporu](docs/DENEMELER_RAPORU.md).
 
 ## Veri ve yeniden üretilebilir denetim
 

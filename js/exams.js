@@ -152,7 +152,7 @@ function renderPracticeHistory() {
     const row = document.createElement('article'); row.className = 'history-row';
     const name = document.createElement('div'), label = document.createElement('strong'), meta = document.createElement('span');
     label.textContent = attempt.type+' · '+attempt.number+'. Deneme';
-    meta.className = 'muted'; meta.textContent = new Date(attempt.completedAt).toLocaleDateString('tr-TR')+' · '+duration(attempt.duration);
+    meta.className = 'muted'; meta.textContent = new Date(attempt.completedAt).toLocaleDateString('tr-TR')+' · '+duration(attempt.duration)+' · '+attempt.questionCount+' soru'+(attempt.previousVersion?' · önceki sürüm':'');
     name.append(label, meta);
     const score = document.createElement('strong'); score.className = 'history-score';
     score.textContent = attempt.score ? attempt.score.net.toFixed(2)+' alıştırma neti' : 'Puanlanmadı';

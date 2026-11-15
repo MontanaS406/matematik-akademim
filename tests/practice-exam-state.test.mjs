@@ -1,5 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {AI_BANK} from '../data/ai-bank.js';
+import {createAiRegistry} from '../shared/ai-bank.js';
+import {buildPracticeExamCatalog, scorePracticeExam} from '../shared/practice-exams.js';
 import {
   createPracticeAttempt, normalizePracticeAttempt, elapsedPracticeSeconds,
   updatePracticeAnswer, movePracticeQuestion, pausePracticeAttempt,
@@ -130,4 +134,79 @@ test('practice store retains unknown, conflicting and future rows and does not t
   assert.equal(normalizePracticeExamStore({version: 1, attempts: 'bad'}, [spec]), null);
   const many = Array.from({length: 1500}, (_, i) => ({...complete, id: `previous-${i}`}));
   assert.equal(normalizePracticeExamStore({version: 1, attempts: many}, [spec], started + 2000).attempts.length, 1500);
+});
+
+test('practice store resolves historical manifests through allExams or a safe lookup while retaining array compatibility', () => {
+  const previous = exam(), current = {...exam('TYT', 36), id: 'practice-tyt-current',
+    manifest: 'current-manifest', distributionVersion: 'practice-2025-v2'};
+  const saved = pausePracticeAttempt(updatePracticeAnswer(attempt(previous), 3, 'D', started + 1000), started + 2000);
+  const raw = {version: 1, attempts: [saved]};
+  const variants = [
+    [previous], {allExams: [current, previous], exams: [current]},
+    {exams: [current], getExam: id => id === previous.id ? previous : null},
+    {getExam: id => id === previous.id ? previous : null}
+  ];
+  for (const catalog of variants) {
+    const normalized = normalizePracticeExamStore(raw, catalog, started + 3000);
+    assert.deepEqual(normalized.attempts, [saved]);
+    assert.deepEqual(normalized.retained, []);
+  }
+  for (const catalog of [
+    {allExams: [previous, {...previous, manifest: 'conflict'}], getExam: () => previous},
+    {exams: [current], getExam() { throw Error('unavailable historical catalog'); }},
+    {exams: [current], getExam: () => current}
+  ]) {
+    const normalized = normalizePracticeExamStore(raw, catalog, started + 3000);
+    assert.deepEqual(normalized.attempts, []);
+    assert.deepEqual(normalized.retained, [saved]);
+  }
+});
+
+test('real published TYT v1 completed and paused records survive the geometry catalog without padding or result changes', () => {
+  const pinned = JSON.parse(readFileSync(new URL('../data/practice-exams-v1.json', import.meta.url), 'utf8'));
+  const registry = createAiRegistry(AI_BANK), catalog = buildPracticeExamCatalog(registry.questions);
+  const [publishedComplete, publishedPaused] = pinned.exams.filter(row => row.type === 'TYT').slice(0, 2);
+  const priorDescriptor = row => ({...row, distributionVersion: pinned.distributionVersion,
+    actualCount: row.questionIds.length, targetCount: 30, completeDistribution: true});
+  const previousComplete = priorDescriptor(publishedComplete), previousPaused = priorDescriptor(publishedPaused);
+  let completed = createPracticeAttempt(previousComplete, {id: 'published-tyt-completed', now: started});
+  completed = updatePracticeAnswer(completed, 0, registry.getQuestion(completed.questionIds[0]).answer.value, started + 1000);
+  const wrong = 'ABCDE'.split('').find(letter => letter !== registry.getQuestion(completed.questionIds[1]).answer.value);
+  completed = updatePracticeAnswer(completed, 1, wrong, started + 2000);
+  completed = finishPracticeAttempt(completed,
+    {correct: 1, wrong: 1, blank: 28, net: .75, total: 30, isOfficial: false}, started + 60000);
+  let paused = createPracticeAttempt(previousPaused, {id: 'published-tyt-paused', now: started});
+  paused = updatePracticeAnswer(paused, 4, 'E', started + 1000);
+  paused = movePracticeQuestion(paused, 4, started + 2000);
+  paused = pausePracticeAttempt(paused, started + 42000);
+  const raw = {version: 1, attempts: [completed, paused], retained: []};
+  const before = JSON.stringify(raw), restored = normalizePracticeExamStore(JSON.parse(before), catalog, started + 120000);
+  assert.deepEqual(restored.attempts, raw.attempts);
+  assert.deepEqual(restored.retained, []);
+  assert.equal(JSON.stringify(raw), before);
+  const recovered = normalizePracticeExamStore({version: 1, attempts: [], retained: JSON.parse(before).attempts}, catalog, started + 120000);
+  assert.deepEqual(recovered.attempts, raw.attempts);
+  assert.deepEqual(recovered.retained, []);
+  for (const [row, pinnedRow] of [[restored.attempts[0], publishedComplete], [restored.attempts[1], publishedPaused]]) {
+    assert.equal(row.answers.length, 30);
+    assert.deepEqual(row.questionIds, pinnedRow.questionIds);
+    assert.equal(row.distributionVersion, 'topic-2025-v1');
+    assert.equal(catalog.getExam(row.examId).targetCount, 30);
+    assert.equal(catalog.getExam(row.examId).actualCount, 30);
+  }
+  assert.deepEqual(scorePracticeExam(catalog.getExam(completed.examId), completed.answers, registry), completed.result);
+  assert.equal(restored.attempts[0].result.total, 30);
+  assert.equal(restored.attempts[0].result.net, .75);
+  assert.equal(restored.attempts[1].answers[4], 'E');
+  assert.equal(restored.attempts[1].elapsedMs, 42000);
+  assert.equal(restored.attempts[1].index, 4);
+  const current = catalog.exams.find(row => row.type === 'TYT' && row.number === publishedComplete.number);
+  assert.equal(current.actualCount, 36);
+  assert.equal(current.targetCount, 40);
+  assert.notEqual(current.id, completed.examId);
+  assert.equal(normalizePracticeAttempt(completed, current, started + 120000), null);
+  const fresh = createPracticeAttempt(current, {id: 'new-geometry-tyt', now: started + 120000});
+  assert.equal(fresh.answers.length, 36);
+  assert.equal(fresh.answers.every(value => value === null), true);
+  assert.equal(fresh.result, null);
 });

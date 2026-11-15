@@ -33,17 +33,27 @@ test('numbered TYT exams use existing verified questions and preserve optical an
   const errors=[];page.on('pageerror',error=>errors.push(error.message));
   await page.goto('/');
   const examId=await startFirst(page);
-  await expect(page.locator('#practiceExamOptical button[data-index]')).toHaveCount(30);
+  await expect(page.locator('#practiceExamOptical button[data-index]')).toHaveCount(36);
   const attempts=await readAttempts(page);
   expect(attempts).toHaveLength(1);
   expect(attempts[0].examId).toBe(examId);
-  expect(attempts[0].questionIds).toHaveLength(30);
-  expect(new Set(attempts[0].questionIds).size).toBe(30);
+  expect(attempts[0].questionIds).toHaveLength(36);
+  expect(new Set(attempts[0].questionIds).size).toBe(36);
   for(const id of attempts[0].questionIds) {
     const q=registry.getQuestion(id);
     expect(q).not.toBeNull();expect(q.examType).toBe('TYT');
     expect(q.origin).toBe('AI_URETIMI');expect(q.verification.mathPassed).toBe(true);
   }
+  expect(attempts[0].questionIds.slice(0,30).every(id=>registry.getQuestion(id).courseId!=='geometry')).toBe(true);
+  const geometryTopics=[];
+  for(let index=30;index<36;index++) {
+    await page.locator(`#practiceExamOptical [data-index="${index}"]`).click();
+    expect((await question(page)).courseId).toBe('geometry');
+    geometryTopics.push(await page.locator('#practiceExamQuestion .topic-label').innerText());
+  }
+  expect(geometryTopics.sort()).toEqual(['Açılar ve Üçgenler','Açılar ve Üçgenler','Açılar ve Üçgenler','Açılar ve Üçgenler','Çokgenler','Kare'].sort());
+  expect(attempts[0].questionIds.join('|')).not.toMatch(/MIDPOINT-SUBTRIANGLE-COORDINATES|VERTEX-PARALLEL-TRANSLATION|CONCAVE-COORDINATE-HEIGHT-RECOVERY|COORDINATE-FREE-HORIZONTAL-POSITION|COUNT-LATTICE-CONCAVE-VERTICES/);
+  await page.locator('#practiceExamOptical [data-index="0"]').click();
   const first=await question(page);
   await expect(page.locator('#practiceExamQuestion')).toContainText(first.prompt);
   await expect(page.locator('#practiceExamOptions button')).toHaveCount(5);
@@ -62,6 +72,89 @@ test('numbered TYT exams use existing verified questions and preserve optical an
   await expect(page.locator('#practiceExamResult')).toHaveCount(0);
   await expect(page.locator('input[type=file],iframe')).toHaveCount(0);
   expect(errors).toEqual([]);
+});
+
+test('TYT geometry follows the supplied 2025 quotas and shows the four unavailable slots honestly',async({page})=>{
+  await page.goto('/');await openList(page);
+  const card=page.locator('[data-practice-exam-id]').first();
+  await expect(card).toContainText(/36(?:\s*soru)?\s*\/\s*40/);
+  await expect(card).toContainText('4 soru eksik');
+  await page.locator('.practice-distribution:not(#previousPracticeExams) > summary').click();
+  for(const [label,count,missing] of [['Açılar ve Üçgenler',4,0],['Çokgenler',1,0],['Kare',1,0],['Katı Cisimler',2,2],['Yamuk',1,1],['Dikdörtgen',1,1]]) {
+    const row=page.locator('.practice-distribution-grid p').filter({has:page.getByText(label,{exact:true})});
+    await expect(row).toContainText(count+' soru');
+    if(missing)await expect(row).toContainText(missing+' eksik');
+  }
+  await expect(page.locator('.practice-distribution-grid')).not.toContainText('Analitik Geometri');
+  await expect(page.locator('.practice-distribution-grid')).not.toContainText('Çember ve Daire');
+  await expect(page.locator('input[type=file],iframe')).toHaveCount(0);
+});
+
+test('previous 30-question TYT attempts stay distinct, resume unchanged and retry their original manifest',async({page})=>{
+  await page.goto('/');
+  const seeded=await page.evaluate(async key=>{
+    const [{AI_BANK},{createAiRegistry},{buildPracticeExamCatalog,scorePracticeExam},state,frozen]=await Promise.all([
+      import('/data/ai-bank.js'),import('/shared/ai-bank.js'),import('/shared/practice-exams.js'),
+      import('/shared/practice-exam-state.js'),fetch('/data/practice-exams-v1.json').then(response=>response.json())
+    ]);
+    const registry=createAiRegistry(AI_BANK),catalog=buildPracticeExamCatalog(registry.questions),now=Date.now()-120000;
+    const oldFirst=catalog.getExam(frozen.exams.find(exam=>exam.type==='TYT'&&exam.number===1).id);
+    const oldSecond=catalog.getExam(frozen.exams.find(exam=>exam.type==='TYT'&&exam.number===2).id);
+    if(oldFirst?.actualCount!==30||oldSecond?.actualCount!==30)throw Error('Previous manifests must resolve as 30-question exams.');
+    const answerFirst=registry.getQuestion(oldFirst.questionIds[0]).answer.value;
+    const answerSecond=registry.getQuestion(oldSecond.questionIds[0]).answer.value;
+    let completed=state.createPracticeAttempt(oldFirst,{id:'legacy-completed-30',now});
+    completed=state.updatePracticeAnswer(completed,0,answerFirst,now+1000);
+    completed=state.finishPracticeAttempt(completed,scorePracticeExam(oldFirst,completed.answers,registry),now+10000);
+    let paused=state.createPracticeAttempt(oldSecond,{id:'legacy-paused-30',now:now+20000});
+    paused=state.updatePracticeAnswer(paused,0,answerSecond,now+21000);
+    paused=state.pausePracticeAttempt(paused,now+30000);
+    localStorage.setItem(key,JSON.stringify({version:1,attempts:[completed,paused]}));
+    return {completed,paused,answerSecond};
+  },STORAGE_KEY);
+  await page.reload();await openList(page);
+  const currentCard=page.locator('[data-practice-exam-id]').first();
+  await expect(currentCard).toContainText(/36(?:\s*soru)?\s*\/\s*40/);
+  await expect(currentCard.locator('.exam-completed')).toHaveCount(0);
+  await expect(currentCard.locator('[data-start-exam]')).toBeVisible();
+  const openPrevious=async()=>{
+    const details=page.locator('#previousPracticeExams');
+    if(!await details.evaluate(node=>node.open))await details.locator(':scope > summary').click();
+  };
+  await openPrevious();
+  let previousCompleted=page.locator('[data-previous-attempt-id="legacy-completed-30"]');
+  await previousCompleted.locator('[data-review-previous-attempt]').click();
+  await expect(page.locator('#previousPracticeResultNote')).toBeVisible();
+  await expect(page.locator('#previousPracticeResultNote')).toContainText('30');
+  await expect(page.locator('#practiceExamReview details')).toHaveCount(30);
+  await page.locator('#returnToPracticeExams').click();await openPrevious();
+  await page.locator('[data-previous-attempt-id="legacy-paused-30"] [data-resume-previous-attempt]').click();
+  await expect(page.locator('#practiceExamOptical button[data-index]')).toHaveCount(30);
+  await expect(page.locator('#previousPracticeExamNote')).toBeVisible();
+  await expect(page.locator('#previousPracticeExamNote')).toContainText('30');
+  await expect(page.locator(`#practiceExamOptions [data-option="${seeded.answerSecond}"]`)).toHaveAttribute('aria-pressed','true');
+  let resumed=(await readAttempts(page)).find(attempt=>attempt.id==='legacy-paused-30');
+  expect(resumed.answers).toEqual(seeded.paused.answers);expect(resumed.questionIds).toEqual(seeded.paused.questionIds);
+  await page.reload();await openList(page);await openPrevious();
+  await page.locator('[data-previous-attempt-id="legacy-paused-30"] [data-resume-previous-attempt]').click();
+  await expect(page.locator('#practiceExamOptical button[data-index]')).toHaveCount(30);
+  resumed=(await readAttempts(page)).find(attempt=>attempt.id==='legacy-paused-30');
+  expect(resumed.answers).toEqual(seeded.paused.answers);expect(resumed.questionIds).toEqual(seeded.paused.questionIds);
+  await finish(page);
+  const after=await readAttempts(page);
+  expect(after.find(attempt=>attempt.id==='legacy-completed-30')).toEqual(seeded.completed);
+  expect(after.find(attempt=>attempt.id==='legacy-paused-30').result).toMatchObject({correct:1,wrong:0,blank:29,total:30,net:1,isOfficial:false});
+  await page.locator('#returnToPracticeExams').click();await openPrevious();
+  await page.locator('[data-previous-attempt-id="legacy-paused-30"] [data-retry-previous-attempt]').click();
+  await expect(page.locator('#practiceExamOptical button[data-index]')).toHaveCount(30);
+  await expect(page.locator('#previousPracticeExamNote')).toBeVisible();
+  const retried=await readAttempts(page),fresh=retried.find(attempt=>!['legacy-completed-30','legacy-paused-30'].includes(attempt.id));
+  expect(fresh.questionIds).toEqual(seeded.paused.questionIds);expect(fresh.answers).toEqual(Array(30).fill(null));
+  expect(fresh.examId).toBe(seeded.paused.examId);
+  await page.locator('#practiceExamLeave').click();
+  await expect(page.locator('[data-practice-exam-id]').first().locator('.exam-completed')).toHaveCount(0);
+  await page.locator('[data-practice-exam-id]').first().locator('[data-start-exam]').click();
+  await expect(page.locator('#practiceExamOptical button[data-index]')).toHaveCount(36);
 });
 
 test('paused and unfinished exam resumes after reload with its answers and elapsed time', async({page}) => {
@@ -106,7 +199,7 @@ test('finishing adds a persistent check mark and retry keeps the completed attem
   await finish(page);
   const completed=(await readAttempts(page))[0];
   expect(completed.status).toBe('completed');
-  expect(completed.result).toMatchObject({correct:1,wrong:1,blank:28,net:0.75,total:30,isOfficial:false});
+  expect(completed.result).toMatchObject({correct:1,wrong:1,blank:34,net:0.75,total:36,isOfficial:false});
   await expect(page.locator('#practiceExamResult')).toContainText(/net/i);
   const review=page.locator('#practiceExamReview details').first();
   await review.locator('summary').click();
@@ -135,7 +228,7 @@ test('finishing adds a persistent check mark and retry keeps the completed attem
   expect(retried.find(attempt=>attempt.id===completed.id)).toEqual(completed);
   const fresh=retried.find(attempt=>attempt.id!==completed.id);
   expect(fresh.examId).toBe(examId);expect(fresh.questionIds).toEqual(completed.questionIds);
-  expect(fresh.answers).toEqual(Array(30).fill(null));expect(fresh.status).toBe('running');
+  expect(fresh.answers).toEqual(Array(36).fill(null));expect(fresh.status).toBe('running');
   await page.locator('#practiceExamLeave').click();
   card=page.locator(`[data-practice-exam-id="${examId}"]`);
   await expect(card.locator('.exam-completed')).toBeVisible();
@@ -167,7 +260,7 @@ test('exam interface stays compact on a narrow screen and preserves all four men
   await page.locator('[data-practice-exam-id]').first().locator('[data-start-exam]').click();
   await expect(page.locator('#practiceExamOptions button')).toHaveCount(5);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
-  await page.locator('#practiceExamOptical [data-index="29"]').click();
+  await page.locator('#practiceExamOptical [data-index="35"]').click();
   await expect(page.locator('#practiceExamNext')).toBeDisabled();
   await expect(page.locator('#practiceExamPrevious')).toBeEnabled();
   await page.locator('#practiceExamLeave').click();
@@ -194,7 +287,7 @@ test('guest exam answers remain isolated from a signed-in account and return aft
   const card=page.locator(`[data-practice-exam-id="${examId}"]`);
   await expect(card.locator('[data-resume-exam]')).toHaveCount(0);
   await card.locator('[data-start-exam]').click();
-  expect((await readAttempts(page,'ma_practice_exams_v1_alice'))[0].answers).toEqual(Array(30).fill(null));
+  expect((await readAttempts(page,'ma_practice_exams_v1_alice'))[0].answers).toEqual(Array(36).fill(null));
   expect(await page.evaluate(key=>localStorage.getItem(key),STORAGE_KEY)).toBe(guestBefore);
   await page.locator('#practiceExamLeave').click();
   await openAccount(page);await page.locator('#logoutBtn').click();
