@@ -2,6 +2,20 @@ import {test,expect} from './fixtures.mjs';
 import {COURSES} from '../../shared/curriculum.js';
 import {openAccount} from './source-helpers.mjs';
 const forbidden=/pdf|dosya\s*(?:seç|yükle)|kitapçık\s*aktar|sınav\s*modu/iu;
+test('scroll-to-focus keeps answer controls reachable and the heading inside the viewport',async({page},info)=>{
+ await page.goto('/');await page.locator('#questionCard').waitFor();
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth)).toBe(true);
+ const heading=await page.locator('#learningRoot>.page-heading').boundingBox();expect(heading.x+heading.width).toBeLessThanOrEqual(page.viewportSize().width);
+ await page.locator('[data-option="A"]').click();
+ await page.locator('#checkSourceAnswer').evaluate(node=>node.scrollIntoView({block:'nearest'}));
+ const geometry=await page.evaluate(()=>{
+  const button=document.querySelector('#checkSourceAnswer'),rect=button.getBoundingClientRect(),nav=document.querySelector('.nav').getBoundingClientRect();
+  const at=document.elementFromPoint(rect.x+rect.width/2,rect.y+rect.height/2);
+  return {bottom:rect.bottom,navTop:nav.top,hit:at===button||button.contains(at)};
+ });
+ if(info.project.name==='mobile')expect(geometry.bottom).toBeLessThanOrEqual(geometry.navTop);expect(geometry.hit).toBe(true);
+ await page.locator('#checkSourceAnswer').click();await expect(page.locator('#sourceFeedback')).not.toBeEmpty();
+});
 async function expectLockedArchive(page){
  await page.locator('#bankPool').selectOption('original');
  await expect(page.locator('#questionBankEmpty')).toBeVisible();await expect(page.locator('#questionBankEmpty')).toHaveAttribute('role','status');await expect(page.locator('#questionBankEmpty h2')).toHaveText('Denemeler için giriş yap');
