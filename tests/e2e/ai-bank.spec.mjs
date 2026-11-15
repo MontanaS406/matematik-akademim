@@ -69,7 +69,7 @@ test('wrong AI choices show the correct option, explanation and a single recorde
 
 test('AI, archive index and official exams remain separate without upload controls',async({page})=>{
  await page.goto('/');await expect(page.locator('#learningRoot .count-badge')).toHaveText(registry.stats.usable+' soru');await page.locator('.question-verification summary').click();await expect(page.locator('.question-verification')).toContainText('çıkmış sınav sorusu değildir');await expect(page.locator('.question-verification')).toContainText('İnsan editör incelemesi bekliyor');
- for(const pool of ['original','osym']){await page.locator('#bankPool').selectOption(pool);await expect(page.locator('#questionBankEmpty')).toBeVisible();await expect(page.locator('#questionCard')).toHaveCount(0);await expect(page.locator('#learningRoot .count-badge')).toHaveText('0 soru')}
+ for(const pool of ['original','osym']){await page.locator('#bankPool').selectOption(pool);await expect(page.locator('#questionBankEmpty')).toBeVisible();await expect(page.locator('#questionCard')).toHaveCount(0);await expect(page.locator('#learningRoot .count-badge')).toHaveText(pool==='original'?'Arşiv kilitli':'0 soru')}
  await expect(page.locator('#questionBankEmpty')).toContainText('AI alıştırmaları burada gösterilmez');await page.locator('#bankPool').selectOption('ai');await expect(page.locator('#questionCard')).toBeVisible();await expect(page.locator('input[type=file],iframe')).toHaveCount(0);await expect(page.locator('.nav button')).toHaveCount(4);
  expect(await page.locator('body').innerText()).not.toMatch(/pdf|dosya\s*(?:seç|yükle)|kitapçık\s*aktar/iu);
 });
@@ -82,15 +82,11 @@ test('exam, topic, difficulty, subtopic and generation-pool filters use the chec
  const actual=await current(page);expect(actual).toMatchObject({examType:seed.examType,courseId:seed.courseId,difficulty:seed.difficulty,pool:'generated',subtopic:seed.subtopic});await expect(page.locator('#questionCard')).toHaveCount(1);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 
-test('read original documents stay outside the public question pool until publication permission is verified',async({page})=>{
+test('personal original archive is locked until its access key is supplied and remains separate from public AI',async({page})=>{
  await page.goto('/');await page.locator('#bankPool').selectOption('original');
- await expect(page.locator('#questionBankEmpty h2')).toHaveText('Yayımlanabilir orijinal soru yok');await expect(page.locator('#learningRoot .count-badge')).toHaveText('0 soru');
- await expect(page.locator('#sourceArchiveDetails')).not.toHaveAttribute('open','');await expect(page.locator('#questionCard')).toHaveCount(0);await expect(page.locator('input[type=file],iframe')).toHaveCount(0);
- await page.locator('#sourceArchiveDetails>summary').click();await expect(page.locator('#sourceArchiveSummary')).toContainText(SOURCED_ARCHIVE_SUMMARY.pdfCount+' kaynak dosyası');await expect(page.locator('#sourceArchiveSummary')).toContainText(SOURCED_ARCHIVE_SUMMARY.pageCount+' sayfa');await expect(page.locator('#sourceArchiveSummary')).toContainText(SOURCED_ARCHIVE_SUMMARY.privateVerifiedQuestions+' soru özel arşivde doğrulandı');
- const evidence=SOURCE_READ_EVIDENCE[0],doc=SOURCE_DOCUMENTS.find(row=>row.id===evidence.sourceDocumentId);expect(evidence.readStatus).toBe('read');
- await expect(page.locator('#sourceReadEvidence')).toContainText(doc.fileName);await expect(page.locator('#sourceReadEvidence')).toContainText('Dosya sayfası '+evidence.physicalPage);await expect(page.locator('#sourceReadEvidence')).toContainText('soru '+evidence.questionNumber);
- await page.locator('.source-document-list>summary').click();await expect(page.locator('#sourceDocumentList>li')).toHaveCount(SOURCE_DOCUMENTS.length);await expect(page.locator('#sourceDocumentList')).toContainText('yayımlama izni doğrulanmadı');
- await expect(page.locator('#sourceArchiveDetails img,#sourceArchiveDetails iframe,#sourceArchiveDetails a')).toHaveCount(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ await expect(page.locator('#questionBankEmpty h2')).toHaveText('Kişisel soru arşivin');await expect(page.locator('#learningRoot .count-badge')).toHaveText('Arşiv kilitli');
+ await expect(page.locator('#openPersonalArchive')).toBeVisible();await expect(page.locator('#questionCard,#archiveQuestion,#personalArchiveRoot')).toHaveCount(0);
+ await expect(page.locator('input[type=file],iframe')).toHaveCount(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
 
 test('original-to-AI derivation uses verified read evidence and stays separate from AI-to-AI and original pools',async({page})=>{
@@ -100,7 +96,7 @@ test('original-to-AI derivation uses verified read evidence and stays separate f
  await expect(page.locator('#questionCard')).toHaveAttribute('data-origin','AI_URETIMI');await expect(page.locator('#questionCard img,#questionCard iframe')).toHaveCount(0);
  await openFilters(page);await page.locator('#aiDerivation').selectOption('AI_TO_AI');const previous=registry.getQuestions({derivationKind:'AI_TO_AI'});await expect(page.locator('#learningRoot .count-badge')).toHaveText(previous.length+' soru');expect((await current(page)).derivationKind).toBe('AI_TO_AI');
  await openFilters(page);await page.locator('#aiDerivation').selectOption('ORIGINAL_TO_AI');await openFilters(page);await page.locator('#aiPool').selectOption('imported');await expect(page.locator('#questionBankEmpty')).toBeVisible();await page.locator('#clearPracticeFilters').click();await expect(page.locator('#learningRoot .count-badge')).toHaveText(registry.stats.usable+' soru');
- await page.locator('#bankPool').selectOption('original');await expect(page.locator('#learningRoot .count-badge')).toHaveText('0 soru');await expect(page.locator('#questionCard')).toHaveCount(0);
+ await page.locator('#bankPool').selectOption('original');await expect(page.locator('#learningRoot .count-badge')).toHaveText('Arşiv kilitli');await expect(page.locator('#questionCard')).toHaveCount(0);
 });
 
 test('AI teacher help uses lesson context and never passes an AI id as a real-source question',async({page})=>{

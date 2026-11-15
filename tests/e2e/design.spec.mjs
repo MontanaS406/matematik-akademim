@@ -2,11 +2,11 @@ import {test,expect} from './fixtures.mjs';
 import {COURSES} from '../../shared/curriculum.js';
 import {openAccount} from './source-helpers.mjs';
 const forbidden=/pdf|dosya\s*(?:seç|yükle)|kitapçık\s*aktar|sınav\s*modu/iu;
-async function expectEmptyBank(page){
+async function expectLockedArchive(page){
  await page.locator('#bankPool').selectOption('original');
- await expect(page.locator('#questionBankEmpty')).toBeVisible();await expect(page.locator('#questionBankEmpty')).toHaveAttribute('role','status');await expect(page.locator('#questionBankEmpty h2')).toHaveText('Yayımlanabilir orijinal soru yok');
- await expect(page.locator('#questionBankEmpty')).toContainText('Yeniden yayımlama izni doğrulanmadığı');
- await expect(page.locator('#questionCard,#originalPrompt,#sourceAnswerArea,#sourceResponse,#checkSourceAnswer,#openSourceInfo,#askTeacher')).toHaveCount(0);await expect(page.locator('#learningRoot .count-badge')).toHaveText('0 soru');
+ await expect(page.locator('#questionBankEmpty')).toBeVisible();await expect(page.locator('#questionBankEmpty')).toHaveAttribute('role','status');await expect(page.locator('#questionBankEmpty h2')).toHaveText('Kişisel soru arşivin');
+ await expect(page.locator('#questionBankEmpty')).toContainText('Gönderdiğin kaynaklar');
+ await expect(page.locator('#questionCard,#originalPrompt,#sourceAnswerArea,#sourceResponse,#checkSourceAnswer,#openSourceInfo,#askTeacher')).toHaveCount(0);await expect(page.locator('#learningRoot .count-badge')).toHaveText('Arşiv kilitli');
 }
 async function expectSimpleSurface(page){
  expect(await page.locator('body').innerText()).not.toMatch(forbidden);await expect(page.locator('input[type=file],iframe,#examModePage,#examModeButton,#privateLibraryRoot')).toHaveCount(0);
@@ -15,29 +15,29 @@ async function expectSimpleSurface(page){
 }
 
 test('AI practice and empty original pool keep the compact four-section interface usable',async({page})=>{
- const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.goto('/');await expect(page.locator('#bankPool')).toHaveValue('ai');await expect(page.locator('#questionCard')).toBeVisible();await expectEmptyBank(page);
+ const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.goto('/');await expect(page.locator('#bankPool')).toHaveValue('ai');await expect(page.locator('#questionCard')).toBeVisible();await expectLockedArchive(page);
  for(const name of ['Soru çöz','Konular','Öğretmen','İlerleme'])await expect(page.locator('.nav').getByRole('button',{name,exact:true})).toBeVisible();
- await expect(page.locator('.nav button')).toHaveCount(4);await expect(page.locator('#examModeButton')).toHaveCount(0);await expect(page.locator('#browseCourses')).toBeVisible();
+ await expect(page.locator('.nav button')).toHaveCount(4);await expect(page.locator('#examModeButton')).toHaveCount(0);await expect(page.locator('#openPersonalArchive')).toBeVisible();
  expect((await page.locator('body').innerText()).split(/\s+/).filter(Boolean).length).toBeLessThan(130);await expectSimpleSurface(page);expect(errors).toEqual([]);
 });
 test('old personal attempts remain stored without restoring a removed question on reload or navigation',async({page})=>{
  const retained={teacherId:'beyza',courseId:'equations',attempts:[{id:'retained-before-empty',courseId:'equations',exerciseId:'tuba-sm14-p7-brackets',correct:true,difficulty:'unclassified',at:'2026-01-01T12:00:00Z'}]},raw=JSON.stringify(retained);
- await page.addInitScript(raw=>localStorage.setItem('ma_learning_v1_guest',raw),raw);await page.goto('/');await expectEmptyBank(page);
- for(const name of ['İlerleme','Konular','Öğretmen','Soru çöz'])await page.locator('.nav').getByRole('button',{name,exact:true}).click();await expectEmptyBank(page);
- expect(await page.evaluate(()=>localStorage.getItem('ma_learning_v1_guest'))).toBe(raw);await page.reload();await expectEmptyBank(page);expect(await page.evaluate(()=>localStorage.getItem('ma_learning_v1_guest'))).toBe(raw);
+ await page.addInitScript(raw=>localStorage.setItem('ma_learning_v1_guest',raw),raw);await page.goto('/');await expectLockedArchive(page);
+ for(const name of ['İlerleme','Konular','Öğretmen','Soru çöz'])await page.locator('.nav').getByRole('button',{name,exact:true}).click();await expectLockedArchive(page);
+ expect(await page.evaluate(()=>localStorage.getItem('ma_learning_v1_guest'))).toBe(raw);await page.reload();await expectLockedArchive(page);expect(await page.evaluate(()=>localStorage.getItem('ma_learning_v1_guest'))).toBe(raw);
 });
 test('all menus, lesson catalog and account controls stay free of upload controls',async({page})=>{
  await page.goto('/');await expectSimpleSurface(page);await page.locator('#browseCourses').click();await expect(page.locator('#courseCatalog')).toHaveAttribute('open','');await expectSimpleSurface(page);await page.keyboard.press('Escape');
  for(const name of ['Konular','Öğretmen','İlerleme','Soru çöz']){await page.locator('.nav').getByRole('button',{name,exact:true}).click();await expectSimpleSurface(page)}
  await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await page.locator('#teacherChange').click();await expect(page.locator('#teacherDialog')).toHaveAttribute('open','');await expectSimpleSurface(page);await page.keyboard.press('Escape');
- await openAccount(page);await expectSimpleSurface(page);await page.locator('.nav').getByRole('button',{name:'Soru çöz',exact:true}).click();await expectEmptyBank(page);
+ await openAccount(page);await expectSimpleSurface(page);await page.locator('.nav').getByRole('button',{name:'Soru çöz',exact:true}).click();await expectLockedArchive(page);
 });
 test('all theory lessons remain reachable with separate AI practice',async({page})=>{
  await page.goto('/');await page.locator('.nav').getByRole('button',{name:'Konular',exact:true}).click();await expect(page.locator('#lessonList button')).toHaveCount(COURSES.length);await expect(page.locator('#lessonPractice')).toHaveCount(0);
  await page.locator('#lessonSearch').fill(COURSES.at(-1).title);await expect(page.locator('#lessonList button')).toHaveCount(1);await page.locator('#lessonList button').first().click();
  for(const step of COURSES.at(-1).lessonSteps)await expect(page.locator('#lessonDetails')).toContainText(step);await expect(page.locator('#lessonAskTeacher')).toBeEnabled();await expectSimpleSurface(page);
- await page.locator('.nav').getByRole('button',{name:'Soru çöz',exact:true}).click();await expectEmptyBank(page);await page.locator('#browseCourses').click();await page.locator('#courseSearch').fill('Denklemler');await page.locator('#courseList button').first().click();await expect(page.locator('#library')).toBeVisible();await expect(page.locator('#lessonDetails')).toContainText('Denklemler');
- await page.locator('.nav').getByRole('button',{name:'Soru çöz',exact:true}).click();await expectEmptyBank(page);
+ await page.locator('.nav').getByRole('button',{name:'Soru çöz',exact:true}).click();await expectLockedArchive(page);await page.locator('.nav').getByRole('button',{name:'Konular',exact:true}).click();await page.locator('#lessonSearch').fill('Denklemler');await page.locator('#lessonList button').first().click();await expect(page.locator('#library')).toBeVisible();await expect(page.locator('#lessonDetails')).toContainText('Denklemler');
+ await page.locator('.nav').getByRole('button',{name:'Soru çöz',exact:true}).click();await expectLockedArchive(page);
 });
 
 
@@ -52,7 +52,7 @@ test('legacy exam events and stored selection cannot restore the removed upload 
   for(const name of ['ma-configure-private-exam','ma-select-private-booklet','ma-private-exam-active','ma-exam-mode-exit'])window.dispatchEvent(new CustomEvent(name,{detail:{examId:'osym-2026-tyt-math',examType:'TYT',year:2026}}));
  });
  for(const name of ['Konular','Öğretmen','İlerleme','Soru çöz']){await page.locator('.nav').getByRole('button',{name,exact:true}).click();await expectSimpleSurface(page)}
- await expectEmptyBank(page);await page.reload();await expectSimpleSurface(page);await expectEmptyBank(page);
+ await expectLockedArchive(page);await page.reload();await expectSimpleSurface(page);await expectLockedArchive(page);
  const after=await page.evaluate(async id=>{const {openPrivateLibrary}=await import('/shared/private-library.js'),library=openPrivateLibrary('guest');try{const book=await library.get(id);return {id:book.id,sha256:book.sha256,metadata:book.metadata}}finally{await library.close()}},retained.id);
  expect(after).toEqual(retained);
 });
