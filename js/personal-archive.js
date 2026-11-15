@@ -7,15 +7,15 @@ const title=doc=>String(doc?.fileName||'Kaynak').replace(/\.pdf$/i,'').replaceAl
 const time=seconds=>[Math.floor(seconds/3600),Math.floor(seconds/60)%60,seconds%60].map(n=>String(n).padStart(2,'0')).join(':');
 const fold=value=>String(value??'').toLocaleLowerCase('tr-TR');
 
-export function createPersonalArchiveController(){
+export function createPersonalArchiveController({accessController}={}){
  let archive=null,access=null,config=null,root=null,epoch=0,owner=window.MAAccount?.getUser()?.id||'guest';
- let mode='questions',docFilter='',courseFilter='',examFilter='',query='',selectedId=null,checkedId=null;
+ let authorizing=null;
+ let mode='questions',examType='TYT',docFilter='',courseFilter='',examFilter='',query='',selectedId=null,checkedId=null;
  let activeId=null,resultId=null,store={version:1,attempts:[],retained:[]},canSave=true,error='',tick=0;
  const bitmaps=new Map(),blobUrls=new Set();
  const imageRequests=new WeakMap();
  const el=id=>root?.querySelector('#'+id);
  const storageKey=()=>`ma_original_exams_v1_${owner}`;
- const accessKey=()=>`ma_personal_archive_access_v1_${owner}`;
  const active=()=>store.attempts.find(row=>row.id===activeId);
  const notify=()=>window.dispatchEvent(new CustomEvent('ma-personal-archive-changed'));
  const notice=()=>{const node=el('personalArchiveStatus');if(node)node.textContent=error};
@@ -44,32 +44,49 @@ export function createPersonalArchiveController(){
  function pause(){const row=active();return !row||row.status!=='running'||save(pausePracticeAttempt(row))}
  function releaseImages(){for(const url of blobUrls)URL.revokeObjectURL(url);blobUrls.clear();for(const promise of bitmaps.values())promise.then(bitmap=>bitmap.close()).catch(()=>{});bitmaps.clear()}
  function closeDialogs(){document.querySelectorAll('[data-personal-dialog]').forEach(dialog=>{dialog.close();dialog.remove()})}
- function lock(){if(!pause())return false;epoch++;try{sessionStorage.removeItem(accessKey())}catch{}archive=null;access=null;activeId=null;resultId=null;selectedId=null;checkedId=null;releaseImages();closeDialogs();store={version:1,attempts:[],retained:[]};error='';notify();render();return true}
+ function lock(){pause();epoch++;archive=null;access=null;activeId=null;resultId=null;selectedId=null;checkedId=null;releaseImages();closeDialogs();store={version:1,attempts:[],retained:[]};error='';notify();render();return true}
  async function unlock(value){
-  decodeArchiveKey(value);const generation=++epoch;error='Arşiv açılıyor…';notice();
+  decodeArchiveKey(value);const generation=++epoch;error='Sorular hazırlanıyor…';notice();
   try{
    const descriptor=await loadConfig(),bytes=await fetchBytes(descriptor.index.asset);
    const compressed=await decryptArchiveAsset(bytes,value,descriptor.id,'index',descriptor.index.sha256);
    const raw=await new Response(new Blob([compressed]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
    if(new TextEncoder().encode(raw).length>100000000)throw Error('Arşiv boyutu desteklenmiyor.');
    const next=createPersonalArchive(JSON.parse(raw));if(generation!==epoch)return false;if(next.id!==descriptor.id)throw Error('Arşiv kimliği eşleşmiyor.');
-   access=value;archive=next;error='';loadStore();try{sessionStorage.setItem(accessKey(),value)}catch{}
+   access=value;archive=next;error='';loadStore();accessController?.releaseGate(root);
    closeDialogs();window.dispatchEvent(new CustomEvent('ma-personal-archive-unlocked'));notify();render();return true;
-  }catch{if(generation===epoch){error='Arşiv açılamadı. Kişisel erişim bağlantısını veya anahtarını kontrol et.';notice();const node=document.getElementById('personalArchiveUnlockStatus');if(node)node.textContent=error}return false}
+  }catch{if(generation===epoch){error='Sorular alınamadı. İnternet bağlantını kontrol edip yeniden dene.';render()}return false}
  }
- function showUnlock(){
-  closeDialogs();const dialog=document.createElement('dialog');dialog.id='personalArchiveUnlock';dialog.dataset.personalDialog='';dialog.className='app-dialog';
-  dialog.innerHTML='<div class="dialog-heading"><h2>Kişisel arşivini aç</h2><button class="icon-button" id="closePersonalUnlock" aria-label="Kapat">×</button></div><form id="personalUnlockForm"><label for="personalArchiveKey">Erişim anahtarı</label><input class="field" id="personalArchiveKey" type="password" autocomplete="off" spellcheck="false" required maxlength="43"><button class="btn" id="unlockPersonalArchive">Arşivi aç</button><p id="personalArchiveUnlockStatus" role="status"></p></form>';
-  document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove(),{once:true});dialog.querySelector('#closePersonalUnlock').onclick=()=>{dialog.close();dialog.remove()};dialog.querySelector('form').onsubmit=async event=>{event.preventDefault();const button=dialog.querySelector('#unlockPersonalArchive');button.disabled=true;try{await unlock(dialog.querySelector('#personalArchiveKey').value.trim())}catch{dialog.querySelector('#personalArchiveUnlockStatus').textContent='Erişim anahtarı geçersiz.'}finally{button.disabled=false}};dialog.showModal();
+ async function authorize(){
+  const status=accessController?.getStatus();
+  if(!window.MAAccount?.getUser()||status?.userId!==owner||status.status!=='approved'||!status.bundleReady)return;
+  if(archive||authorizing)return authorizing?.promise;
+  const generation=epoch,currentOwner=owner;
+  const task={promise:null};authorizing=task;
+  task.promise=(async()=>{
+   error='Sorular hazırlanıyor…';notice();
+   try{
+    const grant=await window.MAAccount.sourceRpc('ma_source_archive_access');
+    if(generation!==epoch||currentOwner!==owner)return;
+    const descriptor=await loadConfig();
+    if(generation!==epoch||currentOwner!==owner)return;
+    if(grant?.bundleId!==descriptor.id||typeof grant.key!=='string')throw Error();
+    await unlock(grant.key);
+   }catch{if(generation===epoch&&currentOwner===owner){error='Soru erişimi doğrulanamadı. Hesap iznini yeniden kontrol edebilirsin.';render()}}
+   finally{if(authorizing===task)authorizing=null}
+  })();return task.promise;
  }
  function renderGate(){
   if(!root?.isConnected)return;
-  root.innerHTML='<div id="questionBankEmpty" class="empty-state" role="status"><h2>Kişisel soru arşivin</h2><p>Gönderdiğin kaynaklar, özgün soru görüntüleri ve denemelerle burada.</p><button id="openPersonalArchive" class="btn">Arşivimi aç</button><p id="personalArchiveStatus" class="status-note"></p></div>';
-  el('openPersonalArchive').onclick=showUnlock;notice();
+  accessController?.renderGate(root);
+  if(accessController?.getStatus()?.status==='approved'){
+   const note=document.createElement('p');note.id='personalArchiveStatus';note.className='status-note';note.setAttribute('role','status');note.textContent=error||'Sorular hazırlanıyor…';root.append(note);
+   if(error&&!/hazırlanıyor/.test(error)){const retry=document.createElement('button');retry.className='smallbtn';retry.textContent='Yeniden dene';retry.onclick=async()=>{error='';await accessController.refresh();await authorize()};root.append(retry)}
+  }
  }
  function shell(){
-  root.innerHTML=`<div id="personalArchiveRoot"><div class="section-heading"><div><h2>Gönderdiğin sorular</h2><p class="muted">${archive.counts.documents} kaynak · ${archive.counts.pages.toLocaleString('tr-TR')} sayfa · ${archive.counts.records.toLocaleString('tr-TR')} kayıt</p></div><button id="lockPersonalArchive" class="smallbtn">Kilitle</button></div><div class="filter-pills" id="personalArchiveTabs"><button data-archive-tab="questions">Sorular</button><button data-archive-tab="exams">Denemeler (${archive.exams.length})</button><button data-archive-tab="sources">Kaynaklar</button></div><p id="personalArchiveStatus" class="status-note" role="status"></p><div id="personalArchiveBody"></div></div>`;
-  el('lockPersonalArchive').onclick=lock;root.querySelectorAll('[data-archive-tab]').forEach(button=>{button.classList.toggle('active',button.dataset.archiveTab===mode);button.onclick=()=>{if(!pause())return;epoch++;activeId=null;resultId=null;mode=button.dataset.archiveTab;render()}});notice();
+  root.innerHTML=`<div id="personalArchiveRoot" data-mode="${mode}"><div class="section-heading"><div><h2>${mode==='exams'?'Denemeler':'Soruların'}</h2><p class="muted">${archive.counts.documents} kaynak · ${archive.counts.pages.toLocaleString('tr-TR')} sayfa · ${archive.counts.records.toLocaleString('tr-TR')} kayıt</p></div></div><div class="filter-pills" id="personalArchiveTabs"><button data-archive-tab="questions">Sorular</button><button data-archive-tab="exams">Denemeler (${archive.exams.length})</button><button data-archive-tab="sources">Kaynaklar</button></div><p id="personalArchiveStatus" class="status-note" role="status"></p><div id="personalArchiveBody"></div></div>`;
+  root.querySelectorAll('[data-archive-tab]').forEach(button=>{button.classList.toggle('active',button.dataset.archiveTab===mode);button.onclick=()=>{if(!pause())return;epoch++;activeId=null;resultId=null;mode=button.dataset.archiveTab;render()}});notice();
  }
  function render(){
   if(!root?.isConnected)return;if(!archive){renderGate();return}shell();
@@ -151,21 +168,24 @@ export function createPersonalArchiveController(){
   document.body.append(dialog);dialog.addEventListener('close',()=>dialog.remove(),{once:true});dialog.querySelector('button').onclick=()=>{dialog.close();dialog.remove()};dialog.showModal();paintPage(docId,number,dialog.querySelector('#personalPageImage'));
  }
  function renderExams(){
-  const body=el('personalArchiveBody');body.innerHTML='<p class="muted">Gönderdiğin özgün TYT denemeleri. Her biri 40 soru; sorular değiştirilmez. Sonuç yayınevinin cevap anahtarına göre hesaplanır.</p><div id="originalExamList" class="practice-exam-grid"></div>';
-  for(const exam of archive.exams){const rows=store.attempts.filter(row=>row.examId===exam.id),done=rows.filter(row=>row.status==='completed').sort((a,b)=>b.completedAt-a.completedAt),draft=rows.filter(row=>row.status!=='completed').sort((a,b)=>b.updatedAt-a.updatedAt)[0];const card=document.createElement('article');card.className='surface practice-exam-card';card.dataset.originalExamId=exam.id;card.innerHTML=`<div class="section-heading"><h2>${exam.number}. Deneme</h2>${done.length?'<span class="exam-completed" aria-label="Tamamlandı">✓</span>':''}</div><p class="exam-card-meta">Orijinal · TYT · 40 soru</p><div class="exam-card-actions"></div>`;
+  const body=el('personalArchiveBody'),list=archive.exams.filter(exam=>exam.type===examType);
+  body.innerHTML=`<div class="archive-exam-controls"><label>Sınav<select id="originalExamType" class="field"><option value="TYT">TYT</option><option value="AYT">AYT</option></select></label><span class="count-badge">${list.length} deneme · 40'ar soru</span></div><p class="muted">${examType==='TYT'?'Gönderdiğin özgün TYT denemeleri. Soruların sırası korunur.':'Gönderdiğin kaynaklardan, 31 matematik + 9 geometri dağılımıyla düzenlenmiş AYT çalışma denemeleri. ÖSYM veya yayınevinin özgün denemesi değildir. Bazı sorular farklı denemelerde tekrar edebilir; aynı denemede tekrar yoktur.'}</p><div id="originalExamList" class="practice-exam-grid"></div>`;
+  el('originalExamType').value=examType;el('originalExamType').onchange=event=>{examType=event.target.value;renderExams()};
+  for(const exam of list){const rows=store.attempts.filter(row=>row.examId===exam.id),done=rows.filter(row=>row.status==='completed').sort((a,b)=>b.completedAt-a.completedAt),draft=rows.filter(row=>row.status!=='completed').sort((a,b)=>b.updatedAt-a.updatedAt)[0];const card=document.createElement('article');card.className='surface practice-exam-card';card.dataset.originalExamId=exam.id;card.innerHTML=`<div class="section-heading"><h2>${exam.number}. Deneme</h2>${done.length?'<span class="exam-completed" aria-label="Tamamlandı">✓</span>':''}</div><p class="exam-card-meta">${exam.type} · 40 soru${exam.kind==='compiled'?' · Kaynaklardan derlendi':''}</p><div class="exam-card-actions"></div>`;
    const actions=card.querySelector('.exam-card-actions'),button=document.createElement('button');button.className='btn';button.textContent=draft?'Devam et':done.length?'Bir daha çöz':'Başla';button.dataset.originalExamStart=exam.id;button.disabled=!canSave;button.onclick=()=>{const row=draft?resumePracticeAttempt(draft):createPracticeAttempt(exam,{id:crypto.randomUUID()});if(save(row)){activeId=row.id;resultId=null;render();window.scrollTo({top:0,behavior:'instant'})}};actions.append(button);
    if(done.length){const review=document.createElement('button');review.className='smallbtn';review.textContent='Sonucu gör';review.dataset.originalExamReview=done[0].id;review.onclick=()=>{resultId=done[0].id;activeId=null;render()};actions.append(review)}el('originalExamList').append(card);
   }
+  if(!list.length)el('originalExamList').innerHTML='<p class="empty-state">Bu sınav için tamamlanmış bir deneme henüz eklenmedi.</p>';
  }
  function renderSession(){
   const row=active(),exam=archive.getExam(row?.examId);if(!row||!exam){activeId=null;renderExams();return}const paused=row.status==='paused';
-  el('personalArchiveBody').innerHTML=`<div class="practice-exam-toolbar"><h3>Orijinal TYT · ${exam.number}. Deneme</h3><time id="originalExamTimer" class="exam-clock">${time(elapsedPracticeSeconds(row))}</time><button id="pauseOriginalExam" class="smallbtn">${paused?'Devam et':'Duraklat'}</button><button id="leaveOriginalExam" class="smallbtn">Deneme listesi</button></div><p class="exam-paused-note" ${paused?'':'hidden'}>Süre durdu. Soruları görmek için devam et.</p><div class="practice-exam-session-layout"><article id="originalExamQuestion" class="surface practice-exam-question" ${paused?'hidden':''}></article><aside class="surface practice-exam-optical"><h3>Cevap kâğıdı</h3><div id="originalExamOptical" class="optical-grid"></div><button id="finishOriginalExam" class="btn">Denemeyi bitir</button></aside></div><dialog id="originalExamFinishDialog" class="app-dialog"><h2>Deneme bitirilsin mi?</h2><p>${row.answers.filter(v=>v===null).length} boş soru var.</p><button id="cancelOriginalExamFinish" class="smallbtn">Devam et</button><button id="confirmOriginalExamFinish" class="btn">Bitir ve sonucu gör</button></dialog>`;
+  el('personalArchiveBody').innerHTML=`<div class="practice-exam-toolbar"><h3>${exam.type} · ${exam.number}. Deneme</h3><time id="originalExamTimer" class="exam-clock">${time(elapsedPracticeSeconds(row))}</time><button id="pauseOriginalExam" class="smallbtn">${paused?'Devam et':'Duraklat'}</button><button id="leaveOriginalExam" class="smallbtn">Deneme listesi</button></div><p class="exam-paused-note" ${paused?'':'hidden'}>Süre durdu. Soruları görmek için devam et.</p><div class="practice-exam-session-layout"><article id="originalExamQuestion" class="surface practice-exam-question" ${paused?'hidden':''}></article><aside class="surface practice-exam-optical"><h3>Cevap kâğıdı</h3><div id="originalExamOptical" class="optical-grid"></div><button id="finishOriginalExam" class="btn">Denemeyi bitir</button></aside></div><dialog id="originalExamFinishDialog" class="app-dialog"><h2>Deneme bitirilsin mi?</h2><p>${row.answers.filter(v=>v===null).length} boş soru var.</p><button id="cancelOriginalExamFinish" class="smallbtn">Devam et</button><button id="confirmOriginalExamFinish" class="btn">Bitir ve sonucu gör</button></dialog>`;
   el('pauseOriginalExam').onclick=()=>{if(save(paused?resumePracticeAttempt(active()):pausePracticeAttempt(active())))render()};el('leaveOriginalExam').onclick=()=>{if(pause()){activeId=null;render()}};
   el('finishOriginalExam').onclick=()=>el('originalExamFinishDialog').showModal();el('cancelOriginalExamFinish').onclick=()=>el('originalExamFinishDialog').close();el('confirmOriginalExamFinish').onclick=()=>{const current=active(),score=scoreOriginalArchiveExam(exam,current.answers,archive);if(!score){el('originalExamFinishDialog').close();error='Anahtar doğrulanamadı. Cevapların korundu; sonuç üretilmedi.';notice();return}if(save(finishPracticeAttempt(current,score))){resultId=current.id;activeId=null;render()}else el('originalExamFinishDialog')?.close()};renderExamQuestion();
  }
  function renderExamQuestion(){
   const row=active(),q=archive.getQuestion(row.questionIds[row.index]),target=el('originalExamQuestion');target.dataset.originalId=q.id;
-  target.innerHTML=`<div class="question-top"><span class="topic-label">Özgün soru</span><span>${row.index+1} / 40</span></div><div id="originalExamImage" class="archive-image"></div><button id="originalExamSourcePage" class="text-button">Asıl sayfayı göster</button><div id="originalExamChoices" class="archive-answer-area"></div><div class="exam-question-actions"><button id="previousOriginalExamQuestion" class="smallbtn" ${row.index?'':'disabled'}>← Önceki</button><button id="nextOriginalExamQuestion" class="smallbtn" ${row.index<39?'':'disabled'}>Sonraki →</button></div>`;
+  target.innerHTML=`<div class="question-top"><span class="topic-label">Özgün soru</span><span>${row.index+1} / 40</span></div><div id="originalExamImage" class="archive-image"></div><button id="originalExamSourcePage" class="text-button" ${archive.getExam(row.examId).kind==='compiled'?'hidden':''}>Asıl sayfayı göster</button><div id="originalExamChoices" class="archive-answer-area"></div><div class="exam-question-actions"><button id="previousOriginalExamQuestion" class="smallbtn" ${row.index?'':'disabled'}>← Önceki</button><button id="nextOriginalExamQuestion" class="smallbtn" ${row.index<39?'':'disabled'}>Sonraki →</button></div>`;
   for(const letter of 'ABCDE'){const button=document.createElement('button');button.textContent=letter;button.className='smallbtn';button.dataset.examOriginalOption=letter;button.setAttribute('aria-pressed',String(row.answers[row.index]===letter));button.disabled=row.status!=='running';button.onclick=()=>{if(save(updatePracticeAnswer(active(),row.index,row.answers[row.index]===letter?null:letter)))renderExamQuestion()};el('originalExamChoices').append(button)}
   const navigate=index=>{if(save(movePracticeQuestion(active(),index))){renderExamQuestion();el('originalExamQuestion').scrollIntoView({behavior:'instant',block:'start'})}};
   el('previousOriginalExamQuestion').onclick=()=>navigate(row.index-1);el('nextOriginalExamQuestion').onclick=()=>navigate(row.index+1);el('originalExamSourcePage').onclick=()=>showPage(q.docId,q.parts[0]?.page||1);paintQuestion(q,el('originalExamImage'));
@@ -173,21 +193,35 @@ export function createPersonalArchiveController(){
  }
  function renderResult(){
   const row=store.attempts.find(attempt=>attempt.id===resultId),exam=archive.getExam(row?.examId),score=scoreOriginalArchiveExam(exam,row?.answers,archive);if(!row||row.status!=='completed'||!score){resultId=null;renderExams();return}
-  el('personalArchiveBody').innerHTML=`<section id="originalExamResult" class="surface practice-exam-result"><h2>✓ ${exam.number}. Deneme tamamlandı</h2><p>40 soru · ${time(elapsedPracticeSeconds(row))}</p><div class="practice-score-grid"><div><strong>${score.correct}</strong><span>Doğru</span></div><div><strong>${score.wrong}</strong><span>Yanlış</span></div><div><strong>${score.blank}</strong><span>Boş</span></div><div><strong>${score.net.toFixed(2)}</strong><span>Alıştırma neti</span></div></div><p class="muted">Yayınevi anahtarına göre hesaplandı. Bütün soruların bağımsız matematik kontrolü tamamlanmadı; resmî ÖSYM sonucu değildir.</p><div class="exam-card-actions"><button id="originalResultBack" class="smallbtn">Deneme listesi</button><button id="retryOriginalExam" class="btn">Bir daha çöz</button><button id="originalAnswerEvidence" class="smallbtn">Cevap anahtarını göster</button></div><div id="originalExamReview" class="practice-review-list"></div></section>`;
-  el('originalResultBack').onclick=()=>{resultId=null;render()};el('retryOriginalExam').onclick=()=>{const fresh=createPracticeAttempt(exam,{id:crypto.randomUUID()});if(save(fresh)){activeId=fresh.id;resultId=null;render()}};el('originalAnswerEvidence').onclick=()=>showPage(exam.keyDocId,exam.keyPage);
-  exam.questionIds.forEach((id,i)=>{const q=archive.getQuestion(id),details=document.createElement('details'),summary=document.createElement('summary');summary.textContent=(i+1)+'. soru · Cevabın: '+(row.answers[i]||'Boş')+' · Yayınevi: '+exam.answerKey[i];details.append(summary);details.addEventListener('toggle',()=>{if(details.open&&!details.querySelector('.archive-image')){const image=document.createElement('div');image.className='archive-image';details.append(image);paintQuestion(q,image);if(q.solutionSteps.length){const text=document.createElement('p');text.textContent=q.solutionSteps.join('\n');details.append(text)}}});el('originalExamReview').append(details)});
+  el('personalArchiveBody').innerHTML=`<section id="originalExamResult" class="surface practice-exam-result"><h2>✓ ${exam.type} · ${exam.number}. Deneme tamamlandı</h2><p>40 soru · ${time(elapsedPracticeSeconds(row))}</p><div class="practice-score-grid"><div><strong>${score.correct}</strong><span>Doğru</span></div><div><strong>${score.wrong}</strong><span>Yanlış</span></div><div><strong>${score.blank}</strong><span>Boş</span></div><div><strong>${score.net.toFixed(2)}</strong><span>Alıştırma neti</span></div></div><p class="muted">Yayınevi anahtarına göre hesaplandı. Bütün soruların bağımsız matematik kontrolü tamamlanmadı; resmî ÖSYM sonucu değildir.</p><div class="exam-card-actions"><button id="originalResultBack" class="smallbtn">Deneme listesi</button><button id="retryOriginalExam" class="btn">Bir daha çöz</button><button id="originalAnswerEvidence" class="smallbtn" ${exam.kind==='compiled'?'hidden':''}>Cevap anahtarını göster</button></div><div id="originalExamReview" class="practice-review-list"></div></section>`;
+  el('originalResultBack').onclick=()=>{resultId=null;render()};el('retryOriginalExam').onclick=()=>{const fresh=createPracticeAttempt(exam,{id:crypto.randomUUID()});if(save(fresh)){activeId=fresh.id;resultId=null;render()}};el('originalAnswerEvidence').onclick=()=>{if(exam.keyDocId)showPage(exam.keyDocId,exam.keyPage)};
+  exam.questionIds.forEach((id,i)=>{const q=archive.getQuestion(id),details=document.createElement('details'),summary=document.createElement('summary');summary.textContent=(i+1)+'. soru · Cevabın: '+(row.answers[i]||'Boş')+' · Yayınevi: '+exam.answerKey[i];details.append(summary);details.addEventListener('toggle',()=>{if(details.open&&!details.querySelector('.archive-image')){const image=document.createElement('div');image.className='archive-image';details.append(image);paintQuestion(q,image);if(exam.kind==='compiled'&&q.answer.evidence){const proof=document.createElement('button');proof.className='text-button';proof.textContent='Kaynak cevap anahtarı';proof.onclick=()=>showPage(q.answer.evidence.docId,q.answer.evidence.page);details.append(proof)}if(q.solutionSteps.length){const text=document.createElement('p');text.textContent=q.solutionSteps.join('\n');details.append(text)}}});el('originalExamReview').append(details)});
  }
- function mount(node){root=node;render()}
+ function mount(node){accessController?.releaseGate(root);root=node;render();authorize()}
  function summary(){
   if(!archive)return {exams:[],practice:[]};let practice=[];try{const rows=JSON.parse(localStorage.getItem('ma_original_practice_v1_'+owner)||'[]');if(Array.isArray(rows))practice=rows.filter(row=>archive.getQuestion(row?.questionId)&&typeof row.answer==='string'&&row.answer.trim()&&row.answer.length<=300).map(row=>{const q=archive.getQuestion(row.questionId);return {...row,correct:q.mathPassed&&q.hasChoices&&/^[ABCDE]$/.test(q.answer.value)&&/^[ABCDE]$/.test(row.answer)?row.answer===q.answer.value:null}})}catch{}
   return {practice,exams:store.attempts.filter(row=>row.status==='completed').map(row=>({id:row.id,type:row.type,number:row.number,completedAt:row.completedAt,duration:elapsedPracticeSeconds(row),score:scoreOriginalArchiveExam(archive.getExam(row.examId),row.answers,archive),answeredQuestionIds:row.questionIds.filter((id,i)=>row.answers[i]!==null)}))};
  }
  window.MAPersonalArchive={getSummary:summary,openResult:id=>{const row=store.attempts.find(item=>item.id===id);if(!archive||row?.status!=='completed'||!pause())return;resultId=id;activeId=null;mode='exams';window.dispatchEvent(new CustomEvent('ma-personal-archive-open'));render()}};
- window.addEventListener('ma-account-changed',()=>{const next=window.MAAccount?.getUser()?.id||'guest';if(next===owner)return;pause();epoch++;try{sessionStorage.removeItem(accessKey())}catch{}archive=null;access=null;releaseImages();closeDialogs();owner=next;activeId=null;resultId=null;selectedId=null;store={version:1,attempts:[],retained:[]};error='';notify();render()});
+ window.addEventListener('ma-account-changed',()=>{const next=window.MAAccount?.getUser()?.id||'guest';if(next===owner)return;pause();epoch++;archive=null;authorizing=null;access=null;releaseImages();closeDialogs();owner=next;activeId=null;resultId=null;selectedId=null;store={version:1,attempts:[],retained:[]};error='';notify();render()});
  window.addEventListener('storage',event=>{if(event.key===storageKey()&&archive){epoch++;activeId=null;resultId=null;loadStore();error='Başka sekmedeki son kayıt yüklendi.';render()}});
  document.querySelector('.nav').addEventListener('click',event=>{const button=event.target.closest('[data-page]');if(button&&button.dataset.page!=='study'){if(!pause()){event.preventDefault();event.stopImmediatePropagation()}else if(activeId)render()}},true);
  window.addEventListener('beforeunload',event=>{if(!pause()){event.preventDefault();event.returnValue=''}});window.addEventListener('pagehide',pause);
  setInterval(()=>{const row=active();if(!archive||!root?.isConnected||!row||row.status!=='running')return;const node=el('originalExamTimer');if(node)node.textContent=time(elapsedPracticeSeconds(row));if(++tick%5===0)save(checkpointPracticeAttempt(row))},1000);
- window.addEventListener('load',async()=>{const params=new URLSearchParams(location.hash.slice(1)),value=params.get('archive');if(value){history.replaceState(history.state,'',location.pathname+location.search);window.dispatchEvent(new CustomEvent('ma-personal-archive-open'));try{await unlock(value)}catch{error='Erişim bağlantısı geçersiz.';notice()}}else{let saved;try{saved=sessionStorage.getItem(accessKey())}catch{}if(saved)await unlock(saved)}});
- return {mount,isUnlocked:()=>!!archive,getCount:()=>archive?.questions.length||0,lock,openExams:()=>{mode='exams';if(!archive){showUnlock();return}if(pause()){activeId=null;resultId=null;render()}},pause:()=>{const saved=pause();if(saved&&activeId&&root?.isConnected)render();return saved}};
+ window.addEventListener('load',()=>{
+  // Retired personal links never bypass account approval. No key from a URL,
+  // localStorage or a previous guest session can authorize this controller.
+  if(new URLSearchParams(location.hash.slice(1)).has('archive'))history.replaceState(history.state,'',location.pathname+location.search);
+  try{for(let i=sessionStorage.length-1;i>=0;i--){const key=sessionStorage.key(i);if(key?.startsWith('ma_personal_archive_access_v1_'))sessionStorage.removeItem(key)}}catch{}
+  accessController?.refresh();
+ });
+ window.addEventListener('ma-source-access-changed',()=>{
+  const status=accessController?.getStatus();
+  if(status?.userId!==owner||status.status!=='approved'||!status.bundleReady){lock();return}
+  if(!archive)authorize();
+ });
+ window.addEventListener('focus',()=>accessController?.refresh());
+ setInterval(()=>{if(archive&&document.visibilityState==='visible')accessController?.refresh()},60000);
+
+ return {mount,isUnlocked:()=>!!archive,getCount:()=>archive?.questions.length||0,lock,openExams:()=>{mode='exams';if(!archive){renderGate();authorize();return}if(pause()){activeId=null;resultId=null;render()}},pause:()=>{const saved=pause();if(saved&&activeId&&root?.isConnected)render();return saved}};
 }

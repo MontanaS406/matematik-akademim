@@ -1,17 +1,20 @@
-import {createPracticeExamController} from './practice-exams.js?v=issue11-20261115';
-import {createPersonalArchiveController} from './personal-archive.js?v=20261115';
+import {createPracticeExamController} from './practice-exams.js?v=direct-exams-20261115';
+import {createPersonalArchiveController} from './personal-archive.js?v=direct-exams-20261115';
+import {createSourceAccessController} from './source-access.js?v=direct-exams-20261115';
 import {COURSES, getCourse, buildStudyPlan} from '../shared/curriculum.js';
 import {TEACHERS, DEFAULT_TEACHER_ID, PROFANITY_LEVELS} from '../shared/teachers.js';
 import {normalizeState, mergeLearningStates, progressFromAttempts} from '../shared/learning-state.js';
-import {QUESTION_BANK} from '../data/question-bank.js?v=issue11-20261115';
+import {QUESTION_BANK} from '../data/question-bank.js?v=direct-exams-20261115';
 import {createQuestionRegistry} from '../shared/question-bank.js';
-import {AI_BANK} from '../data/ai-bank.js?v=issue11-20261115';
-import {SOURCED_ARCHIVE_SUMMARY, SOURCE_DOCUMENTS, SOURCE_READ_EVIDENCE} from '../data/source-catalog.js?v=issue11-20261115';
+import {AI_BANK} from '../data/ai-bank.js?v=direct-exams-20261115';
+import {SOURCED_ARCHIVE_SUMMARY, SOURCE_DOCUMENTS, SOURCE_READ_EVIDENCE} from '../data/source-catalog.js?v=direct-exams-20261115';
 import {createAiRegistry, aiDerivationKind} from '../shared/ai-bank.js';
 const aiRegistry=createAiRegistry(AI_BANK);
 const bankRegistry=createQuestionRegistry(QUESTION_BANK);
 const practiceExams=createPracticeExamController({registry:aiRegistry,root:document.getElementById('practiceExamRoot'),learningRoot:document.getElementById('learningRoot')});
-const personalArchive=createPersonalArchiveController();
+const sourceAccess=createSourceAccessController();
+window.MASourceAccess={mountAccountPanel:node=>sourceAccess.mountAccountPanel(node)};
+const personalArchive=createPersonalArchiveController({accessController:sourceAccess});
 import {captureLearningSnapshot} from '../shared/learning-migration.js';
 const $=id=>document.getElementById(id);
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -88,10 +91,10 @@ const shortGreeting={
 };
 function renderLearning(){
  const questions=eligibleQuestions();
- const questionCountLabel=bankPool==='original'?(personalArchive.isUnlocked()?personalArchive.getCount().toLocaleString('tr-TR')+' kayıt':'Arşiv kilitli'):questions.length+' soru';
+ const questionCountLabel=bankPool==='original'?(personalArchive.isUnlocked()?personalArchive.getCount().toLocaleString('tr-TR')+' kayıt':'Hesap erişimi'):questions.length+' soru';
  if(!questions.some(q=>q.id===selectedQuestionId))selectedQuestionId=questions[0]?.id||null;
  const momentum=learningMomentum(),t=teacher(),subtopics=[...new Set(poolQuestions(bankScope==='course'?{courseId:course().id}:{}).map(q=>q.subtopic).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'tr'));
- $('learningRoot').innerHTML=`<div class="page-heading"><h1>Soru çöz</h1><div class="practice-mode-actions"><span class="count-badge">${questionCountLabel}</span><button id="openPracticeExams" class="smallbtn">Denemeler</button></div></div><div class="practice-filters ${bankPool==='original'?'personal-pool-filters':''}"><label>Havuz<select id="bankPool" class="field"><option value="ai">AI alıştırmaları</option><option value="original">Orijinal sorular</option><option value="osym">ÖSYM denemeleri</option></select></label><label>Sınav<select id="bankExam" class="field" ${bankPool!=='ai'?'disabled':''}><option value="">TYT ve AYT</option><option value="TYT">TYT</option><option value="AYT">AYT</option></select></label><div class="topic-filter"><span>Konu</span><button id="browseCourses" class="topic-button"><span>${bankScope==='all'?'Tüm konular':esc(course().title)}</span><span aria-hidden="true">⌄</span></button></div><label>Seviye<select id="bankDifficulty" class="field" ${bankPool==='osym'?'disabled':''}><option value="">Tüm seviyeler</option><option value="easy">Kolay</option><option value="medium">Orta</option><option value="hard">Zor</option></select></label></div><details class="extra-practice-filters" ${bankPool!=='ai'?'hidden':''}><summary>Diğer filtreler</summary><div class="practice-filter-details"><label>Alt konu<select id="bankSubtopic" class="field"><option value="">Tüm alt konular</option>${subtopics.map(value=>`<option value="${esc(value)}">${esc(value)}</option>`).join('')}</select></label><label>AI havuzu<select id="aiPool" class="field"><option value="">Tüm AI alıştırmaları</option><option value="imported">Arşivden aktarılan</option><option value="generated">Yeni üretilen</option></select></label><label>Türetme kökeni<select id="aiDerivation" class="field"><option value="">Tüm kökenler</option><option value="AI_ARCHIVE_IMPORT">AI arşivi</option><option value="AI_TO_AI">AI → AI</option><option value="ORIGINAL_TO_AI">Orijinal → AI</option></select></label></div></details><div class="practice-layout ${bankPool==='original'?'personal-pool-layout':''}"><div id="sourceQuestion" class="surface question-panel"></div><aside class="practice-aside"><div class="surface mentor-card"><span class="avatar" aria-hidden="true">${esc(t.avatar)}</span><h2>${esc(t.name)}</h2><p>${esc(t.tagline)}</p><button class="smallbtn" id="askLessonTeacher">Öğretmenime sor</button></div><div class="surface today-card"><p class="eyebrow">BUGÜN</p><div class="today-value"><span id="practiceToday">${momentum.practiceToday}</span><small>soru</small></div><button id="viewProgress" class="text-button">İlerlemeni gör →</button></div></aside></div>`;
+ $('learningRoot').innerHTML=`<div class="page-heading"><h1>Soru çöz</h1><div class="practice-mode-actions"><span class="count-badge">${questionCountLabel}</span><button id="openReadyExams" class="btn">TYT / AYT Denemeler</button><button id="openPracticeExams" class="smallbtn">AI denemeleri</button></div></div><div class="practice-filters ${bankPool==='original'?'personal-pool-filters':''}"><label>Havuz<select id="bankPool" class="field"><option value="ai">AI alıştırmaları</option><option value="original">Orijinal sorular</option><option value="osym">ÖSYM denemeleri</option></select></label><label>Sınav<select id="bankExam" class="field" ${bankPool!=='ai'?'disabled':''}><option value="">TYT ve AYT</option><option value="TYT">TYT</option><option value="AYT">AYT</option></select></label><div class="topic-filter"><span>Konu</span><button id="browseCourses" class="topic-button"><span>${bankScope==='all'?'Tüm konular':esc(course().title)}</span><span aria-hidden="true">⌄</span></button></div><label>Seviye<select id="bankDifficulty" class="field" ${bankPool==='osym'?'disabled':''}><option value="">Tüm seviyeler</option><option value="easy">Kolay</option><option value="medium">Orta</option><option value="hard">Zor</option></select></label></div><details class="extra-practice-filters" ${bankPool!=='ai'?'hidden':''}><summary>Diğer filtreler</summary><div class="practice-filter-details"><label>Alt konu<select id="bankSubtopic" class="field"><option value="">Tüm alt konular</option>${subtopics.map(value=>`<option value="${esc(value)}">${esc(value)}</option>`).join('')}</select></label><label>AI havuzu<select id="aiPool" class="field"><option value="">Tüm AI alıştırmaları</option><option value="imported">Arşivden aktarılan</option><option value="generated">Yeni üretilen</option></select></label><label>Türetme kökeni<select id="aiDerivation" class="field"><option value="">Tüm kökenler</option><option value="AI_ARCHIVE_IMPORT">AI arşivi</option><option value="AI_TO_AI">AI → AI</option><option value="ORIGINAL_TO_AI">Orijinal → AI</option></select></label></div></details><div class="practice-layout ${bankPool==='original'?'personal-pool-layout':''}"><div id="sourceQuestion" class="surface question-panel"></div><aside class="practice-aside"><div class="surface mentor-card"><span class="avatar" aria-hidden="true">${esc(t.avatar)}</span><h2>${esc(t.name)}</h2><p>${esc(t.tagline)}</p><button class="smallbtn" id="askLessonTeacher">Öğretmenime sor</button></div><div class="surface today-card"><p class="eyebrow">BUGÜN</p><div class="today-value"><span id="practiceToday">${momentum.practiceToday}</span><small>soru</small></div><button id="viewProgress" class="text-button">İlerlemeni gör →</button></div></aside></div>`;
  for(const [id,value] of [['bankPool',bankPool],['bankExam',bankExam],['bankDifficulty',bankDifficulty],['bankSubtopic',bankSubtopic],['aiPool',aiPool],['aiDerivation',aiDerivation]])$(id).value=value;
  $('bankPool').onchange=event=>{if(bankPool==='original'&&!personalArchive.pause()){event.target.value=bankPool;return}bankPool=event.target.value;bankScope='all';bankDifficulty='';bankSubtopic='';resetPractice()};
  $('bankExam').onchange=event=>{bankExam=event.target.value;bankSubtopic='';resetPractice()};
@@ -99,7 +102,8 @@ function renderLearning(){
  $('bankSubtopic').onchange=event=>{bankSubtopic=event.target.value;resetPractice()};
  $('aiPool').onchange=event=>{aiPool=event.target.value;bankSubtopic='';resetPractice()};
  $('aiDerivation').onchange=event=>{aiDerivation=event.target.value;bankSubtopic='';resetPractice()};
- $('openPracticeExams').onclick=()=>{if(bankPool==='original'){personalArchive.openExams();return}if(personalArchive.pause())practiceExams.open()};
+ $('openReadyExams').onclick=()=>{if(!personalArchive.pause())return;bankPool='original';renderLearning();personalArchive.openExams()};
+ $('openPracticeExams').onclick=()=>{if(personalArchive.pause())practiceExams.open()};
  $('browseCourses').onclick=openCatalog;
  $('askLessonTeacher').onclick=()=>{const q=activeQuestion();if(isAiQuestion(q)&&state.courseId!==q.courseId){state.courseId=q.courseId;changed(true)}openTeacher(true)};
  $('viewProgress').onclick=()=>document.querySelector('[data-page=mockexam]')?.click();
@@ -246,5 +250,5 @@ state=loadLocal();renderLearning();setupAI();renderTeachers();renderLessons();
 window.addEventListener('ma-account-changed',changeAccount);changeAccount();
 
 window.addEventListener('ma-personal-archive-open',()=>{practiceExams.close();bankPool='original';bankScope='all';renderLearning();showPage('study')});
-window.addEventListener('ma-personal-archive-unlocked',()=>{practiceExams.close();bankPool='original';bankScope='all';renderLearning();showPage('study')});
-window.addEventListener('ma-personal-archive-changed',()=>{if(bankPool==='original'){const badge=$('learningRoot').querySelector('.count-badge');if(badge)badge.textContent=personalArchive.isUnlocked()?personalArchive.getCount().toLocaleString('tr-TR')+' kayıt':'Arşiv kilitli'}});
+window.addEventListener('ma-personal-archive-unlocked',()=>{if(bankPool==='original')renderLearning()});
+window.addEventListener('ma-personal-archive-changed',()=>{if(bankPool==='original'){const badge=$('learningRoot').querySelector('.count-badge');if(badge)badge.textContent=personalArchive.isUnlocked()?personalArchive.getCount().toLocaleString('tr-TR')+' kayıt':'Hesap erişimi'}});

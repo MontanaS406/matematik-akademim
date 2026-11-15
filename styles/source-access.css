@@ -1,0 +1,29 @@
+/* Account-scoped source access controls share the existing navy surfaces. */
+.source-access-gate,.source-access-account{min-width:0;overflow-wrap:anywhere}
+.source-access-gate{max-width:680px;padding:25px;border:1px solid var(--line);border-radius:17px;background:var(--surface)}
+.source-access-gate h2{font-size:20px;line-height:1.5;margin:0 0 12px}
+.source-access-note{font-size:12px;color:var(--muted);line-height:1.85;margin:12px 0;overflow-wrap:anywhere}
+.source-access-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:14px}
+.source-access-actions .btn,.source-access-actions .smallbtn{min-height:44px;max-width:100%;white-space:normal}
+.source-access-account{padding-top:22px;margin-top:23px;border-top:1px solid var(--line)}
+.source-access-account h3{font-size:15px;font-weight:650;line-height:1.6;margin:0 0 12px}
+.source-access-grant{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin:18px 0 12px;max-width:620px}
+.source-access-grant label{flex:1;min-width:180px;color:var(--muted);font-size:11px;line-height:1.6}
+.source-access-grant .field{display:block;width:100%;margin:7px 0 0;min-height:44px;font-size:12px}
+.source-access-grant .smallbtn{min-height:44px;max-width:100%;margin:0!important}
+.source-access-members{display:grid;gap:10px;margin:18px 0}
+.source-access-member{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px;border:1px solid var(--line);border-radius:12px;background:#101b2d;min-width:0}
+.source-access-identity{min-width:0;overflow-wrap:anywhere}
+.source-access-identity strong{display:block;font-size:12px;line-height:1.8;font-weight:600}
+.source-access-identity span{display:block;font-size:11px;color:var(--muted);line-height:1.7;margin-top:5px}
+.source-access-member .source-access-actions{flex-shrink:0;margin:0}
+.source-access-member .smallbtn{font-size:11px;padding:10px 12px}
+@media(max-width:760px){
+ .source-access-gate{padding:21px}
+ .source-access-gate h2{font-size:18px}
+ .source-access-member{align-items:start;flex-direction:column;gap:10px;padding:13px}
+ .source-access-member .source-access-actions{align-self:stretch}
+ .source-access-grant{display:grid;grid-template-columns:minmax(0,1fr);gap:11px}
+ .source-access-grant label{min-width:0}
+ .source-access-grant .smallbtn{justify-self:start}
+}

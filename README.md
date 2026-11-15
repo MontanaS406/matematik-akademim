@@ -11,16 +11,18 @@ Türkçe konu anlatımları, altı öğretmen, kullanıcı hesabı ve gece mavis
   **590 uygun soru** ile toplam **1.998** kullanılabilir alıştırma vardır. Konu,
   sınav, alt konu, seviye ve içe aktarılan/yeni havuz filtreleri bulunur. Beş
   seçenekten biri işaretlenip kontrol edildiğinde açıklamalı çözüm açılır.
-- **Orijinal sorular / kişisel arşiv:** Gönderilen **220 kaynak / 3.022 sayfanın
-  tamamı** uygulama içinden görüntülenir. **12.716 soru/bölge kaydı**, özgün
-  şekil ve seçenek görüntüleriyle açılır; 9 kesin tekrar ayrıca kayıtlıdır.
-  Kırpım belirsizse asıl sayfa ve kaynağın bütün sayfaları içeride açılabilir.
-  **12 özgün TYT denemesi 40'ar soru ve yayınevi cevap anahtarıyla** çözülür.
-  İçerik kişisel erişim bağlantısıyla açılır; uygulama yeniden dosya istemez.
-  Özgün içerikler depoda açık metin/görüntü olarak tutulmaz; anahtar yalnız
-  kişisel teslim dosyasındadır. Matematik kontrolü geçen orijinal sayısı **92**;
-  diğer **12.624 kayıt** inceleme durumunda tutulur. Kayıt sayısı, bütün
-  soruların transkripsiyonunun ve matematiğinin onaylandığı anlamına gelmez.
+- **Orijinal sorular / hazır denemeler:** Gönderilen **220 kaynak / 3.022 sayfa**
+  korunur. **12.716 soru/bölge kaydı** özgün şekil ve seçenekleriyle açılır.
+  **12 TYT + 12 AYT denemesi, her biri 40 sorudur.** TYT özgün yayınevi
+  sırasındadır; AYT gerçek kaynak sorularından 31 matematik + 9 geometri
+  dağılımıyla derlenmiş çalışma setleridir. AYT bir özgün yayınevi/ÖSYM sınavı
+  olarak sunulmaz. Yeni soru üretilmez; bazı kaynaklar farklı denemelerde
+  tekrar kullanılabilir, aynı denemede tekrar olmaz.
+  Erişim Supabase hesabıyla ve sunucuda yönetici onayıyla sağlanır. Manuel
+  arşiv açma, kişisel bağlantı, anahtar girme veya dosya yükleme adımı yoktur.
+  **201 orijinal** bağımsız matematik kontrolünden geçti; diğer **12.515 kayıt**
+  incelemededir. Kayıt sayısı, bütün soruların kusursuz ayrıldığı/onaylandığı
+  anlamına gelmez. Şifreli kaynak dosyaları korunur, anahtar depoya eklenmez.
 - **ÖSYM denemeleri:** AI alıştırmaları bu havuza taşınmaz, çıkmış soru veya
   resmî cevap anahtarı gibi sunulmaz. Mevcut resmî soru kataloğu boştur.
 
@@ -38,31 +40,40 @@ geçmiş kayıtları tutulur. Üretim Supabase şeması/verisi değiştirilmez. 
 ayrı dal ve PR üzerinden yürütülür. PR #12'deki soru entegrasyonu ve önceki
 deneme geliştirmeleri korunur. Yayın öncesinde otomatik kontroller doğrulanır.
 
-## Kişisel orijinal arşiv
+## Hazır TYT / AYT ve hesap izinleri
 
-Kişisel erişim bağlantısı **Soru Çöz → Orijinal sorular** havuzunu açar.
-Altında **Sorular**, **Denemeler** ve **Kaynaklar** bulunur. Kaynak, sınav ve
-konu filtreleri, arama, görüntüyü büyütme ve özgün sayfaya geçiş vardır.
-Kontrol edilmemiş konu etiketleri ve cevaplar onaylı gösterilmez.
+**Soru Çöz → TYT / AYT Denemeler** listesinden sınav ve deneme numarası seçilir.
+Onaylı hesapta liste doğrudan açılır. Girişsiz ziyaretçi girişe yönlendirilir;
+yeni hesap erişim isteyebilir. Yönetici **Hesabım → Kaynak erişim yönetimi**
+alanından başvuruyu onaylar, kayıtlı e-postaya izin verir veya erişimi kaldırır.
+Yönetici e-postası yalnız özel sunucu ayarındadır; doğrulanmış `auth.users`
+kaydı bir kez UUID'ye bağlanır. Yerel rol/e-posta veya kullanıcı metadata'sı
+yetki sağlamaz. Silinip yeniden açılan hesap eski izni devralmaz.
 
-Özgün denemeler yayınevinin değişmemiş 1–40 sırası ve aynı kaynakta okunan
-anahtarlarıyla çalışır. Kronometre, duraklatma/devam, ara kayıt, tamamlanma
-tiki, tekrar çözme ve İlerleme geçmişi bulunur. Puan yayınevi anahtarına göre
-alıştırma sonucudur; ÖSYM sonucu veya bütün sorular için bağımsız matematik
-onayı değildir. Anahtarsız tekli kayıtta doğrulanmış doğru/yanlış üretilmez.
+`supabase/source-access.sql` mevcut Supabase verilerine dokunmayan ek kurulumdur.
+Özel şemadaki yapılandırma/izin tablolarına istemci erişemez; authenticated RPC'ler
+sunucuda kimlik, e-posta doğrulaması ve izin denetler. Anahtar yalnız onaylı
+hesabın isteğine döner ve tarayıcı belleğinde tutulur. Adres, DOM, event veya
+kalıcı/oturum depolarına yazılmaz. Eski kişisel bağlantı izin kontrolünü aşamaz.
+Hesap değişimi, çıkış ve kaldırılmış izin kontrolü açık içerikleri temizler.
 
-Sayfa görüntüleri AES-256-GCM ile korunur ve gerektiğinde indirilir. Kişisel
-anahtar adresin sunucuya gönderilmeyen bölümünden alınır, adres hemen
-temizlenir; anahtar yalnız bu sekmenin hesap kapsamındaki oturum alanında
-saklanır. Kilitleme/hesap değişimi görüntüleri ve anahtarı temizler.
-Özgün deneme/yanıt geçmişi ayrı yerel anahtarlardadır; eski AI öğrenme,
-deneme veya cihaz belgesi depoları ve üretim Supabase verileri değiştirilmez.
+Optik, kronometre, duraklatma/devam, ara kayıt, bitirme, ✓ tamamlanma ve **Bir
+daha çöz** bulunur. Eski sonuçlar ve hesap kayıtları silinmez. AYT çözerken
+kaynak sayfadaki basılı çözüm/anahtar gizlidir; anahtar kanıtı sonuçtan açılır.
+Net kaynak anahtarına göre çalışma sonucudur, resmî ÖSYM sonucu değildir.
 
-Ayrıntılar: [Kişisel arşiv raporu](docs/KISISEL_ORIJINAL_ARSIV_RAPORU.md).
+Yeni kayıtlar `ma_original_exams_v1_<hesap>` ve
+`ma_original_practice_v1_<hesap>` alanlarında korunur; mevcut AI, Supabase
+öğrenme ve eski deneme depoları değiştirilmez. Yeni deneme geçmişi cihazlar
+arasında henüz eşitlenmez.
+
+Kurulum, doğrulama ve kalan adım:
+[Doğrudan denemeler ve erişim raporu](docs/DOGRUDAN_DENEMELER_VE_ERISIM.md).
+Önceki [kişisel arşiv raporu](docs/KISISEL_ORIJINAL_ARSIV_RAPORU.md) tarihseldir.
 
 ## Konu dağılımına göre denemeler
 
-**Soru Çöz → Denemeler** ekranında 2025 konu tablosuna göre numaralı AI
+**Soru Çöz → AI denemeleri** ekranında 2025 konu tablosuna göre numaralı AI
 alıştırma denemeleri seçilir: **140 TYT (36/40 soruluk kısmi çalışma)** ve
 **81 AYT (24/40 soruluk kısmi çalışma)**. TYT hedefi 30 matematik + 10 geometri;
 mevcut havuzdan 4 üçgen, 1 çokgen ve 1 kare sorusu eklenir. Eksik 2 katı cisim,

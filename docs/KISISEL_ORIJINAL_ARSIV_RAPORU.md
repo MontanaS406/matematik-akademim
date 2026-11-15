@@ -1,5 +1,7 @@
 # Kişisel orijinal soru arşivi — 15 Kasım 2026
 
+> Bu önceki sürümün tarihsel raporudur. Kişisel bağlantı/anahtar adımı kaldırılan hesap onaylı TYT/AYT sürümü için [güncel rapora](DOGRUDAN_DENEMELER_VE_ERISIM.md) bakın.
+
 Önceki uygulama, gönderilen kaynaklardan çıkarılmış bütün orijinalleri göstermiyor; denemeleri 1.998 soruluk AI havuzundan oluşturuyordu. Bu değişiklik, kullanıcıya ait gönderilmiş arşivi doğrudan uygulamada açar. Yeniden dosya seçme/yükleme akışı yoktur. AI bankası ve özgün içerikler ayrı kalır; yeni AI sorusu üretilmedi.
 
 ## Uygulamaya alınan kapsam
