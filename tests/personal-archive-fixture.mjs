@@ -1,8 +1,21 @@
 import {readFileSync} from 'node:fs';
 import {createCipheriv,createHash,randomBytes} from 'node:crypto';
 import {gzipSync} from 'node:zlib';
+import {PRACTICE_DISTRIBUTIONS} from '../shared/practice-exams.js';
 
 export const TEST_ARCHIVE_KEY=Buffer.alloc(32,42).toString('base64url');
+// Synthetic source records exist only in tests. Production compiles the reviewed
+// original question IDs and never creates replacement question text or options.
+export function addCompiledAytFixture(index){
+ const topicByQuestion={};let position=0;
+ for(const topic of PRACTICE_DISTRIBUTIONS.AYT.topics)for(let n=0;n<topic.count;n++){
+  const q=index.questions[position++];topicByQuestion[q.id]=topic.id;
+  q.aytCompatibility={reviewed:true,topicId:topic.id,note:'Test-only compatibility review'};
+  q.answer.evidence={docId:index.documents[1].id,page:1,questionNumber:q.number,label:'Test-only answer evidence',value:q.answer.value};
+ }
+ index.compiledExams=[{id:'compiled-source-AYT-fixture',type:'AYT',number:1,kind:'compiled',distributionVersion:'original-ayt-2025-v1',manifest:'c'.repeat(64),questionIds:index.questions.map(q=>q.id),topicByQuestion,actualCount:40,targetCount:40,isOfficial:false,origin:'ORIJINAL',answerKey:'A'.repeat(40),keyKind:'source_mapped',keyVerified:true}];
+ index.counts.exams=2;index.counts.sourceExams=1;index.counts.compiledAytExams=1;
+}
 export function personalArchiveFixture(customize=()=>{}){
  const id='personal-1111111111111111',docId='pdf-aaaaaaaaaaaaaaaa',keyDocId='pdf-bbbbbbbbbbbbbbbb',assets=new Map();
  const seal=(data,resource)=>{const nonce=randomBytes(12),cipher=createCipheriv('aes-256-gcm',Buffer.from(TEST_ARCHIVE_KEY,'base64url'),nonce);cipher.setAAD(Buffer.from(id+':'+resource));return Buffer.concat([Buffer.from('MAARC1\0\0'),nonce,cipher.update(data),cipher.final(),cipher.getAuthTag()])};

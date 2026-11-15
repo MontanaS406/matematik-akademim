@@ -1,6 +1,6 @@
 import {EXAM_YEARS, normalizeFlags, normalizeTopics} from '../shared/exam-model.js';
-import {QUESTION_BANK} from '../data/question-bank.js?v=issue11-20261115';
-import {AI_BANK} from '../data/ai-bank.js?v=issue11-20261115';
+import {QUESTION_BANK} from '../data/question-bank.js?v=direct-exams-20261115';
+import {AI_BANK} from '../data/ai-bank.js?v=direct-exams-20261115';
 import {createAiRegistry} from '../shared/ai-bank.js';
 import {normalizeState} from '../shared/learning-state.js';
 
@@ -148,7 +148,7 @@ function renderOriginalHistory() {
   const attempts=(window.MAPersonalArchive?.getSummary().exams||[]).sort((a,b)=>b.completedAt-a.completedAt);target.hidden=!attempts.length;if(!attempts.length)return;
   const title=document.createElement('h2');title.textContent='Orijinal deneme geçmişi';target.append(title);
   for(const attempt of showAllOriginalHistory?attempts:attempts.slice(0,5)){
-    const row=document.createElement('article');row.className='history-row';const name=document.createElement('div'),label=document.createElement('strong'),meta=document.createElement('span');label.textContent='Orijinal TYT · '+attempt.number+'. Deneme';meta.className='muted';meta.textContent=new Date(attempt.completedAt).toLocaleDateString('tr-TR')+' · '+duration(attempt.duration)+' · 40 soru';name.append(label,meta);
+    const row=document.createElement('article');row.className='history-row';const name=document.createElement('div'),label=document.createElement('strong'),meta=document.createElement('span');label.textContent='Orijinal '+attempt.type+' · '+attempt.number+'. Deneme';meta.className='muted';meta.textContent=new Date(attempt.completedAt).toLocaleDateString('tr-TR')+' · '+duration(attempt.duration)+' · 40 soru';name.append(label,meta);
     const score=document.createElement('strong');score.className='history-score';score.textContent=attempt.score?attempt.score.net.toFixed(2)+' yayınevi neti':'Puanlanmadı';const button=document.createElement('button');button.className='smallbtn';button.textContent='Sonucu gör';button.dataset.originalResultId=attempt.id;button.onclick=()=>window.MAPersonalArchive?.openResult(attempt.id);row.append(name,score,button);target.append(row);
   }
   if(!showAllOriginalHistory&&attempts.length>5){const more=document.createElement('button');more.className='smallbtn';more.textContent='Tümünü gör';more.onclick=()=>{showAllOriginalHistory=true;renderOriginalHistory()};target.append(more)}
@@ -197,6 +197,7 @@ function renderAccount() {
     el('accountForm').onsubmit = event => { event.preventDefault(); login(false); };
     el('signUp').onclick = () => login(true);
   }
+  const accessPanel=document.createElement('section');accessPanel.className='source-access-account';target.append(accessPanel);window.MASourceAccess?.mountAccountPanel(accessPanel);
 }
 async function api(path,method='GET',body=null,token=null) {
   const response = await fetch(config.url + path, {
@@ -205,9 +206,9 @@ async function api(path,method='GET',body=null,token=null) {
     ...(body !== null ? {body:JSON.stringify(body)} : {})
   });
   if (!response.ok) {
-    if (response.status === 401 || response.status === 403) throw Error('Giriş bilgilerini kontrol et.');
-    if (response.status === 429) throw Error('Biraz bekleyip tekrar dene.');
-    throw Error('İşlem tamamlanamadı. Tekrar dene.');
+    const detail=await response.json().catch(()=>null);
+    const error=Error(response.status===401||response.status===403?'Giriş bilgilerini kontrol et.':response.status===429?'Biraz bekleyip tekrar dene.':'İşlem tamamlanamadı. Tekrar dene.');
+    error.status=response.status;error.code=typeof detail?.code==='string'?detail.code:null;throw error;
   }
   return response.status === 204 ? null : response.json();
 }
@@ -350,6 +351,16 @@ function boundedLearningState(state) {
 }
 window.MAAccount = {
   getUser:() => auth?.user?.id ? {id:auth.user.id} : null,
+  async sourceRpc(name,params={}) {
+    if(!['ma_source_access_status','ma_source_access_request','ma_source_access_members','ma_source_access_set_member','ma_source_archive_access'].includes(name))throw Error('Geçersiz hesap işlemi.');
+    const owner=auth?.user?.id,epoch=accountEpoch;
+    if(!owner)throw Error('Önce giriş yap.');
+    await ensureToken();
+    if(!sameAccount(owner,epoch))throw Error('Hesap değişti.');
+    const result=await api('/rest/v1/rpc/'+name,'POST',params,auth.access_token);
+    if(!sameAccount(owner,epoch))throw Error('Hesap değişti.');
+    return result;
+  },
   async loadLearning() {
     const owner = auth?.user?.id,epoch = accountEpoch;
     if (!owner) return null;

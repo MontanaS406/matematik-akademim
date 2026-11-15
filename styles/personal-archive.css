@@ -4,3 +4,7 @@
 .archive-image{max-height:72vh;position:relative}.archive-zoom-tools{position:sticky;top:0;left:0;display:flex;gap:12px;align-items:center;justify-content:center;background:#f3f5f9ed;color:#1c2a44;padding:5px;width:max-content;max-width:100%;z-index:1;border-radius:8px;margin:0 auto 8px}.archive-zoom-tools button{border:1px solid #abb7cb;background:#e7ebf3;color:#1c2a44;border-radius:6px;font-size:20px;min-width:38px;min-height:36px}.archive-zoom-tools span{font-size:12px;font-variant-numeric:tabular-nums}.archive-image canvas{flex-shrink:0}.archive-page-dialog .archive-image{max-height:73vh}@media(max-width:760px){.archive-image{max-height:62vh}.archive-zoom-tools{gap:10px}}
 #originalArchiveHistory{margin-top:24px}#originalArchiveHistory[hidden]{display:none}
 .archive-answer-area form{width:100%;min-width:0}.archive-zoom-tools button{min-width:44px;min-height:44px}
+.archive-exam-controls{display:flex;align-items:end;gap:1rem;flex-wrap:wrap;margin-bottom:1rem}
+.archive-exam-controls label{min-width:9rem;flex:1;max-width:18rem}
+#learningRoot:has(#personalArchiveRoot[data-mode="exams"])>.practice-filters,
+#learningRoot:has(#personalArchiveRoot[data-mode="exams"])>.extra-practice-filters{display:none}

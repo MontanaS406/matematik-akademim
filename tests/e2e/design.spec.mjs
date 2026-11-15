@@ -2,11 +2,25 @@ import {test,expect} from './fixtures.mjs';
 import {COURSES} from '../../shared/curriculum.js';
 import {openAccount} from './source-helpers.mjs';
 const forbidden=/pdf|dosya\s*(?:seç|yükle)|kitapçık\s*aktar|sınav\s*modu/iu;
+test('scroll-to-focus keeps answer controls reachable and the heading inside the viewport',async({page},info)=>{
+ await page.goto('/');await page.locator('#questionCard').waitFor();
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth)).toBe(true);
+ const heading=await page.locator('#learningRoot>.page-heading').boundingBox();expect(heading.x+heading.width).toBeLessThanOrEqual(page.viewportSize().width);
+ await page.locator('[data-option="A"]').click();
+ await page.locator('#checkSourceAnswer').evaluate(node=>node.scrollIntoView({block:'nearest'}));
+ const geometry=await page.evaluate(()=>{
+  const button=document.querySelector('#checkSourceAnswer'),rect=button.getBoundingClientRect(),nav=document.querySelector('.nav').getBoundingClientRect();
+  const at=document.elementFromPoint(rect.x+rect.width/2,rect.y+rect.height/2);
+  return {bottom:rect.bottom,navTop:nav.top,hit:at===button||button.contains(at)};
+ });
+ if(info.project.name==='mobile')expect(geometry.bottom).toBeLessThanOrEqual(geometry.navTop);expect(geometry.hit).toBe(true);
+ await page.locator('#checkSourceAnswer').click();await expect(page.locator('#sourceFeedback')).not.toBeEmpty();
+});
 async function expectLockedArchive(page){
  await page.locator('#bankPool').selectOption('original');
- await expect(page.locator('#questionBankEmpty')).toBeVisible();await expect(page.locator('#questionBankEmpty')).toHaveAttribute('role','status');await expect(page.locator('#questionBankEmpty h2')).toHaveText('Kişisel soru arşivin');
- await expect(page.locator('#questionBankEmpty')).toContainText('Gönderdiğin kaynaklar');
- await expect(page.locator('#questionCard,#originalPrompt,#sourceAnswerArea,#sourceResponse,#checkSourceAnswer,#openSourceInfo,#askTeacher')).toHaveCount(0);await expect(page.locator('#learningRoot .count-badge')).toHaveText('Arşiv kilitli');
+ await expect(page.locator('#questionBankEmpty')).toBeVisible();await expect(page.locator('#questionBankEmpty')).toHaveAttribute('role','status');await expect(page.locator('#questionBankEmpty h2')).toHaveText('Denemeler için giriş yap');
+ await expect(page.locator('#questionBankEmpty')).toContainText('Kaynaklara erişim hesabın');
+ await expect(page.locator('#questionCard,#originalPrompt,#sourceAnswerArea,#sourceResponse,#checkSourceAnswer,#openSourceInfo,#askTeacher')).toHaveCount(0);await expect(page.locator('#learningRoot .count-badge')).toHaveText('Hesap erişimi');
 }
 async function expectSimpleSurface(page){
  expect(await page.locator('body').innerText()).not.toMatch(forbidden);await expect(page.locator('input[type=file],iframe,#examModePage,#examModeButton,#privateLibraryRoot')).toHaveCount(0);
@@ -17,7 +31,7 @@ async function expectSimpleSurface(page){
 test('AI practice and empty original pool keep the compact four-section interface usable',async({page})=>{
  const errors=[];page.on('pageerror',error=>errors.push(error.message));await page.goto('/');await expect(page.locator('#bankPool')).toHaveValue('ai');await expect(page.locator('#questionCard')).toBeVisible();await expectLockedArchive(page);
  for(const name of ['Soru çöz','Konular','Öğretmen','İlerleme'])await expect(page.locator('.nav').getByRole('button',{name,exact:true})).toBeVisible();
- await expect(page.locator('.nav button')).toHaveCount(4);await expect(page.locator('#examModeButton')).toHaveCount(0);await expect(page.locator('#openPersonalArchive')).toBeVisible();
+ await expect(page.locator('.nav button')).toHaveCount(4);await expect(page.locator('#examModeButton')).toHaveCount(0);await expect(page.locator('#sourceAccessLogin')).toBeVisible();
  expect((await page.locator('body').innerText()).split(/\s+/).filter(Boolean).length).toBeLessThan(130);await expectSimpleSurface(page);expect(errors).toEqual([]);
 });
 test('old personal attempts remain stored without restoring a removed question on reload or navigation',async({page})=>{

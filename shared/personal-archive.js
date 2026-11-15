@@ -1,3 +1,5 @@
+import {PRACTICE_DISTRIBUTIONS} from './practice-exams.js';
+
 const MAGIC = new Uint8Array([77,65,65,82,67,49,0,0]);
 const identifier = value => typeof value === 'string' && /^[a-zA-Z0-9_-]{1,120}$/.test(value);
 const letters = value => value === null || /^[ABCDE]$/.test(value);
@@ -55,6 +57,29 @@ export function createPersonalArchive(index) {
     }
     exams.set(exam.id,exam);
   }
+  const compiled = index.compiledExams || [];
+  if (!Array.isArray(compiled) || compiled.length > 1000) throw Error('Çalışma denemeleri geçersiz.');
+  for (const exam of compiled) {
+    if (!identifier(exam.id) || exams.has(exam.id) || exam.origin !== 'ORIJINAL' || exam.isOfficial !== false ||
+        exam.type !== 'AYT' || exam.kind !== 'compiled' || exam.distributionVersion !== 'original-ayt-2025-v1' ||
+        exam.actualCount !== 40 || exam.targetCount !== 40 || !Array.isArray(exam.questionIds) ||
+        exam.questionIds.length !== 40 || new Set(exam.questionIds).size !== 40 || !/^[ABCDE]{40}$/.test(exam.answerKey) ||
+        exam.keyKind !== 'source_mapped' || exam.keyVerified !== true || !/^[a-f0-9]{64}$/.test(exam.manifest) ||
+        !exam.topicByQuestion || Object.keys(exam.topicByQuestion).length !== 40) throw Error('AYT çalışma denemesi geçersiz.');
+    const totals = new Map();
+    for (const [i,id] of exam.questionIds.entries()) {
+      const q = questions.get(id), topicId = exam.topicByQuestion[id], evidence = q?.answer?.evidence;
+      if (!q || !q.hasChoices || !q.parts.length || q.aytCompatibility?.reviewed !== true ||
+          q.aytCompatibility.topicId !== topicId || q.answer.value !== exam.answerKey[i] ||
+          !evidence || evidence.value !== q.answer.value || !documents.get(evidence.docId)?.pages[evidence.page-1] ||
+          !Number.isInteger(evidence.questionNumber) || evidence.questionNumber < 1 ||
+          typeof evidence.label !== 'string' || !evidence.label.trim()) throw Error('AYT soru, konu ve kaynak anahtarı eşleşmiyor.');
+      totals.set(topicId,(totals.get(topicId)||0)+1);
+    }
+    const blueprint = PRACTICE_DISTRIBUTIONS.AYT.topics.filter(topic=>topic.count);
+    if (totals.size !== blueprint.length || blueprint.some(topic=>totals.get(topic.id)!==topic.count)) throw Error('AYT konu dağılımı 31 matematik ve 9 geometriyle eşleşmiyor.');
+    exams.set(exam.id,exam);
+  }
   if (index.counts?.documents !== documents.size || index.counts?.pages !== [...documents.values()].reduce((n,d)=>n+d.pages.length,0) ||
       index.counts?.records !== questions.size || index.counts?.exams !== exams.size) throw Error('Arşiv kapsamı eşleşmiyor.');
   const freeze=value=>{if(value&&typeof value==='object'&&!Object.isFrozen(value)){Object.values(value).forEach(freeze);Object.freeze(value)}return value};
@@ -65,11 +90,15 @@ export function createPersonalArchive(index) {
 export function scoreOriginalArchiveExam(exam, answers, archive) {
   const canonical=archive?.getExam(exam?.id);
   if (!canonical || canonical !== exam || !Array.isArray(answers) || answers.length !== 40 || Array.from(answers).some(value=>!letters(value)) ||
-      exam.keyVerified !== true || exam.keyKind !== 'publisher' || exam.isOfficial !== false) return null;
+      exam.keyVerified !== true || !['publisher','source_mapped'].includes(exam.keyKind) || exam.isOfficial !== false) return null;
   let correct=0,wrong=0,blank=0;
   for (let i=0;i<40;i++) {
     const q=archive.getQuestion(exam.questionIds[i]);
-    if (!q || q.docId!==exam.docId || q.number!==i+1 || q.answer.value!==exam.answerKey[i]) return null;
+    if (!q || q.answer.value!==exam.answerKey[i]) return null;
+    if (exam.kind === 'compiled') {
+      if (q.aytCompatibility?.reviewed !== true || q.aytCompatibility.topicId !== exam.topicByQuestion[exam.questionIds[i]] ||
+          q.answer.evidence?.value !== exam.answerKey[i]) return null;
+    } else if (q.docId!==exam.docId || q.number!==i+1) return null;
     if(answers[i]===null)blank++;else if(answers[i]===exam.answerKey[i])correct++;else wrong++;
   }
   return {correct,wrong,blank,net:correct-wrong/4,total:40,isOfficial:false};
