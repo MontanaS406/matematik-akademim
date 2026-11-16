@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import deployedWorker, {createTutorWorker} from '../cloudflare-worker/worker.js';
 import {getCourse} from '../shared/curriculum.js';
 import {TEACHERS,TEACHER_PERSONA_VERSION} from '../shared/teachers.js';
+import {getTeacherDialogue,TEACHER_DIALOGUE_COUNT,TEACHER_DIALOGUE_VERSION} from '../shared/teacher-dialogues.js';
 const TEACHER_IDS=['cagatay','beyza','zeynep','kemal','mert','elif','riza','nermin','bora','derya'];
 // Synthetic questions live only in this test file, never in the deployed bank.
 const fixtureBank = () => ({sources:[{
@@ -24,7 +25,8 @@ test('health advertises the deployed ten-persona version without exposing creden
  let calls=0;await withFetch(async()=>{calls++;throw Error('Health must not use the model')},async()=>{
   for(const configured of [false,true]){
    const response=await deployedWorker.fetch(new Request('https://worker.example/health',{headers:{Origin:'https://school.example'}}),configured?env:{...env,OPENAI_API_KEY:''});
-   assert.equal(response.status,200);const payload=await response.json();assert.deepEqual(Object.keys(payload).sort(),['configured','ok','personaVersion','teacherIds']);
+   assert.equal(response.status,200);const payload=await response.json();assert.deepEqual(Object.keys(payload).sort(),['configured','dialogueCount','dialogueVersion','ok','personaVersion','teacherIds']);
+   assert.equal(payload.dialogueCount,TEACHER_DIALOGUE_COUNT);assert.equal(payload.dialogueVersion,TEACHER_DIALOGUE_VERSION);
    assert.equal(payload.ok,true);assert.equal(payload.configured,configured);assert.deepEqual(payload.teacherIds,TEACHER_IDS);assert.equal(payload.personaVersion,TEACHER_PERSONA_VERSION);assert.doesNotMatch(JSON.stringify(payload),/test-only|test-access|OPENAI_API_KEY|APP_ACCESS_TOKEN/);
   }
  });assert.equal(calls,0);
@@ -117,6 +119,22 @@ test('numeric progress context is bounded and does not request generated practic
 
 const lessonRequest={mode:'lesson',courseId:'fractions',messages:[{role:'user',content:'Kesirlerde pay ve paydanın ne anlama geldiğini sıfırdan anlat.'}]};
 const lessonUpstream=(explanation='Payda eş parçaların sayısını, pay alınan parçaların sayısını belirtir. Payda sıfır olamaz.',courseId='fractions')=>Response.json({output:[{content:[{type:'output_text',text:JSON.stringify({courseId,explanation})}]}]});
+test('worker adds at most two relevant authored dialogue examples while binding the actual lesson and ignoring client replacements',async()=>{
+ let sent;
+ await withFetch(async(url,options)=>{sent=JSON.parse(options.body);return lessonUpstream()},async()=>{
+  const response=await deployedWorker.fetch(req({...lessonRequest,teacherId:'beyza',helpMode:'hint',messages:[{role:'user',content:'Yanlış yaptım, moralim bozuldu.'}],dialogueContext:{teacher:'CLIENT-DIALOGUE-OVERRIDE'},dialogueExamples:['CLIENT-DIALOGUE-OVERRIDE']}),env);
+  assert.equal(response.status,200);const result=await response.json();assert.equal(result.teacherId,'beyza');assert.equal(result.dialogueVersion,TEACHER_DIALOGUE_VERSION);
+ });
+ const extra=sent.instructions.split('GÜNCEL DURUMA UYGUN EK ÜSLUP ÖRNEKLERİ:')[1];
+ assert.ok(extra);assert.equal((extra.match(/\nDurum: /g)||[]).length,2);
+ assert.ok(extra.includes(getTeacherDialogue('beyza','wrong').teacher));
+ assert.ok(!extra.includes(getTeacherDialogue('beyza','derivative').teacher));
+ assert.ok(!extra.includes(getTeacherDialogue('nermin','wrong').teacher));
+ assert.doesNotMatch(sent.instructions,/CLIENT-DIALOGUE-OVERRIDE/);
+ assert.match(sent.instructions,/Kısa konu anlatımı seçildi/);
+ assert.deepEqual(sent.text.format.schema.properties.courseId.enum,['fractions']);
+ assert.ok(sent.instructions.length<18000,'the complete 600-turn pool must never be sent to the model');
+});
 test('explicit lesson mode teaches a server-owned course without requiring a source question',async()=>{
   await withFetch(async(url,options)=>{
     const payload=JSON.parse(options.body);assert.equal(payload.store,false);assert.equal(payload.text.format.name,'curriculum_lesson_explanation');

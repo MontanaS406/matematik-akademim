@@ -1,13 +1,14 @@
-import {createPracticeExamController} from './practice-exams.js?v=comic-teachers-20261116';
-import {createPersonalArchiveController} from './personal-archive.js?v=comic-teachers-20261116';
-import {createSourceAccessController} from './source-access.js?v=comic-teachers-20261116';
+import {createPracticeExamController} from './practice-exams.js?v=dialogue-pool-20261116';
+import {createPersonalArchiveController} from './personal-archive.js?v=dialogue-pool-20261116';
+import {createSourceAccessController} from './source-access.js?v=dialogue-pool-20261116';
 import {COURSES, getCourse, buildStudyPlan} from '../shared/curriculum.js';
-import {TEACHERS, DEFAULT_TEACHER_ID, PROFANITY_LEVELS, getTeacherLine} from '../shared/teachers.js?v=comic-teachers-20261116';
-import {normalizeState, mergeLearningStates, progressFromAttempts} from '../shared/learning-state.js?v=comic-teachers-20261116';
-import {QUESTION_BANK} from '../data/question-bank.js?v=comic-teachers-20261116';
+import {TEACHERS, DEFAULT_TEACHER_ID, PROFANITY_LEVELS, getTeacherLine} from '../shared/teachers.js?v=dialogue-pool-20261116';
+import {getTeacherDialogues,getTeacherDialogue,DIALOGUE_CATEGORIES} from '../shared/teacher-dialogues.js?v=dialogue-pool-20261116';
+import {normalizeState, mergeLearningStates, progressFromAttempts} from '../shared/learning-state.js?v=dialogue-pool-20261116';
+import {QUESTION_BANK} from '../data/question-bank.js?v=dialogue-pool-20261116';
 import {createQuestionRegistry} from '../shared/question-bank.js';
-import {AI_BANK} from '../data/ai-bank.js?v=comic-teachers-20261116';
-import {SOURCED_ARCHIVE_SUMMARY, SOURCE_DOCUMENTS, SOURCE_READ_EVIDENCE} from '../data/source-catalog.js?v=comic-teachers-20261116';
+import {AI_BANK} from '../data/ai-bank.js?v=dialogue-pool-20261116';
+import {SOURCED_ARCHIVE_SUMMARY, SOURCE_DOCUMENTS, SOURCE_READ_EVIDENCE} from '../data/source-catalog.js?v=dialogue-pool-20261116';
 import {createAiRegistry, aiDerivationKind} from '../shared/ai-bank.js';
 const aiRegistry=createAiRegistry(AI_BANK);
 const bankRegistry=createQuestionRegistry(QUESTION_BANK);
@@ -22,6 +23,7 @@ let owner=null, scope='guest', state, revision=0, remoteChain=Promise.resolve(),
 let tutorLesson=false,bankScope='all',bankPool='ai',bankExam='',bankSubtopic='',aiPool='',aiDerivation='';
 let selectedQuestionId=null, answeredQuestionId=null, bankDifficulty='', teacherEpoch=0, activeRequest=null, conversations=new Map(),questionResponses=new Map();
 let profanity={profanityLevel:'off',adultConfirmed:false,profanityConsent:false};
+let dialogueCategory='',dialogueScenarioId='start';
 const teacher=()=>TEACHERS.find(t=>t.id===state.teacherId)||TEACHERS.find(t=>t.id===DEFAULT_TEACHER_ID);
 const course=()=>getCourse(state.courseId)||COURSES[0];
 const key=()=>`ma_learning_v1_${scope}`;
@@ -45,7 +47,7 @@ async function syncProfile(write=true){
 async function changeAccount(){
   const next=window.MAAccount?.getUser()?.id||null;if(next===owner&&state)return;
   activeRequest?.abort();owner=next;scope=owner||'guest';revision++;clearTimeout(saveTimer);state=loadLocal();
-  $('message').value='';conversations=new Map();questionResponses=new Map();profanity={profanityLevel:'off',adultConfirmed:false,profanityConsent:false};selectedQuestionId=null;answeredQuestionId=null;
+  $('message').value='';conversations=new Map();questionResponses=new Map();profanity={profanityLevel:'off',adultConfirmed:false,profanityConsent:false};dialogueCategory='';dialogueScenarioId='start';selectedQuestionId=null;answeredQuestionId=null;
   renderLearning();renderTeachers();renderLessons();if(owner)await syncProfile(false);
 }
 const isAiQuestion=q=>q?.origin==='AI_URETIMI';
@@ -198,13 +200,29 @@ function showLesson(id){
 function learningMomentum(){const attempts=state.attempts.filter(a=>registeredQuestion(a.exerciseId)),day=new Date().toLocaleDateString();let consecutiveCorrect=0;for(let i=attempts.length-1;i>=0&&attempts[i].correct;i--)consecutiveCorrect++;return {consecutiveCorrect,practiceToday:attempts.filter(a=>new Date(a.at).toLocaleDateString()===day).length,dailyGoal:3}}
 function openTeacher(lesson){tutorLesson=lesson;teacherEpoch++;activeRequest?.abort();renderChat();showPage('teacher')}
 function teacherProfilePreview(t){
- return `<details id="teacherPersonality" class="teacher-personality"><summary>Karakteri tanı</summary><p class="teacher-role">${esc(t.role)}</p><p>${esc(t.description)}</p><h3>Nasıl anlatır</h3><ol id="teacherMethod">${t.teachingMethod.map(step=>`<li>${esc(step)}</li>`).join('')}</ol><div id="teacherStyleSamples"><h3>Hazır konuşma örnekleri</h3>${t.sampleDialogue.map(pair=>`<article class="teacher-style-sample"><p class="sample-student">Öğrenci: ${esc(pair.student)}</p><p class="sample-teacher">${esc(t.name)}: ${esc(pair.teacher)}</p></article>`).join('')}</div></details>`;
+ return `<details id="teacherPersonality" class="teacher-personality"><summary>Karakteri tanı</summary><p class="teacher-role">${esc(t.role)}</p><p>${esc(t.description)}</p><h3>Nasıl anlatır</h3><ol id="teacherMethod">${t.teachingMethod.map(step=>`<li>${esc(step)}</li>`).join('')}</ol><div id="teacherStyleSamples"><h3>Hazır konuşma örnekleri</h3>${t.sampleDialogue.map(pair=>`<article class="teacher-style-sample"><p class="sample-student">Öğrenci: ${esc(pair.student)}</p><p class="sample-teacher">${esc(t.name)}: ${esc(pair.teacher)}</p></article>`).join('')}</div><details id="teacherDialoguePool" class="teacher-dialogue-pool"><summary>Diyalog havuzu · <span id="dialoguePoolCount">${getTeacherDialogues(t.id).length}</span> durum</summary><p class="dialogue-disclosure">Hazır karakter örnekleri; canlı AI yanıtı değildir.</p><div class="dialogue-filters"><label for="dialogueCategory">Başlık<select id="dialogueCategory" class="field"><option value="">Tüm durumlar</option>${Object.entries(DIALOGUE_CATEGORIES).map(([id,title])=>`<option value="${esc(id)}" ${id===dialogueCategory?'selected':''}>${esc(title)}</option>`).join('')}</select></label><label for="dialogueScenario">Durum<select id="dialogueScenario" class="field"></select></label></div><article id="dialogueSample" class="dialogue-pool-sample" aria-live="polite"></article></details></details>`;
+}
+function renderDialoguePool(){
+ const rows=getTeacherDialogues(teacher().id,dialogueCategory?{category:dialogueCategory}:{});
+ if(!rows.some(row=>row.id===dialogueScenarioId))dialogueScenarioId=rows[0].id;
+ $('dialogueScenario').replaceChildren(...rows.map(row=>{const option=document.createElement('option');option.value=row.id;option.textContent=row.title;return option}));
+ $('dialogueScenario').value=dialogueScenarioId;
+ renderDialogueExample();
+}
+function renderDialogueExample(){
+ const row=getTeacherDialogue(teacher().id,dialogueScenarioId),student=document.createElement('p'),reply=document.createElement('p');
+ student.className='sample-student';student.textContent='Öğrenci: '+row.student;
+ reply.className='sample-teacher';reply.textContent=teacher().name+': '+row.teacher;
+ $('dialogueSample').replaceChildren(student,reply);
 }
 function renderTeachers(){
  activeRequest?.abort();const selected=teacher();$('teacherPicker').replaceChildren();
  for(const t of TEACHERS){const button=document.createElement('button');button.className='teacher-card';button.setAttribute('aria-pressed',String(t.id===selected.id));button.setAttribute('aria-label',t.name);button.innerHTML=`<span class="teacher-avatar" aria-hidden="true">${esc(t.avatar)}</span>${esc(t.name)}<small>${esc(t.tagline)}</small>`;button.onclick=()=>{activeRequest?.abort();state.teacherId=t.id;profanity={profanityLevel:'off',adultConfirmed:false,profanityConsent:false};changed(true);$('teacherDialog').close();renderTeachers();renderLearning()};$('teacherPicker').append(button)}
  $('selectedTeacherAvatar').textContent=selected.avatar;$('selectedTeacherName').textContent=selected.name;$('teacherDescription').textContent=selected.tagline;
  $('teacherOptions').innerHTML=teacherProfilePreview(selected)+(selected.id==='cagatay'?`<details class="teacher-consent"><summary>Konuşma tarzı</summary><label><input id="adultConfirmed" type="checkbox">18 yaş ve üzerindeyim.</label><label><input id="profanityConsent" type="checkbox">Küfürlü mizah istiyorum.</label><label for="profanityLevel">Argo düzeyi</label><select class="field" id="profanityLevel">${PROFANITY_LEVELS.map(level=>`<option value="${esc(level.id)}">${esc(level.name)}</option>`).join('')}</select></details>`:'');
+ renderDialoguePool();
+ $('dialogueCategory').onchange=event=>{dialogueCategory=event.target.value;renderDialoguePool()};
+ $('dialogueScenario').onchange=event=>{dialogueScenarioId=event.target.value;renderDialogueExample()};
  if(selected.id==='cagatay'){
   const update=()=>{profanity.adultConfirmed=$('adultConfirmed').checked;profanity.profanityConsent=$('profanityConsent').checked;$('profanityLevel').disabled=!(profanity.adultConfirmed&&profanity.profanityConsent);if($('profanityLevel').disabled){profanity.profanityLevel='off';$('profanityLevel').value='off'}};
   $('adultConfirmed').checked=profanity.adultConfirmed;$('profanityConsent').checked=profanity.profanityConsent;$('profanityLevel').value=profanity.profanityLevel;

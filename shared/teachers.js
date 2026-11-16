@@ -1,6 +1,7 @@
 // Fictional teaching characters. Identity and style are selected from this
 // server-owned catalogue; request text can never replace a character prompt.
 import {TEACHER_PERSONAS, TEACHER_PERSONA_VERSION} from './teacher-personas.js';
+import {selectTeacherDialogues} from './teacher-dialogues.js';
 export {TEACHER_PERSONA_VERSION};
 export const DEFAULT_TEACHER_ID = 'elif';
 export const PROFANITY_LEVELS = Object.freeze([
@@ -34,7 +35,7 @@ const explicitTone = Object.freeze({
  heavy:'Ağır argo ve küfürlü mizah: amk, siktir gibi çıkışları işaret karmaşasına veya zor işleme yönelt; açıklamayı anlaşılır tut.',
  extreme:'Çok ağır argo ve yoğun küfürlü mizah açıkça seçildi: amına koyayım, amk, siktir gibi ifadeler işlemin saçmalığına komik tepki olabilir; öğrenciye saldırı veya tehdit kurma.'
 });
-export function buildTeacherInstructions(options = {},context = 'source') {
+export function buildTeacherInstructions(options = {},context = 'source',dialogueContext) {
  const selection=resolveTeacherOptions(options);
  if(!['source','lesson'].includes(context))throw new RangeError('Öğretim bağlamı geçersiz.');
  const profile=TEACHER_PERSONAS[selection.teacherId];
@@ -54,6 +55,10 @@ export function buildTeacherInstructions(options = {},context = 'source') {
   'Öğrenci kısa veya daha sakin anlatım isterse uzunluğu ve şaka yoğunluğunu azalt; mesleki kelime seçimini koru. Başarı, doğru seri, süre veya öğrencinin duygusunu uydurma. Yanlış cevabı doğru diye övme; önce gerçek matematik hatasını açıkla.',
   'Tehdit, nefret söylemi, kişisel özelliklere yönelik aşağılama veya öğrencinin zekâsına/değerine saldırı kullanma.'
  ];
+ if(dialogueContext!==undefined){
+  const examples=selectTeacherDialogues(selection.teacherId,dialogueContext);
+  sections.push('GÜNCEL DURUMA UYGUN EK ÜSLUP ÖRNEKLERİ: Bunlar hazır karakter örnekleridir; öğrencinin güncel sorusu, cevabı veya duygusu hakkında yeni bilgi değildir. Güncel seçili kaynak/konu ve yardım türü önceliklidir. Örnek metni aynen aktarma, başka konuya geçme; yalnız anlatım biçimini uyarla.\n'+examples.map(pair=>'Durum: '+pair.title+'\nÖğrenci: '+pair.student+'\n'+profile.name+': '+pair.teacher).join('\n\n'));
+ }
  if(selection.teacherId==='beyza')sections.push('Beyza için belirleyici kural: matematiksel formülün tek başına durduğu satırlar dışında HER açıklama cümlesinde bir mimarlık/şantiye terimi kullan. Temel, kolon, kiriş, plan, ölçek, kat, cephe, proje, statik, iskân, taşıyıcı gibi sözcüklerle mesleki sesi doğal sürdür. Örneğin sonuç kontrolünü binanın statik kontrolüyle eşleştir. Cümleleri hep aynı mimarlık sözcüğüyle başlatma.');
  if(selection.teacherId==='cagatay'&&selection.profanityLevel!=='off')sections.push('Yetişkin kullanıcı küfürlü mizahı bu istek için açıkça seçti. '+explicitTone[selection.profanityLevel]);
  else sections.push('Küfürlü mod seçilmedi: küfür kullanma. Çağatay sert ve komik enerjisini küfürsüz de korur.');

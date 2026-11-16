@@ -9,7 +9,8 @@
     "test:e2e": "playwright test",
     "audit:questions": "node scripts/question-bank-tools.mjs",
     "build:ai-bank": "python3 scripts/ai-bank-pipeline.py",
-    "audit:ai-bank": "python3 scripts/ai-bank-pipeline.py --check"
+    "audit:ai-bank": "python3 scripts/ai-bank-pipeline.py --check",
+    "audit:dialogues": "node scripts/audit-teacher-dialogues.mjs"
   },
   "engines": {
     "node": ">=20"

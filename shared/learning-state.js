@@ -1,6 +1,6 @@
 // Only learning preferences and original-exercise outcomes cross the account boundary.
 // Access tokens, chat messages and adult/profanity consent deliberately have no schema here.
-import {TEACHERS} from './teachers.js?v=comic-teachers-20261116';
+import {TEACHERS} from './teachers.js?v=dialogue-pool-20261116';
 const TEACHER_IDS = new Set(TEACHERS.map(teacher=>teacher.id));
 const DIFFICULTIES = new Set(['easy', 'medium', 'hard', 'unclassified']);
 const EPOCH = '1970-01-01T00:00:00.000Z';
