@@ -1,13 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {COURSES} from '../shared/curriculum.js';
-import {TEACHERS} from '../shared/teachers.js';
+import {TEACHERS,getTeacherLine} from '../shared/teachers.js';
+import {TEACHER_PERSONAS} from '../shared/teacher-personas.js';
 import {DIALOGUE_SCENARIOS,DIALOGUE_CATEGORIES} from '../shared/teacher-dialogue-scenarios.js';
-import {TEACHER_DIALOGUE_VERSION,TEACHER_DIALOGUE_COUNT,getTeacherDialogues,getTeacherDialogue,selectTeacherDialogues} from '../shared/teacher-dialogues.js';
+import {TEACHER_DIALOGUE_VERSION,TEACHER_DIALOGUE_COUNT,TEACHER_DIALOGUE_ALTERNATE_COUNT,TEACHER_DIALOGUE_RESPONSE_COUNT,getTeacherDialogues,getTeacherDialogue,getTeacherDialogueVariants,selectTeacherDialogues} from '../shared/teacher-dialogues.js';
+import {TEACHER_REACTION_VERSION,TEACHER_REACTION_ADDITION_COUNT,TEACHER_REACTION_COUNT,getTeacherReactions} from '../shared/teacher-reactions.js';
 
 const ids=new Set(DIALOGUE_SCENARIOS.map(row=>row.id));
 const normalized=text=>text.normalize('NFKC').toLocaleLowerCase('tr-TR').replace(/[^\p{L}\p{N}]+/gu,' ').trim();
-const architecture=/mimar|şantiye|baret|temel|kolon|kiriş|plan|ölç|kat|cephe|proje|statik|iskân|taşıyıcı|ruhsat|yapı|bina|iş makine|çizim|duvar|çatı|ev gibi/i;
+const architecture=/mimar|şantiye|baret|temel|kolon|kiriş|plan|ölç|kat|cephe|proje|statik|isk[aâ]n|taşıyıcı|ruhsat|yapı|bina|iş makine|çizim|duvar|çatı|ev gibi|beton|harç|çimento|kalıp|iskele|zemin|kroki|mala|tuğla/i;
 
 test('600 authored turns cover the same sixty scenarios in ten voices without replacing the original previews',()=>{
  assert.equal(TEACHER_DIALOGUE_VERSION,'dialogue-v1');assert.equal(TEACHER_DIALOGUE_COUNT,600);
@@ -52,6 +54,7 @@ test('unknown teachers, scenarios and unsafe or malformed filter inputs fail clo
   assert.throws(()=>getTeacherDialogues(teacherId));assert.throws(()=>getTeacherDialogue(teacherId,'start'));assert.throws(()=>selectTeacherDialogues(teacherId));
  }
  for(const scenarioId of ['__proto__','not-a-scenario',null,{}])assert.throws(()=>getTeacherDialogue('elif',scenarioId));
+ for(const scenarioId of ['__proto__','not-a-scenario',null,{}])assert.throws(()=>getTeacherDialogueVariants('elif',scenarioId));
  for(const options of [null,[],{category:'__proto__'},{courseId:'__proto__'}])assert.throws(()=>getTeacherDialogues('elif',options));
  for(const options of [null,[],{studentMessage:42},{courseId:'__proto__'},{limit:0},{limit:3},{limit:Infinity},{helpMode:'unbounded'}])assert.throws(()=>selectTeacherDialogues('elif',options));
 });
@@ -65,6 +68,7 @@ test('relevant few-shot examples respect the current course and prefer requested
  assert.equal(select('Aynı konuda tekrar yanlış yaptım.')[0].id,'repeated_wrong');
  assert.equal(select('Bana yeni bir matematik sorusu üret.')[0].id,'no_new_questions');
  assert.ok(select('Negatif üs ne anlama gelir.','powers').some(row=>row.id==='negative_power'));
+ assert.ok(!select('Üsleri ne zaman toplayabiliriz.','powers').some(row=>row.id==='exam_timer'),'a question about when a rule applies is not exam-time management');
  assert.ok(select('Türevlenebilirlik ile süreklilik arasındaki ilişki nedir.','derivative').some(row=>row.id==='derivative'));
  assert.ok(!select('Türevlenebilirlik ile süreklilik arasındaki ilişki nedir.','fractions').some(row=>row.id==='derivative'),'unrelated concept must not replace the selected topic');
  assert.deepEqual(new Set(selectTeacherDialogues('elif',{studentMessage:'zzzzz'}).map(row=>row.id)),new Set(['start','stuck']));
@@ -112,5 +116,64 @@ test('critical concept turns preserve domain caveats rather than presenting meta
   assert.match(text('logarithm'),/pozitif|büyük|0/,teacher.id+' real logarithm domain');
   assert.match(text('definite_integral_area'),/işaret|negatif|mutlak/,teacher.id+' signed integral vs geometric area');
   assert.match(text('source_missing'),/uydur|tahmin|eksik/,teacher.id+' missing source cannot be reconstructed by guessing');
+ }
+});
+
+test('150 alternate turns add genuine variety to fifteen situations while all original base turns remain unchanged',()=>{
+ const alternateIds=new Set(['start','stuck','wrong','repeated_wrong','correct_why','short','slow','anxious','tired','break_return','exam_timer','hint_only','check_result','source_missing','humor_downshift']);
+ assert.equal(TEACHER_DIALOGUE_ALTERNATE_COUNT,150);assert.equal(TEACHER_DIALOGUE_RESPONSE_COUNT,750);
+ const all=[];
+ for(const teacher of TEACHERS)for(const scenario of DIALOGUE_SCENARIOS){
+  const rows=getTeacherDialogueVariants(teacher.id,scenario.id);assert.ok(Object.isFrozen(rows));
+  assert.equal(rows.length,alternateIds.has(scenario.id)?2:1,teacher.id+'/'+scenario.id);
+  assert.equal(rows[0].teacher,getTeacherDialogues(teacher.id).find(row=>row.id===scenario.id).teacher,'first variant preserves the authored base');
+  for(const [index,row]of rows.entries()){
+   assert.ok(Object.isFrozen(row));assert.equal(row.id,scenario.id);assert.equal(row.teacherId,teacher.id);assert.equal(row.student,scenario.student);
+   assert.equal(getTeacherDialogue(teacher.id,scenario.id,index).teacher,row.teacher);
+   assert.equal(getTeacherDialogue(teacher.id,scenario.id,index+rows.length).teacher,row.teacher);
+   all.push(row.teacher);
+  }
+ }
+ assert.equal(all.length,750);assert.equal(new Set(all.map(normalized)).size,750,'an alternate must do more than change punctuation');
+ for(const variant of [-1,0.5,NaN,Infinity,'1'])assert.throws(()=>getTeacherDialogue('elif','start',variant));
+});
+
+test('bounded retrieval rotates the example for a later assistant turn without changing the selected intent or topic',()=>{
+ const context={studentMessage:'Takıldım; ilk adımı göremiyorum.',courseId:'fractions'};
+ const first=selectTeacherDialogues('bora',{...context,variant:0}),later=selectTeacherDialogues('bora',{...context,variant:1}),wrapped=selectTeacherDialogues('bora',{...context,variant:2});
+ assert.deepEqual(later.map(row=>row.id),first.map(row=>row.id));assert.deepEqual(wrapped.map(row=>row.teacher),first.map(row=>row.teacher));
+ assert.notEqual(later.find(row=>row.id==='stuck').teacher,first.find(row=>row.id==='stuck').teacher);
+ assert.ok(later.length<=2);assert.ok(later.every(row=>!row.courseIds.length||row.courseIds.includes('fractions')));
+ for(const variant of [-1,0.5,NaN,Infinity,'1'])assert.throws(()=>selectTeacherDialogues('bora',{...context,variant}));
+});
+
+test('350 short reactions preserve legacy order, rotate within the real grade and retain the existing adult gate',()=>{
+ assert.equal(TEACHER_REACTION_VERSION,'reaction-v1');assert.equal(TEACHER_REACTION_ADDITION_COUNT,260);assert.equal(TEACHER_REACTION_COUNT,350);
+ const lengths={greeting:6,correct:11,incorrect:11,waiting:7};const all=[];
+ for(const teacher of TEACHERS){
+  const original=TEACHER_PERSONAS[teacher.id];
+  const legacy={greeting:[original.greeting],correct:original.correctResponses,incorrect:original.incorrectResponses,waiting:original.waitingLines};
+  for(const [kind,length]of Object.entries(lengths)){
+   const rows=getTeacherReactions(teacher.id,kind);assert.equal(rows.length,length);assert.ok(Object.isFrozen(rows));assert.equal(new Set(rows).size,length);
+   assert.deepEqual(rows.slice(0,legacy[kind].length),legacy[kind]);
+   for(const variant of [0,1,length-1,length,length+1])assert.equal(getTeacherLine(teacher.id,kind,variant),rows[variant%length]);
+   for(const row of rows){assert.doesNotMatch(row,/(?:^|\s)(?:amk|siktir|amına|orospu|lan|ulan)(?:\s|[,.!;:]|$)/iu);all.push(row);}
+  }
+  assert.ok(getTeacherReactions(teacher.id,'correct').every(row=>!getTeacherReactions(teacher.id,'incorrect').includes(row)));
+  assert.deepEqual(teacher.greetingResponses,getTeacherReactions(teacher.id,'greeting'));
+ }
+ assert.equal(new Set(all.map(normalized)).size,350);
+ for(const teacherId of ['__proto__','constructor','unknown',null])assert.throws(()=>getTeacherReactions(teacherId,'greeting'));
+ assert.throws(()=>getTeacherReactions('elif','unknown'));
+ assert.throws(()=>getTeacherLine('cagatay','greeting',5,{profanityLevel:'heavy',adultConfirmed:true}));
+ assert.notEqual(getTeacherLine('cagatay','greeting',5,{profanityLevel:'heavy',adultConfirmed:true,profanityConsent:true}),getTeacherLine('cagatay','greeting',5));
+ assert.throws(()=>getTeacherLine('elif','greeting',5,{profanityLevel:'heavy',adultConfirmed:true,profanityConsent:true}));
+});
+
+test('new Beyza variants and reactions keep the architectural voice without adding numeric exercises',()=>{
+ const lines=[...DIALOGUE_SCENARIOS.flatMap(row=>getTeacherDialogueVariants('beyza',row.id).map(item=>item.teacher)),...['greeting','correct','incorrect','waiting'].flatMap(kind=>getTeacherReactions('beyza',kind))];
+ for(const line of lines){
+  for(const sentence of line.split(/[.!?]+(?:\s|$)/u).map(part=>part.trim()).filter(Boolean))if(/\p{L}{3,}/u.test(sentence))assert.match(sentence,architecture,sentence);
+  assert.doesNotMatch(line,/A\)\s*.+B\)\s*.+C\)\s*.+D\)\s*.+E\)/s);
  }
 });

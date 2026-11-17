@@ -2,6 +2,7 @@
 // server-owned catalogue; request text can never replace a character prompt.
 import {TEACHER_PERSONAS, TEACHER_PERSONA_VERSION} from './teacher-personas.js';
 import {selectTeacherDialogues} from './teacher-dialogues.js';
+import {getTeacherReactions} from './teacher-reactions.js';
 export {TEACHER_PERSONA_VERSION};
 export const DEFAULT_TEACHER_ID = 'elif';
 export const PROFANITY_LEVELS = Object.freeze([
@@ -9,7 +10,7 @@ export const PROFANITY_LEVELS = Object.freeze([
   Object.freeze({id:'heavy',name:'Ağır'}),Object.freeze({id:'extreme',name:'Çok ağır'})
 ]);
 export const TEACHERS = Object.freeze(Object.entries(TEACHER_PERSONAS).map(([id,profile])=>Object.freeze({
-  id,...profile,correctResponse:profile.correctResponses[0],incorrectResponse:profile.incorrectResponses[0]
+  id,...profile,greetingResponses:getTeacherReactions(id,'greeting'),correctResponses:getTeacherReactions(id,'correct'),incorrectResponses:getTeacherReactions(id,'incorrect'),waitingLines:getTeacherReactions(id,'waiting'),correctResponse:profile.correctResponses[0],incorrectResponse:profile.incorrectResponses[0]
 })));
 
 export function resolveTeacherOptions(options = {}) {
@@ -37,7 +38,7 @@ const explicitTone = Object.freeze({
 });
 export function buildTeacherInstructions(options = {},context = 'source',dialogueContext) {
  const selection=resolveTeacherOptions(options);
- if(!['source','lesson'].includes(context))throw new RangeError('Öğretim bağlamı geçersiz.');
+ if(!['source','lesson','chat'].includes(context))throw new RangeError('Öğretim bağlamı geçersiz.');
  const profile=TEACHER_PERSONAS[selection.teacherId];
  const sections=[
   `${profile.name} rolündesin. Karakter sürümü: ${TEACHER_PERSONA_VERSION}. Meslek/komedi evrenin: ${profile.role}.`,
@@ -47,8 +48,10 @@ export function buildTeacherInstructions(options = {},context = 'source',dialogu
   'MİZAHIN CEVABIN TAMAMINDA GÖRÜNSÜN:\n'+profile.humorRules.map(rule=>'• '+rule).join('\n'),
   'KARAKTER SÖZLÜĞÜ: '+profile.signatureLexicon.join(', ')+'. Her yanıtta uygun sözcükleri değiştir; aynı şakayı ezber gibi tekrarlama.',
   'KAÇINILACAKLAR: '+profile.avoid.join('; ')+'.',
-  'KONUŞMA ÖRNEKLERİ: Aşağıdaki metinler yalnız üslup örnekleridir. Güncel konuyu veya seçili soruyu bunlarla değiştirme; öğrenciye bu metinleri aynen tekrar etme.\n'+profile.sampleDialogue.map(pair=>'Öğrenci: '+pair.student+'\n'+profile.name+': '+pair.teacher).join('\n\n'),
-  context==='lesson'
+  ...(dialogueContext===undefined?['KONUŞMA ÖRNEKLERİ: Aşağıdaki metinler yalnız üslup örnekleridir. Güncel konuyu veya seçili soruyu bunlarla değiştirme; öğrenciye bu metinleri aynen tekrar etme.\n'+profile.sampleDialogue.map(pair=>'Öğrenci: '+pair.student+'\n'+profile.name+': '+pair.teacher).join('\n\n')]:[]),
+  context==='chat'
+   ? 'Doğal öğretmen sohbeti ve kullanıcının gönderdiği matematik sorusunu çözme modundasın. Selamlaşmaya ve çalışma hakkında sohbete karakterinle karşılık ver. Öğrencinin kendi yazdığı soruyu, verdiği koşulları koruyarak açık matematik adımlarıyla çözebilir; tanımları, gerekçeleri ve ipuçlarını anlatabilirsin. Kaynak sorusu veya müfredat seçmesini şart koşma. Eksik koşulu tahmin etme; gerektiğinde kısa bir netleştirme sorusu sor. Yeni soru, benzer soru, örnek alıştırma veya rastgele sayısal problem oluşturma; kullanıcının kendi sorusunu çözmek bu yasaktan farklıdır. Çözümü soru bankasına, denemeye veya resmî cevap anahtarına eklediğini iddia etme. Yanıtın AI öğretmen açıklamasıdır; resmî veya bağımsız doğrulanmış çözüm olduğunu söyleme.'
+   : context==='lesson'
    ? 'Yalnızca sunucunun seçtiği müfredat konusunun tanımlarını, formüllerini ve mantığını anlat. Soru bankasında içerik bulunmasını şart koşma. Yeni soru, benzer soru, örnek alıştırma veya rastgele sayısal problem oluşturma. Açıklamanın AI konu anlatımı olduğunu belirt; resmî çözüm olduğunu iddia etme.'
    : 'Yalnızca sunucunun seçtiği mevcut, doğrulanmış ve kullanım izni bulunan kaynak sorusunu açıkla. Yeni soru, benzer soru, örnek alıştırma veya rastgele sayısal problem oluşturma; özgün soru metnini veya sayılarını değiştirme. Açıklamanın AI tarafından hazırlandığını belirt; resmî çözüm olduğunu iddia etme.',
   'Mizah, girişte, açıklamanın gövdesinde ve kapanışta karaktere uygun olsun. Her şaka bir öğretim adımına bağlansın. Matematiksel tanımı, işlem koşullarını ve doğru sonucu eksiksiz koru; benzetmeye uydurmak için matematiği değiştirme. Formül veya bağımsız matematik satırına gereksiz süs ekleme. Yeni soru üretmek için karakteri gerekçe gösterme.',
@@ -70,8 +73,7 @@ export function buildTeacherInstructions(options = {},context = 'source',dialogu
 export function getTeacherLine(teacherId,kind='correct',variant=0,options={}) {
  const selection=resolveTeacherOptions({...options,teacherId});
  if(!['greeting','correct','incorrect','waiting'].includes(kind)||!Number.isSafeInteger(variant)||variant<0)throw new RangeError('Öğretmen tepkisi geçersiz.');
- const profile=TEACHER_PERSONAS[selection.teacherId];
- const lines=kind==='greeting'?[profile.greeting]:kind==='waiting'?profile.waitingLines:kind==='correct'?profile.correctResponses:profile.incorrectResponses;
+ const lines=getTeacherReactions(selection.teacherId,kind);
  const line=lines[variant%lines.length];
  if(selection.teacherId!=='cagatay'||selection.profanityLevel==='off')return line;
  const phrases={mild:['Ulan,','Lan,','Hadi lan,'],heavy:['Amk,','Siktir,','Hadi amk,'],extreme:['Amına koyayım,','Siktir lan,','Amk,']};

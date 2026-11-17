@@ -8,7 +8,9 @@ Türkçe konu anlatımları, on mizahi öğretmen, kullanıcı hesabı ve gece m
 Çağatay, Beyza, Zeynep, Kemal, Mert ve Elif korunur; Rıza Usta, Nermin Şef,
 Bora Kaptan ve Derya Dedektif ile kadro **10** olur. Her birinin farklı sözlüğü,
 öğretim yöntemi, karşılama ve doğru/yanlış tepkileri vardır. **Öğretmen →
-Karakteri tanı** altında üç hazır konuşma örneği görülebilir; bu önizleme AI
+Karakteri tanı** altında üç hazır konuşma örneği ve **Diyalog havuzu** bulunur.
+Havuzda 750 diyalog yanıtı; karşılama, doğru/yanlış ve bekleme için 350 kısa
+tepki vardır. Önceki 30 örnekle toplam 1.130 metin korunur. Bu önizlemeler AI
 isteği göndermez. Seçim mevcut hesap/misafir öğrenme kaydında saklanır.
 
 Beyza her açıklama cümlesini mimarlık terimleriyle kurar. Çağatay'ın argo modu
@@ -16,7 +18,37 @@ iki açık yetişkin/kullanım onayıyla açılır; onaylar hesaba kaydedilmez.
 Matematik, cevap anahtarları ve soru havuzları karakter mizahı için değiştirilmez.
 Yeni canlı AI davranışı, güncel Worker'ın ayrıca dağıtılmasını gerektirir;
 kod/test hazırlığı canlı model doğrulaması anlamına gelmez.
-Ayrıntılar: [On öğretmen hazırlık raporu](docs/ON_OGRETMEN_KARAKTERLERI.md).
+Ayrıntılar: [Diyalog havuzu raporu](docs/DIYALOG_HAVUZU_RAPORU.md).
+Önceki [on öğretmen hazırlık raporu](docs/ON_OGRETMEN_KARAKTERLERI.md)
+karakterlerin ilk sürümünü anlatır.
+
+## Gemini öğretmen bağlantısı
+
+Cloudflare Worker, tek izinli `gemini-3.5-flash-lite` modeliyle Google Gemini'ye
+bağlanır. OpenAI çağrısı, otomatik tekrar, model/sağlayıcı yedeği veya ücretli
+araca geçiş yoktur. Kota hatası kullanıcıya gösterilir. **Ücretsiz kullanım için
+Google projesi Free Tier olmalı ve faturalandırmaya bağlı olmamalıdır**; kod bir
+anahtarın ücretli projeye ait olup olmadığını tespit ederek bunu değiştiremez.
+
+**Öğretmen → Sohbet / Sorumu çöz** kullanıcının kendi yazdığı matematik sorusunu
+ve doğal sohbeti destekler. **Seçili konu anlatımı**, ipucu/adım adım yardım ve
+başlangıç/orta/ileri anlatım düzeyleri bulunur. Sohbette çözülen kullanıcı sorusu
+soru bankasına, denemeye veya ilerleme puanına eklenmez. Mevcut kaynak sorusu
+modunun kaynak ve cevap anahtarı doğrulamaları korunur.
+Tam sohbet yanıtları sekmenin belleğinde tutulur; öğretmen değiştirip geri
+döndüğünde uzun çözümün sonu kaybolmaz. Gemini'ye gönderilen geçmiş ayrıca
+sınırlanır; sohbetler bulut ilerleme kaydına eklenmez.
+
+`GEMINI_API_KEY` yalnız Cloudflare Secret olarak tutulur. Tarayıcıya sadece Worker
+adresi ve ayrı `APP_ACCESS_TOKEN` erişim kodu girilir. Worker dağıtıldıktan sonra
+telefon ve bilgisayardan kullanılabilir; kişisel bilgisayarın açık kalması
+gerekmez. Gerçek anahtar ve Cloudflare hesabı olmadan canlı bağlantı doğrulanmış
+sayılmaz; otomatik testler dış servisleri taklit eder.
+
+Terminal gerektirmeyen adımlar ve komut satırı alternatifi:
+[Gemini ücretsiz kurulum rehberi](docs/GEMINI_UCRETSIZ_KURULUM.md).
+Dashboard'a aktarılabilen [tek dosyalık Worker](cloudflare-worker/bundle/worker.js)
+`npm run build:worker` ile asıl modüllerden üretilir; dosya sır içermez.
 
 ## Soru havuzları
 
@@ -140,6 +172,8 @@ npm ci
 python3 -m pip install -r scripts/requirements-ai.txt
 npm run build:ai-bank
 npm run audit:ai-bank
+npm run audit:dialogues -- --check
+npm run build:worker
 npm test
 npm run audit:questions
 npx playwright install --with-deps chromium
@@ -153,7 +187,7 @@ telefon testlerini uygular. Kurulu Chromium için
 `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium` kullanılabilir.
 
 Tarayıcı testleri dış servisleri taklit eder. Gerçek Supabase hesaplarına veya
-ücretli AI servisine bağlanıldığı iddia edilmez. Telifli yayınevi kitapçıkları
+canlı Gemini servisine bağlanıldığı iddia edilmez. Telifli yayınevi kitapçıkları
 bu depoya kopyalanmaz. `docs/` içindeki önceki raporlar tarihsel kayıtlardır.
 
 ## Gerçek kaynakların özel işlenmesi — Issue #11

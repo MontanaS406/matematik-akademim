@@ -1,14 +1,14 @@
-import {createPracticeExamController} from './practice-exams.js?v=dialogue-pool-20261116';
-import {createPersonalArchiveController} from './personal-archive.js?v=dialogue-pool-20261116';
-import {createSourceAccessController} from './source-access.js?v=dialogue-pool-20261116';
+import {createPracticeExamController} from './practice-exams.js?v=gemini-teachers-20261116';
+import {createPersonalArchiveController} from './personal-archive.js?v=gemini-teachers-20261116';
+import {createSourceAccessController} from './source-access.js?v=gemini-teachers-20261116';
 import {COURSES, getCourse, buildStudyPlan} from '../shared/curriculum.js';
-import {TEACHERS, DEFAULT_TEACHER_ID, PROFANITY_LEVELS, getTeacherLine} from '../shared/teachers.js?v=dialogue-pool-20261116';
-import {getTeacherDialogues,getTeacherDialogue,DIALOGUE_CATEGORIES} from '../shared/teacher-dialogues.js?v=dialogue-pool-20261116';
-import {normalizeState, mergeLearningStates, progressFromAttempts} from '../shared/learning-state.js?v=dialogue-pool-20261116';
-import {QUESTION_BANK} from '../data/question-bank.js?v=dialogue-pool-20261116';
+import {TEACHERS, DEFAULT_TEACHER_ID, PROFANITY_LEVELS, getTeacherLine} from '../shared/teachers.js?v=gemini-teachers-20261116';
+import {getTeacherDialogues,getTeacherDialogueVariants,DIALOGUE_CATEGORIES} from '../shared/teacher-dialogues.js?v=gemini-teachers-20261116';
+import {normalizeState, mergeLearningStates, progressFromAttempts} from '../shared/learning-state.js?v=gemini-teachers-20261116';
+import {QUESTION_BANK} from '../data/question-bank.js?v=gemini-teachers-20261116';
 import {createQuestionRegistry} from '../shared/question-bank.js';
-import {AI_BANK} from '../data/ai-bank.js?v=dialogue-pool-20261116';
-import {SOURCED_ARCHIVE_SUMMARY, SOURCE_DOCUMENTS, SOURCE_READ_EVIDENCE} from '../data/source-catalog.js?v=dialogue-pool-20261116';
+import {AI_BANK} from '../data/ai-bank.js?v=gemini-teachers-20261116';
+import {SOURCED_ARCHIVE_SUMMARY, SOURCE_DOCUMENTS, SOURCE_READ_EVIDENCE} from '../data/source-catalog.js?v=gemini-teachers-20261116';
 import {createAiRegistry, aiDerivationKind} from '../shared/ai-bank.js';
 const aiRegistry=createAiRegistry(AI_BANK);
 const bankRegistry=createQuestionRegistry(QUESTION_BANK);
@@ -20,10 +20,11 @@ import {captureLearningSnapshot} from '../shared/learning-migration.js';
 const $=id=>document.getElementById(id);
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let owner=null, scope='guest', state, revision=0, remoteChain=Promise.resolve(), saveTimer;
-let tutorLesson=false,bankScope='all',bankPool='ai',bankExam='',bankSubtopic='',aiPool='',aiDerivation='';
+let teacherTask='chat',teachingLevel='auto',bankScope='all',bankPool='ai',bankExam='',bankSubtopic='',aiPool='',aiDerivation='';
 let selectedQuestionId=null, answeredQuestionId=null, bankDifficulty='', teacherEpoch=0, activeRequest=null, conversations=new Map(),questionResponses=new Map();
 let profanity={profanityLevel:'off',adultConfirmed:false,profanityConsent:false};
-let dialogueCategory='',dialogueScenarioId='start';
+let dialogueCategory='',dialogueScenarioId='start',dialogueVariant=0;
+let greetingChoices=new Map(),greetingCounters=new Map();
 const teacher=()=>TEACHERS.find(t=>t.id===state.teacherId)||TEACHERS.find(t=>t.id===DEFAULT_TEACHER_ID);
 const course=()=>getCourse(state.courseId)||COURSES[0];
 const key=()=>`ma_learning_v1_${scope}`;
@@ -38,7 +39,19 @@ async function syncProfile(write=true){
   remoteChain=remoteChain.catch(()=>{}).then(async()=>{
     if(current!==scope)return;
     try{
-      const remote=await account.loadLearning();if(current!==scope)return;if(remote){if(!captureLearningSnapshot(localStorage,scope,remote,'remote'))throw Error('Önceki bulut kaydı yedeklenemedi');const before=[state.courseId,state.difficulty].join(':'),beforeTeacher=state.teacherId;state=mergeLearningStates(state,remote);if(before!==[state.courseId,state.difficulty].join(':')){selectedQuestionId=null;answeredQuestionId=null}if(generation!==revision)status('Yeni yerel değişiklikler korunarak birleştirildi.');saveLocal();window.dispatchEvent(new CustomEvent('ma-learning-changed'));renderLearning();if(beforeTeacher!==state.teacherId){profanity={profanityLevel:'off',adultConfirmed:false,profanityConsent:false};renderTeachers()}}if(!write){status('Öğrenme kaydın hazır.');return}
+      const remote=await account.loadLearning();if(current!==scope)return;
+      if(remote){
+        if(!captureLearningSnapshot(localStorage,scope,remote,'remote'))throw Error('Önceki bulut kaydı yedeklenemedi');
+        const before=[state.courseId,state.difficulty].join(':'),beforeTeacher=state.teacherId;
+        state=mergeLearningStates(state,remote);
+        const contextChanged=before!==[state.courseId,state.difficulty].join(':');
+        if(contextChanged){if(teacherTask!=='chat'){activeRequest?.abort();teacherEpoch++}selectedQuestionId=null;answeredQuestionId=null}
+        if(generation!==revision)status('Yeni yerel değişiklikler korunarak birleştirildi.');
+        saveLocal();window.dispatchEvent(new CustomEvent('ma-learning-changed'));renderLearning();
+        if(beforeTeacher!==state.teacherId){profanity={profanityLevel:'off',adultConfirmed:false,profanityConsent:false};renderTeachers()}
+        else if(contextChanged&&teacherTask!=='chat')renderChat();
+      }
+      if(!write){status('Öğrenme kaydın hazır.');return}
       const snapshot=normalizeState(state);await account.saveLearning(snapshot);
       if(current===scope)status('Öğretmen tercihin ve ilerlemen hesabına kaydedildi.');
     }catch{if(current===scope)status('Bulut öğrenme kaydı eşitlenemedi. Yerel kayıt korunuyor; yeniden eşitleyebilirsin.')}
@@ -47,7 +60,7 @@ async function syncProfile(write=true){
 async function changeAccount(){
   const next=window.MAAccount?.getUser()?.id||null;if(next===owner&&state)return;
   activeRequest?.abort();owner=next;scope=owner||'guest';revision++;clearTimeout(saveTimer);state=loadLocal();
-  $('message').value='';conversations=new Map();questionResponses=new Map();profanity={profanityLevel:'off',adultConfirmed:false,profanityConsent:false};dialogueCategory='';dialogueScenarioId='start';selectedQuestionId=null;answeredQuestionId=null;
+  $('message').value='';conversations=new Map();questionResponses=new Map();greetingChoices=new Map();greetingCounters=new Map();profanity={profanityLevel:'off',adultConfirmed:false,profanityConsent:false};dialogueCategory='';dialogueScenarioId='start';dialogueVariant=0;teacherTask='chat';teachingLevel='auto';selectedQuestionId=null;answeredQuestionId=null;
   renderLearning();renderTeachers();renderLessons();if(owner)await syncProfile(false);
 }
 const isAiQuestion=q=>q?.origin==='AI_URETIMI';
@@ -57,7 +70,9 @@ const registeredQuestion=id=>aiRegistry.getQuestion(id)||bankRegistry.getQuestio
 const poolQuestions=(filters={})=>bankPool==='ai'?aiRegistry.getQuestions({...filters,...(bankExam?{examType:bankExam}:{}),...(aiPool?{pool:aiPool}:{}),...(aiDerivation?{derivationKind:aiDerivation}:{})}):bankPool==='original'?bankRegistry.getQuestions(filters):[];
 const eligibleQuestions=()=>[...poolQuestions({...(bankScope==='course'?{courseId:course().id}:{}),...(bankDifficulty?{difficulty:bankDifficulty}:{}),...(bankSubtopic?{subtopic:bankSubtopic}:{})})].sort((a,b)=>Number(b.courseId===course().id)-Number(a.courseId===course().id));
 const activeQuestion=()=>bankPool==='ai'?aiRegistry.getQuestion(selectedQuestionId):bankPool==='original'?bankRegistry.getQuestion(selectedQuestionId):null;
-const chatKey=()=>teacher().id+':'+(tutorLesson||!activeQuestion()||isAiQuestion(activeQuestion())?'lesson:'+course().id:selectedQuestionId);
+const explainableSource=()=>{const q=activeQuestion();return q&&!isAiQuestion(q)&&q.displayMode==='inline'&&typeof q.prompt==='string'&&q.prompt.trim()?q:null};
+const chatKey=()=>teacher().id+':'+(teacherTask==='chat'?'chat':teacherTask==='lesson'?'lesson:'+course().id:'source:'+(explainableSource()?.id||''));
+const teacherContext=()=>teacherTask==='chat'?{mode:'chat'}:teacherTask==='lesson'?{mode:'lesson',courseId:course().id}:{mode:'source',questionId:explainableSource()?.id};
 function verifiedProgress(){const valid=new Set(allPracticeQuestions().map(q=>q.id));return progressFromAttempts({...state,attempts:state.attempts.filter(a=>valid.has(a.exerciseId))})}
 function resetPractice(){activeRequest?.abort();teacherEpoch++;$('message').value='';selectedQuestionId=null;answeredQuestionId=null;renderLearning();renderChat()}
 const difficultyName=value=>({easy:'Kolay',medium:'Orta',hard:'Zor'}[value]||'Seviyesi belirtilmemiş');
@@ -105,7 +120,7 @@ function renderLearning(){
 }
 function selectCourse(id){
  if(!getCourse(id))return;
- activeRequest?.abort();teacherEpoch++;$('message').value='';state.courseId=id;selectedQuestionId=null;answeredQuestionId=null;tutorLesson=false;bankSubtopic='';changed(true);
+ activeRequest?.abort();teacherEpoch++;$('message').value='';state.courseId=id;selectedQuestionId=null;answeredQuestionId=null;bankSubtopic='';changed(true);
  const available=poolQuestions({courseId:id}).length;
  bankScope='course';renderLearning();renderTeachers();renderLessons();
  showPage(available?'study':'library');
@@ -198,22 +213,26 @@ function showLesson(id){
  $('lessonAskTeacher').onclick=()=>{selectCourse(id);openTeacher(true)};panel.scrollIntoView({block:'start',behavior:'smooth'});
 }
 function learningMomentum(){const attempts=state.attempts.filter(a=>registeredQuestion(a.exerciseId)),day=new Date().toLocaleDateString();let consecutiveCorrect=0;for(let i=attempts.length-1;i>=0&&attempts[i].correct;i--)consecutiveCorrect++;return {consecutiveCorrect,practiceToday:attempts.filter(a=>new Date(a.at).toLocaleDateString()===day).length,dailyGoal:3}}
-function openTeacher(lesson){tutorLesson=lesson;teacherEpoch++;activeRequest?.abort();renderChat();showPage('teacher')}
+function openTeacher(lesson){teacherTask=lesson?'lesson':explainableSource()?'source':'chat';teacherEpoch++;activeRequest?.abort();renderChat();showPage('teacher')}
 function teacherProfilePreview(t){
- return `<details id="teacherPersonality" class="teacher-personality"><summary>Karakteri tanı</summary><p class="teacher-role">${esc(t.role)}</p><p>${esc(t.description)}</p><h3>Nasıl anlatır</h3><ol id="teacherMethod">${t.teachingMethod.map(step=>`<li>${esc(step)}</li>`).join('')}</ol><div id="teacherStyleSamples"><h3>Hazır konuşma örnekleri</h3>${t.sampleDialogue.map(pair=>`<article class="teacher-style-sample"><p class="sample-student">Öğrenci: ${esc(pair.student)}</p><p class="sample-teacher">${esc(t.name)}: ${esc(pair.teacher)}</p></article>`).join('')}</div><details id="teacherDialoguePool" class="teacher-dialogue-pool"><summary>Diyalog havuzu · <span id="dialoguePoolCount">${getTeacherDialogues(t.id).length}</span> durum</summary><p class="dialogue-disclosure">Hazır karakter örnekleri; canlı AI yanıtı değildir.</p><div class="dialogue-filters"><label for="dialogueCategory">Başlık<select id="dialogueCategory" class="field"><option value="">Tüm durumlar</option>${Object.entries(DIALOGUE_CATEGORIES).map(([id,title])=>`<option value="${esc(id)}" ${id===dialogueCategory?'selected':''}>${esc(title)}</option>`).join('')}</select></label><label for="dialogueScenario">Durum<select id="dialogueScenario" class="field"></select></label></div><article id="dialogueSample" class="dialogue-pool-sample" aria-live="polite"></article></details></details>`;
+ return `<details id="teacherPersonality" class="teacher-personality"><summary>Karakteri tanı</summary><p class="teacher-role">${esc(t.role)}</p><p>${esc(t.description)}</p><h3>Nasıl anlatır</h3><ol id="teacherMethod">${t.teachingMethod.map(step=>`<li>${esc(step)}</li>`).join('')}</ol><div id="teacherStyleSamples"><h3>Hazır konuşma örnekleri</h3>${t.sampleDialogue.map(pair=>`<article class="teacher-style-sample"><p class="sample-student">Öğrenci: ${esc(pair.student)}</p><p class="sample-teacher">${esc(t.name)}: ${esc(pair.teacher)}</p></article>`).join('')}</div><details id="teacherDialoguePool" class="teacher-dialogue-pool"><summary>Diyalog havuzu · <span id="dialoguePoolCount">${getTeacherDialogues(t.id).length}</span> durum</summary><p class="dialogue-disclosure">Hazır karakter örnekleri; canlı AI yanıtı değildir.</p><div class="dialogue-filters"><label for="dialogueCategory">Başlık<select id="dialogueCategory" class="field"><option value="">Tüm durumlar</option>${Object.entries(DIALOGUE_CATEGORIES).map(([id,title])=>`<option value="${esc(id)}" ${id===dialogueCategory?'selected':''}>${esc(title)}</option>`).join('')}</select></label><label for="dialogueScenario">Durum<select id="dialogueScenario" class="field"></select></label></div><article id="dialogueSample" class="dialogue-pool-sample" aria-live="polite"></article><div class="dialogue-variant-controls"><span id="dialogueVariantPosition" role="status"></span><button id="nextDialogueVariant" type="button" class="smallbtn">Başka örnek</button></div></details></details>`;
 }
 function renderDialoguePool(){
  const rows=getTeacherDialogues(teacher().id,dialogueCategory?{category:dialogueCategory}:{});
- if(!rows.some(row=>row.id===dialogueScenarioId))dialogueScenarioId=rows[0].id;
+ if(!rows.some(row=>row.id===dialogueScenarioId)){dialogueScenarioId=rows[0].id;dialogueVariant=0}
  $('dialogueScenario').replaceChildren(...rows.map(row=>{const option=document.createElement('option');option.value=row.id;option.textContent=row.title;return option}));
  $('dialogueScenario').value=dialogueScenarioId;
  renderDialogueExample();
 }
 function renderDialogueExample(){
- const row=getTeacherDialogue(teacher().id,dialogueScenarioId),student=document.createElement('p'),reply=document.createElement('p');
+ const variants=getTeacherDialogueVariants(teacher().id,dialogueScenarioId);dialogueVariant%=variants.length;
+ const row=variants[dialogueVariant],student=document.createElement('p'),reply=document.createElement('p');
  student.className='sample-student';student.textContent='Öğrenci: '+row.student;
  reply.className='sample-teacher';reply.textContent=teacher().name+': '+row.teacher;
  $('dialogueSample').replaceChildren(student,reply);
+ $('dialogueVariantPosition').textContent=(dialogueVariant+1)+' / '+variants.length;
+ $('dialogueVariantPosition').hidden=variants.length<2;
+ $('nextDialogueVariant').hidden=variants.length<2;
 }
 function renderTeachers(){
  activeRequest?.abort();const selected=teacher();$('teacherPicker').replaceChildren();
@@ -221,8 +240,9 @@ function renderTeachers(){
  $('selectedTeacherAvatar').textContent=selected.avatar;$('selectedTeacherName').textContent=selected.name;$('teacherDescription').textContent=selected.tagline;
  $('teacherOptions').innerHTML=teacherProfilePreview(selected)+(selected.id==='cagatay'?`<details class="teacher-consent"><summary>Konuşma tarzı</summary><label><input id="adultConfirmed" type="checkbox">18 yaş ve üzerindeyim.</label><label><input id="profanityConsent" type="checkbox">Küfürlü mizah istiyorum.</label><label for="profanityLevel">Argo düzeyi</label><select class="field" id="profanityLevel">${PROFANITY_LEVELS.map(level=>`<option value="${esc(level.id)}">${esc(level.name)}</option>`).join('')}</select></details>`:'');
  renderDialoguePool();
- $('dialogueCategory').onchange=event=>{dialogueCategory=event.target.value;renderDialoguePool()};
- $('dialogueScenario').onchange=event=>{dialogueScenarioId=event.target.value;renderDialogueExample()};
+ $('dialogueCategory').onchange=event=>{dialogueCategory=event.target.value;dialogueVariant=0;renderDialoguePool()};
+ $('dialogueScenario').onchange=event=>{dialogueScenarioId=event.target.value;dialogueVariant=0;renderDialogueExample()};
+ $('nextDialogueVariant').onclick=()=>{dialogueVariant++;renderDialogueExample()};
  if(selected.id==='cagatay'){
   const update=()=>{profanity.adultConfirmed=$('adultConfirmed').checked;profanity.profanityConsent=$('profanityConsent').checked;$('profanityLevel').disabled=!(profanity.adultConfirmed&&profanity.profanityConsent);if($('profanityLevel').disabled){profanity.profanityLevel='off';$('profanityLevel').value='off'}};
   $('adultConfirmed').checked=profanity.adultConfirmed;$('profanityConsent').checked=profanity.profanityConsent;$('profanityLevel').value=profanity.profanityLevel;
@@ -231,24 +251,51 @@ function renderTeachers(){
  teacherEpoch++;renderChat();
 }
 function bubble(who,text){const node=document.createElement('div');node.className='bubble '+who;node.textContent=text;$('chat').append(node);if(!$('teacher').classList.contains('hide'))node.scrollIntoView({block:'nearest'});return node}
-function renderChat(){const t=teacher(),q=tutorLesson||isAiQuestion(activeQuestion())?null:activeQuestion();$('aiQuestion').textContent=q?q.topic:course().title;$('chat').replaceChildren();bubble('ai',getTeacherLine(t.id,'greeting',0,profanity));for(const message of conversations.get(chatKey())||[])bubble(message.role==='user'?'me':'ai',message.content);$('send').disabled=false}
+function greetingVariant(){const key=chatKey(),id=teacher().id;if(!greetingChoices.has(key)){const next=greetingCounters.get(id)||0;greetingChoices.set(key,next);greetingCounters.set(id,next+1)}return greetingChoices.get(key)}
+function renderChat(){
+ const t=teacher(),q=explainableSource(),sourceOption=$('teacherTask').querySelector('[value=source]');
+ sourceOption.hidden=!q;sourceOption.disabled=!q;if(teacherTask==='source'&&!q)teacherTask='chat';
+ $('teacherTask').value=teacherTask;$('teachingLevel').value=teachingLevel;
+ $('aiQuestion').textContent=teacherTask==='chat'?'Sohbet ve yazdığın sorular':teacherTask==='lesson'?course().title:q.topic;
+ $('message').placeholder=teacherTask==='chat'?'Sorunu veya merak ettiğin konuyu yaz…':'Takıldığın adımı yaz…';
+ $('chat').replaceChildren();bubble('ai',getTeacherLine(t.id,'greeting',greetingVariant(),profanity));
+ for(const message of conversations.get(chatKey())||[])bubble(message.role==='user'?'me':'ai',message.content);
+ $('send').disabled=false;
+}
+function tutorRequestMessages(history,user){
+ const messages=[...history,user].slice(-11).map(message=>({role:message.role,content:message.role==='assistant'&&message.content.length>2500?message.content.slice(0,1700)+'\n[Önceki açıklamanın orta bölümü gönderim için kısaltıldı.]\n'+message.content.slice(-700):message.content}));
+ while(new TextEncoder().encode(JSON.stringify(messages)).length>12000&&messages.length>1)messages.splice(0,2);
+ return messages;
+}
 function setupAI(){
  try{$('endpoint').value=localStorage.getItem('math_ai_worker_url')||'';$('access').value=sessionStorage.getItem('math_ai_access')||''}catch{}
  $('saveAI').onclick=()=>{try{const u=new URL($('endpoint').value.trim());if(u.protocol!=='https:'||u.username||u.password||u.search||u.hash)throw Error('HTTPS Worker adresi gir.');localStorage.setItem('math_ai_worker_url',u.origin);sessionStorage.setItem('math_ai_access',$('access').value);$('aiStatus').textContent='Bağlantı ayarları kaydedildi.'}catch(e){$('aiStatus').textContent=e.message}};
- $('clearChat').onclick=()=>{activeRequest?.abort();conversations.delete(chatKey());teacherEpoch++;renderChat()};
+ const resetTask=()=>{activeRequest?.abort();teacherEpoch++;$('aiStatus').textContent='';renderChat()};
+ $('teacherTask').onchange=event=>{const value=event.target.value;if(!['chat','lesson','source'].includes(value)||value==='source'&&!explainableSource())return;teacherTask=value;resetTask()};
+ $('teachingLevel').onchange=event=>{const value=event.target.value;if(!['auto','beginner','intermediate','advanced'].includes(value))return;teachingLevel=value;resetTask()};
+ $('tutorMode').onchange=resetTask;
+ $('clearChat').onclick=()=>{activeRequest?.abort();conversations.delete(chatKey());greetingChoices.delete(chatKey());teacherEpoch++;renderChat()};
  $('send').onclick=async()=>{
   if($('send').disabled)return;const text=$('message').value.trim();if(!text)return;if(text.length>2500){$('aiStatus').textContent='Sorunu en fazla 2500 karakterle yaz.';return}
   let base,token;try{base=localStorage.getItem('math_ai_worker_url');token=sessionStorage.getItem('math_ai_access')}catch{}
   if(!base||!token){$('aiStatus').textContent='Öğretmen bağlantısı için aşağıdaki ayarları tamamla.';return}
-  const context=!tutorLesson&&activeQuestion()&&!isAiQuestion(activeQuestion())?{questionId:activeQuestion().id}:{mode:'lesson',courseId:course().id};const t=teacher(),epoch=teacherEpoch,history=conversations.get(chatKey())||[],user={role:'user',content:text};
+  const context=teacherContext();const t=teacher(),epoch=teacherEpoch,conversationKey=chatKey(),history=conversations.get(conversationKey)||[],user={role:'user',content:text};
   bubble('me',text);$('message').value='';const waiting=bubble('ai',getTeacherLine(t.id,'waiting',history.filter(message=>message.role==='assistant').length,profanity));$('send').disabled=true;activeRequest=new AbortController();const controller=activeRequest;const timer=setTimeout(()=>controller.abort(),45000);
   try{
-   const requestMessages=[...history,user].slice(-11);while(new TextEncoder().encode(JSON.stringify(requestMessages)).length>12000&&requestMessages.length>1)requestMessages.splice(0,2);
-   const r=await fetch(base+'/api/tutor',{method:'POST',signal:controller.signal,headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({messages:requestMessages,...context,teacherId:t.id,helpMode:$('tutorMode').value,progressContext:learningMomentum(),...profanity})});
-   const body=await r.json();if(!r.ok)throw Error(body.error||'Sunucu yanıt vermedi');if(epoch!==teacherEpoch)return;if((context.questionId?body.questionId!==context.questionId:body.mode!=='lesson'||body.courseId!==context.courseId)||body.isOfficialSolution===true)throw Error('Yanıt seçili kaynak sorusuyla eşleşmiyor.');
+   const requestMessages=tutorRequestMessages(history,user);
+   const r=await fetch(base+'/api/tutor',{method:'POST',signal:controller.signal,headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({messages:requestMessages,...context,teacherId:t.id,helpMode:$('tutorMode').value,teachingLevel,progressContext:learningMomentum(),...profanity})});
+   const body=await r.json();if(!r.ok){const error=Error(body.error||'Sunucu yanıt vermedi');error.status=r.status;throw error}
+   if(epoch!==teacherEpoch||conversationKey!==chatKey())return;
+   const matchesContext=context.mode==='chat'?body.mode==='chat'&&body.isOfficialSolution===false&&body.questionId===undefined&&body.courseId===undefined&&body.source===undefined:context.mode==='source'?body.questionId===context.questionId:body.mode==='lesson'&&body.courseId===context.courseId;
+   if(!matchesContext||body.isOfficialSolution===true)throw Error('Yanıt seçili sohbet veya ders bağlamıyla eşleşmiyor.');
    if(body.teacherId!==undefined&&body.teacherId!==t.id)throw Error('Yanıt seçili öğretmenle eşleşmiyor.');
-   const answer=String(body.answer||'Yanıt alınamadı');waiting.textContent=answer;conversations.set(chatKey(),[...history,user,{role:'assistant',content:answer.slice(0,2500)}].slice(-12));
-  }catch(e){if(epoch===teacherEpoch)waiting.textContent=controller.signal.aborted?'İstek durduruldu. Tekrar deneyebilirsin.':'Bağlantı hatası: '+e.message}
+   if(typeof body.answer!=='string'||!body.answer.trim()||body.answer.length>10000)throw Error('Öğretmen yanıtı geçerli bir metin içermiyor.');
+   const answer=body.answer.trim();waiting.textContent=answer;$('aiStatus').textContent='';conversations.set(conversationKey,[...history,user,{role:'assistant',content:answer}].slice(-12));
+  }catch(e){if(epoch===teacherEpoch&&conversationKey===chatKey()){
+   waiting.textContent=controller.signal.aborted?'İstek durduruldu. Tekrar deneyebilirsin.':e.status===429?e.message:'Bağlantı hatası: '+e.message;
+   if(e.status===429)$('aiStatus').textContent='İstek sınırına ulaşıldı. Otomatik tekrar veya başka modele geçiş yapılmadı.';
+   if(!controller.signal.aborted&&!$('message').value)$('message').value=text;
+  }}
   finally{clearTimeout(timer);if(activeRequest===controller)activeRequest=null;if(epoch===teacherEpoch)$('send').disabled=false}
  };
 }function showPage(page){

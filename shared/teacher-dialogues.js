@@ -12,13 +12,28 @@ import {DIALOGUES as riza} from './teacher-dialogues/riza.js';
 import {DIALOGUES as nermin} from './teacher-dialogues/nermin.js';
 import {DIALOGUES as bora} from './teacher-dialogues/bora.js';
 import {DIALOGUES as derya} from './teacher-dialogues/derya.js';
+import {ALTERNATES as cagatayAlternates} from './teacher-dialogue-alternates/cagatay.js';
+import {ALTERNATES as beyzaAlternates} from './teacher-dialogue-alternates/beyza.js';
+import {ALTERNATES as zeynepAlternates} from './teacher-dialogue-alternates/zeynep.js';
+import {ALTERNATES as kemalAlternates} from './teacher-dialogue-alternates/kemal.js';
+import {ALTERNATES as mertAlternates} from './teacher-dialogue-alternates/mert.js';
+import {ALTERNATES as elifAlternates} from './teacher-dialogue-alternates/elif.js';
+import {ALTERNATES as rizaAlternates} from './teacher-dialogue-alternates/riza.js';
+import {ALTERNATES as nerminAlternates} from './teacher-dialogue-alternates/nermin.js';
+import {ALTERNATES as boraAlternates} from './teacher-dialogue-alternates/bora.js';
+import {ALTERNATES as deryaAlternates} from './teacher-dialogue-alternates/derya.js';
 export {DIALOGUE_CATEGORIES,DIALOGUE_SCENARIOS};
 export const TEACHER_DIALOGUE_VERSION='dialogue-v1';
 const authored=Object.freeze({cagatay,beyza,zeynep,kemal,mert,elif,riza,nermin,bora,derya});
+const alternates=Object.freeze({cagatay:cagatayAlternates,beyza:beyzaAlternates,zeynep:zeynepAlternates,kemal:kemalAlternates,mert:mertAlternates,elif:elifAlternates,riza:rizaAlternates,nermin:nerminAlternates,bora:boraAlternates,derya:deryaAlternates});
+export const DIALOGUE_ALTERNATE_SCENARIOS=Object.freeze(['start','stuck','wrong','repeated_wrong','correct_why','short','slow','anxious','tired','break_return','exam_timer','hint_only','check_result','source_missing','humor_downshift']);
 const pools=Object.freeze(Object.fromEntries(Object.entries(authored).map(([teacherId,responses])=>[
- teacherId,Object.freeze(DIALOGUE_SCENARIOS.filter(row=>typeof responses[row.id]==='string').map(row=>Object.freeze({...row,teacherId,teacher:responses[row.id]})))
+ teacherId,Object.freeze(DIALOGUE_SCENARIOS.filter(row=>typeof responses[row.id]==='string').map(row=>Object.freeze({...row,teacherId,teacher:responses[row.id],variant:0})))
 ])));
 export const TEACHER_DIALOGUE_COUNT=Object.values(pools).reduce((sum,rows)=>sum+rows.length,0);
+export const TEACHER_DIALOGUE_ALTERNATE_COUNT=Object.values(alternates).reduce((sum,rows)=>sum+Object.keys(rows).length,0);
+export const TEACHER_DIALOGUE_RESPONSE_COUNT=TEACHER_DIALOGUE_COUNT+TEACHER_DIALOGUE_ALTERNATE_COUNT;
+const variations=Object.freeze(Object.fromEntries(Object.entries(pools).map(([teacherId,rows])=>[teacherId,Object.freeze(Object.fromEntries(rows.map(row=>[row.id,Object.freeze([row,...(alternates[teacherId][row.id]?[Object.freeze({...row,teacher:alternates[teacherId][row.id],variant:1})]:[])])])))])));
 const optionsObject=options=>{if(!options||typeof options!=='object'||Array.isArray(options))throw new TypeError('Diyalog seçenekleri geçersiz.');};
 function teacherPool(teacherId){if(typeof teacherId!=='string'||!Object.hasOwn(TEACHER_PERSONAS,teacherId))throw new RangeError('Geçerli bir öğretmen seç.');return pools[teacherId];}
 function checkedCourse(courseId){if(courseId!==undefined&&(typeof courseId!=='string'||!getCourse(courseId)))throw new RangeError('Diyalog konusu geçersiz.');}
@@ -27,10 +42,15 @@ export function getTeacherDialogues(teacherId,options={}){
  if(category!==undefined&&(typeof category!=='string'||!Object.hasOwn(DIALOGUE_CATEGORIES,category)))throw new RangeError('Diyalog kategorisi geçersiz.');
  return Object.freeze(pool.filter(row=>(category===undefined||row.category===category)&&(courseId===undefined||!row.courseIds.length||row.courseIds.includes(courseId))));
 }
-export function getTeacherDialogue(teacherId,scenarioId){
- const pool=teacherPool(teacherId);
+export function getTeacherDialogueVariants(teacherId,scenarioId){
+ teacherPool(teacherId);
  if(typeof scenarioId!=='string'||!Object.hasOwn(DIALOGUE_SCENARIO_BY_ID,scenarioId))throw new RangeError('Diyalog durumu geçersiz.');
- return pool.find(row=>row.id===scenarioId);
+ return variations[teacherId][scenarioId];
+}
+export function getTeacherDialogue(teacherId,scenarioId,variant=0){
+ const rows=getTeacherDialogueVariants(teacherId,scenarioId);
+ if(!Number.isSafeInteger(variant)||variant<0)throw new RangeError('Diyalog örneği geçersiz.');
+ return rows[variant%rows.length];
 }
 const normalized=text=>text.normalize('NFKC').toLocaleLowerCase('tr-TR').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ı/g,'i');
 // Match intent to fixed server-owned examples; user text is never a prompt template.
@@ -46,7 +66,7 @@ const intentPatterns=Object.freeze({
  repeated_wrong:/ayni konuda tekrar|(?:yanlis|hata).{0,25}(?:tekrar|yine)|(?:tekrar|yine).{0,25}(?:yanlis|hata)/,
  wrong:/yanlis yaptim|moralim|hata yaptim|cevabim yanlis/,
  correct_why:/sonucu buldum|neden dogru|gerekcesini/,
- exam_timer:/(?:^|\W)(?:sure|zaman|kronometre)(?:\W|yi|mi|si|sini|m|nin|n|$)/,
+ exam_timer:/(?:^|\W)(?:sure(?:yi|mi|si|sini|m|nin|n)?|kronometre)(?:\W|$)|zaman.{0,12}(?:yonet|planla|yet|ayir)|(?:sinav|deneme).{0,30}zaman|ne kadar zaman|kac dakika/,
  blank_question:/bos birak|tahmin|rastgele isaret/,
  reread:/yeniden oku|tekrar oku|verilenleri|soru kosul/,
  option_elimination:/secenek ele|sik ele|eleme/,
@@ -66,9 +86,9 @@ const intentPatterns=Object.freeze({
 const priority=Object.freeze({humor_downshift:240,no_new_questions:220,source_missing:200,uncertainty:170,hint_only:150,short:140,slow:130,anxious:125,tired:125,wrong:115,repeated_wrong:135});
 export function selectTeacherDialogues(teacherId,options={}){
  teacherPool(teacherId);optionsObject(options);
- const {studentMessage='',courseId,helpMode='hint',limit=2}=options;
+ const {studentMessage='',courseId,helpMode='hint',limit=2,variant=0}=options;
  checkedCourse(courseId);
- if(typeof studentMessage!=='string'||studentMessage.length>2500||!['hint','solution'].includes(helpMode)||!Number.isInteger(limit)||limit<1||limit>2)throw new RangeError('Diyalog bağlamı geçersiz.');
+ if(typeof studentMessage!=='string'||studentMessage.length>2500||!['hint','solution'].includes(helpMode)||!Number.isInteger(limit)||limit<1||limit>2||!Number.isSafeInteger(variant)||variant<0)throw new RangeError('Diyalog bağlamı geçersiz.');
  const text=normalized(studentMessage);
  const available=getTeacherDialogues(teacherId,{...(courseId?{courseId}:{})});
  const scored=available.map((row,index)=>{
@@ -80,5 +100,5 @@ export function selectTeacherDialogues(teacherId,options={}){
  }).filter(item=>item.score>0).sort((a,b)=>b.score-a.score||a.index-b.index);
  const chosen=scored.slice(0,limit).map(item=>item.row);
  for(const id of ['start','stuck'])if(chosen.length<limit&&!chosen.some(row=>row.id===id))chosen.push(getTeacherDialogue(teacherId,id));
- return Object.freeze(chosen);
+ return Object.freeze(chosen.map(row=>getTeacherDialogue(teacherId,row.id,variant)));
 }

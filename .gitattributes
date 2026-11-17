@@ -1,1 +1,4 @@
 assets/personal-archive/** -diff linguist-generated=true
+cloudflare-worker/bundle/worker.js linguist-generated=true
+docs/teacher-dialogue-audit.json linguist-generated=true
+docs/teacher-dialogue-ledger.json linguist-generated=true
