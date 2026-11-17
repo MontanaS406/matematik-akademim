@@ -33,8 +33,10 @@ export function readTutorBearer(request){
  return match[1];
 }
 async function verifiedJson(fetchImpl,url,options,stage){
- let response;try{response=await fetchImpl(url,{...options,redirect:'error',credentials:'omit',cache:'no-store',signal:AbortSignal.timeout(5000)})}catch{throw unavailable(stage,'transport')}
- if(response.redirected)throw unavailable(stage,'redirect',response.status);
+ // Workers does not implement redirect:'error'. Manual handling keeps the
+ // account token on this project without following any upstream Location.
+ let response;try{response=await fetchImpl(url,{...options,redirect:'manual',credentials:'omit',cache:'no-store',signal:AbortSignal.timeout(5000)})}catch{throw unavailable(stage,'transport')}
+ if(response.redirected||response.status>=300&&response.status<400)throw unavailable(stage,'redirect',response.status);
  if(!response.ok){
   if(response.status===401||stage==='user'&&response.status===403)throw invalidSession();
   // GoTrue versions can report a malformed or invalid JWT as HTTP 400.

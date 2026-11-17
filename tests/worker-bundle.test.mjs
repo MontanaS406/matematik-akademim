@@ -10,7 +10,7 @@ const request=(token=SESSION)=>new Request('https://worker.example/api/tutor',{m
 async function withTransport(fn,{status='approved'}={}){
  const original=globalThis.fetch,calls=[];
  globalThis.fetch=async(url,options)=>{
-  const headers=new Headers(options.headers),target=new URL(url);calls.push({url,options});assert.equal(options.redirect,'error');
+  const headers=new Headers(options.headers),target=new URL(url);calls.push({url,options});assert.equal(options.redirect,'manual');
   if(target.origin===SUPABASE_PUBLIC_CONFIG.url){
    assert.equal(headers.get('apikey'),SUPABASE_PUBLIC_CONFIG.key);assert.equal(headers.get('x-goog-api-key'),null);
    if(headers.get('Authorization')!=='Bearer '+SESSION)return Response.json({error:'Invalid fixture session'},{status:401});

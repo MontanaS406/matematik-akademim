@@ -16,11 +16,14 @@ export async function generateGemini({env,instructions,messages,responseSchema,f
  let response;
  try{
   response=await fetchImpl('https://generativelanguage.googleapis.com/v1beta/models/'+model+':generateContent',{
-   method:'POST',signal:AbortSignal.timeout(30000),redirect:'error',
+   method:'POST',signal:AbortSignal.timeout(30000),redirect:'manual',
    headers:{'Content-Type':'application/json','x-goog-api-key':env.GEMINI_API_KEY},
    body:JSON.stringify({systemInstruction:{parts:[{text:instructions}]},contents:messages.map(message=>({role:message.role==='assistant'?'model':'user',parts:[{text:message.content}]})),generationConfig:{maxOutputTokens:2048,responseMimeType:'application/json',responseJsonSchema:responseSchema}})
   });
  }catch{throw new GeminiServiceError('Gemini servisine bağlanılamadı. Tekrar deneyebilirsin.');}
+ // Workers supports manual redirects, not redirect:'error'. Never forward the
+ // private provider key to a Location or accept an unexpectedly followed URL.
+ if(response.redirected||response.status>=300&&response.status<400)throw new GeminiServiceError('Gemini bağlantısının yönlendirmesi reddedildi. Worker ayarlarını kontrol et.');
  if(!response.ok){
   if(response.status===429)throw new GeminiServiceError('Gemini kotası veya istek sınırı doldu. Daha sonra yeniden dene; başka modele otomatik geçilmedi.',{status:429,code:'AI_QUOTA_EXHAUSTED',retryAfter:retryDelay(response)});
   if(response.status===402)throw new GeminiServiceError('Gemini projesinin ücretsiz katman ayarını kontrol et. Ücretli kullanıma otomatik geçiş yapılmadı.',{status:503,code:'AI_FREE_TIER_REQUIRED'});

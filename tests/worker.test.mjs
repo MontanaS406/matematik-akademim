@@ -32,7 +32,7 @@ async function withFetch(stub,fn,{permission={userId:ACTOR_ID,confirmed:true,sta
   const target=new URL(url),headers=new Headers(options?.headers);
   if(target.origin===SUPABASE_PUBLIC_CONFIG.url){
    authCalls.push(target.pathname);
-   assert.equal(headers.get('apikey'),SUPABASE_PUBLIC_CONFIG.key);assert.equal(headers.get('x-goog-api-key'),null);assert.equal(options.redirect,'error');
+   assert.equal(headers.get('apikey'),SUPABASE_PUBLIC_CONFIG.key);assert.equal(headers.get('x-goog-api-key'),null);assert.equal(options.redirect,'manual');
    if(headers.get('Authorization')!=='Bearer '+SESSION_TOKEN)return Response.json({error:'Invalid fixture session'},{status:401});
    if(target.pathname==='/auth/v1/user'){assert.equal(options.method,'GET');return Response.json(user,{status:userStatus})}
    assert.equal(target.pathname,'/rest/v1/rpc/ma_source_access_status');assert.equal(options.method,'POST');assert.deepEqual(JSON.parse(options.body),{});

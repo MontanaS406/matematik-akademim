@@ -39,7 +39,7 @@ test('identity and current approval are verified separately without requesting a
  assert.deepEqual(actor,{id});assert.ok(Object.isFrozen(actor));assert.equal(calls.length,2);
  assert.equal(calls[0].url,SUPABASE_PUBLIC_CONFIG.url+'/auth/v1/user');assert.equal(calls[0].options.method,'GET');
  assert.equal(calls[1].url,SUPABASE_PUBLIC_CONFIG.url+'/rest/v1/rpc/ma_source_access_status');assert.equal(calls[1].options.method,'POST');assert.equal(calls[1].options.body,'{}');
- for(const call of calls){assert.equal(call.options.headers.apikey,SUPABASE_PUBLIC_CONFIG.key);assert.equal(call.options.headers.Authorization,'Bearer '+token);assert.equal(call.options.redirect,'error');assert.equal(call.options.credentials,'omit');assert.equal(call.options.cache,'no-store');assert.ok(call.options.signal instanceof AbortSignal);assert.ok(!call.url.includes(token));assert.ok(!call.url.includes('archive_access'));}
+ for(const call of calls){assert.equal(call.options.headers.apikey,SUPABASE_PUBLIC_CONFIG.key);assert.equal(call.options.headers.Authorization,'Bearer '+token);assert.equal(call.options.redirect,'manual');assert.equal(call.options.credentials,'omit');assert.equal(call.options.cache,'no-store');assert.ok(call.options.signal instanceof AbortSignal);assert.ok(!call.url.includes(token));assert.ok(!call.url.includes('archive_access'));}
  assert.equal(Object.keys(actor).length,1,'email, tokens and archive details must not escape authorization');
 });
 test('rejected sessions and invalid user identities never proceed to permission lookup',async()=>{
@@ -118,6 +118,21 @@ test('network, redirect and malformed JSON responses fail closed without exposin
   await assert.rejects(authorizeTutorAccount(request(),{}, {fetchImpl}),error=>{assert.ok(denied(503)(error));assert.doesNotMatch(error.message,/private|upstream|network|other\.example/);return true});assert.equal(calls,stage==='user'?1:2);
  }
 });
+test('every Supabase 3xx response stops at the original origin without forwarding account credentials',async()=>{
+ for(const stage of ['user','approval'])for(let status=300;status<400;status++){
+  const calls=[];
+  const fetchImpl=async(url,options)=>{
+   calls.push({url,options});assert.equal(options.redirect,'manual');assert.ok(url.startsWith(SUPABASE_PUBLIC_CONFIG.url+'/'));
+   assert.equal(options.headers.Authorization,'Bearer '+token);assert.equal(options.headers.apikey,SUPABASE_PUBLIC_CONFIG.key);
+   if(stage==='approval'&&url.endsWith('/auth/v1/user'))return Response.json({id});
+   return new Response(null,{status,headers:{Location:'https://private-redirect.example/steal'}});
+  };
+  await assert.rejects(authorizeTutorAccount(request(),env,{fetchImpl}),error=>{
+   assert.ok(denied(503,'TUTOR_AUTH_UNAVAILABLE')(error));assert.equal(error.authStage,stage);assert.equal(error.authFailure,'redirect');assert.equal(error.upstreamStatus,status);assert.doesNotMatch(JSON.stringify(error),/private-redirect|fixture-session|sb_publishable/);return true;
+  });
+  assert.equal(calls.length,stage==='user'?1:2,'redirects must not cause a follow-up request or retry');
+ }
+});
 test('approval is checked for every call so revocation takes effect without a cached grant',async()=>{
  let approvals=0,calls=0;const fetchImpl=async(url)=>{calls++;return Response.json(url.endsWith('/auth/v1/user')?{id}:granted({status:++approvals===1?'approved':'revoked'}))};
  assert.deepEqual(await authorizeTutorAccount(request(),{}, {fetchImpl}),{id});
@@ -134,10 +149,12 @@ test('health describes account-session authentication without requiring or expos
  const invalid=await worker.fetch(new Request('https://worker.example/health'),{...env,SUPABASE_PUBLISHABLE_KEY:'sb_secret_private_fixture'});const invalidHealth=await invalid.json();assert.equal(invalidHealth.configured,false);assert.equal(invalidHealth.accountProject,null);
  const custom=await worker.fetch(new Request('https://worker.example/health'),{...env,SUPABASE_URL:'https://other-project.example/'});assert.equal((await custom.json()).accountProject,'https://other-project.example');
 });
-test('default Supabase and Gemini transports retain the global host fetch receiver',async()=>{
+test('default Supabase and Gemini transports support Worker-native manual redirects and retain the host receiver',async()=>{
  const calls=[];
  await withFetch(async function(url,options){
-  assert.strictEqual(this,globalThis,'native host fetch must keep its global receiver');calls.push(url);
+  assert.strictEqual(this,globalThis,'native host fetch must keep its global receiver');
+  if(options.redirect==='error')throw new TypeError("Workers does not implement redirect mode 'error'.");
+  assert.equal(options.redirect,'manual');calls.push(url);
   if(url.startsWith(SUPABASE_PUBLIC_CONFIG.url))return authStub()(url,options);
   return Response.json({candidates:[]});
  },async()=>{

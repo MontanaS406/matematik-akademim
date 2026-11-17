@@ -22,7 +22,7 @@ test('Gemini REST authentication keeps the key in a server header and maps conve
  assert.deepEqual(result,providerPayload);
  assert.equal(observed.url,`https://generativelanguage.googleapis.com/v1beta/models/${DEFAULT_GEMINI_MODEL}:generateContent`);
  assert.doesNotMatch(observed.url,/unit-test-secret|\?key=/);assert.equal(new Headers(observed.options.headers).get('x-goog-api-key'),'unit-test-secret');assert.equal(observed.options.method,'POST');
- assert.equal(observed.options.redirect,'error','a custom API-key header must never follow an unexpected provider redirect');
+ assert.equal(observed.options.redirect,'manual','a custom API-key header must never follow an unexpected provider redirect');
  assert.deepEqual(observed.payload.systemInstruction,{parts:[{text:request.instructions}]});
  assert.deepEqual(observed.payload.contents,[{role:'user',parts:[{text:request.messages[0].content}]},{role:'model',parts:[{text:request.messages[1].content}]},{role:'user',parts:[{text:request.messages[2].content}]}]);
  assert.equal(observed.payload.generationConfig.responseMimeType,'application/json');assert.deepEqual(observed.payload.generationConfig.responseJsonSchema,responseSchema);assert.equal(observed.payload.generationConfig.maxOutputTokens,2048);
@@ -35,6 +35,17 @@ test('missing Gemini key or unsupported configuration fails before any provider 
  await assert.rejects(generateGemini({...request,env:{...env,GEMINI_API_KEY:'',OPENAI_API_KEY:'legacy-provider-must-not-run'},fetchImpl}),error=>assertService(error,503,'AI_CONFIGURATION_REQUIRED'));
  await assert.rejects(generateGemini({...request,env:{...env,GEMINI_MODEL:'gemini-4-carbon'},fetchImpl}),error=>assertService(error,503,'AI_MODEL_UNAVAILABLE'));
  assert.equal(calls,0);
+});
+test('every Gemini 3xx response and an already-followed response fail without forwarding the private API key',async()=>{
+ const replies=Array.from({length:100},(_,index)=>()=>new Response(null,{status:300+index,headers:{Location:'https://private-redirect.example/steal'}}));
+ replies.push(()=>{const response=Response.json(providerPayload);Object.defineProperty(response,'redirected',{value:true});return response});
+ for(const reply of replies){
+  const calls=[];
+  await assert.rejects(generateGemini({...request,fetchImpl:async(url,options)=>{
+   calls.push({url,options});assert.equal(options.redirect,'manual');assert.equal(new URL(url).origin,'https://generativelanguage.googleapis.com');assert.equal(new Headers(options.headers).get('x-goog-api-key'),env.GEMINI_API_KEY);return reply();
+  }}),error=>{assertService(error,502,'AI_UPSTREAM_ERROR');assert.doesNotMatch(JSON.stringify(error),/private-redirect/);return true});
+  assert.equal(calls.length,1,'no redirect following, retry or replacement endpoint may receive the private key');
+ }
 });
 
 test('a 429 response stops once and exposes only the safe retry delay, never billing upgrade or provider detail',async()=>{
