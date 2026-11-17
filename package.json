@@ -9,13 +9,16 @@
     "test:e2e": "playwright test",
     "audit:questions": "node scripts/question-bank-tools.mjs",
     "build:ai-bank": "python3 scripts/ai-bank-pipeline.py",
-    "audit:ai-bank": "python3 scripts/ai-bank-pipeline.py --check"
+    "audit:ai-bank": "python3 scripts/ai-bank-pipeline.py --check",
+    "audit:dialogues": "node scripts/audit-teacher-dialogues.mjs",
+    "build:worker": "esbuild cloudflare-worker/worker.js --bundle --format=esm --platform=browser --target=es2022 --minify --legal-comments=none --outfile=cloudflare-worker/bundle/worker.js"
   },
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.15",
-    "@playwright/test": "^1.65.0"
+    "@playwright/test": "^1.65.0",
+    "esbuild": "0.28.2"
   }
 }

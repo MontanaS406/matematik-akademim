@@ -1,0 +1,128 @@
+{
+  "schema": "teacher-dialogue-audit/v2",
+  "dialogueVersion": "dialogue-v1",
+  "reactionVersion": "reaction-v1",
+  "teachers": 10,
+  "scenarios": 60,
+  "alternateScenarios": 15,
+  "totals": {
+    "baseDialogues": 600,
+    "alternateDialogues": 150,
+    "dialogueResponses": 750,
+    "newReactions": 260,
+    "preservedReactions": 90,
+    "allReactions": 350,
+    "preservedPreviews": 30,
+    "newTexts": 1010,
+    "preservedTexts": 120,
+    "allTexts": 1130
+  },
+  "byTeacher": {
+    "cagatay": {
+      "baseDialogues": 60,
+      "alternateDialogues": 15,
+      "newReactions": 26,
+      "preservedReactions": 9,
+      "preservedPreviews": 3,
+      "newTexts": 101,
+      "totalTexts": 113
+    },
+    "beyza": {
+      "baseDialogues": 60,
+      "alternateDialogues": 15,
+      "newReactions": 26,
+      "preservedReactions": 9,
+      "preservedPreviews": 3,
+      "newTexts": 101,
+      "totalTexts": 113
+    },
+    "zeynep": {
+      "baseDialogues": 60,
+      "alternateDialogues": 15,
+      "newReactions": 26,
+      "preservedReactions": 9,
+      "preservedPreviews": 3,
+      "newTexts": 101,
+      "totalTexts": 113
+    },
+    "kemal": {
+      "baseDialogues": 60,
+      "alternateDialogues": 15,
+      "newReactions": 26,
+      "preservedReactions": 9,
+      "preservedPreviews": 3,
+      "newTexts": 101,
+      "totalTexts": 113
+    },
+    "mert": {
+      "baseDialogues": 60,
+      "alternateDialogues": 15,
+      "newReactions": 26,
+      "preservedReactions": 9,
+      "preservedPreviews": 3,
+      "newTexts": 101,
+      "totalTexts": 113
+    },
+    "elif": {
+      "baseDialogues": 60,
+      "alternateDialogues": 15,
+      "newReactions": 26,
+      "preservedReactions": 9,
+      "preservedPreviews": 3,
+      "newTexts": 101,
+      "totalTexts": 113
+    },
+    "riza": {
+      "baseDialogues": 60,
+      "alternateDialogues": 15,
+      "newReactions": 26,
+      "preservedReactions": 9,
+      "preservedPreviews": 3,
+      "newTexts": 101,
+      "totalTexts": 113
+    },
+    "nermin": {
+      "baseDialogues": 60,
+      "alternateDialogues": 15,
+      "newReactions": 26,
+      "preservedReactions": 9,
+      "preservedPreviews": 3,
+      "newTexts": 101,
+      "totalTexts": 113
+    },
+    "bora": {
+      "baseDialogues": 60,
+      "alternateDialogues": 15,
+      "newReactions": 26,
+      "preservedReactions": 9,
+      "preservedPreviews": 3,
+      "newTexts": 101,
+      "totalTexts": 113
+    },
+    "derya": {
+      "baseDialogues": 60,
+      "alternateDialogues": 15,
+      "newReactions": 26,
+      "preservedReactions": 9,
+      "preservedPreviews": 3,
+      "newTexts": 101,
+      "totalTexts": 113
+    }
+  },
+  "dialoguesByCategory": {
+    "support": 170,
+    "strategy": 140,
+    "boundaries": 100,
+    "concept": 340
+  },
+  "exactDuplicates": 0,
+  "duplicateRecords": [],
+  "nearDuplicateReview": [],
+  "bytes": {
+    "allResponses": 289589,
+    "longestResponse": 473
+  },
+  "contentSha256": "7bcc1f6374564d2b216086e85c58de5260990fc9452d233b92605b51c3bed278",
+  "failures": [],
+  "validationScope": "Structure, default clean language, Beyza prose style, repetition and independent AI editorial review; not mathematical proof or live model fidelity."
+}

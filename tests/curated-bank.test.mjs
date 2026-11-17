@@ -24,10 +24,10 @@ test('the empty SQL seed is repeatable and leaves existing user records intact',
 });
 test('removed public question identities cannot reach the AI model through a stale request',async()=>{
  const original=globalThis.fetch;let calls=0;globalThis.fetch=async()=>{calls++;return new Response('Unexpected upstream call',{status:500})};
- const env={OPENAI_API_KEY:'test-only',APP_ACCESS_TOKEN:'test-access',ALLOWED_ORIGINS:'https://school.example'};
+ const env={GEMINI_API_KEY:'test-only',ALLOWED_ORIGINS:'https://school.example'};
  try{
   for(const questionId of ['tuba-sm14-p7-brackets','wallace-1-3-q1']){
-   const request=new Request('https://worker.example/api/tutor',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer test-access',Origin:'https://school.example'},body:JSON.stringify({questionId,messages:[{role:'user',content:'Seçili kaynağın adımını açıkla.'}]})});
+   const request=new Request('https://worker.example/api/tutor',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer fixture-user-session',Origin:'https://school.example'},body:JSON.stringify({questionId,messages:[{role:'user',content:'Seçili kaynağın adımını açıkla.'}]})});
    assert.equal((await worker.fetch(request,env)).status,404);
   }
   assert.equal(calls,0);

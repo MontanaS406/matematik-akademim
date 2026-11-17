@@ -29,6 +29,17 @@ test('all browser and worker modules parse',()=>{
  for(const dir of ['js','shared','cloudflare-worker','data'])for(const file of fs.readdirSync(new URL('../'+dir+'/',import.meta.url)).filter(file=>file.endsWith('.js'))){const result=spawnSync(process.execPath,['--check',new URL('../'+dir+'/'+file,import.meta.url).pathname],{encoding:'utf8'});assert.equal(result.status,0,result.stderr)}
  scripts.forEach((source,index)=>assert.doesNotThrow(()=>new vm.Script(source,{filename:`inline-${index}.js`})));
 });
+test('teacher and preference imports share the entrypoint cache version so returning users load all ten teachers',()=>{
+ const version=new URL(html.match(/src="(js\/app\.js[^\"]*)"/)[1],'https://app.example/').searchParams.get('v');
+ for(const [file,modules]of [['js/app.js',['teachers','learning-state']],['js/exams.js',['learning-state']],['shared/learning-state.js',['teachers']]]){
+  const code=fs.readFileSync(new URL('../'+file,import.meta.url),'utf8');
+  for(const module of modules){
+   const path=code.match(new RegExp("from\\s+['\"]([^'\"]*"+module+"\\.js[^'\"]*)['\"]"))?.[1];
+   assert.ok(path,file+' imports '+module);
+   assert.equal(new URL(path,'https://app.example/').searchParams.get('v'),version,file+' must not reuse an obsolete '+module+' module');
+  }
+ }
+});
 test('the public application has no upload route or file-picker controller',()=>{
  assert.doesNotMatch(html,/type\s*=\s*["']file["']/i);
  assert.doesNotMatch(application+account,/mountPrivateExams|createExamMode|examModeButton|from\s+['"]\.\/(?:private-exams|exam-mode)\.js/);

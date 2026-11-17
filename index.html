@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0d1424">
   <title>Matematik Akademim</title>
-  <link rel="stylesheet" href="styles/platform.css?v=direct-exams-20261115">
+  <link rel="stylesheet" href="styles/platform.css?v=account-teachers-20261117">
   <link rel="stylesheet" href="styles/practice-exams.css?v=issue11-20261115">
-  <link rel="stylesheet" href="styles/personal-archive.css?v=direct-exams-20261115">
-  <link rel="stylesheet" href="styles/source-access.css?v=direct-exams-20261115">
+  <link rel="stylesheet" href="styles/personal-archive.css?v=account-teachers-20261117">
+  <link rel="stylesheet" href="styles/source-access.css?v=account-teachers-20261117">
 </head>
 <body>
   <header class="app-header">
@@ -34,18 +34,18 @@
       <div class="surface tutor-panel">
         <div class="tutor-identity"><span id="selectedTeacherAvatar" class="avatar"></span><div><h2 id="selectedTeacherName"></h2><p id="teacherDescription"></p></div></div>
         <p id="aiQuestion" class="context-note"></p>
+        <div class="teacher-task-controls"><label for="teacherTask">Ne yapalım<select id="teacherTask" class="field"><option value="chat">Sohbet / Sorumu çöz</option><option value="lesson">Seçili konu anlatımı</option><option value="source" hidden disabled>Seçili kaynak sorusu</option></select></label><label for="teachingLevel">Anlatım düzeyi<select id="teachingLevel" class="field"><option value="auto">Bana göre ayarla</option><option value="beginner">Temelden</option><option value="intermediate">Orta düzey</option><option value="advanced">İleri düzey</option></select></label></div>
         <div id="teacherOptions"></div>
         <div id="chat" class="chat" role="log" aria-live="polite"></div>
         <div class="chat-tools"><select id="tutorMode" aria-label="Yardım biçimi"><option value="hint">İpucu</option><option value="solution">Adım adım</option></select><button id="clearChat" class="text-button">Sohbeti temizle</button></div>
         <label class="sr-only" for="message">Öğretmene mesajın</label><div class="message-box"><textarea id="message" maxlength="2500" rows="2" placeholder="Takıldığın adımı yaz…"></textarea><button id="send" class="btn" aria-label="Mesaj gönder">Gönder <span aria-hidden="true">→</span></button></div>
-        <p id="aiStatus" class="status-note" role="status"></p>
+        <p id="aiStatus" class="status-note" role="status"></p><button id="teacherSignIn" class="smallbtn" type="button" hidden>Hesabımla giriş yap</button>
       </div>
-      <details class="connection-settings"><summary>Bağlantı ayarları</summary><label for="endpoint">Öğretmen sunucusu</label><input class="field" id="endpoint" type="url" placeholder="https://…workers.dev"><label for="access">Erişim kodu</label><input class="field" id="access" type="password" autocomplete="off"><button class="smallbtn" id="saveAI">Kaydet</button></details>
     </section>
   </main>
   <dialog id="teacherDialog" class="app-dialog"><div class="dialog-heading"><h2>Öğretmenini seç</h2><button id="closeTeacherDialog" class="icon-button" aria-label="Kapat">×</button></div><div id="teacherPicker" class="teacher-grid"></div></dialog>
   <dialog id="sourceInfo" class="app-dialog"><div class="dialog-heading"><h2>Soru bilgisi</h2><button id="closeSourceInfo" class="icon-button" aria-label="Kapat">×</button></div><p id="sourceAttribution" class="legal-note"></p><div class="source-links"><a id="originalSourceLink" target="_blank" rel="noopener noreferrer">Kaynak</a><a id="licenseLink" target="_blank" rel="noopener noreferrer">Lisans</a><a id="answerEvidenceLink" target="_blank" rel="noopener noreferrer">Cevap</a></div></dialog>
-  <script type="module" src="js/app.js?v=direct-exams-20261115"></script>
-  <script type="module" src="js/exams.js?v=direct-exams-20261115"></script>
+  <script type="module" src="js/app.js?v=account-teachers-20261117"></script>
+  <script type="module" src="js/exams.js?v=account-teachers-20261117"></script>
 </body>
 </html>
