@@ -84,8 +84,8 @@ export function createTutorWorker({questionBank = QUESTION_BANK} = {}) {
     if (request.method === 'OPTIONS') return new Response(null, {status: 204, headers: h});
     const url = new URL(request.url);
     if (url.pathname === '/health' && request.method === 'GET') {
-      let model=null,accountConfigured=false;try{model=resolveGeminiModel(env.GEMINI_MODEL);resolveTutorAuthConfig(env);accountConfigured=true}catch{}
-      return json({ok:true,provider:'gemini',auth:'supabase-session',model,configured:!!(typeof env.GEMINI_API_KEY==='string'&&env.GEMINI_API_KEY.trim()&&model&&accountConfigured),billingPolicy:'no-automatic-fallback',teacherIds:TEACHERS.map(teacher=>teacher.id),personaVersion:TEACHER_PERSONA_VERSION,dialogueVersion:TEACHER_DIALOGUE_VERSION,dialogueCount:TEACHER_DIALOGUE_COUNT,dialogueResponseCount:TEACHER_DIALOGUE_RESPONSE_COUNT},200,h);
+      let model=null,accountProject=null;try{model=resolveGeminiModel(env.GEMINI_MODEL);accountProject=resolveTutorAuthConfig(env).url}catch{}
+      return json({ok:true,provider:'gemini',auth:'supabase-session',accountProject,model,configured:!!(typeof env.GEMINI_API_KEY==='string'&&env.GEMINI_API_KEY.trim()&&model&&accountProject),billingPolicy:'no-automatic-fallback',teacherIds:TEACHERS.map(teacher=>teacher.id),personaVersion:TEACHER_PERSONA_VERSION,dialogueVersion:TEACHER_DIALOGUE_VERSION,dialogueCount:TEACHER_DIALOGUE_COUNT,dialogueResponseCount:TEACHER_DIALOGUE_RESPONSE_COUNT},200,h);
     }
     if (url.pathname !== '/api/tutor' || request.method !== 'POST') return json({error: 'Bulunamadı'}, 404, h);
     if (!env.GEMINI_API_KEY) return json({error: 'Sunucu henüz yapılandırılmadı.'}, 503, h);
@@ -162,7 +162,14 @@ export function createTutorWorker({questionBank = QUESTION_BANK} = {}) {
       if (lesson) return json({answer: 'AI konu anlatımı — resmî çözüm değildir.\n' + answer, mode: 'lesson', courseId: lesson.id, isOfficialSolution: false,...persona}, 200, h);
       return json({answer: 'AI açıklaması — resmî çözüm değildir.\n' + answer, ...responseMetadata(question),...persona}, 200, h);
     } catch(error) {
-      if(error instanceof TutorAuthError)return json({error:error.message,code:error.code},error.status,h);
+      if(error instanceof TutorAuthError){
+        const diagnostic={};
+        if(error.status===503&&['configuration','user','approval'].includes(error.authStage)&&['transport','redirect','upstream-status','invalid-response'].includes(error.authFailure)){
+          diagnostic.authStage=error.authStage;diagnostic.authFailure=error.authFailure;
+          if(Number.isInteger(error.upstreamStatus)&&error.upstreamStatus>=100&&error.upstreamStatus<=599)diagnostic.upstreamStatus=error.upstreamStatus;
+        }
+        return json({error:error.message,code:error.code,...diagnostic},error.status,h);
+      }
       if(error instanceof GeminiServiceError)return json({error:error.message,code:error.code},error.status,{...h,...(error.retryAfter?{'Retry-After':String(error.retryAfter)}:{})});
       return json({error:'AI servisine bağlanılamadı. Tekrar dene.'},502,h);
     }

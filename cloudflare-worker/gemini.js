@@ -10,7 +10,7 @@ export function resolveGeminiModel(model=DEFAULT_GEMINI_MODEL){
  return model;
 }
 function retryDelay(response){const value=response.headers.get('Retry-After');return value&&/^\d{1,5}$/.test(value)&&Number(value)>0&&Number(value)<=86400?Number(value):undefined;}
-export async function generateGemini({env,instructions,messages,responseSchema,fetchImpl=globalThis.fetch}){
+export async function generateGemini({env,instructions,messages,responseSchema,fetchImpl=(...args)=>globalThis.fetch(...args)}){
  const model=resolveGeminiModel(env.GEMINI_MODEL);
  if(typeof env.GEMINI_API_KEY!=='string'||!env.GEMINI_API_KEY.trim())throw new GeminiServiceError('Gemini bağlantısı henüz yapılandırılmadı.',{status:503,code:'AI_CONFIGURATION_REQUIRED'});
  let response;

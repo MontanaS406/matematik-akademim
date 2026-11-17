@@ -13,10 +13,11 @@ export async function checkTutorDeployment({workerUrl,fetchImpl=globalThis.fetch
  let response,health;
  try{response=await get('/health');if(!response.ok||response.redirected)return fail('WORKER_HEALTH_UNAVAILABLE');health=await response.json()}catch{return fail('WORKER_HEALTH_UNAVAILABLE')}
  if(!health||typeof health!=='object'||Array.isArray(health))return fail('INVALID_WORKER_HEALTH');
- result.health={configured:health.configured===true,provider:health.provider==='gemini'?'gemini':'unsupported',auth:health.auth==='supabase-session'?'supabase-session':health.auth===undefined?null:'unsupported',model:health.model==='gemini-3.5-flash-lite'?health.model:'unsupported',teacherCount:Array.isArray(health.teacherIds)?health.teacherIds.length:0,dialogueResponseCount:health.dialogueResponseCount};
+ result.health={configured:health.configured===true,provider:health.provider==='gemini'?'gemini':'unsupported',auth:health.auth==='supabase-session'?'supabase-session':health.auth===undefined?null:'unsupported',accountProject:health.accountProject===SUPABASE_PUBLIC_CONFIG.url?health.accountProject:health.accountProject===undefined?null:'unsupported',model:health.model==='gemini-3.5-flash-lite'?health.model:'unsupported',teacherCount:Array.isArray(health.teacherIds)?health.teacherIds.length:0,dialogueResponseCount:health.dialogueResponseCount};
  if(response.headers.get('Access-Control-Allow-Origin')!==origin)return fail('WORKER_ORIGIN_NOT_ALLOWED');result.checks.push('site-origin');
  if(health.provider!=='gemini'||health.configured!==true)return fail('WORKER_NOT_CONFIGURED');result.checks.push('gemini-configured');
  if(health.auth!=='supabase-session')return fail('WORKER_AUTH_OUTDATED');result.checks.push('account-session-auth');
+ if(health.accountProject!==SUPABASE_PUBLIC_CONFIG.url)return fail('WORKER_AUTH_PROJECT_MISMATCH');result.checks.push('account-project');
  if(health.model!=='gemini-3.5-flash-lite'||health.billingPolicy!=='no-automatic-fallback')return fail('WORKER_MODEL_POLICY_MISMATCH');result.checks.push('model-policy');
  if(!Array.isArray(health.teacherIds)||new Set(health.teacherIds).size!==10||health.dialogueResponseCount!==750)return fail('WORKER_TEACHER_VERSION_MISMATCH');result.checks.push('teacher-version');
  const body=JSON.stringify({mode:'chat',teacherId:'elif',messages:[{role:'user',content:'Merhaba.'}]});
@@ -27,7 +28,12 @@ export async function checkTutorDeployment({workerUrl,fetchImpl=globalThis.fetch
   try{
    const denied=await get('/api/tutor',{method:'POST',headers:{'Content-Type':'application/json',...(authorization?{Authorization:authorization}:{})},body});
    const gate={kind:authorization?'invalid-session':'guest',status:denied.status,originAllowed:denied.headers.get('Access-Control-Allow-Origin')===origin,code:null};
-   try{const detail=await denied.json();if(typeof detail?.code==='string'&&/^TUTOR_[A-Z_]{1,60}$/.test(detail.code))gate.code=detail.code}catch{}
+   try{
+    const detail=await denied.json();if(typeof detail?.code==='string'&&/^TUTOR_[A-Z_]{1,60}$/.test(detail.code))gate.code=detail.code;
+    if(['configuration','user','approval'].includes(detail?.authStage))gate.authStage=detail.authStage;
+    if(['transport','redirect','upstream-status','invalid-response'].includes(detail?.authFailure))gate.authFailure=detail.authFailure;
+    if(Number.isInteger(detail?.upstreamStatus)&&detail.upstreamStatus>=100&&detail.upstreamStatus<=599)gate.upstreamStatus=detail.upstreamStatus;
+   }catch{}
    result.sessionGates.push(gate);
    if(denied.status!==401||!gate.originAllowed){
     // Diagnose only the public auth service with the same synthetic token.

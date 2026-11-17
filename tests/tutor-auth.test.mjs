@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {SUPABASE_PUBLIC_CONFIG} from '../shared/supabase-config.js';
 import {authorizeTutorAccount,resolveTutorAuthConfig,readTutorBearer,TutorAuthError} from '../cloudflare-worker/tutor-auth.js';
 import worker from '../cloudflare-worker/worker.js';
+import {generateGemini} from '../cloudflare-worker/gemini.js';
 
 const id='00000000-0000-4000-8000-000000000001',other='00000000-0000-4000-8000-000000000002';
 const token='fixture-session-access',env={GEMINI_API_KEY:'fixture-gemini-key',ALLOWED_ORIGINS:'https://school.example'};
@@ -58,6 +59,47 @@ test('pending, revoked and unconfirmed membership cannot be bypassed by admin or
   await assert.rejects(authorizeTutorAccount(request(),{}, {fetchImpl:authStub({user:{id,user_metadata:{isAdmin:true,approved:true},app_metadata:{role:'admin'}},approval})}),denied(typeof approval.confirmed==='boolean'?403:503));
  }
 });
+test('AuthUser HTTP 400 bad_jwt is an invalid session in either supported GoTrue error format',async()=>{
+ for(const detail of [{code:'bad_jwt',message:'private JWT parse detail'},{code:400,error_code:'bad_jwt',msg:'private JWT signature detail'}]){
+  const calls=[];
+  await assert.rejects(authorizeTutorAccount(request(),{}, {fetchImpl:async(url)=>{calls.push(url);return Response.json(detail,{status:400})}}),error=>{
+   assert.ok(denied(401,'TUTOR_SESSION_INVALID')(error));assert.doesNotMatch(error.message,/private|signature|parse/);return true;
+  });
+  assert.deepEqual(calls,[SUPABASE_PUBLIC_CONFIG.url+'/auth/v1/user']);
+ }
+});
+test('unknown or malformed AuthUser 400 replies and other service failures are not disguised as invalid sessions',async()=>{
+ const replies=[
+  ()=>Response.json({code:'invalid_configuration',message:'private setup detail'},{status:400}),
+  ()=>Response.json({error:'bad_jwt'},{status:400}),
+  ()=>Response.json({message:'bad_jwt'},{status:400}),
+  ()=>Response.json([{code:'bad_jwt'}],{status:400}),
+  ()=>Response.json(null,{status:400}),
+  ()=>new Response('private malformed JSON',{status:400}),
+  ()=>Response.json({code:'bad_jwt'},{status:429}),
+  ()=>Response.json({error_code:'bad_jwt'},{status:500})
+ ];
+ for(const reply of replies){
+  let calls=0;
+  await assert.rejects(authorizeTutorAccount(request(),{}, {fetchImpl:async()=>{calls++;return reply()}}),error=>{
+   assert.ok(denied(503,'TUTOR_AUTH_UNAVAILABLE')(error));assert.doesNotMatch(error.message,/private|bad_jwt|setup/);return true;
+  });assert.equal(calls,1);
+ }
+});
+test('a 400 bad_jwt-shaped approval RPC failure remains an unavailable permission service',async()=>{
+ for(const approval of [{code:'bad_jwt'},{code:400,error_code:'bad_jwt'}]){
+  const calls=[];
+  await assert.rejects(authorizeTutorAccount(request(),{}, {fetchImpl:authStub({approvalStatus:400,approval,calls})}),denied(503,'TUTOR_AUTH_UNAVAILABLE'));
+  assert.equal(calls.length,2);assert.ok(calls[1].url.endsWith('/ma_source_access_status'));
+ }
+});
+test('Worker translates an invalid JWT reported as AuthUser 400 without calling approval RPC or Gemini',async()=>{
+ const urls=[];
+ await withFetch(async(url)=>{urls.push(url);return Response.json({error_code:'bad_jwt',msg:'private invalid signature'},{status:400})},async()=>{
+  const response=await worker.fetch(tutorRequest(),env);assert.equal(response.status,401);const body=await response.json();assert.equal(body.code,'TUTOR_SESSION_INVALID');assert.doesNotMatch(JSON.stringify(body),/private|signature/);
+ });
+ assert.deepEqual(urls,[SUPABASE_PUBLIC_CONFIG.url+'/auth/v1/user']);
+});
 test('permission replies must name exactly the server-verified user and use the expected shape',async()=>{
  for(const approval of [granted({userId:other}),granted({userId:undefined}),granted({status:true}),[],null]){
   await assert.rejects(authorizeTutorAccount(request(),{}, {fetchImpl:authStub({approval})}),denied(503,'TUTOR_AUTH_UNAVAILABLE'));
@@ -88,8 +130,41 @@ test('forged JWT claims and a legacy static access code do not count as a verifi
  }
 });
 test('health describes account-session authentication without requiring or exposing a shared code',async()=>{
- const response=await worker.fetch(new Request('https://worker.example/health'),env),health=await response.json();assert.equal(health.configured,true);assert.equal(health.auth,'supabase-session');assert.doesNotMatch(JSON.stringify(health),/fixture-gemini-key|access_token|APP_ACCESS_TOKEN|sb_publishable/);
- const invalid=await worker.fetch(new Request('https://worker.example/health'),{...env,SUPABASE_PUBLISHABLE_KEY:'sb_secret_private_fixture'});assert.equal((await invalid.json()).configured,false);
+ const response=await worker.fetch(new Request('https://worker.example/health'),env),health=await response.json();assert.equal(health.configured,true);assert.equal(health.auth,'supabase-session');assert.equal(health.accountProject,SUPABASE_PUBLIC_CONFIG.url);assert.doesNotMatch(JSON.stringify(health),/fixture-gemini-key|access_token|APP_ACCESS_TOKEN|sb_publishable/);
+ const invalid=await worker.fetch(new Request('https://worker.example/health'),{...env,SUPABASE_PUBLISHABLE_KEY:'sb_secret_private_fixture'});const invalidHealth=await invalid.json();assert.equal(invalidHealth.configured,false);assert.equal(invalidHealth.accountProject,null);
+ const custom=await worker.fetch(new Request('https://worker.example/health'),{...env,SUPABASE_URL:'https://other-project.example/'});assert.equal((await custom.json()).accountProject,'https://other-project.example');
+});
+test('default Supabase and Gemini transports retain the global host fetch receiver',async()=>{
+ const calls=[];
+ await withFetch(async function(url,options){
+  assert.strictEqual(this,globalThis,'native host fetch must keep its global receiver');calls.push(url);
+  if(url.startsWith(SUPABASE_PUBLIC_CONFIG.url))return authStub()(url,options);
+  return Response.json({candidates:[]});
+ },async()=>{
+  assert.deepEqual(await authorizeTutorAccount(request(),env),{id});
+  assert.deepEqual(await generateGemini({env,instructions:'Açık ve kısa anlat.',messages:[{role:'user',content:'Merhaba.'}],responseSchema:{type:'object'}}),{candidates:[]});
+ });
+ assert.equal(calls.length,3);assert.ok(calls[2].startsWith('https://generativelanguage.googleapis.com/'));
+});
+test('public 503 auth diagnostics contain only a known stage, category and optional numeric upstream status',async()=>{
+ const cases=[
+  {fetch:async()=>{throw Error('private network detail with fixture-session-access')},expected:{authStage:'user',authFailure:'transport'}},
+  {fetch:async()=>{const response=Response.json({id});Object.defineProperty(response,'redirected',{value:true});return response},expected:{authStage:'user',authFailure:'redirect',upstreamStatus:200}},
+  {fetch:async()=>new Response('private non-JSON response',{status:200}),expected:{authStage:'user',authFailure:'invalid-response',upstreamStatus:200}},
+  {fetch:async(url)=>url.endsWith('/auth/v1/user')?Response.json({id}):Response.json({message:'private RPC failure'},{status:500}),expected:{authStage:'approval',authFailure:'upstream-status',upstreamStatus:500}},
+  {fetch:async(url)=>url.endsWith('/auth/v1/user')?Response.json({id}):Response.json(granted({userId:other})),expected:{authStage:'approval',authFailure:'invalid-response'}}
+ ];
+ for(const item of cases)await withFetch(item.fetch,async()=>{
+  const response=await worker.fetch(tutorRequest(),env),body=await response.json();assert.equal(response.status,503);assert.equal(body.code,'TUTOR_AUTH_UNAVAILABLE');
+  const {error,code,...diagnostic}=body;assert.deepEqual(diagnostic,item.expected);assert.equal(typeof error,'string');assert.doesNotMatch(JSON.stringify(body),/private|fixture-session|fixture-gemini|sb_publishable/);
+ });
+ const misconfigured=await worker.fetch(tutorRequest(),{...env,SUPABASE_PUBLISHABLE_KEY:'sb_secret_private_fixture'}),body=await misconfigured.json();assert.equal(misconfigured.status,503);assert.deepEqual({authStage:body.authStage,authFailure:body.authFailure},{authStage:'configuration',authFailure:'invalid-response'});assert.equal(body.upstreamStatus,undefined);
+});
+test('ordinary invalid sessions and denied memberships do not acquire service-diagnostic metadata',async()=>{
+ for(const [userStatus,approval,expected]of [[401,granted(),401],[200,granted({status:'revoked'}),403]])await withFetch(authStub({userStatus,approval}),async()=>{
+  const response=await worker.fetch(tutorRequest(),env),body=await response.json();assert.equal(response.status,expected);assert.deepEqual(Object.keys(body).sort(),['code','error']);
+ });
+ const arbitrary=new TutorAuthError('Safe public error',{authStage:'private-stage',authFailure:'secret-token',upstreamStatus:999});assert.equal(arbitrary.authStage,undefined);assert.equal(arbitrary.authFailure,undefined);assert.equal(arbitrary.upstreamStatus,undefined);
 });
 test('unapproved or invalid accounts never call Gemini even with a forged client approval',async()=>{
  for(const userStatus of [401,200]){
