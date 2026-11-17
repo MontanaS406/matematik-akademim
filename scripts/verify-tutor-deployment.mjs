@@ -5,7 +5,7 @@ import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
 const SITE_ORIGIN='https://montanas406.github.io';
 export async function checkTutorDeployment({workerUrl,fetchImpl=globalThis.fetch,origin=SITE_ORIGIN}={}){
- const result={ok:false,workerUrl:null,health:null,checks:[],code:null};
+ const result={ok:false,workerUrl:null,health:null,checks:[],sessionGates:[],code:null};
  const fail=(code)=>({...result,code});
  let base;try{const u=new URL(workerUrl);if(u.protocol!=='https:'||u.username||u.password||u.search||u.hash||u.pathname!=='/')return fail('INVALID_WORKER_URL');base=u.origin;result.workerUrl=base}catch{return fail('INVALID_WORKER_URL')}
  const get=async(path,options={})=>fetchImpl(base+path,{...options,redirect:'error',credentials:'omit',signal:AbortSignal.timeout(15000),headers:{Origin:origin,...options.headers}});
@@ -22,7 +22,10 @@ export async function checkTutorDeployment({workerUrl,fetchImpl=globalThis.fetch
  for(const authorization of [null,'Bearer invalid-preflight-session']){
   try{
    const denied=await get('/api/tutor',{method:'POST',headers:{'Content-Type':'application/json',...(authorization?{Authorization:authorization}:{})},body});
-   if(denied.status!==401||denied.headers.get('Access-Control-Allow-Origin')!==origin)return fail('WORKER_SESSION_GATE_MISMATCH');
+   const gate={kind:authorization?'invalid-session':'guest',status:denied.status,originAllowed:denied.headers.get('Access-Control-Allow-Origin')===origin,code:null};
+   try{const detail=await denied.json();if(typeof detail?.code==='string'&&/^TUTOR_[A-Z_]{1,60}$/.test(detail.code))gate.code=detail.code}catch{}
+   result.sessionGates.push(gate);
+   if(denied.status!==401||!gate.originAllowed)return fail('WORKER_SESSION_GATE_MISMATCH');
   }catch{return fail('WORKER_SESSION_GATE_UNAVAILABLE')}
  }
  result.checks.push('guest-denied','invalid-session-denied');return {...result,ok:true,code:'READY'};

@@ -8,6 +8,7 @@ test('deployment gate accepts only compatible account authentication and checks 
  const calls=[];const result=await checkTutorDeployment({workerUrl,fetchImpl:async(url,options)=>{calls.push({url,options});return url.endsWith('/health')?response(health):response({error:'Rejected'},401)}});
  assert.equal(result.ok,true);assert.equal(calls.length,3);assert.equal(calls[1].options.headers.Authorization,undefined);assert.equal(calls[2].options.headers.Authorization,'Bearer invalid-preflight-session');
  assert.ok(calls.every(call=>call.options.redirect==='error'));assert.deepEqual(result.checks,['site-origin','gemini-configured','account-session-auth','model-policy','teacher-version','guest-denied','invalid-session-denied']);
+ assert.deepEqual(result.sessionGates,[{kind:'guest',status:401,originAllowed:true,code:null},{kind:'invalid-session',status:401,originAllowed:true,code:null}]);
 });
 test('a configured old Gemini Worker does not pass the code-free account deployment gate',async()=>{
  let calls=0;const old={...health};delete old.auth;
@@ -18,7 +19,8 @@ test('deployment stops for a wrong origin, missing key, different model or a gat
  for(const [payload,status,allowed,code]of [[health,200,'https://wrong.example','WORKER_ORIGIN_NOT_ALLOWED'],[{...health,configured:false},200,origin,'WORKER_NOT_CONFIGURED'],[{...health,model:'paid-model'},200,origin,'WORKER_MODEL_POLICY_MISMATCH'],[{...health,dialogueResponseCount:30},200,origin,'WORKER_TEACHER_VERSION_MISMATCH']]){
   const result=await checkTutorDeployment({workerUrl,fetchImpl:async()=>response(payload,status,allowed)});assert.equal(result.ok,false);assert.equal(result.code,code);
  }
- const result=await checkTutorDeployment({workerUrl,fetchImpl:async url=>url.endsWith('/health')?response(health):response({answer:'Unexpected guest response'})});assert.equal(result.ok,false);assert.equal(result.code,'WORKER_SESSION_GATE_MISMATCH');
+ const result=await checkTutorDeployment({workerUrl,fetchImpl:async url=>url.endsWith('/health')?response(health):response({code:'TUTOR_AUTH_UNAVAILABLE',error:'private-upstream-fixture'},503)});assert.equal(result.ok,false);assert.equal(result.code,'WORKER_SESSION_GATE_MISMATCH');
+ assert.deepEqual(result.sessionGates,[{kind:'guest',status:503,originAllowed:true,code:'TUTOR_AUTH_UNAVAILABLE'}]);assert.ok(!JSON.stringify(result).includes('private-upstream-fixture'));
 });
 test('invalid endpoints, redirects and failed health checks fail closed without logging credentials or arbitrary provider text',async()=>{
  for(const workerUrl of ['http://worker.example','https://name:private-fixture@worker.example','https://worker.example/api/tutor']){
