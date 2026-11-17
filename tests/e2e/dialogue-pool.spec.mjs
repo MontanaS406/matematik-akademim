@@ -2,7 +2,7 @@ import {test,expect} from './fixtures.mjs';
 import {TEACHERS,getTeacherLine} from '../../shared/teachers.js';
 import {DIALOGUE_SCENARIOS,DIALOGUE_CATEGORIES} from '../../shared/teacher-dialogue-scenarios.js';
 import {getTeacherDialogue} from '../../shared/teacher-dialogues.js';
-import {chooseTeacher,configureAI} from './source-helpers.mjs';
+import {chooseTeacher,configureAI,prepareTutorConfig} from './source-helpers.mjs';
 
 async function openPool(page){
  await page.goto('/');await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();
@@ -113,6 +113,7 @@ test('a newer remote course profile discards an in-flight old lesson reply witho
  await page.route('https://*.supabase.co/**',async route=>{
   const request=route.request(),url=new URL(request.url());
   if(url.pathname==='/auth/v1/token')return route.fulfill({json:{access_token:'fake-course-sync-access',refresh_token:'fake-course-sync-refresh',expires_in:3600,user:{id:'course-sync-user',email:'course-sync-fixture@example.test'}}});
+  if(url.pathname==='/rest/v1/rpc/ma_source_access_status')return route.fulfill({json:{userId:'course-sync-user',email:'course-sync-fixture@example.test',confirmed:true,isAdmin:false,status:'approved',bundleReady:false}});
   if(url.pathname==='/rest/v1/learning_profiles'&&request.method()==='GET'){
    profileGets++;if(profileGets===1){profileArrived();await profileHeld}
    return route.fulfill({json:[{user_id:'course-sync-user',state:{teacherId:'elif',courseId:'powers',difficulty:'easy',preferencesAt:remoteAt,attempts:[remoteAttempt]}}]});
@@ -125,7 +126,7 @@ test('a newer remote course profile discards an in-flight old lesson reply witho
   return route.fulfill({json:{mode:'lesson',courseId:'powers',teacherId:'elif',isOfficialSolution:false,answer:'Current power lesson reply'}});
  });
  try{
-  await page.goto('/');await page.locator('#accountButton').click();await page.locator('#userEmail').fill('course-sync-fixture@example.test');await page.locator('#userPassword').fill('fake-course-sync-password');await page.locator('#signIn').click();
+  await prepareTutorConfig(page);await page.goto('/');await page.locator('#accountButton').click();await page.locator('#userEmail').fill('course-sync-fixture@example.test');await page.locator('#userPassword').fill('fake-course-sync-password');await page.locator('#signIn').click();
   await expect.poll(()=>page.evaluate(()=>window.MAAccount.getUser())).toEqual({id:'course-sync-user'});await profileSeen;
   await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await page.locator('#teacherTask').selectOption('lesson');await expect(page.locator('#selectedTeacherName')).toHaveText('Elif Öğretmen');await expect(page.locator('#aiQuestion')).toContainText('Kesirler');await configureAI(page);
   await page.locator('#message').fill('Pay ve paydayı açıkla.');await page.locator('#send').click();await aiSeen;expect(sent[0]).toMatchObject({mode:'lesson',courseId:'fractions',teacherId:'elif'});

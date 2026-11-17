@@ -4,9 +4,10 @@ import {AI_BANK} from '../../data/ai-bank.js';
 import {createAiRegistry} from '../../shared/ai-bank.js';
 const registry=createAiRegistry(AI_BANK);
 const teacherById=id=>TEACHERS.find(teacher=>teacher.id===id);
-import {chooseTeacher,configureAI,openAdultOptions} from './source-helpers.mjs';
+import {chooseTeacher,configureAI,openAdultOptions,prepareTutorAccount,TUTOR_USER_ID} from './source-helpers.mjs';
 
-async function openLessonTeacher(page){
+async function openLessonTeacher(page,{authenticated=true}={}){
+ if(authenticated)await prepareTutorAccount(page);
  await page.goto('/');await page.locator('#bankPool').selectOption('original');await expect(page.locator('#questionCard')).toHaveCount(0);
  await page.locator('.nav').getByRole('button',{name:'Konular',exact:true}).click();await page.locator('#lessonSearch').fill('Kesirler');await page.locator('#lessonList button').first().click();await page.locator('#lessonAskTeacher').click();await expect(page.locator('#teacher')).toBeVisible();
 }
@@ -14,15 +15,15 @@ const lessonReply=answer=>({mode:'lesson',courseId:'fractions',isOfficialSolutio
 
 test('all ten teachers keep distinct greetings and stored choices in lesson mode',async({page})=>{
  await openLessonTeacher(page);const greetings=new Set();
- for(const teacher of TEACHERS){await chooseTeacher(page,teacher.name);await expect(page.locator('#selectedTeacherName')).toHaveText(teacher.name);greetings.add(await page.locator('#chat').innerText());expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('ma_learning_v1_guest')).teacherId)).toBe(teacher.id)}expect(greetings.size).toBe(10);
+ for(const teacher of TEACHERS){await chooseTeacher(page,teacher.name);await expect(page.locator('#selectedTeacherName')).toHaveText(teacher.name);greetings.add(await page.locator('#chat').innerText());expect(await page.evaluate(id=>JSON.parse(localStorage.getItem('ma_learning_v1_'+id)).teacherId,TUTOR_USER_ID)).toBe(teacher.id)}expect(greetings.size).toBe(10);
  await chooseTeacher(page,'Çağatay Hoca');await openAdultOptions(page);await expect(page.locator('#profanityLevel')).toBeDisabled();await page.locator('#adultConfirmed').check();await expect(page.locator('#profanityLevel')).toBeDisabled();await page.locator('#profanityConsent').check();await page.locator('#profanityLevel').selectOption('heavy');await configureAI(page);const sent=[];
  await page.route('https://tutor.example/api/tutor',route=>{const body=route.request().postDataJSON();sent.push(body);return route.fulfill({json:lessonReply('Bu konuyu tanımlarından başlayarak açıklayalım.')})});
  await page.locator('#message').fill('Pay ve paydayı açıkla.');await page.locator('#send').click();await expect(page.locator('#chat')).toContainText('Bu konuyu tanımlarından');expect(sent[0]).toMatchObject({mode:'lesson',courseId:'fractions',teacherId:'cagatay',profanityLevel:'heavy',adultConfirmed:true,profanityConsent:true,helpMode:'hint'});expect(sent[0]).not.toHaveProperty('question');expect(sent[0]).not.toHaveProperty('questionId');
  await chooseTeacher(page,'Beyza Öğretmen');await page.locator('#tutorMode').selectOption('solution');await page.locator('#message').fill('Pay ve paydayı açıkla.');await page.locator('#send').click();await expect(page.locator('#chat')).toContainText('Bu konuyu tanımlarından');expect(sent[1]).toMatchObject({mode:'lesson',courseId:'fractions',teacherId:'beyza',profanityLevel:'off',adultConfirmed:false,helpMode:'solution'});expect(sent[1]).not.toHaveProperty('questionId');
- await page.reload();await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await expect(page.locator('#selectedTeacherName')).toHaveText('Beyza Öğretmen');expect(await page.evaluate(()=>localStorage.getItem('ma_learning_v1_guest'))).not.toContain('adultConfirmed');
+ await page.reload();await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await expect(page.locator('#selectedTeacherName')).toHaveText('Beyza Öğretmen');expect(await page.evaluate(id=>localStorage.getItem('ma_learning_v1_'+id),TUTOR_USER_ID)).not.toContain('adultConfirmed');
 });
 test('ten teacher cards show distinct avatars and character previews stay local, collapsed and tied to the selected teacher',async({page})=>{
- await openLessonTeacher(page);await configureAI(page);let modelRequests=0;
+ await openLessonTeacher(page,{authenticated:false});await configureAI(page);let modelRequests=0;
  await page.route('https://tutor.example/api/tutor',route=>{modelRequests++;return route.fulfill({json:lessonReply('Bu yanıt otomatik istenmemeli.')})});
  await page.locator('#teacherChange').click();await expect(page.locator('#teacherPicker .teacher-card')).toHaveCount(10);
  const avatars=await page.locator('#teacherPicker .teacher-avatar').allTextContents();expect(new Set(avatars).size).toBe(10);
@@ -55,7 +56,7 @@ test('new teacher choices round-trip separately in guest and signed-in accounts 
   }
   return route.fulfill({json:[]});
  });
- await openLessonTeacher(page);await chooseTeacher(page,'Derya Dedektif');await page.reload();await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await expect(page.locator('#selectedTeacherName')).toHaveText('Derya Dedektif');
+ await openLessonTeacher(page,{authenticated:false});await chooseTeacher(page,'Derya Dedektif');await page.reload();await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await expect(page.locator('#selectedTeacherName')).toHaveText('Derya Dedektif');
  await page.locator('#accountButton').click();await page.locator('#userEmail').fill('teacher-fixture@example.test');await page.locator('#userPassword').fill('fake-teacher-password');await page.locator('#signIn').click();
  await expect.poll(()=>page.evaluate(()=>window.MAAccount.getUser())).toEqual({id:'teacher-user'});await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await expect(page.locator('#selectedTeacherName')).toHaveText('Bora Kaptan');
  await chooseTeacher(page,'Nermin Şef');await expect.poll(()=>writes.length).toBeGreaterThan(0);expect(writes.at(-1)).toMatchObject({user_id:'teacher-user',state:{teacherId:'nermin'}});

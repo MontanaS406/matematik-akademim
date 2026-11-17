@@ -1,16 +1,14 @@
 import {EXAM_YEARS, normalizeFlags, normalizeTopics} from '../shared/exam-model.js';
-import {QUESTION_BANK} from '../data/question-bank.js?v=gemini-teachers-20261116';
-import {AI_BANK} from '../data/ai-bank.js?v=gemini-teachers-20261116';
+import {QUESTION_BANK} from '../data/question-bank.js?v=account-teachers-20261117';
+import {AI_BANK} from '../data/ai-bank.js?v=account-teachers-20261117';
 import {createAiRegistry} from '../shared/ai-bank.js';
-import {normalizeState} from '../shared/learning-state.js?v=gemini-teachers-20261116';
+import {normalizeState} from '../shared/learning-state.js?v=account-teachers-20261117';
+import {SUPABASE_PUBLIC_CONFIG} from '../shared/supabase-config.js';
 
 // Existing account and history keys are retained. Retired study drafts and local
 // document stores are deliberately left untouched by this presentation module.
 const HISTORY_KEY = 'matematik_akademim_exam_history_v11';
-const config = {
-  url: 'https://clgtwtfzhkwhiuvrmimi.supabase.co',
-  key: 'sb_publishable_aJDmKhDc4TlY2Op374nZEA_3mtBq2FQ'
-};
+const config = SUPABASE_PUBLIC_CONFIG;
 const el = id => document.getElementById(id);
 const safe = value => String(value ?? '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 // Only eligible, explicitly labelled AI exercises contribute to study totals.
@@ -351,6 +349,13 @@ function boundedLearningState(state) {
 }
 window.MAAccount = {
   getUser:() => auth?.user?.id ? {id:auth.user.id} : null,
+  async getTutorSession(){
+    const owner=auth?.user?.id,epoch=accountEpoch;
+    if(!owner){const error=Error('Öğretmeninle konuşmak için hesabına giriş yap.');error.status=401;error.code='TUTOR_SESSION_REQUIRED';throw error}
+    try{await ensureToken()}catch{const error=Error('Oturumun yenilenemedi. Hesabına yeniden giriş yap.');error.status=401;error.code='TUTOR_SESSION_INVALID';throw error}
+    if(!sameAccount(owner,epoch)){const error=Error('Hesap değişti.');error.status=409;error.code='TUTOR_ACCOUNT_CHANGED';throw error}
+    return Object.freeze({userId:owner,accessToken:auth.access_token});
+  },
   async sourceRpc(name,params={}) {
     if(!['ma_source_access_status','ma_source_access_request','ma_source_access_members','ma_source_access_set_member','ma_source_archive_access'].includes(name))throw Error('Geçersiz hesap işlemi.');
     const owner=auth?.user?.id,epoch=accountEpoch;

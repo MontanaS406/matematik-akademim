@@ -1,15 +1,17 @@
-import {createPracticeExamController} from './practice-exams.js?v=gemini-teachers-20261116';
-import {createPersonalArchiveController} from './personal-archive.js?v=gemini-teachers-20261116';
-import {createSourceAccessController} from './source-access.js?v=gemini-teachers-20261116';
+import {createPracticeExamController} from './practice-exams.js?v=account-teachers-20261117';
+import {createPersonalArchiveController} from './personal-archive.js?v=account-teachers-20261117';
+import {createSourceAccessController} from './source-access.js?v=account-teachers-20261117';
 import {COURSES, getCourse, buildStudyPlan} from '../shared/curriculum.js';
-import {TEACHERS, DEFAULT_TEACHER_ID, PROFANITY_LEVELS, getTeacherLine} from '../shared/teachers.js?v=gemini-teachers-20261116';
-import {getTeacherDialogues,getTeacherDialogueVariants,DIALOGUE_CATEGORIES} from '../shared/teacher-dialogues.js?v=gemini-teachers-20261116';
-import {normalizeState, mergeLearningStates, progressFromAttempts} from '../shared/learning-state.js?v=gemini-teachers-20261116';
-import {QUESTION_BANK} from '../data/question-bank.js?v=gemini-teachers-20261116';
+import {TEACHERS, DEFAULT_TEACHER_ID, PROFANITY_LEVELS, getTeacherLine} from '../shared/teachers.js?v=account-teachers-20261117';
+import {getTeacherDialogues,getTeacherDialogueVariants,DIALOGUE_CATEGORIES} from '../shared/teacher-dialogues.js?v=account-teachers-20261117';
+import {normalizeState, mergeLearningStates, progressFromAttempts} from '../shared/learning-state.js?v=account-teachers-20261117';
+import {QUESTION_BANK} from '../data/question-bank.js?v=account-teachers-20261117';
 import {createQuestionRegistry} from '../shared/question-bank.js';
-import {AI_BANK} from '../data/ai-bank.js?v=gemini-teachers-20261116';
-import {SOURCED_ARCHIVE_SUMMARY, SOURCE_DOCUMENTS, SOURCE_READ_EVIDENCE} from '../data/source-catalog.js?v=gemini-teachers-20261116';
+import {AI_BANK} from '../data/ai-bank.js?v=account-teachers-20261117';
+import {SOURCED_ARCHIVE_SUMMARY, SOURCE_DOCUMENTS, SOURCE_READ_EVIDENCE} from '../data/source-catalog.js?v=account-teachers-20261117';
 import {createAiRegistry, aiDerivationKind} from '../shared/ai-bank.js';
+import {createTutorClient} from './tutor-client.js';
+const tutorClient=createTutorClient();
 const aiRegistry=createAiRegistry(AI_BANK);
 const bankRegistry=createQuestionRegistry(QUESTION_BANK);
 const practiceExams=createPracticeExamController({registry:aiRegistry,root:document.getElementById('practiceExamRoot'),learningRoot:document.getElementById('learningRoot')});
@@ -261,6 +263,9 @@ function renderChat(){
  $('chat').replaceChildren();bubble('ai',getTeacherLine(t.id,'greeting',greetingVariant(),profanity));
  for(const message of conversations.get(chatKey())||[])bubble(message.role==='user'?'me':'ai',message.content);
  $('send').disabled=false;
+ const signedIn=!!window.MAAccount?.getUser()?.id;
+ $('teacherSignIn').hidden=signedIn;
+ $('aiStatus').textContent=signedIn?'':'Öğretmenler hazır. Mesajlaşmak için hesabına giriş yap.';
 }
 function tutorRequestMessages(history,user){
  const messages=[...history,user].slice(-11).map(message=>({role:message.role,content:message.role==='assistant'&&message.content.length>2500?message.content.slice(0,1700)+'\n[Önceki açıklamanın orta bölümü gönderim için kısaltıldı.]\n'+message.content.slice(-700):message.content}));
@@ -268,8 +273,7 @@ function tutorRequestMessages(history,user){
  return messages;
 }
 function setupAI(){
- try{$('endpoint').value=localStorage.getItem('math_ai_worker_url')||'';$('access').value=sessionStorage.getItem('math_ai_access')||''}catch{}
- $('saveAI').onclick=()=>{try{const u=new URL($('endpoint').value.trim());if(u.protocol!=='https:'||u.username||u.password||u.search||u.hash)throw Error('HTTPS Worker adresi gir.');localStorage.setItem('math_ai_worker_url',u.origin);sessionStorage.setItem('math_ai_access',$('access').value);$('aiStatus').textContent='Bağlantı ayarları kaydedildi.'}catch(e){$('aiStatus').textContent=e.message}};
+ $('teacherSignIn').onclick=()=>$('accountButton').click();
  const resetTask=()=>{activeRequest?.abort();teacherEpoch++;$('aiStatus').textContent='';renderChat()};
  $('teacherTask').onchange=event=>{const value=event.target.value;if(!['chat','lesson','source'].includes(value)||value==='source'&&!explainableSource())return;teacherTask=value;resetTask()};
  $('teachingLevel').onchange=event=>{const value=event.target.value;if(!['auto','beginner','intermediate','advanced'].includes(value))return;teachingLevel=value;resetTask()};
@@ -277,23 +281,24 @@ function setupAI(){
  $('clearChat').onclick=()=>{activeRequest?.abort();conversations.delete(chatKey());greetingChoices.delete(chatKey());teacherEpoch++;renderChat()};
  $('send').onclick=async()=>{
   if($('send').disabled)return;const text=$('message').value.trim();if(!text)return;if(text.length>2500){$('aiStatus').textContent='Sorunu en fazla 2500 karakterle yaz.';return}
-  let base,token;try{base=localStorage.getItem('math_ai_worker_url');token=sessionStorage.getItem('math_ai_access')}catch{}
-  if(!base||!token){$('aiStatus').textContent='Öğretmen bağlantısı için aşağıdaki ayarları tamamla.';return}
+  if(!window.MAAccount?.getUser()?.id){$('aiStatus').textContent='Öğretmeninle konuşmak için hesabına giriş yap.';$('teacherSignIn').hidden=false;return}
   const context=teacherContext();const t=teacher(),epoch=teacherEpoch,conversationKey=chatKey(),history=conversations.get(conversationKey)||[],user={role:'user',content:text};
   bubble('me',text);$('message').value='';const waiting=bubble('ai',getTeacherLine(t.id,'waiting',history.filter(message=>message.role==='assistant').length,profanity));$('send').disabled=true;activeRequest=new AbortController();const controller=activeRequest;const timer=setTimeout(()=>controller.abort(),45000);
   try{
    const requestMessages=tutorRequestMessages(history,user);
-   const r=await fetch(base+'/api/tutor',{method:'POST',signal:controller.signal,headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({messages:requestMessages,...context,teacherId:t.id,helpMode:$('tutorMode').value,teachingLevel,progressContext:learningMomentum(),...profanity})});
+   const r=await tutorClient.request({messages:requestMessages,...context,teacherId:t.id,helpMode:$('tutorMode').value,teachingLevel,progressContext:learningMomentum(),...profanity},{signal:controller.signal});
    const body=await r.json();if(!r.ok){const error=Error(body.error||'Sunucu yanıt vermedi');error.status=r.status;throw error}
    if(epoch!==teacherEpoch||conversationKey!==chatKey())return;
    const matchesContext=context.mode==='chat'?body.mode==='chat'&&body.isOfficialSolution===false&&body.questionId===undefined&&body.courseId===undefined&&body.source===undefined:context.mode==='source'?body.questionId===context.questionId:body.mode==='lesson'&&body.courseId===context.courseId;
    if(!matchesContext||body.isOfficialSolution===true)throw Error('Yanıt seçili sohbet veya ders bağlamıyla eşleşmiyor.');
    if(body.teacherId!==undefined&&body.teacherId!==t.id)throw Error('Yanıt seçili öğretmenle eşleşmiyor.');
    if(typeof body.answer!=='string'||!body.answer.trim()||body.answer.length>10000)throw Error('Öğretmen yanıtı geçerli bir metin içermiyor.');
-   const answer=body.answer.trim();waiting.textContent=answer;$('aiStatus').textContent='';conversations.set(conversationKey,[...history,user,{role:'assistant',content:answer}].slice(-12));
+   const answer=body.answer.trim();waiting.textContent=answer;$('aiStatus').textContent='';$('teacherSignIn').hidden=true;conversations.set(conversationKey,[...history,user,{role:'assistant',content:answer}].slice(-12));
   }catch(e){if(epoch===teacherEpoch&&conversationKey===chatKey()){
-   waiting.textContent=controller.signal.aborted?'İstek durduruldu. Tekrar deneyebilirsin.':e.status===429?e.message:'Bağlantı hatası: '+e.message;
+   waiting.textContent=controller.signal.aborted?'İstek durduruldu. Tekrar deneyebilirsin.':[401,403,429].includes(e.status)?e.message:'Bağlantı hatası: '+e.message;
    if(e.status===429)$('aiStatus').textContent='İstek sınırına ulaşıldı. Otomatik tekrar veya başka modele geçiş yapılmadı.';
+   if(e.status===401){$('aiStatus').textContent='Hesabına yeniden giriş yaparak devam edebilirsin.';$('teacherSignIn').hidden=false}
+   if(e.status===403)$('aiStatus').textContent='Hesabının öğretmen erişimi için yönetici onayı gerekiyor.';
    if(!controller.signal.aborted&&!$('message').value)$('message').value=text;
   }}
   finally{clearTimeout(timer);if(activeRequest===controller)activeRequest=null;if(epoch===teacherEpoch)$('send').disabled=false}

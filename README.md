@@ -39,11 +39,18 @@ Tam sohbet yanıtları sekmenin belleğinde tutulur; öğretmen değiştirip ger
 döndüğünde uzun çözümün sonu kaybolmaz. Gemini'ye gönderilen geçmiş ayrıca
 sınırlanır; sohbetler bulut ilerleme kaydına eklenmez.
 
-`GEMINI_API_KEY` yalnız Cloudflare Secret olarak tutulur. Tarayıcıya sadece Worker
-adresi ve ayrı `APP_ACCESS_TOKEN` erişim kodu girilir. Worker dağıtıldıktan sonra
-telefon ve bilgisayardan kullanılabilir; kişisel bilgisayarın açık kalması
-gerekmez. Gerçek anahtar ve Cloudflare hesabı olmadan canlı bağlantı doğrulanmış
-sayılmaz; otomatik testler dış servisleri taklit eder.
+**Kullanıcıdan API anahtarı, erişim kodu veya bağlantı adresi istenmez.**
+`GEMINI_API_KEY` yalnız Cloudflare Secret olarak tutulur. Worker adresi
+`https://matematik-akademim-ai.c542478.workers.dev` olarak merkezi
+`data/tutor-config.json` dosyasına kaydedildi. Ziyaretçi yalnız
+normal hesabına giriş yapar; Worker gerçek Supabase oturumunu ve mevcut yönetici
+onayını sunucuda doğrular. Girişsiz ziyaretçi öğretmen profillerini görebilir;
+canlı AI, e-postası doğrulanmış ve onaylı hesaba açılır.
+
+Bu adreste hesap oturumunu doğrulayan güncel Worker dağıtıldıktan sonra telefon
+ve bilgisayardan kullanılabilir; kişisel bilgisayarın açık kalması gerekmez. Gerçek anahtar ve
+Cloudflare hesabı olmadan canlı bağlantı doğrulanmış sayılmaz; otomatik testler
+dış servisleri taklit eder. Akış: [Kodsuz öğretmen erişimi](docs/KODSUZ_OGRETMEN_ERISIMI.md).
 
 Terminal gerektirmeyen adımlar ve komut satırı alternatifi:
 [Gemini ücretsiz kurulum rehberi](docs/GEMINI_UCRETSIZ_KURULUM.md).
@@ -81,7 +88,7 @@ açıkça gösterilir. Zorluk seviyeleri gerekçeli otomatik önerilerdir, öğr
 başarı verisiyle kalibre edilmiş ölçümler değildir.
 
 Dosya seçme/yükleme ekranı eklenmedi. Eski cihaz kitapçıkları, hesaplar,
-ilerleme ve deneme geçmişi silinmez. AI yanıtları mevcut hesap kapsamlı
+ilerleme ve deneme geçmişi silinmez. AI alıştırmalarına verilen cevaplar mevcut hesap kapsamlı
 öğrenme kayıtlarına eklenir; eski veya inceleme durumundaki kimliklerin
 geçmiş kayıtları tutulur. Üretim Supabase şeması/verisi değiştirilmez. Geliştirme
 ayrı dal ve PR üzerinden yürütülür. PR #12'deki soru entegrasyonu ve önceki
@@ -214,6 +221,6 @@ seçili özgün kayıtlar için yerel HTML/görsel inceleme paketi çıkarır. D
 sorularının tek tek cevaplandırıldığı iddia edilmez; 36 tamamlanmış çıkarım ve
 geri kalanın özel sayfa hazırlığı ayrı aşamalardır.
 
-Bu görevde yeniden birleştirme veya yayın yapılmaz; değişiklikler Issue #11
-için ayrı dal ve PR üzerinden incelemeye sunulur. Kapsam, eksik dosyalar ve
+Bu bölümdeki kaynak işleme çalışması, Issue #11 için ayrı dal ve PR üzerinden
+incelemeye sunulmuş önceki aşamayı anlatır. Kapsam, eksik dosyalar ve
 somut sayfa/soru kanıtları [Issue #11 raporunda](docs/ISSUE_11_GERCEK_KAYNAK_RAPORU.md).

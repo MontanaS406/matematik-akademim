@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import deployedWorker, {createTutorWorker} from '../cloudflare-worker/worker.js';
 import {getCourse} from '../shared/curriculum.js';
+import {SUPABASE_PUBLIC_CONFIG} from '../shared/supabase-config.js';
 import {TEACHERS,TEACHER_PERSONA_VERSION} from '../shared/teachers.js';
 import {getTeacherDialogue,TEACHER_DIALOGUE_COUNT,TEACHER_DIALOGUE_RESPONSE_COUNT,TEACHER_DIALOGUE_VERSION} from '../shared/teacher-dialogues.js';
 const TEACHER_IDS=['cagatay','beyza','zeynep','kemal','mert','elif','riza','nermin','bora','derya'];
@@ -15,19 +16,39 @@ const fixtureBank = () => ({sources:[{
   prompt:'TEST FIXTURE ONLY: x + 1 = 2.',options:[],answer:{value:'1',status:'verified',evidenceUrl:'https://fixture.example/answers'},displayMode:'inline',status:'published'
 }]});
 const worker=createTutorWorker({questionBank:fixtureBank()});
-const env={GEMINI_API_KEY:'test-only',GEMINI_MODEL:'gemini-3.5-flash-lite',APP_ACCESS_TOKEN:'test-access',ALLOWED_ORIGINS:'https://school.example'};
-const req=(body,headers={})=>new Request('https://worker.example/api/tutor',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer test-access',Origin:'https://school.example',...headers},body:JSON.stringify(body)});
+const ACTOR_ID='00000000-0000-4000-8000-000000000001';
+const SESSION_TOKEN='fixture-user-session';
+const env={GEMINI_API_KEY:'test-only',GEMINI_MODEL:'gemini-3.5-flash-lite',ALLOWED_ORIGINS:'https://school.example'};
+const req=(body,headers={})=>new Request('https://worker.example/api/tutor',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+SESSION_TOKEN,Origin:'https://school.example',...headers},body:JSON.stringify(body)});
 const valid={questionId:'test-question',messages:[{role:'user',content:'Seçili soruda bu çözüm adımını açıkla.'}]};
 const geminiResponse=(payload,finishReason='STOP')=>Response.json({candidates:[{finishReason,content:{role:'model',parts:[{text:typeof payload==='string'?payload:JSON.stringify(payload)}]}}]});
 const systemText=options=>JSON.parse(options.body).systemInstruction.parts.map(part=>part.text).join('\n');
 const upstream=(explanation='Her iki taraftan 1 çıkarılır; x = 1 bulunur.',questionId='test-question')=>geminiResponse({questionId,explanation});
-async function withFetch(stub,fn){const original=globalThis.fetch;globalThis.fetch=stub;try{await fn()}finally{globalThis.fetch=original}}
+// The normal application transport verifies a Supabase account before Gemini.
+// Keep those requests explicit while existing counters measure AI calls only.
+async function withFetch(stub,fn,{permission={userId:ACTOR_ID,confirmed:true,status:'approved',isAdmin:false,bundleReady:false},user={id:ACTOR_ID,email_confirmed_at:'2026-11-01T00:00:00.000Z'},userStatus=200,authCalls=[]}={}){
+ const original=globalThis.fetch;
+ globalThis.fetch=async(url,options)=>{
+  const target=new URL(url),headers=new Headers(options?.headers);
+  if(target.origin===SUPABASE_PUBLIC_CONFIG.url){
+   authCalls.push(target.pathname);
+   assert.equal(headers.get('apikey'),SUPABASE_PUBLIC_CONFIG.key);assert.equal(headers.get('x-goog-api-key'),null);assert.equal(options.redirect,'error');
+   if(headers.get('Authorization')!=='Bearer '+SESSION_TOKEN)return Response.json({error:'Invalid fixture session'},{status:401});
+   if(target.pathname==='/auth/v1/user'){assert.equal(options.method,'GET');return Response.json(user,{status:userStatus})}
+   assert.equal(target.pathname,'/rest/v1/rpc/ma_source_access_status');assert.equal(options.method,'POST');assert.deepEqual(JSON.parse(options.body),{});
+   return Response.json(typeof permission==='function'?permission():permission);
+  }
+  assert.equal(target.origin,'https://generativelanguage.googleapis.com','no unrelated provider or archive request is allowed');
+  return stub(url,options);
+ };
+ try{await fn()}finally{globalThis.fetch=original}
+}
 
 test('health advertises the deployed ten-persona version without exposing credentials or calling the model',async()=>{
  let calls=0;await withFetch(async()=>{calls++;throw Error('Health must not use the model')},async()=>{
   for(const configured of [false,true]){
    const response=await deployedWorker.fetch(new Request('https://worker.example/health',{headers:{Origin:'https://school.example'}}),configured?env:{...env,GEMINI_API_KEY:''});
-   assert.equal(response.status,200);const payload=await response.json();assert.equal(payload.provider,'gemini');assert.equal(payload.model,'gemini-3.5-flash-lite');
+   assert.equal(response.status,200);const payload=await response.json();assert.equal(payload.provider,'gemini');assert.equal(payload.auth,'supabase-session');assert.equal(payload.model,'gemini-3.5-flash-lite');
    assert.equal(payload.dialogueCount,TEACHER_DIALOGUE_COUNT);assert.equal(payload.dialogueVersion,TEACHER_DIALOGUE_VERSION);
    assert.equal(payload.dialogueResponseCount,TEACHER_DIALOGUE_RESPONSE_COUNT);
    assert.equal(payload.ok,true);assert.equal(payload.configured,configured);assert.deepEqual(payload.teacherIds,TEACHER_IDS);assert.equal(payload.personaVersion,TEACHER_PERSONA_VERSION);assert.doesNotMatch(JSON.stringify(payload),/test-only|test-access|GEMINI_API_KEY|OPENAI_API_KEY|APP_ACCESS_TOKEN/);
@@ -37,6 +58,35 @@ test('health advertises the deployed ten-persona version without exposing creden
 test('worker denies untrusted origin and missing authorization',async()=>{
   assert.equal((await worker.fetch(req(valid,{Origin:'https://evil.example'}),env)).status,403);
   assert.equal((await worker.fetch(req(valid,{Authorization:''}),env)).status,401);
+});
+test('a legacy shared access code cannot replace the verified account session',async()=>{
+ let aiCalls=0;const authCalls=[];
+ await withFetch(async()=>{aiCalls++;return upstream()},async()=>{
+  const response=await worker.fetch(req(valid,{Authorization:'Bearer obsolete-shared-code'}),{...env,APP_ACCESS_TOKEN:'obsolete-shared-code'});
+  assert.equal(response.status,401);assert.equal((await response.json()).code,'TUTOR_SESSION_INVALID');
+ },{authCalls});
+ assert.deepEqual(authCalls,['/auth/v1/user']);assert.equal(aiCalls,0);
+});
+test('every question request rechecks approved membership and a later revoke blocks Gemini despite forged admin metadata',async()=>{
+ let status='approved',aiCalls=0;const authCalls=[];
+ await withFetch(async()=>{aiCalls++;return upstream()},async()=>{
+  assert.equal((await worker.fetch(req(valid),env)).status,200);
+  status='revoked';const revoked=await worker.fetch(req(valid),env);assert.equal(revoked.status,403);assert.equal((await revoked.json()).code,'TUTOR_ACCESS_REQUIRED');
+  status='approved';assert.equal((await worker.fetch(req(valid),env)).status,200);
+ },{authCalls,user:{id:ACTOR_ID,app_metadata:{role:'admin'},user_metadata:{approved:true}},permission:()=>({userId:ACTOR_ID,confirmed:true,status,isAdmin:true,bundleReady:false})});
+ assert.equal(aiCalls,2);assert.deepEqual(authCalls,Array(3).fill(['/auth/v1/user','/rest/v1/rpc/ma_source_access_status']).flat());
+});
+test('pending or unconfirmed accounts and permission replies for another user cannot spend Gemini quota',async()=>{
+ for(const permission of [{userId:ACTOR_ID,confirmed:true,status:'pending',isAdmin:false},{userId:ACTOR_ID,confirmed:false,status:'approved',isAdmin:false},{userId:'00000000-0000-4000-8000-000000000002',confirmed:true,status:'approved',isAdmin:true}]){
+  let aiCalls=0;await withFetch(async()=>{aiCalls++;return upstream()},async()=>{
+   const response=await worker.fetch(req(valid),env);assert.ok([403,503].includes(response.status));
+  },{permission});assert.equal(aiCalls,0);
+ }
+});
+test('an unavailable identity service fails closed without disclosing details or calling Gemini',async()=>{
+ let aiCalls=0;await withFetch(async()=>{aiCalls++;return upstream()},async()=>{
+  const response=await worker.fetch(req(valid),env);assert.equal(response.status,503);const body=await response.json();assert.equal(body.code,'TUTOR_AUTH_UNAVAILABLE');assert.doesNotMatch(JSON.stringify(body),/PRIVATE-IDENTITY-DETAIL/);
+ },{userStatus:503,user:{error:'PRIVATE-IDENTITY-DETAIL'}});assert.equal(aiCalls,0);
 });
 test('worker rejects malformed payloads without throwing',async()=>{
   for(const body of [null,[],{},{messages:[null]},{messages:[{role:'system',content:'x'}]},{messages:[{role:'user',content:' '}]},{messages:[{role:'assistant',content:'x'}]}])assert.equal((await worker.fetch(req(body),env)).status,400);
@@ -84,7 +134,11 @@ test('model-generated new questions, mismatched IDs and unstructured answers are
   }
 });
 test('upstream failures remain safe and rate limiting prevents calls',async()=>{
-  const r=await worker.fetch(req(valid),{...env,TUTOR_LIMITER:{limit:async()=>({success:false})}});assert.equal(r.status,429);assert.equal(r.headers.get('Retry-After'),'60');
+  let limiterKey,aiCalls=0;
+  await withFetch(async()=>{aiCalls++;return upstream()},async()=>{
+   const r=await worker.fetch(req(valid,{'CF-Connecting-IP':'192.0.2.50'}),{...env,TUTOR_LIMITER:{limit:async({key})=>{limiterKey=key;return{success:false}}}});
+   assert.equal(r.status,429);assert.equal(r.headers.get('Retry-After'),'60');
+  });assert.equal(limiterKey,ACTOR_ID);assert.equal(aiCalls,0);
   await withFetch(async()=>new Response('private upstream details',{status:500}),async()=>{const r=await worker.fetch(req(valid),env);assert.equal(r.status,502);assert.doesNotMatch(await r.text(),/private/)});
   await withFetch(async()=>Response.json({candidates:[]}),async()=>assert.equal((await worker.fetch(req(valid),env)).status,502));
   await withFetch(async()=>{throw Error('secret')},async()=>assert.equal((await worker.fetch(req(valid),env)).status,502));

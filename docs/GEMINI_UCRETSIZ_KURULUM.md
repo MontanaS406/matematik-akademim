@@ -1,108 +1,52 @@
-# Gemini ücretsiz katman ve Cloudflare kurulumu
+# Gemini ücretsiz katman ve kodsuz öğretmen kurulumu
 
-Resmî belgelerin araştırma tarihi: **16 Kasım 2026**. Kod ve teslim kontrolü: **17 Kasım 2026**.
+Resmî belgelerin araştırma tarihi: **16 Kasım 2026**. Kodsuz hesap erişimi düzenlemesi: **17 Kasım 2026**.
 
-Öğretmenin sunucusu Cloudflare Worker üzerinde çalışır. Siteyi telefondan veya
-başka bir bilgisayardan açtığında kendi bilgisayarının açık kalması gerekmez.
-İnternet bağlantısı, Google'ın kullanılabilir kotası ve Cloudflare hizmeti gerekir.
-Bu kurulum soru havuzlarını, denemeleri, Supabase hesaplarını ve ilerleme
-tablolarını değiştirmez.
+**Ziyaretçi hiçbir API anahtarı, erişim kodu veya Worker adresi girmez.** Siteyi açtığında öğretmenler görünür. Canlı AI ile konuşmak için mevcut hesabına giriş yapması ve hesabının yönetici tarafından onaylı olması yeterlidir. Normal hesap oturumu geçerliyse AI bağlantısı otomatik kullanılır.
 
-## 1. Ücretsiz Google projesini oluştur
+Aşağıdaki kurulum yalnız site sahibi tarafından bir kez yapılır. Öğretmen sunucusu Cloudflare Worker üzerinde çalışır; telefon veya başka bir bilgisayardan kullanırken kişisel bilgisayarının açık kalması gerekmez. İnternet, Google'ın kullanılabilir kotası ve Cloudflare hizmeti gerekir. Soru havuzları, denemeler, Supabase kullanıcıları ve ilerleme tabloları değiştirilmez.
 
-1. [Google AI Studio API anahtarları](https://aistudio.google.com/apikey)
-   sayfasını aç ve Google hesabınla giriş yap.
-2. Yeni bir proje oluştur veya yalnız bu uygulama için ayrılmış bir proje seç.
-   Önceden ücretli kullanılan bir projeyi kontrol etmeden kullanma.
-3. [AI Studio Projects](https://aistudio.google.com/projects) sayfasında projenin
-   **Billing Tier** alanının **Free Tier** olduğunu kontrol et. Google bir
-   proje doğrulaması istiyorsa ücretsiz katman için bu doğrulamayı tamamla.
-4. **Set up billing**, **Upgrade**, kredi yükleme veya otomatik bakiye yükleme
-   adımlarına geçme. Projeye bir Cloud Billing hesabı bağlama.
-5. API anahtarları sayfasında bu proje için **Create API key** ile anahtar oluştur.
-   Yeni anahtarın değerini yalnız aşağıdaki Cloudflare Secret alanına yapıştır.
+## 1. Ücretsiz Google projesini ve anahtarı oluştur
 
-Bu uygulama `gemini-3.5-flash-lite` modelini kullanır. Resmî fiyat sayfasında bu
-modelin ücretsiz katmanda metin giriş ve çıkışı ücretsizdir. Kota, hesap/proje
-durumuna göre değişebilir; sabit günlük soru sayısı sözü verilmez.
+1. [Google AI Studio API anahtarları](https://aistudio.google.com/apikey) sayfasını açıp Google hesabınla giriş yap.
+2. Bu uygulama için yeni bir proje oluştur veya yalnız bu iş için ayrılmış bir proje seç.
+3. [AI Studio Projects](https://aistudio.google.com/projects) sayfasında **Billing Tier → Free Tier** olduğunu kontrol et. Google ücretsiz katman için proje doğrulaması istiyorsa tamamla.
+4. Projeye Cloud Billing hesabı bağlama; **Set up billing**, **Upgrade**, kredi yükleme veya otomatik bakiye yükleme adımlarına geçme.
+5. Bu proje için **Create API key** ile anahtar oluştur. Değerini yalnız aşağıdaki Cloudflare **Secret** alanına yaz.
 
-**Ücret oluşmaması için gereken asıl koşul, Google projesinin faturalandırmaya
-bağlı olmamasıdır.** Uygulama kota dolduğunda başka modele veya sağlayıcıya
-otomatik geçmez. Ancak bir API anahtarının ücretli projeye ait olup olmadığını
-anahtar metninden anlayamaz; ücretli projede kullanılan anahtarı kodla ücretsiz
-anahtara dönüştüremez. İleride bu projede faturalandırmayı açarsan aynı modelin
-çağrıları ücretli olabilir. Google hesabındaki bütçe bildirimi de bu koşulun
-yerine geçmez.
+Uygulama tek izinli `gemini-3.5-flash-lite` modelini kullanır. Resmî fiyat sayfasında metin giriş ve çıkışı ücretsiz katmanda ücretsizdir; kullanılabilir kota proje/hesap durumuna göre değişebilir. Sabit günlük soru sayısı sözü verilmez.
 
-## 2. İki farklı gizli değeri ayır
+**Ücret oluşmaması için Google projesi faturalandırmaya bağlı olmamalıdır.** Kod kota dolunca başka modele veya sağlayıcıya geçmez; otomatik tekrar veya ücretli araç kullanmaz. Ancak anahtarın ücretli bir projeye ait olduğunu anahtar metninden anlayamaz ve ücretli anahtarı ücretsiz hâle getiremez. Bu projede sonradan faturalandırmayı açarsan aynı model çağrıları ücretli olabilir.
 
-| Ad | Ne işe yarar | Nereye yazılır |
-| --- | --- | --- |
-| `GEMINI_API_KEY` | Worker'ın Google Gemini'ye bağlanması | Yalnız Cloudflare **Secret** |
-| `APP_ACCESS_TOKEN` | Senin tarayıcının kendi Worker'ına erişmesi | Cloudflare **Secret** ve uygulamadaki **Erişim kodu** |
+## 2. Cloudflare Worker'ı bir kez dağıt
 
-`APP_ACCESS_TOKEN` için parola yöneticisiyle uzun, rastgele, ayrı bir erişim kodu
-oluştur. Google anahtarını veya hesap parolanı bu kod yerine kullanma. Mevcut
-Worker'ında zaten bir erişim kodu varsa aynı kodu koruyabilirsin.
+Cloudflare hesabında **Workers Free** planını kullan. Ücretsiz planın da kullanım sınırları vardır.
 
-**Gemini anahtarı siteye, GitHub'a, sohbet mesajına veya ekran görüntüsüne
-yazılmaz.** Uygulamadaki bağlantı alanı Gemini anahtarı istemez.
+### A. Terminal kullanmadan: hazır dosyayı dashboard'a koy
 
-## 3. Worker kodunu dağıt
-
-Bu adımlar bir kez yapılır. Dağıtımdan sonra bilgisayarını kapatabilirsin.
-Cloudflare hesabında **Workers Free** planı yeterlidir; ücretli plana geçme.
-Ücretsiz planın da kullanım sınırları vardır.
-
-### A. Terminal kullanmadan: hazır tek dosyayı dashboard'a koy
-
-1. [Cloudflare Dashboard](https://dash.cloudflare.com/) hesabına giriş yap.
-2. **Workers & Pages** → **Create application / Create Worker** yolunu aç.
-   **Start with Hello World** seçeneğiyle `matematik-akademim-ai` adlı Worker'ı
-   oluştur ve **Deploy** düğmesine bas. Bu isimde Worker'ın zaten varsa onu aç.
-3. Worker ekranında **Edit code** bölümüne gir.
-4. [Hazır tek dosyalı Worker'ı](../cloudflare-worker/bundle/worker.js) aç.
-   GitHub'da **Raw** veya **Download raw file** ile dosyanın tamamını al.
-   [Geliştirme dalındaki doğrudan Raw bağlantısı](https://raw.githubusercontent.com/MontanaS406/matematik-akademim/codex/ten-comic-teachers/cloudflare-worker/bundle/worker.js)
-   da kullanılabilir. Bu bağlantı PR dalını gösterir; `main` henüz yeni kodu
-   içermiyor olabilir.
-5. Raw dosyada **Ctrl+A → Ctrl+C** yap. Cloudflare editöründeki mevcut Hello World
-   kodunu **Ctrl+A** ile seçip bu dosyanın **tamamını** yapıştır; **Deploy**'a bas.
-   GitHub'ın kısaltılmış önizlemesinden yalnız görünen bölümü kopyalama.
-6. Worker'ın **Settings → Variables and Secrets → Add** bölümünü aç. Aşağıdaki
-   dört ayarı ayrı ayrı ekle; iki gizli değerin türü mutlaka **Secret** olsun:
+1. [Cloudflare Dashboard](https://dash.cloudflare.com/) → **Workers & Pages** → **Create application / Create Worker** yolunu aç.
+2. **Start with Hello World** ile `matematik-akademim-ai` adlı Worker'ı oluşturup **Deploy** yap. Bu isimde Worker'ın zaten varsa onu aç.
+3. **Edit code** bölümüne gir.
+4. [Hazır tek dosyalı Worker'ı](../cloudflare-worker/bundle/worker.js) **Raw / Download raw file** ile aç. [Geliştirme dalındaki doğrudan Raw bağlantısı](https://raw.githubusercontent.com/MontanaS406/matematik-akademim/codex/ten-comic-teachers/cloudflare-worker/bundle/worker.js) da kullanılabilir; PR henüz birleştirilmediyse `main` eski kodu içerebilir.
+5. Dosyanın tamamını kopyalayıp Cloudflare editöründeki Hello World kodunun tamamıyla değiştir ve **Deploy** yap. GitHub'ın kısaltılmış önizlemesinden yalnız görünen kısmı kopyalama.
+6. Worker'ın **Settings → Variables and Secrets → Add** bölümüne şu üç ayarı ekle:
 
    | Tür | Ad | Değer |
    | --- | --- | --- |
-   | **Secret** | `GEMINI_API_KEY` | Google AI Studio'da oluşturduğun anahtar |
-   | **Secret** | `APP_ACCESS_TOKEN` | Kendin oluşturduğun ayrı erişim kodu |
+   | **Secret** | `GEMINI_API_KEY` | Google AI Studio anahtarın |
    | **Text** | `GEMINI_MODEL` | `gemini-3.5-flash-lite` |
    | **Text** | `ALLOWED_ORIGINS` | `https://montanas406.github.io` |
 
-7. **Deploy** ile ayarları uygula. Secret alanları kaydedildikten sonra gizli
-   görünür; anahtarın sayfada okunmaması normaldir. Mevcut `APP_ACCESS_TOKEN`
-   değerini koruyorsan yeni bir kodla değiştirme.
-8. Worker'ın `https://...workers.dev` adresini not et. Adresin sonuna `/health`
-   ekleyerek aşağıdaki kontrolü yap.
+7. Ayarları **Deploy** ile uygula. Secret değerinin kaydedildikten sonra gizli görünmesi normaldir.
+8. Bu proje için merkezi adres `https://matematik-akademim-ai.c542478.workers.dev` olarak kaydedildi. Farklı bir Worker oluşturursan yeni adresi site sahibine bir kez bildir.
 
-**Kullanılacak dosya `cloudflare-worker/bundle/worker.js` dosyasıdır.**
-`cloudflare-worker/worker.js` tek başına yapıştırılmaz; öğretmen ve müfredat
-modülleri başka dosyalardadır. Hazır bundle bunları içine alır, API anahtarı
-almaz. Hello World ilk oluşturulduğunda veya Secret'lar henüz eklenmediğinde
-AI'ın çalışmaması beklenir.
+**Kullanılacak dosya `cloudflare-worker/bundle/worker.js` dosyasıdır.** Modüler `cloudflare-worker/worker.js` tek başına dashboard'a yapıştırılmaz. Hazır paket öğretmenleri ve gerekli modülleri içerir; API anahtarı içermez.
 
-`ALLOWED_ORIGINS` değerine `/matematik-akademim/` ekleme. Bu alan sitenin
-**origin** bilgisidir. İleride özel alan adı kullanırsan onun HTTPS origin'ini
-ayrıca ekle; tüm sitelere izin veren `*` kullanma.
+`ALLOWED_ORIGINS` değerine `/matematik-akademim/` ekleme; bu değer sitenin HTTPS origin'idir. Özel alan adı kullanılıyorsa onun origin'i de açıkça eklenir. `*` kullanılmaz.
 
 ### B. Alternatif: terminal ve Wrangler ile dağıt
 
-Hazır dosya yolunu kullandıysan bu bölümü yapman gerekmez. Kaynak kodla çalışmak
-isteyenler için Wrangler modülleri kendisi paketler.
-
-Windows kullanıyorsan [Node.js'in](https://nodejs.org/) 22 veya daha yeni bir
-sürümünü ve [Git'i](https://git-scm.com/downloads) kur. PowerShell'i yeniden aç.
-Aşağıdaki komutları sırayla çalıştır:
+Dashboard yolunu kullandıysan bu bölüm gerekli değildir. Kaynak kodla çalışmak isteyenler için Node.js 22 veya üzeri ve Git gerekir:
 
 ```sh
 git clone https://github.com/MontanaS406/matematik-akademim.git
@@ -110,131 +54,76 @@ cd matematik-akademim
 git switch codex/ten-comic-teachers
 npm ci
 npx wrangler login
-```
-
-Tarayıcıda Cloudflare oturumunu açıp Wrangler'ın kendi hesabına erişimini onayla.
-Depo zaten bilgisayarındaysa ikinci kez klonlamak yerine mevcut klasöre gir;
-yerel değişikliklerini silmeden PR'daki güncel geliştirme dalını kullan.
-
-Worker'ı paketleyip dağıt:
-
-```sh
 npx wrangler deploy --config cloudflare-worker/wrangler.jsonc
-```
-
-Bu komut Worker'ı oluşturur veya aynı adlı mevcut Worker'ı günceller. Dağıtım
-bilerek yaptığın canlı değişikliktir; önce PR'daki kodu ve test raporunu incele.
-Anahtarlar henüz yoksa AI isteklerinin yapılandırma hatası vermesi beklenir.
-Terminalin verdiği `https://...workers.dev` adresini not et.
-
-Şimdi gizli değerleri ekle:
-
-```sh
 npx wrangler secret put GEMINI_API_KEY --config cloudflare-worker/wrangler.jsonc
 ```
 
-Komut değer istediğinde Google AI Studio'daki anahtarı yapıştırıp Enter'a bas.
-Anahtarı komut satırının sonuna ekleme. İlk kurulum için erişim kodunu da ekle:
+Son komut değer istediğinde Google anahtarını yapıştırıp Enter'a bas; anahtarı komutun sonuna ekleme. Depo zaten bilgisayarındaysa tekrar klonlamak yerine mevcut klasör ve geliştirme dalını kullan; yerel değişiklikleri silme. Wrangler'ın verdiği Worker adresini not et.
 
-```sh
-npx wrangler secret put APP_ACCESS_TOKEN --config cloudflare-worker/wrangler.jsonc
-```
-
-Buraya oluşturduğun ayrı erişim kodunu yapıştır. Mevcut Worker'ın erişim kodunu
-koruyorsan bu ikinci gizli değeri değiştirmek gerekmez. İstersen bu iki komut
-yerine A bölümündeki dashboard **Secret** alanlarını kullanabilirsin.
-`GEMINI_MODEL` ve `ALLOWED_ORIGINS` normal değişkenleri depodaki
-`cloudflare-worker/wrangler.jsonc` dosyasında zaten bulunur.
-
-### Kaynak kod değişince hazır dosyayı yenile
-
-`bundle/worker.js` üretilmiş bir dosyadır; düzenlemeyi asıl modüllerde yapıp
-bundle'ı yeniden oluştur:
+Kaynak değişince hazır dosya şu komutla yeniden üretilir:
 
 ```sh
 npm run build:worker
 ```
 
-Bu komut projede sabitlenmiş esbuild sürümüyle tek dosyayı yeniden üretir;
-Cloudflare'a kendiliğinden dağıtım yapmaz ve sır eklemez. Yeni bundle'ı dashboard'a
-tekrar koyabilir veya Wrangler ile kaynak kodu dağıtabilirsin.
+Bu komut sır eklemez ve kendiliğinden dağıtım yapmaz. Worker dağıtımı, GitHub Pages'teki site sürümünü de yayımlamaz; frontend değişiklikleri ayrıca incelenip yayımlanır.
 
-Worker dağıtımı, GitHub Pages'teki uygulamayı güncellemez. Yeni sohbet ve düzey
-kontrollerinin canlı sitede görünmesi için frontend PR sürümünün de ayrıca
-incelenip yayımlanması gerekir. Bu görevde otomatik merge/yayın yapılmadı.
+## 3. Merkezi site bağlantısı hazır
 
-## 4. Uygulamayı bağla
+Worker adresi, bütün kullanıcılar için tek merkezi ayarda tutulur:
 
-1. Güncel Matematik Akademim sürümünde **Öğretmen** bölümünü aç.
-2. **Bağlantı ayarları** alanını aç.
-3. Worker adresine Cloudflare'dan aldığın `https://...workers.dev` adresini yaz.
-   Sonuna `/api/tutor` ekleme.
-4. **Erişim kodu** alanına `APP_ACCESS_TOKEN` için belirlediğin ayrı kodu yaz.
-   Buraya `GEMINI_API_KEY` yazma.
-5. **Kaydet** düğmesine bas.
-6. Öğretmenini seç; **Sohbet / Sorumu çöz** ile kendi matematik sorunu metin
-   olarak yazabilir veya doğal sohbet edebilirsin. **Seçili konu** ile müfredat
-   anlatımına geçebilirsin. İpucu/tam çözüm ve anlatım düzeyi kontrollerini kullan.
+```json
+{"workerUrl":"https://matematik-akademim-ai.c542478.workers.dev"}
+```
 
-Telefonunda da aynı siteyi açıp Worker adresi ve erişim kodunu gir. Bağlantı
-ayarları her cihaz/tarayıcı için ayrıdır; erişim kodunu oturum yeniden açıldığında
-tekrar girmen gerekebilir. Google anahtarını telefona taşıman gerekmez.
+Bu değer [`data/tutor-config.json`](../data/tutor-config.json) dosyasına kaydedildi; tekrar adres girmen gerekmez. Adres herkese açık hizmet adresidir, anahtar içermez. Ziyaretçiler dosya düzenlemez ve tarayıcılarında bağlantı ayarı yapmaz. İleride Worker adresi değişirse merkezi ayar yalnız bir kez güncellenir.
+
+Adresin kayıtlı olması, adresteki Worker kodunun güncel veya Google anahtarının çalışır olduğunu kanıtlamaz. Aynı adrese yukarıdaki güncel bundle dağıtılmalı; `/health` sonucundaki `auth: supabase-session` ve diğer alanlar doğrulanmalıdır. Frontend yayını öncesi uyumluluk denetimi bunu kontrol eder. Eski Worker hâlâ kod bekliyorsa yeni site sürümünün hazır olduğu iddia edilmez.
+
+## 4. Hesap erişimi otomatik çalışır
+
+1. Kullanıcı siteyi açar; on öğretmeni ve hazır konuşma örneklerini görür.
+2. AI ile konuşmak için normal e-posta/şifre hesabına giriş yapar. Geçerli hesap oturumunda tekrar bağlantı bilgisi girmez.
+3. Worker, Supabase üzerinden oturumun gerçek kullanıcısını doğrular ve mevcut `ma_source_access_status` iznini kontrol eder.
+4. E-postası doğrulanmış, yönetici onaylı hesap öğretmeni kullanabilir. Yeni/onaysız hesap normal erişim başvurusunu yapar; yönetici **Hesabım → Kaynak erişim yönetimi** bölümünden onay verir.
+5. İzni kaldırılmış veya doğrulanmamış hesap AI isteği gönderemez. Oturum yenilenebiliyorsa mevcut hesap sistemi bunu yapar; yeniden giriş gerekirse yalnız normal hesap girişi istenir.
+
+Bu değişiklik için yeni SQL göçü veya kullanıcı/ilerleme verisi taşıması gerekmez. Daha önce kurulmuş hesap ve izin sistemi kullanılır. Kullanıcının tarayıcısındaki rol/e-posta bilgisi tek başına yetki sağlamaz; Worker izin kararını sunucudan alır. AI yetkisi için arşiv şifreleme anahtarı istenmez.
+
+Gemini anahtarını veya servis rolü anahtarını siteye eklemek gerekmez. Mevcut projenin açık Supabase URL'si ve publishable anahtarı ortak yapılandırmadan kullanılır. Farklı Supabase projesine geçmek, site sahibinin yapacağı ayrı bir yapılandırma değişikliğidir.
 
 ## 5. İlk gerçek bağlantıyı doğrula
 
-1. Worker adresinin sonuna `/health` ekleyip tarayıcıda aç.
-2. Şu alanları kontrol et; bu uç nokta anahtarı göstermez:
+1. [Worker sağlık adresini](https://matematik-akademim-ai.c542478.workers.dev/health) aç.
+2. Beklenen alanları kontrol et:
 
    | Alan | Beklenen |
    | --- | --- |
    | `configured` | `true` |
    | `provider` | `gemini` |
+   | `auth` | `supabase-session` |
    | `model` | `gemini-3.5-flash-lite` |
    | `billingPolicy` | `no-automatic-fallback` |
    | `teacherIds` | 10 öğretmen kimliği |
    | `dialogueResponseCount` | `750` |
 
-   `configured: true`, yalnız gerekli ayarların bulunduğunu gösterir; Google'ın
-   anahtarı kabul ettiğini veya projenin ücretsiz olduğunu kanıtlamaz.
-   `billingPolicy`, uygulamanın otomatik sağlayıcı/model geçişi yapmadığını
-   belirtir; Google projesinin faturalandırma durumunu okuyamaz.
-3. Uygulamada Elif'i seçip kısa bir kavram açıklaması iste. Sonra Beyza'yı seçip
-   aynı kavramı sor; mimarlık diliyle anlatması gerekir.
-4. Kendi yazdığın matematik sorusunda önce ipucu, sonra adım adım çözümü dene.
-   Yanıtı matematiksel olarak kontrol et; AI yanıtı resmî cevap anahtarı değildir.
-5. Telefonundan aynı denemeyi yap. Bilgisayar kapalıyken telefonun interneti
-   üzerinden de yanıt gelebilmelidir.
-6. Kota hatası görülürse bekle; uygulama ücretli modele geçmez. Kota durumunu
-   [AI Studio Usage](https://aistudio.google.com/usage) sayfasından kontrol et.
-   Çözüm olarak faturalandırma açman gerekmez.
+   `configured: true` gerekli yapılandırmanın bulunduğunu gösterir; Google'ın anahtarı kabul ettiğini veya projenin ücretsiz olduğunu kanıtlamaz. `billingPolicy`, otomatik model/sağlayıcı geçişi bulunmadığını anlatır; Google projesinin faturalandırma durumunu okuyamaz.
+3. Güncel site sürümünü açıp onaylı hesabınla normal giriş yap. **Öğretmen → Sohbet / Sorumu çöz** bölümünde Elif'ten kısa bir kavram açıklaması iste; sonra Beyza'yla aynı kavramı dene.
+4. Kendi yazdığın matematik sorusunda önce ipucu, sonra adım adım çözümü dene. Anlatım düzeyini değiştir. AI yanıtını matematiksel olarak kontrol et; resmî cevap anahtarı sayma.
+5. Başka bir onaylı hesap ve telefonla aynı akışı dene. Kod veya adres sorulmamalı. Bilgisayar kapalıyken telefonun interneti üzerinden yanıt gelebilmelidir.
+6. Kota hatasında bekle; başka modele geçilmez. Kota durumunu [AI Studio Usage](https://aistudio.google.com/usage) sayfasından kontrol et. Çözüm olarak faturalandırma açmak gerekmez.
 
-Google yanıtı gelmezse önce doğru Worker sürümünün dağıtıldığını, iki Secret'ın
-eklendiğini ve origin değerini kontrol et. Anahtar/proje izni, ülke erişimi,
-kota veya model hatası olduğunda başka sağlayıcıya otomatik geçiş yapılmaz.
-Yeni Gemini bağlantısını doğruladıktan sonra eski `OPENAI_API_KEY` Secret'ını
-Cloudflare'dan kaldırabilirsin; Gemini sürümü onu kullanmaz.
+Yanıt gelmiyorsa Worker sürümünü, Gemini Secret'ını, merkezi Worker adresini, origin'i ve hesabın onay durumunu kontrol et. Supabase veya Gemini hizmeti doğrulanamazsa yetki atlanmaz; hata gösterilir.
+
+Önceki kodlu sürümden geçerken yeni Worker artık `APP_ACCESS_TOKEN` kullanmaz. Yeni sürümü doğruladıktan sonra eski Secret'ı kaldırabilirsin. OpenAI anahtarı da Gemini sürümünde kullanılmaz. Hiçbir ziyaretçiden bu eski değerler istenmez.
 
 ## Veri ve teslim sınırı
 
-Gönderdiğin mesajlar ve yanıt için gereken sınırlı sohbet geçmişi Gemini'ye
-iletilir. Google'ın ücretsiz katman koşullarında bu içerikler ürünlerini
-iyileştirmek için kullanılabilir; kişisel veya gizli bilgilerini öğretmen
-sohbetine yazma. Uygulama Supabase parolasını, oturum anahtarını ve üretim servis
-anahtarlarını kendiliğinden Gemini isteğine eklemez.
+Gönderilen mesajlar ve gereken sınırlı sohbet geçmişi Gemini'ye iletilir. Google'ın ücretsiz katman koşullarında bu içerikler ürünlerini iyileştirmek için kullanılabilir; kişisel veya gizli bilgileri sohbet mesajına yazma. Uygulama Supabase parolasını, oturum anahtarını veya üretim servis anahtarlarını kendiliğinden Gemini isteğine eklemez. Hesap oturumu yalnız yetki doğrulaması için Supabase'e gönderilir.
 
-On öğretmen ve genişletilen **750 diyalog yanıtı + 260 yeni kısa tepki** korunur.
-Bu metinler canlı modelin her yanıtının birebir garantisi değildir. Otomatik
-testlerde sağlayıcı yanıtları taklit edilir; gerçek Google anahtarıyla ilk çağrı
-ve Cloudflare dağıtımı yukarıdaki hesap kurulumundan sonra doğrulanmalıdır.
+On öğretmen, **750 diyalog yanıtı + 350 kısa tepki + önceki 30 örnek = 1.130 öğretmen metni** korunur. Soru havuzları, denemeler ve ilerleme kayıtları değiştirilmez. Sohbet içinde çözülen kullanıcı soruları bankaya veya başarı kaydına eklenmez.
 
-Bu geliştirme sırasında anahtar üretilmedi, ücretli hesap açılmadı ve canlı
-Supabase verilerine kurulum uygulanmadı. Kod hazırlığı canlı yayın yerine geçmez.
-
-Teslim kontrollerinde **195/195 birim** ve **184 masaüstü/mobil tarayıcı**
-testi geçti. Hazır dashboard Worker dosyası da modüler sunucuyla aynı sağlık
-yanıtı ve taklit Gemini çağrısıyla denetlendi. Diyalog/AI soru bankası denetimleri
-temizdir. Bu sonuçlar gerçek anahtarın çalıştığı veya faturalandırmanın kapalı
-olduğu anlamına gelmez; bunlar yukarıdaki hesap kurulumu sırasında kontrol edilir.
+Otomatik testlerde dış servisler taklit edilir. Gerçek Google anahtarıyla ilk çağrı, hesap onayı ve Cloudflare dağıtımı kurulumdan sonra ayrıca doğrulanmalıdır. Yerel test başarısı canlı Gemini davranışı veya faturalandırma kontrolü değildir. Bu düzenleme gerçek anahtar üretmez, ücretli hesap açmaz ve üretim Supabase verilerini değiştirmez. Yayın kararı, Worker uyumluluk denetimi ve gerçek servis doğrulamasının son durumu güncel PR/yayın raporunda bildirilir.
 
 ## Resmî kaynaklar
 

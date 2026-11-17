@@ -5,7 +5,7 @@ import {createAiRegistry} from '../../shared/ai-bank.js';
 import {getCourse} from '../../shared/curriculum.js';
 import {TEACHERS} from '../../shared/teachers.js';
 import {SOURCED_ARCHIVE_SUMMARY,SOURCE_DOCUMENTS,SOURCE_READ_EVIDENCE} from '../../data/source-catalog.js';
-import {configureAI,openAccount} from './source-helpers.mjs';
+import {configureAI,openAccount,prepareTutorAccount} from './source-helpers.mjs';
 const registry=createAiRegistry(AI_BANK);
 const current=async page=>registry.getQuestion(await page.locator('#questionCard').getAttribute('data-question-id'));
 const openFilters=async page=>{const filters=page.locator('.extra-practice-filters');if(!await filters.evaluate(node=>node.open))await filters.locator('summary').click()};
@@ -100,7 +100,7 @@ test('original-to-AI derivation uses verified read evidence and stays separate f
 });
 
 test('AI teacher help uses lesson context and never passes an AI id as a real-source question',async({page})=>{
- await page.goto('/');const q=await current(page);await page.locator('#askTeacher').click();await expect(page.locator('#teacher')).toBeVisible();await configureAI(page);let sent;
+ await prepareTutorAccount(page);await page.goto('/');const q=await current(page);await page.locator('#askTeacher').click();await expect(page.locator('#teacher')).toBeVisible();await configureAI(page);let sent;
  await page.route('https://tutor.example/api/tutor',route=>{sent=route.request().postDataJSON();return route.fulfill({json:{mode:'lesson',courseId:q.courseId,isOfficialSolution:false,answer:'Konunun yöntemini adım adım inceleyelim.'}})});
  await page.locator('#message').fill('Bu konunun yöntemini açıkla.');await page.locator('#send').click();await expect(page.locator('#chat')).toContainText('yöntemini adım adım');expect(sent).toMatchObject({mode:'lesson',courseId:q.courseId});expect(sent).not.toHaveProperty('questionId');expect(sent).not.toHaveProperty('question');
 });

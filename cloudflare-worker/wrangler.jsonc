@@ -6,7 +6,9 @@
     "GEMINI_MODEL": "gemini-3.5-flash-lite",
     "ALLOWED_ORIGINS": "https://montanas406.github.io"
   }
-  // GEMINI_API_KEY ve APP_ACCESS_TOKEN yalnız Worker Secret olarak eklenir.
+  // GEMINI_API_KEY yalnız Worker Secret olarak eklenir.
+  // Ziyaretçi erişimi mevcut Supabase oturumu ve yönetici onayıyla doğrulanır.
+  // Açık proje ayarları shared/supabase-config.js dosyasından gelir; service_role eklenmez.
   // Google projesi Free Tier'da, faturalandırma hesabına bağlı olmadan kalmalıdır.
   // ALLOWED_ORIGINS bir origin'dir; /matematik-akademim/ yolu eklenmez.
 }

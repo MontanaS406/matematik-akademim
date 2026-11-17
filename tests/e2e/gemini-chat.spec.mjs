@@ -1,9 +1,9 @@
 import {test,expect} from './fixtures.mjs';
-import {chooseTeacher,configureAI} from './source-helpers.mjs';
+import {chooseTeacher,configureAI,prepareTutorAccount,prepareTutorConfig,TUTOR_USER_ID,signInTutor} from './source-helpers.mjs';
 // User-submitted numeric problems below are test fixtures, never question-bank entries.
 const reply=(answer,extra={})=>({mode:'chat',answer,isOfficialSolution:false,teacherId:'elif',provider:'gemini',...extra});
 const learningSnapshot=page=>page.evaluate(()=>Object.fromEntries(Object.entries(localStorage).filter(([key])=>/^ma_learning_|^ma_original_|exam_history/.test(key))));
-async function openChat(page){await page.goto('/');await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await expect(page.locator('#teacherTask')).toHaveValue('chat');await configureAI(page)}
+async function openChat(page,{authenticated=true}={}){if(authenticated)await prepareTutorAccount(page);await page.goto('/');await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await expect(page.locator('#teacherTask')).toHaveValue('chat');await configureAI(page)}
 async function send(page,message){await page.locator('#message').fill(message);await page.locator('#send').click()}
 
 test('long solutions stay complete when returning to a teacher while outgoing history remains within provider limits',async({page})=>{
@@ -11,14 +11,14 @@ test('long solutions stay complete when returning to a teacher while outgoing hi
  const longAnswer='Çözümün başlangıcı. '+('Gerekçeli işlem adımını koşullarıyla kontrol edelim. '.repeat(90))+tail;
  expect(longAnswer.length).toBeGreaterThan(2500);expect(longAnswer.length).toBeLessThan(10000);
  const sent=[];await page.route('https://tutor.example/api/tutor',route=>{sent.push(route.request().postDataJSON());return route.fulfill({json:reply(sent.length===1?longAnswer:'Son kontrolü birlikte inceleyebiliriz.')})});
- await openChat(page);const before=await page.evaluate(()=>JSON.parse(localStorage.getItem('ma_learning_v1_guest')||'{"attempts":[]}').attempts);
+ await openChat(page);const before=await page.evaluate(id=>JSON.parse(localStorage.getItem('ma_learning_v1_'+id)||'{"attempts":[]}').attempts,TUTOR_USER_ID);
  await send(page,'Yazdığım denklemin adımlarını açıkla.');await expect(page.locator('#chat')).toContainText(tail);
  await chooseTeacher(page,'Beyza Öğretmen');await chooseTeacher(page,'Elif Öğretmen');await expect(page.locator('#chat .bubble').last()).toHaveText(longAnswer);
  await page.locator('#teacherTask').selectOption('lesson');await page.locator('#teacherTask').selectOption('chat');await expect(page.locator('#chat .bubble').last()).toHaveText(longAnswer);
  await send(page,'Son kontrolün gerekçesini tekrar açıkla.');await expect(page.locator('#chat')).toContainText('Son kontrolü birlikte');
  const history=sent[1].messages;expect(history).toHaveLength(3);expect(history[1].content).toContain('Çözümün başlangıcı.');expect(history[1].content).toContain(tail);expect(history[1].content).toContain('gönderim için kısaltıldı');
  expect(history.every(message=>message.content.length<=2500)).toBe(true);expect(new TextEncoder().encode(JSON.stringify(history)).length).toBeLessThanOrEqual(12000);
- await expect(page.locator('#chat')).toContainText(longAnswer);expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('ma_learning_v1_guest')||'{"attempts":[]}').attempts)).toEqual(before);
+ await expect(page.locator('#chat')).toContainText(longAnswer);expect(await page.evaluate(id=>JSON.parse(localStorage.getItem('ma_learning_v1_'+id)||'{"attempts":[]}').attempts,TUTOR_USER_ID)).toEqual(before);
 });
 
 test('typed mathematics and natural follow-up use the selected teacher and level without changing question or progress records',async({page})=>{
@@ -35,7 +35,7 @@ test('typed mathematics and natural follow-up use the selected teacher and level
 
 test('an explicit lesson entry remains bound to its course and switching to chat removes that binding',async({page})=>{
  const sent=[];await page.route('https://tutor.example/api/tutor',route=>{const body=route.request().postDataJSON();sent.push(body);return route.fulfill({json:body.mode==='lesson'?{mode:'lesson',courseId:body.courseId,answer:'Payda sıfır olamaz.',isOfficialSolution:false,teacherId:'elif',provider:'gemini'}:reply('Yazdığın sorunun verilenlerinden ilerleyebiliriz.')})});
- await page.goto('/');await page.locator('.nav').getByRole('button',{name:'Konular',exact:true}).click();await page.locator('#lessonSearch').fill('Kesirler');await page.locator('#lessonList button').first().click();await page.locator('#lessonAskTeacher').click();
+ await prepareTutorAccount(page);await page.goto('/');await page.locator('.nav').getByRole('button',{name:'Konular',exact:true}).click();await page.locator('#lessonSearch').fill('Kesirler');await page.locator('#lessonList button').first().click();await page.locator('#lessonAskTeacher').click();
  await expect(page.locator('#teacherTask')).toHaveValue('lesson');await configureAI(page);await send(page,'Paydanın koşulunu açıkla.');await expect(page.locator('#chat')).toContainText('sıfır olamaz');expect(sent[0]).toMatchObject({mode:'lesson',courseId:'fractions',helpMode:'hint',teachingLevel:'auto'});
  await page.locator('#teacherTask').selectOption('chat');await send(page,'Şimdi yazdığım soruyu çözmek istiyorum.');await expect(page.locator('#chat')).toContainText('verilenlerinden');expect(sent[1].mode).toBe('chat');expect(sent[1]).not.toHaveProperty('courseId');expect(sent[1].messages).toHaveLength(1);
  await page.locator('#teacherTask').selectOption('lesson');await expect(page.locator('#chat')).toContainText('Payda sıfır olamaz.');await expect(page.locator('#chat')).not.toContainText('verilenlerinden');
@@ -67,14 +67,15 @@ test('chat replies cannot impersonate a course or another teacher and valid repl
  await page.locator('#send').click();await expect(page.locator('#chat')).toContainText('<img');await expect(page.locator('#chat img')).toHaveCount(0);
 });
 
-test('chat history and teaching preferences remain isolated when a guest signs in and logs out',async({page})=>{
- const at=new Date().toISOString();await page.route('https://*.supabase.co/**',route=>{const path=new URL(route.request().url()).pathname;if(path==='/auth/v1/token')return route.fulfill({json:{access_token:'test-chat-access',refresh_token:'test-chat-refresh',expires_in:3600,user:{id:'chat-user',email:'chat-fixture@example.test'}}});if(path==='/auth/v1/logout')return route.fulfill({status:204});if(path==='/rest/v1/learning_profiles')return route.fulfill({json:route.request().method()==='GET'?[{user_id:'chat-user',state:{teacherId:'elif',preferencesAt:at,attempts:[]}}]:[]});return route.fulfill({json:[]})});
- let calls=0;await page.route('https://tutor.example/api/tutor',route=>{calls++;return route.fulfill({json:reply(calls===1?'GUEST-PRIVATE-CHAT':'ACCOUNT-PRIVATE-CHAT')})});
- await openChat(page);await page.locator('#teachingLevel').selectOption('advanced');await send(page,'Kendi çalışmam hakkında konuşmak istiyorum.');await expect(page.locator('#chat')).toContainText('GUEST-PRIVATE-CHAT');
- await page.locator('#accountButton').click();await page.locator('#userEmail').fill('chat-fixture@example.test');await page.locator('#userPassword').fill('fake-chat-password');await page.locator('#signIn').click();await expect.poll(()=>page.evaluate(()=>window.MAAccount.getUser())).toEqual({id:'chat-user'});
- await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await expect(page.locator('#chat')).not.toContainText('GUEST-PRIVATE-CHAT');await expect(page.locator('#teachingLevel')).toHaveValue('auto');await expect(page.locator('#teacherTask')).toHaveValue('chat');
- await send(page,'Kavram anlatımını sade tut.');await expect(page.locator('#chat')).toContainText('ACCOUNT-PRIVATE-CHAT');
- await page.locator('#accountButton').click();await page.locator('#logoutBtn').click();await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await expect(page.locator('#chat')).not.toContainText('ACCOUNT-PRIVATE-CHAT');await expect(page.locator('#chat')).not.toContainText('GUEST-PRIVATE-CHAT');
+test('chat history and teaching preferences remain isolated across approved accounts and logout',async({page})=>{
+ let calls=0;await page.route('https://tutor.example/api/tutor',route=>{calls++;return route.fulfill({json:reply(calls===1?'FIRST-ACCOUNT-PRIVATE-CHAT':'SECOND-ACCOUNT-PRIVATE-CHAT')})});
+ await openChat(page);await page.locator('#teachingLevel').selectOption('advanced');await send(page,'Kendi çalışmam hakkında konuşmak istiyorum.');await expect(page.locator('#chat')).toContainText('FIRST-ACCOUNT-PRIVATE-CHAT');
+ await page.locator('#accountButton').click();await page.locator('#logoutBtn').click();await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await expect(page.locator('#chat')).not.toContainText('FIRST-ACCOUNT-PRIVATE-CHAT');
+ await prepareTutorAccount(page,{userId:'second-chat-user',email:'second-chat@example.test',accessToken:'second-chat-access',session:false});await signInTutor(page,'second-chat@example.test');await expect.poll(()=>page.evaluate(()=>window.MAAccount.getUser())).toEqual({id:'second-chat-user'});
+ await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await expect(page.locator('#chat')).not.toContainText('FIRST-ACCOUNT-PRIVATE-CHAT');await expect(page.locator('#teachingLevel')).toHaveValue('auto');await expect(page.locator('#teacherTask')).toHaveValue('chat');
+ await send(page,'Kavram anlatımını sade tut.');await expect(page.locator('#chat')).toContainText('SECOND-ACCOUNT-PRIVATE-CHAT');
+ await page.locator('#accountButton').click();await page.locator('#logoutBtn').click();await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await expect(page.locator('#chat')).not.toContainText('SECOND-ACCOUNT-PRIVATE-CHAT');await expect(page.locator('#chat')).not.toContainText('FIRST-ACCOUNT-PRIVATE-CHAT');
+ expect(calls).toBe(2);
 });
 
 test('empty, nontext and oversized upstream replies are rejected while preserving the manual retry draft',async({page})=>{
@@ -95,12 +96,13 @@ test('a background course preference sync cannot discard a course-independent ch
  await page.route('https://*.supabase.co/**',async route=>{
   const request=route.request(),path=new URL(request.url()).pathname;
   if(path==='/auth/v1/token')return route.fulfill({json:{access_token:'test-profile-chat-access',refresh_token:'test-profile-chat-refresh',expires_in:3600,user:{id:uid,email:'profile-chat@example.test'}}});
+  if(path==='/rest/v1/rpc/ma_source_access_status')return route.fulfill({json:{userId:uid,email:'profile-chat@example.test',confirmed:true,isAdmin:false,status:'approved',bundleReady:false}});
   if(path==='/rest/v1/learning_profiles'&&request.method()==='GET'){profileArrived();await profileHold;return route.fulfill({json:[{user_id:uid,state:{teacherId:'elif',courseId:'powers',preferencesAt:newAt,attempts:[]}}]}).catch(()=>{})}
   return route.fulfill({json:[]});
  });
  let sent;await page.route('https://tutor.example/api/tutor',async route=>{sent=route.request().postDataJSON();answerArrived();await answerHold;await route.fulfill({json:reply('COURSE-INDEPENDENT-CHAT-ANSWER')}).catch(()=>{})});
  try{
-  await openChat(page);await page.locator('#accountButton').click();await page.locator('#userEmail').fill('profile-chat@example.test');await page.locator('#userPassword').fill('fake-profile-chat-password');await page.locator('#signIn').click();await profileSeen;
+  await prepareTutorConfig(page);await openChat(page,{authenticated:false});await page.locator('#accountButton').click();await page.locator('#userEmail').fill('profile-chat@example.test');await page.locator('#userPassword').fill('fake-profile-chat-password');await page.locator('#signIn').click();await profileSeen;
   await page.locator('.nav').getByRole('button',{name:'Öğretmen',exact:true}).click();await send(page,'Bugün nasıl çalışacağımı konuşalım.');await answerSeen;releaseProfile();
   await expect.poll(()=>page.evaluate(uid=>JSON.parse(localStorage.getItem('ma_learning_v1_'+uid)).courseId,uid)).toBe('powers');await expect(page.locator('#teacherTask')).toHaveValue('chat');await expect(page.locator('#send')).toBeDisabled();
   releaseAnswer();await expect(page.locator('#chat')).toContainText('COURSE-INDEPENDENT-CHAT-ANSWER');expect(sent.mode).toBe('chat');expect(sent).not.toHaveProperty('courseId');
