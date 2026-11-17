@@ -29,7 +29,20 @@ export async function checkTutorDeployment({workerUrl,fetchImpl=globalThis.fetch
    const gate={kind:authorization?'invalid-session':'guest',status:denied.status,originAllowed:denied.headers.get('Access-Control-Allow-Origin')===origin,code:null};
    try{const detail=await denied.json();if(typeof detail?.code==='string'&&/^TUTOR_[A-Z_]{1,60}$/.test(detail.code))gate.code=detail.code}catch{}
    result.sessionGates.push(gate);
-   if(denied.status!==401||!gate.originAllowed)return fail('WORKER_SESSION_GATE_MISMATCH');
+   if(denied.status!==401||!gate.originAllowed){
+    // Diagnose only the public auth service with the same synthetic token.
+    // Preserve the failed gate and expose only an allowlisted error category.
+    if(authorization&&denied.status===503){
+     result.authDiagnostic={status:null,code:'unavailable'};
+     try{
+      const authResponse=await fetchImpl(SUPABASE_PUBLIC_CONFIG.url+'/auth/v1/user',{method:'GET',redirect:'error',credentials:'omit',cache:'no-store',signal:AbortSignal.timeout(5000),headers:{apikey:SUPABASE_PUBLIC_CONFIG.key,Authorization:authorization}});
+      result.authDiagnostic.status=authResponse.status;
+      const detail=await authResponse.json();const category=detail?.error_code||detail?.code;
+      result.authDiagnostic.code=['bad_jwt','invalid_api_key','session_not_found','user_not_found'].includes(category)?category:'unrecognized';
+     }catch{}
+    }
+    return fail('WORKER_SESSION_GATE_MISMATCH');
+   }
   }catch{return fail('WORKER_SESSION_GATE_UNAVAILABLE')}
  }
  result.checks.push('guest-denied','invalid-session-denied');return {...result,ok:true,code:'READY'};

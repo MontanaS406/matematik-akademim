@@ -30,3 +30,11 @@ test('invalid endpoints, redirects and failed health checks fail closed without 
  const failed=await checkTutorDeployment({workerUrl,fetchImpl:async()=>{throw Error('private-fixture')}});assert.equal(failed.code,'WORKER_HEALTH_UNAVAILABLE');assert.ok(!JSON.stringify(failed).includes('private-fixture'));
  const unsafe=await checkTutorDeployment({workerUrl,fetchImpl:async()=>response({...health,provider:'private-fixture'})});assert.equal(unsafe.code,'WORKER_NOT_CONFIGURED');assert.ok(!JSON.stringify(unsafe).includes('private-fixture'));
 });
+test('a failing invalid-session gate records only a safe public auth error category without weakening the release check',async()=>{
+ let gates=0;const result=await checkTutorDeployment({workerUrl,fetchImpl:async url=>{
+  if(url.endsWith('/health'))return response(health);
+  if(url.includes('/auth/v1/user'))return Response.json({error_code:'bad_jwt',msg:'private-upstream-fixture'},{status:400});
+  return response({code:++gates===1?'TUTOR_SESSION_REQUIRED':'TUTOR_AUTH_UNAVAILABLE'},gates===1?401:503);
+ }});
+ assert.equal(result.ok,false);assert.equal(result.code,'WORKER_SESSION_GATE_MISMATCH');assert.deepEqual(result.authDiagnostic,{status:400,code:'bad_jwt'});assert.ok(!JSON.stringify(result).includes('private-upstream-fixture'));
+});
