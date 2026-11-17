@@ -3,6 +3,7 @@
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {SUPABASE_PUBLIC_CONFIG} from '../shared/supabase-config.js';
 const SITE_ORIGIN='https://montanas406.github.io';
 export async function checkTutorDeployment({workerUrl,fetchImpl=globalThis.fetch,origin=SITE_ORIGIN}={}){
  const result={ok:false,workerUrl:null,health:null,checks:[],sessionGates:[],code:null};
@@ -19,7 +20,10 @@ export async function checkTutorDeployment({workerUrl,fetchImpl=globalThis.fetch
  if(health.model!=='gemini-3.5-flash-lite'||health.billingPolicy!=='no-automatic-fallback')return fail('WORKER_MODEL_POLICY_MISMATCH');result.checks.push('model-policy');
  if(!Array.isArray(health.teacherIds)||new Set(health.teacherIds).size!==10||health.dialogueResponseCount!==750)return fail('WORKER_TEACHER_VERSION_MISMATCH');result.checks.push('teacher-version');
  const body=JSON.stringify({mode:'chat',teacherId:'elif',messages:[{role:'user',content:'Merhaba.'}]});
- for(const authorization of [null,'Bearer invalid-preflight-session']){
+ // Probe actual server verification with a well-formed JWT whose signature is
+ // deliberately invalid. This is synthetic data, never a real user's session.
+ const invalidSession=[{alg:'HS256',typ:'JWT'},{iss:SUPABASE_PUBLIC_CONFIG.url+'/auth/v1',aud:'authenticated',sub:'00000000-0000-4000-8000-000000000000',role:'authenticated',exp:Math.floor(Date.now()/1000)+300}].map(value=>Buffer.from(JSON.stringify(value)).toString('base64url')).concat(Buffer.alloc(32).toString('base64url')).join('.');
+ for(const authorization of [null,'Bearer '+invalidSession]){
   try{
    const denied=await get('/api/tutor',{method:'POST',headers:{'Content-Type':'application/json',...(authorization?{Authorization:authorization}:{})},body});
    const gate={kind:authorization?'invalid-session':'guest',status:denied.status,originAllowed:denied.headers.get('Access-Control-Allow-Origin')===origin,code:null};

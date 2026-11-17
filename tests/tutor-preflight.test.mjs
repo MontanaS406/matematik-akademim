@@ -6,7 +6,8 @@ const health={configured:true,provider:'gemini',auth:'supabase-session',model:'g
 const response=(value,status=200,allowed=origin)=>Response.json(value,{status,headers:{'Access-Control-Allow-Origin':allowed}});
 test('deployment gate accepts only compatible account authentication and checks guest and invalid-session rejection without a real token',async()=>{
  const calls=[];const result=await checkTutorDeployment({workerUrl,fetchImpl:async(url,options)=>{calls.push({url,options});return url.endsWith('/health')?response(health):response({error:'Rejected'},401)}});
- assert.equal(result.ok,true);assert.equal(calls.length,3);assert.equal(calls[1].options.headers.Authorization,undefined);assert.equal(calls[2].options.headers.Authorization,'Bearer invalid-preflight-session');
+ assert.equal(result.ok,true);assert.equal(calls.length,3);assert.equal(calls[1].options.headers.Authorization,undefined);assert.match(calls[2].options.headers.Authorization,/^Bearer [A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$/);
+ const probe=calls[2].options.headers.Authorization.slice(7).split('.');assert.equal(Buffer.from(probe[1],'base64url').toString().includes('00000000-0000-4000-8000-000000000000'),true);assert.deepEqual(Buffer.from(probe[2],'base64url'),Buffer.alloc(32));
  assert.ok(calls.every(call=>call.options.redirect==='error'));assert.deepEqual(result.checks,['site-origin','gemini-configured','account-session-auth','model-policy','teacher-version','guest-denied','invalid-session-denied']);
  assert.deepEqual(result.sessionGates,[{kind:'guest',status:401,originAllowed:true,code:null},{kind:'invalid-session',status:401,originAllowed:true,code:null}]);
 });
